@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+	<head>
+		<title>ColorPicker</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="./css/jquery-ui.min.css" />
+		<link rel="stylesheet" href="./css/index.css" />
+		<link rel="shortcut icon" href="favicon.ico" />
+	</head>
+	<body>
+		<div class="window"></div>
+		<div class="toolbar">
+			<p>ColorPicker</p>
+			<ul>
+				<li><div class="minimize"></div></li>
+				<li><div class="square"></div></li>
+				<li><div class="close">X</div></li>
+			</ul>
+		</div>
+		<header>
+			<div class="ni">
+				<aside id="ni1"></aside>
+				<aside id="ni2"></aside>
+				<aside id="ni3"></aside>
+				<aside id="ni4"></aside>
+				<aside id="ni5"></aside>
+				<aside id="ni6"></aside>
+				<aside id="ni7"></aside>
+				<aside id="ni8"></aside>
+				<aside id="ni9"></aside>
+				<aside id="ni10"></aside>
+				<aside id="ni11"></aside>
+			</div>
+			<div class="nu">
+				<aside id="nu1"></aside>
+				<aside id="nu2"></aside>
+				<aside id="nu3"></aside>
+				<aside id="nu4"></aside>
+				<aside id="nu5"></aside>
+				<aside id="nu6"></aside>
+				<aside id="nu7"></aside>
+				<aside id="nu8"></aside>
+				<aside id="nu9"></aside>
+				<aside id="nu10"></aside>
+				<aside id="nu11"></aside>
+			</div>
+			<div class="nuance"><p>Nuances</p></div>
+			<div class="alea"><p>Aléatoire</p></div>
+			<div class="mode"><p>RVB</p></div>
+		</header>
+		<section class="edit-box">
+			<div class="move"></div>
+			<div class="history"></div>
+			<aside>
+				<div id="rangeRed"></div>
+				<input type="text" id="numberRed"/>
+				<div id="rangeCyan"></div>
+				<input type="text" id="numberCyan"/>
+			</aside>
+			<aside>
+				<div id="rangeGreen"></div>
+				<input type="text" id="numberGreen"/>
+				<div id="rangeMagenta"></div>
+				<input type="text" id="numberMagenta"/>
+			</aside>
+			<aside>
+				<div id="rangeBlue"></div>
+				<input type="text" id="numberBlue"/>
+				<div id="rangeYellow"></div>
+				<input type="text" id="numberYellow"/>
+			</aside>
+			<aside>
+				<div id="rangeBlack"></div>
+				<input type="text" id="numberBlack"/>
+			</aside>
+			<p class="value"><input type="text" id="numberHex"/><span></span></p>
+			<aside class="history-box">
+				<div class="h1"></div>
+				<div class="h2"></div>
+				<div class="h3"></div>
+				<div class="h4"></div>
+				<div class="h5"></div>
+				<div class="h6"></div>
+				<div class="h7"></div>
+				<div class="h8"></div>
+				<div class="h9"></div>
+			</aside>
+		</section>
+		<p class="thanks">Created by <a href="http://toinane.crea-th.at">Toinane</a> with ♥ !</p>
+      <script>window.$ = window.jQuery = require('./js/jquery.min.js');</script>
+      <script src="./js/jquery-ui.min.js"></script>
+      <script src="./js/colorpicker.js"></script>
+   </body>
+</html>

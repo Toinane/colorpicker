@@ -1,0 +1,280 @@
+body, p, h1, h2{
+   margin: 0;
+   font-family: sans-serif;
+}
+body{
+   overflow: hidden;
+}
+a{color: inherit;text-decoration: none;}
+
+
+/**
+ * TOOLBAR
+ */
+.window{
+   -webkit-app-region: drag;
+   padding: 10px;
+   position: absolute;
+   top: 0; left: 0; right: 0;
+   z-index: 10;
+}
+.toolbar{
+   padding: 10px;
+   background: rgba(0, 0, 0, 0.1);
+   position: relative;
+   box-sizing: border-box;
+}
+   .toolbar p{
+      color: rgb(255, 255, 255);
+      cursor: default;
+   }
+   .toolbar p::selection, .toolbar li::selection, .toolbar div::selection{
+      background: rgba(0, 0, 0, 0);
+   }
+   .toolbar ul{
+      position: absolute;
+      z-index: 15;
+      top: 0px; right: 10px;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+   }
+      .toolbar li{
+         display: inline-block;
+         vertical-align: bottom;
+         cursor: pointer;
+         padding: 10px 5px;
+      }
+      .toolbar li div{
+         transition: 0.2s;
+      }
+   .toolbar .minimize{
+      width: 15px; height: 12px;
+      position: relative;
+      bottom: 1px;
+      border-bottom: 3px solid rgba(0, 0, 0, 0.3);
+   }
+   .toolbar li:hover .minimize{
+      border-bottom: 3px solid rgb(255, 255, 255);
+   }
+   .toolbar .square{
+      width: 12px; height: 9px;
+      border: 2px solid rgba(0, 0, 0, 0.3);
+      border-top: 3px solid rgba(0, 0, 0, 0.3);
+   }
+   .toolbar li:hover .square{
+      border: 2px solid rgb(255, 255, 255);
+      border-top: 3px solid rgb(255, 255, 255);
+   }
+   .toolbar .close{
+      font-weight: bold;
+      position: relative;
+      top: 3px;
+      transform: scale(1.5,1);
+      color: rgba(0, 0, 0, 0.3);
+   }
+   .toolbar li:hover .close{
+      color: rgb(255, 255, 255);
+   }
+
+
+/**
+ * HEADER CSS
+ */
+header{
+   position: relative;
+   width: 100%;
+}
+header .nu, header .ni{
+   display: flex;
+}
+header .nu aside{
+   background: rgb(40, 40, 40);
+   flex: 1 100%;
+   height: 65px;
+   cursor: pointer;
+}
+header .ni aside{
+   background: rgb(70, 70, 70);
+   flex: 1 100%;
+   height: 50px;
+   cursor: pointer;
+}
+
+/**
+ * HEADER BOX CSS
+ */
+.nuance, .alea, .mode{
+   display: inline-block;
+   width: 80px;
+   padding: 5px 0;
+   background: rgba(20, 20, 20, 0.4);
+   cursor: pointer;
+   text-align: center;
+   color: white;
+   font-weight: 300;
+}
+.alea{ left: 200px;}
+.mode{ left: 110px;}
+
+
+/**
+ * BOX COLORPICKER CSS
+ */
+.edit-box{
+   background: rgba(20, 20, 20, 0.4);
+   position: absolute;
+   top: 30%;
+   left: 40%;
+   width: 400px;
+   height: 160px;
+   padding-top: 10px;
+   text-align: center;
+}
+
+#rangeRed, #rangeGreen, #rangeBlue, #rangeCyan, #rangeMagenta, #rangeYellow, #rangeBlack{
+   width: 250px;
+   margin: 15px;
+}
+#rangeRed, #rangeGreen, #rangeBlue, #rangeCyan, #rangeMagenta, #rangeYellow, #rangeBlack, input{
+   display: inline-block;
+   vertical-align: middle;
+}
+#rangeCyan, #rangeMagenta, #rangeYellow, #rangeBlack, #numberCyan, #numberMagenta, #numberYellow, #numberBlack{
+   display: none;
+}
+
+input{
+   width: 30px;
+   text-align: center;
+   background: rgba(255, 255, 255, 0.2);
+   color: white;
+   border: none;
+   padding: 2px;
+   font-family: "Source Sans Pro", sans-serif;
+   font-size: 1em;
+   font-weight: 300;
+}
+.ui-slider{
+   border: none !important;
+   height: 9px !important;
+}
+.ui-state-default{
+   background: white !important;
+   border-radius: 50px;
+   border: none !important;
+   top: -6px !important;
+   outline: none !important;
+   cursor: pointer !important;
+}
+.ui-slider-range{
+   padding: -10px !important;
+   position: relative !important;
+}
+#rangeRed .ui-slider-range{
+   background: rgb(255, 87, 57) !important;
+}
+#rangeGreen .ui-slider-range{
+   background: rgb(105, 195, 59) !important;
+}
+#rangeBlue .ui-slider-range{
+   background: rgb(65, 165, 225) !important;
+}
+#rangeCyan .ui-slider-range{
+   background: rgb(0, 203, 255) !important;
+}
+#rangeMagenta .ui-slider-range{
+   background: rgb(255, 83, 194) !important;
+}
+#rangeYellow .ui-slider-range{
+   background: rgb(226, 186, 0) !important;
+}
+#rangeBlack .ui-slider-range{
+   background: rgb(10, 10, 10) !important;
+}
+.value{
+   margin-top: 5px;
+   color: white;
+}
+.value input{ width: 70px; }
+.value input, span{ margin: 0 20px; }
+
+.move{
+   width: 20px; height: 20px;
+   background: rgba(20, 20, 20, 0.5);
+   position: absolute;
+   top: 5px; left: 5px;
+   cursor: pointer;
+}
+
+.history{
+   width: 10px; height: 10px;
+   background: rgba(20, 20, 20, 0.3);
+   position: absolute;
+   bottom: 10px; right: 10px;
+   cursor: pointer;
+}
+.history-box{
+   display: none;
+   padding: 5px 0;
+   margin-top: 13px;
+   text-align: center;
+   background: rgba(20, 20, 20, 0.4);
+}
+.history-box div{
+   display: inline-block;
+   width: 30px;
+   height: 30px;
+   background: rgba(20, 20, 20, 0.1);
+   margin: 0 3px;
+   cursor: pointer;
+}
+
+
+/**
+ * FOOTER CSS
+ */
+.thanks{
+   position: absolute;
+   bottom: 5px; right: 20px;
+   color: rgb(255, 255, 255);
+   font-weight: 300;
+}
+
+
+/**
+ * RESPONSIVE CSS
+ */
+@media screen and (max-width: 500px){
+   section{
+      width: 200px;
+   }
+   #rangeRed, #rangeGreen, #rangeBlue, #rangeCyan, #rangeMagenta, #rangeYellow, #rangeBlack{
+      width: 110px;
+      margin: 15px;
+   }
+   .move{
+      height: 15px;
+      width: 15px;
+   }
+   .value span{ display: none; }
+   .history-box{
+      margin-top: 39px;
+   }
+   .history-box div{
+      width: 12px;
+      height: 12px;
+   }
+}
+
+/**
+ * VIEWPORT CSS
+ */
+@viewport{
+   zoom: 1.0;
+   width: extend-to-zoom;
+}
+@-ms-viewport{
+   zoom: 1.0;
+   width: extend-to-zoom;
+}
