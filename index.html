@@ -12,9 +12,9 @@
 		<div class="toolbar">
 			<p>ColorPicker</p>
 			<ul>
-				<li><div class="minimize"></div></li>
-				<li><div class="square"></div></li>
-				<li><div class="close">X</div></li>
+				<li id="minimize"><div class="minimize"></div></li>
+				<li id="square"><div class="square"></div></li>
+				<li id="close"><div class="close">X</div></li>
 			</ul>
 		</div>
 		<header>
@@ -46,49 +46,31 @@
 			</div>
 			<div class="nuance"><p>Nuances</p></div>
 			<div class="alea"><p>Aléatoire</p></div>
-			<div class="mode"><p>RVB</p></div>
 		</header>
 		<section class="edit-box">
-			<div class="move"></div>
-			<div class="history"></div>
-			<aside>
-				<div id="rangeRed"></div>
-				<input type="text" id="numberRed"/>
-				<div id="rangeCyan"></div>
-				<input type="text" id="numberCyan"/>
+			<aside class="sliders">
+				<div class="redBar">
+					<input type="range" min="0" max="255" value="75" />
+					<progress min="0" max="255" value="75" />
+				</div>
+				<div class="greenBar">
+					<input type="range" min="0" max="255" value="75" />
+					<progress min="0" max="255" value="75" />
+				</div>
+				<div class="blueBar">
+					<input type="range" min="0" max="255" value="75" />
+					<progress min="0" max="255" value="75" />
+				</div>
 			</aside>
-			<aside>
-				<div id="rangeGreen"></div>
-				<input type="text" id="numberGreen"/>
-				<div id="rangeMagenta"></div>
-				<input type="text" id="numberMagenta"/>
+			<aside class="inputs">
+				<input type="text" id="rangeRed" maxlength="3" />
+				<input type="text" id="rangeGreen" maxlength="3" />
+				<input type="text" id="rangeBlue" maxlength="3" />
 			</aside>
-			<aside>
-				<div id="rangeBlue"></div>
-				<input type="text" id="numberBlue"/>
-				<div id="rangeYellow"></div>
-				<input type="text" id="numberYellow"/>
-			</aside>
-			<aside>
-				<div id="rangeBlack"></div>
-				<input type="text" id="numberBlack"/>
-			</aside>
-			<p class="value"><input type="text" id="numberHex"/><span></span></p>
-			<aside class="history-box">
-				<div class="h1"></div>
-				<div class="h2"></div>
-				<div class="h3"></div>
-				<div class="h4"></div>
-				<div class="h5"></div>
-				<div class="h6"></div>
-				<div class="h7"></div>
-				<div class="h8"></div>
-				<div class="h9"></div>
+			<aside class="value">
+				<input type="text" id="numberHex" maxlength="7"/>
 			</aside>
 		</section>
-		<p class="thanks">Created by <a href="http://toinane.crea-th.at">Toinane</a> with ♥ !</p>
-      <script>window.$ = window.jQuery = require('./js/jquery.min.js');</script>
-      <script src="./js/jquery-ui.min.js"></script>
       <script src="./js/colorpicker.js"></script>
    </body>
 </html>

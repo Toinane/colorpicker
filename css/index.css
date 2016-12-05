@@ -11,18 +11,12 @@ a{color: inherit;text-decoration: none;}
 /**
  * TOOLBAR
  */
-.window{
-   -webkit-app-region: drag;
-   padding: 10px;
-   position: absolute;
-   top: 0; left: 0; right: 0;
-   z-index: 10;
-}
 .toolbar{
    padding: 10px;
    background: rgba(0, 0, 0, 0.1);
    position: relative;
    box-sizing: border-box;
+   -webkit-app-region: drag;
 }
    .toolbar p{
       color: rgb(255, 255, 255);
@@ -32,6 +26,7 @@ a{color: inherit;text-decoration: none;}
       background: rgba(0, 0, 0, 0);
    }
    .toolbar ul{
+      -webkit-app-region: no-drag;
       position: absolute;
       z-index: 15;
       top: 0px; right: 10px;
@@ -44,6 +39,10 @@ a{color: inherit;text-decoration: none;}
          vertical-align: bottom;
          cursor: pointer;
          padding: 10px 5px;
+         cursor: pointer;
+      }
+      .toolbar #close{
+         padding: 10px;
       }
       .toolbar li div{
          transition: 0.2s;
@@ -108,7 +107,7 @@ header .ni aside{
    display: inline-block;
    width: 80px;
    padding: 5px 0;
-   background: rgba(20, 20, 20, 0.4);
+   background: rgba(0, 0, 0, 0.2);
    cursor: pointer;
    text-align: center;
    color: white;
@@ -122,149 +121,117 @@ header .ni aside{
  * BOX COLORPICKER CSS
  */
 .edit-box{
-   background: rgba(20, 20, 20, 0.4);
+   background: rgba(0, 0, 0, 0.1);
    position: absolute;
-   top: 30%;
-   left: 40%;
-   width: 400px;
-   height: 160px;
-   padding-top: 10px;
+   bottom: 0; left: 0;
+   padding-top: 15px;
+   padding-bottom: 3px;
+   padding-left: 10px;
+   width: 100%;
    text-align: center;
+   display: flex;
+   align-items: center;
 }
 
-#rangeRed, #rangeGreen, #rangeBlue, #rangeCyan, #rangeMagenta, #rangeYellow, #rangeBlack{
-   width: 250px;
-   margin: 15px;
-}
-#rangeRed, #rangeGreen, #rangeBlue, #rangeCyan, #rangeMagenta, #rangeYellow, #rangeBlack, input{
-   display: inline-block;
-   vertical-align: middle;
-}
-#rangeCyan, #rangeMagenta, #rangeYellow, #rangeBlack, #numberCyan, #numberMagenta, #numberYellow, #numberBlack{
-   display: none;
+.sliders{
+
 }
 
-input{
+.redBar, .greenBar, .blueBar{
+   position: relative;
+   width: 220px;
+   height: 20px;
+   padding: 6px 0;
+}
+
+/* STYLING SLIDER */
+input[type=range]{
+   margin: 0;
+   padding: 3px 0;
+   -webkit-appearance: none;
+   outline: none;
+   background: none;
+   width: 100%;
+   box-sizing: border-box;
+}
+input[type=range]::-webkit-slider-thumb {
+   position: relative;
+   z-index: 100;
+   -webkit-appearance: none;
+   border: none;
+   height: 22px;
+   width: 22px;
+   border-radius: 50%;
+   background: white;
+   margin-top: -10px;
+   cursor: pointer;
+}
+
+progress[value]::-webkit-progress-bar {
+   position: absolute;
+   width: 99%;
+   top: 5px; left: 1px;
+   background-color: white;
+   border-radius: 6px;
+   height: 10px;
+}
+.redBar progress[value]::-webkit-progress-value {
+   background: rgb(255, 87, 57);
+   border-radius: 6px;
+   height: 10px;
+}
+.greenBar progress[value]::-webkit-progress-value {
+   background: rgb(105, 195, 59);
+   border-radius: 6px;
+   height: 10px;
+}
+.blueBar progress[value]::-webkit-progress-value {
+   background: rgb(65, 165, 225);
+   border-radius: 6px;
+   height: 10px;
+}
+progress{
+   -webkit-appearance: none;
+   appearance: none;
+}
+
+/* INPUTS STYLE */
+.inputs{
+
+}
+   .inputs input{
+      display: block;
+      margin-bottom: 8px;
+      margin-left: 10px;
+   }
+
+input[type="text"]{
    width: 30px;
    text-align: center;
-   background: rgba(255, 255, 255, 0.2);
+   background: rgba(0, 0, 0, 0.1);
    color: white;
    border: none;
    padding: 2px;
    font-family: "Source Sans Pro", sans-serif;
    font-size: 1em;
    font-weight: 300;
+   outline: none;
 }
-.ui-slider{
-   border: none !important;
-   height: 9px !important;
-}
-.ui-state-default{
-   background: white !important;
-   border-radius: 50px;
-   border: none !important;
-   top: -6px !important;
-   outline: none !important;
-   cursor: pointer !important;
-}
-.ui-slider-range{
-   padding: -10px !important;
-   position: relative !important;
-}
-#rangeRed .ui-slider-range{
-   background: rgb(255, 87, 57) !important;
-}
-#rangeGreen .ui-slider-range{
-   background: rgb(105, 195, 59) !important;
-}
-#rangeBlue .ui-slider-range{
-   background: rgb(65, 165, 225) !important;
-}
-#rangeCyan .ui-slider-range{
-   background: rgb(0, 203, 255) !important;
-}
-#rangeMagenta .ui-slider-range{
-   background: rgb(255, 83, 194) !important;
-}
-#rangeYellow .ui-slider-range{
-   background: rgb(226, 186, 0) !important;
-}
-#rangeBlack .ui-slider-range{
-   background: rgb(10, 10, 10) !important;
-}
+
 .value{
-   margin-top: 5px;
-   color: white;
+   margin-bottom: 9px;
+   margin-left: 10px;
 }
 .value input{ width: 70px; }
-.value input, span{ margin: 0 20px; }
-
-.move{
-   width: 20px; height: 20px;
-   background: rgba(20, 20, 20, 0.5);
-   position: absolute;
-   top: 5px; left: 5px;
-   cursor: pointer;
-}
-
-.history{
-   width: 10px; height: 10px;
-   background: rgba(20, 20, 20, 0.3);
-   position: absolute;
-   bottom: 10px; right: 10px;
-   cursor: pointer;
-}
-.history-box{
-   display: none;
-   padding: 5px 0;
-   margin-top: 13px;
-   text-align: center;
-   background: rgba(20, 20, 20, 0.4);
-}
-.history-box div{
-   display: inline-block;
-   width: 30px;
-   height: 30px;
-   background: rgba(20, 20, 20, 0.1);
-   margin: 0 3px;
-   cursor: pointer;
-}
 
 
-/**
- * FOOTER CSS
- */
-.thanks{
-   position: absolute;
-   bottom: 5px; right: 20px;
-   color: rgb(255, 255, 255);
-   font-weight: 300;
-}
 
 
 /**
  * RESPONSIVE CSS
  */
 @media screen and (max-width: 500px){
-   section{
-      width: 200px;
-   }
-   #rangeRed, #rangeGreen, #rangeBlue, #rangeCyan, #rangeMagenta, #rangeYellow, #rangeBlack{
-      width: 110px;
-      margin: 15px;
-   }
-   .move{
-      height: 15px;
-      width: 15px;
-   }
-   .value span{ display: none; }
-   .history-box{
-      margin-top: 39px;
-   }
-   .history-box div{
-      width: 12px;
-      height: 12px;
-   }
+
 }
 
 /**

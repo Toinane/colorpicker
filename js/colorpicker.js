@@ -1,4 +1,4 @@
-jQuery.fn.toggleFlexbox = function(){
+/*jQuery.fn.toggleFlexbox = function(){
    var elm = $(this[0]);
    if(elm.css('display') === "none"){
       elm.slideDown(500, function(){
@@ -9,7 +9,7 @@ jQuery.fn.toggleFlexbox = function(){
       elm.slideUp(500);
       return;
    }
-};
+};*/
 
 
 function Color(){
@@ -19,12 +19,12 @@ function Color(){
    this.rgb;
    this.hsl;
 
-   this.rgb = function(r, g, b){
+   this.setrgb = function(r, g, b){
       this.red = parseInt(r);
       this.green = parseInt(g);
       this.blue = parseInt(b);
       this.rgb = [this.red, this.green, this.blue];
-      this.hsl();
+      this.sethsl();
    }
 
    this.rgbarray = function(rgb){
@@ -32,7 +32,7 @@ function Color(){
       this.green = parseInt(rgb[1]);
       this.blue = parseInt(rgb[2]);
       this.rgb = [this.red, this.green, this.blue];
-      this.hsl();
+      this.sethsl();
    }
 
    this.hex = function(hex){
@@ -41,7 +41,7 @@ function Color(){
            this.green = parseInt(result[2], 16);
            this.blue=  parseInt(result[3], 16);
            this.rgb = [this.red, this.green, this.blue];
-           this.hsl();
+           this.sethsl();
    }
 
    this.red = function(){
@@ -90,7 +90,7 @@ function Color(){
 		return this.getrgb(rgb[0], rgb[1], rgb[2]);
    }
 
-   this.hsl = function(){
+   this.sethsl = function(){
       r = this.red/255, g = this.green/255, b = this.blue/255;
      var max = Math.max(r, g, b), min = Math.min(r, g, b);
      var h, s, l = (max + min) / 2;
@@ -156,7 +156,8 @@ function Colorpicker(r, g, b){
    this.color = new Color();
    this.maximize = false;
 
-   var remote = require('remote');
+   let remote = require('electron').remote, self = this;
+
 
    /**
     * hexFromRGB function.
@@ -167,10 +168,10 @@ function Colorpicker(r, g, b){
     * @return {string} - Hexadecimal string.
     */
    this.hexFromRGB = function(r, g, b){
-      var hex = [r.toString(16), g.toString(16), b.toString(16)];
-      $.each(hex, function(nr, val){
-         if(val.length === 1){ hex[nr] = "0" + val; }
-      });
+      var hex = [Number(r).toString(16), Number(g).toString(16), Number(b).toString(16)];
+      for(var i = 0; i<3; i++){
+         if(hex[i] < 10 || hex[i].length === 1){ hex[i] = '0'+hex[i]; }
+      }
       return hex.join("").toUpperCase();
    }
 
@@ -190,94 +191,116 @@ function Colorpicker(r, g, b){
       } : null;
    }
 
+   this.toggleFlexbox = function(el){
+      var el = document.querySelector(el);
+      if(el.style.display === "none"){
+         el.style.display = 'flex';
+      }else{
+         el.style.display = 'none';
+      }
+   };
+
 
    this.changeColor = function(r, g, b){
-      $("#rangeRed").slider("value", r);
-      $("#rangeGreen").slider("value", g);
-      $("#rangeBlue").slider("value", b);
-      $("#numberRed").val(r);
-      $("#numberGreen").val(g);
-      $("#numberBlue").val(b);
-      $("#numberHex").val('#'+this.hexFromRGB(r, g, b));
+      document.querySelector('.redBar progress').value = r;
+      document.querySelector('.redBar input').value = r;
+      document.querySelector('#rangeRed').value = r;
+      document.querySelector('.greenBar progress').value = g;
+      document.querySelector('.greenBar input').value = g;
+      document.querySelector('#rangeGreen').value = g;
+      document.querySelector('.blueBar progress').value = b;
+      document.querySelector('.blueBar input').value = b;
+      document.querySelector('#rangeBlue').value = b;
+      document.querySelector("#numberHex").value = '#'+this.hexFromRGB(r, g, b);
       this.changeShade(r, g, b);
-      $("body").css("background-color", "#"+this.hexFromRGB(r, g, b));
+      document.querySelector("body").style.background = "#"+this.hexFromRGB(r, g, b);
    }
 
 
    this.changeShade = function(r, g, b){
-      $('#nu1').css('background', this.color.lightness(0.16));
-      $('#nu2').css('background', this.color.lightness(0.08));
-      $('#nu3').css('background', this.color.lightness(0.04));
-      $('#nu4').css('background', this.color.lightness(0.02));
-      $('#nu5').css('background', this.color.lightness(0.01));
-      $('#nu6').css('background', 'rgb('+r+', '+g+', '+b+')');
-      $('#nu7').css('background', this.color.lightness(-0.01));
-      $('#nu8').css('background', this.color.lightness(-0.02));
-      $('#nu9').css('background', this.color.lightness(-0.04));
-      $('#nu10').css('background', this.color.lightness(-0.08));
-      $('#nu11').css('background', this.color.lightness(-0.16));
+      this.color.setrgb(r, g, b);
+      document.querySelector('#nu1').style.background = this.color.lightness(0.16);
+      document.querySelector('#nu2').style.background = this.color.lightness(0.08);
+      document.querySelector('#nu3').style.background = this.color.lightness(0.04);
+      document.querySelector('#nu4').style.background = this.color.lightness(0.02);
+      document.querySelector('#nu5').style.background = this.color.lightness(0.01);
+      document.querySelector('#nu6').style.background = 'rgb('+r+', '+g+', '+b+')';
+      document.querySelector('#nu7').style.background = this.color.lightness(-0.01);
+      document.querySelector('#nu8').style.background = this.color.lightness(-0.02);
+      document.querySelector('#nu9').style.background = this.color.lightness(-0.04);
+      document.querySelector('#nu10').style.background = this.color.lightness(-0.08);
+      document.querySelector('#nu11').style.background = this.color.lightness(-0.16);
 
-      $('#ni1').css('background', this.color.negate());
-      $('#ni2').css('background', this.color.rotate(10));
-      $('#ni3').css('background', this.color.rotate(15));
-      $('#ni4').css('background', this.color.rotate(20));
-      $('#ni5').css('background', this.color.rotate(30));
-      $('#ni6').css('background', this.color.rotate(40));
-      $('#ni7').css('background', this.color.rotate(50));
-      $('#ni8').css('background', this.color.rotate(55));
-      $('#ni9').css('background', this.color.rotate(60));
-      $('#ni10').css('background', this.color.rotate(75));
-      $('#ni11').css('background', this.color.rotate(79));
+      document.querySelector('#ni1').style.background = this.color.negate();
+      document.querySelector('#ni2').style.background = this.color.rotate(10);
+      document.querySelector('#ni3').style.background = this.color.rotate(15);
+      document.querySelector('#ni4').style.background = this.color.rotate(20);
+      document.querySelector('#ni5').style.background = this.color.rotate(30);
+      document.querySelector('#ni6').style.background = this.color.rotate(40);
+      document.querySelector('#ni7').style.background = this.color.rotate(50);
+      document.querySelector('#ni8').style.background = this.color.rotate(55);
+      document.querySelector('#ni9').style.background = this.color.rotate(60);
+      document.querySelector('#ni10').style.background = this.color.rotate(75);
+      document.querySelector('#ni11').style.background = this.color.rotate(79);
    }
 
 
    this.construct = function(){
+      this.color.setrgb(this.r, this.g, this.b);
 
-      this.color.rgb(this.r, this.g, this.b);
-
-      $('.edit-box').draggable({handle: ".move"});
-      $('header .ni, header .nu').css('display', 'none');
-
-
-      $("#rangeRed, #rangeGreen, #rangeBlue, #rangeCyan, #rangeMagenta, #rangeYellow, #rangeBlack").slider({
-         orientation: "horizontal",
-         range: "min",
-         max: 255,
-         value: 50
-      });
-
+      var els = document.querySelectorAll('header .ni, header .nu');
+      for(el of els){ el.style.display = 'none'; }
+      console.log("launch");
       this.changeColor(this.r, this.g, this.b);
-
    }
 
 
-   $('.nuance').click(function(){
-         $('header .nu').toggleFlexbox();
-         $('header .ni').toggleFlexbox();
-   });
+   document.querySelector('.nuance').onclick = () => {
+         this.toggleFlexbox('header .nu');
+         this.toggleFlexbox('header .ni');
+   }
 
-   $('.minimize').click(function(){
-      var window = remote.getCurrentWindow();
-      window.minimize();
-   });
+   document.querySelector('.alea').onclick = ()=>{
+      var r = Math.floor(Math.random() * 255) + 0,
+      g = Math.floor(Math.random() * 255) + 0,
+      b = Math.floor(Math.random() * 255) + 0;
+      this.changeColor(r, g, b);
+   }
 
-   $('.square').click(function(){
+
+   document.querySelector('#minimize').onclick = function(){
+      remote.getCurrentWindow().minimize();
+   }
+
+   document.querySelector('#square').onclick = function(){
       var window = remote.getCurrentWindow();
-      if(this.maximize != false){
-         window.maximize();
+      if(this.maximize){
+         window.unmaximize();
          this.maximize = false;
       }
       else{
-         window.unmaximize();
+         window.maximize();
          this.maximize = true;
       }
+   }
 
-   });
+   document.querySelector('#close').onclick = function(){
+      console.log('close click');
+      remote.getCurrentWindow().close();
+   }
 
-   $('.close').click(function(){
-      var window = remote.getCurrentWindow();
-      window.close();
-   });
+   document.querySelector('.redBar input').oninput = () =>{
+      this.r = document.querySelector('.redBar input').value
+      this.changeColor(this.r, this.g, this.b);
+   }
+   document.querySelector('.greenBar input').oninput = () =>{
+      this.g = document.querySelector('.greenBar input').value;
+      this.changeColor(this.r, this.g, this.b);
+   }
+   document.querySelector('.blueBar input').oninput = () =>{
+      this.b = document.querySelector('.blueBar input').value;
+      this.changeColor(this.r, this.g, this.b);
+   }
 
 
    this.construct();

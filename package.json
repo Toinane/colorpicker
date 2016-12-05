@@ -4,8 +4,9 @@
   "description": "Little application to get color code",
   "main": "main.js",
   "scripts": {
-    "start": "electron main.js"
+    "start": "electron ."
   },
+  "repository": "https://github.com/toinane/colorpicker",
   "keywords": [
     "ColorPicker",
     "Toinane",
@@ -13,8 +14,7 @@
     "crea-that"
   ],
   "devDependencies": {
-    "electron-packager": "^6.0.0",
-    "electron-prebuilt": "^0.36.0"
+    "electron": "^1.4.1"
   },
   "author": "Toinane",
   "homepage": "http://toinane.crea-th.at",
