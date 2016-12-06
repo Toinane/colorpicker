@@ -63,31 +63,54 @@ function Color(){
       }
    }
 
-   this.negate = function(){
+   this.negate = function(isRGB){
       var rgb = [];
       for(var i = 0; i < 3; i++){
          rgb[i] = 255 - this.rgb[i];
       }
-      return this.getrgb(rgb[0], rgb[1], rgb[2]);
+      if(isRGB){
+         return this.getrgb(rgb[0], rgb[1], rgb[2]);
+      }
+      else{
+         return [rgb[0], rgb[1], rgb[2]];
+      }
+
    }
 
    this.grayscale = function(){
       var gray = parseInt(this.red * 0.3 + this.green * 0.59 + this.blue * 0.11);
+      if(gray < 0){gray = 0;}
+      if(gray > 255){gray = 255;}
       return this.getrgb(gray, gray, gray);
    }
 
-   this.lightness = function(l){
+   this.lightness = function(l, isRGB){
       var lightness = this.hsltorgb(this.hsl[0], this.hsl[1], (this.hsl[2]+l));
-      return this.getrgb(lightness[0], lightness[1], lightness[2]);
+      for(var i = 0; i < lightness.length; i++){
+         if(lightness[i] < 0){lightness[i] = 0;}
+         if(lightness[i] > 255){lightness[i] = 255;}
+      }
+      if(isRGB){
+         return this.getrgb(lightness[0], lightness[1], lightness[2]);
+      }
+      else{
+         return [lightness[0], lightness[1], lightness[2]];
+      }
+
    }
 
-   this.rotate = function(degrees){
+   this.rotate = function(degrees, isRGB){
       var hue = this.hsl[0];
 		hue = (hue + degrees) % 360;
 		hue = hue < 0 ? 360 + hue : hue;
       hue = hue * 0.01;
 		var rgb = this.hsltorgb(hue, this.hsl[1], this.hsl[2]);
-		return this.getrgb(rgb[0], rgb[1], rgb[2]);
+      if(isRGB){
+         return this.getrgb(rgb[0], rgb[1], rgb[2]);
+      }
+      else{
+         return [rgb[0], rgb[1], rgb[2]];
+      }
    }
 
    this.sethsl = function(){
@@ -177,6 +200,21 @@ function Colorpicker(r, g, b){
 
 
    /**
+    * hexFromArray function.
+    * @function
+    * @param {array} rgb - The Red, Green and Blue color value between 0 and 255.
+    * @return {string} - Hexadecimal string.
+    */
+   this.hexFromArray = function(array){
+      var hex = [Number(array[0]).toString(16), Number(array[1]).toString(16), Number(array[2]).toString(16)];
+      for(var i = 0; i<3; i++){
+         if(hex[i] < 10 || hex[i].length === 1){ hex[i] = '0'+hex[i]; }
+      }
+      return hex.join("").toUpperCase();
+   }
+
+
+   /**
     * hexToRGB function.
     * @function
     * @param {string} hex - The Hexadecimal value.
@@ -214,50 +252,74 @@ function Colorpicker(r, g, b){
       document.querySelector("#numberHex").value = '#'+this.hexFromRGB(r, g, b);
       this.changeShade(r, g, b);
       document.querySelector("body").style.background = "#"+this.hexFromRGB(r, g, b);
+      this.r = r;
+      this.g = g;
+      this.b = b;
    }
 
 
    this.changeShade = function(r, g, b){
       this.color.setrgb(r, g, b);
-      document.querySelector('#nu1').style.background = this.color.lightness(0.16);
-      document.querySelector('#nu2').style.background = this.color.lightness(0.08);
-      document.querySelector('#nu3').style.background = this.color.lightness(0.04);
-      document.querySelector('#nu4').style.background = this.color.lightness(0.02);
-      document.querySelector('#nu5').style.background = this.color.lightness(0.01);
+      document.querySelector('#nu1').style.background = this.color.lightness(0.16, true);
+      document.querySelector('#nu1').attributes['data-color'].value = this.hexFromArray(this.color.lightness(0.16));
+      document.querySelector('#nu2').style.background = this.color.lightness(0.08, true);
+      document.querySelector('#nu2').attributes['data-color'].value = this.hexFromArray(this.color.lightness(0.08));
+      document.querySelector('#nu3').style.background = this.color.lightness(0.04, true);
+      document.querySelector('#nu3').attributes['data-color'].value = this.hexFromArray(this.color.lightness(0.04));
+      document.querySelector('#nu4').style.background = this.color.lightness(0.02, true);
+      document.querySelector('#nu4').attributes['data-color'].value = this.hexFromArray(this.color.lightness(0.02));
+      document.querySelector('#nu5').style.background = this.color.lightness(0.01, true);
+      document.querySelector('#nu5').attributes['data-color'].value = this.hexFromArray(this.color.lightness(0.01));
       document.querySelector('#nu6').style.background = 'rgb('+r+', '+g+', '+b+')';
-      document.querySelector('#nu7').style.background = this.color.lightness(-0.01);
-      document.querySelector('#nu8').style.background = this.color.lightness(-0.02);
-      document.querySelector('#nu9').style.background = this.color.lightness(-0.04);
-      document.querySelector('#nu10').style.background = this.color.lightness(-0.08);
-      document.querySelector('#nu11').style.background = this.color.lightness(-0.16);
+      document.querySelector('#nu6').attributes['data-color'].value = this.hexFromRGB(r, g, b);
+      document.querySelector('#nu7').style.background = this.color.lightness(-0.01, true);
+      document.querySelector('#nu7').attributes['data-color'].value = this.hexFromArray(this.color.lightness(-0.01));
+      document.querySelector('#nu8').style.background = this.color.lightness(-0.02, true);
+      document.querySelector('#nu8').attributes['data-color'].value = this.hexFromArray(this.color.lightness(-0.02));
+      document.querySelector('#nu9').style.background = this.color.lightness(-0.04, true);
+      document.querySelector('#nu9').attributes['data-color'].value = this.hexFromArray(this.color.lightness(-0.04));
+      document.querySelector('#nu10').style.background = this.color.lightness(-0.08, true);
+      document.querySelector('#nu10').attributes['data-color'].value = this.hexFromArray(this.color.lightness(-0.08));
+      document.querySelector('#nu11').style.background = this.color.lightness(-0.16, true);
+      document.querySelector('#nu11').attributes['data-color'].value = this.hexFromArray(this.color.lightness(-0.16));
 
-      document.querySelector('#ni1').style.background = this.color.negate();
-      document.querySelector('#ni2').style.background = this.color.rotate(10);
-      document.querySelector('#ni3').style.background = this.color.rotate(15);
-      document.querySelector('#ni4').style.background = this.color.rotate(20);
-      document.querySelector('#ni5').style.background = this.color.rotate(30);
-      document.querySelector('#ni6').style.background = this.color.rotate(40);
-      document.querySelector('#ni7').style.background = this.color.rotate(50);
-      document.querySelector('#ni8').style.background = this.color.rotate(55);
-      document.querySelector('#ni9').style.background = this.color.rotate(60);
-      document.querySelector('#ni10').style.background = this.color.rotate(75);
-      document.querySelector('#ni11').style.background = this.color.rotate(79);
+      document.querySelector('#ni1').style.background = this.color.negate(true);
+      document.querySelector('#ni1').attributes['data-color'].value = this.hexFromArray(this.color.negate());
+      document.querySelector('#ni2').style.background = this.color.rotate(10, true);
+      document.querySelector('#ni2').attributes['data-color'].value = this.hexFromArray(this.color.rotate(10));
+      document.querySelector('#ni3').style.background = this.color.rotate(15, true);
+      document.querySelector('#ni3').attributes['data-color'].value = this.hexFromArray(this.color.rotate(15));
+      document.querySelector('#ni4').style.background = this.color.rotate(20, true);
+      document.querySelector('#ni4').attributes['data-color'].value = this.hexFromArray(this.color.rotate(20));
+      document.querySelector('#ni5').style.background = this.color.rotate(30, true);
+      document.querySelector('#ni5').attributes['data-color'].value = this.hexFromArray(this.color.rotate(30));
+      document.querySelector('#ni6').style.background = this.color.rotate(40, true);
+      document.querySelector('#ni6').attributes['data-color'].value = this.hexFromArray(this.color.rotate(40));
+      document.querySelector('#ni7').style.background = this.color.rotate(50, true);
+      document.querySelector('#ni7').attributes['data-color'].value = this.hexFromArray(this.color.rotate(50));
+      document.querySelector('#ni8').style.background = this.color.rotate(55, true);
+      document.querySelector('#ni8').attributes['data-color'].value = this.hexFromArray(this.color.rotate(55));
+      document.querySelector('#ni9').style.background = this.color.rotate(60, true);
+      document.querySelector('#ni9').attributes['data-color'].value = this.hexFromArray(this.color.rotate(60));
+      document.querySelector('#ni10').style.background = this.color.rotate(75, true);
+      document.querySelector('#ni10').attributes['data-color'].value = this.hexFromArray(this.color.rotate(75));
+      document.querySelector('#ni11').style.background = this.color.rotate(79, true);
+      document.querySelector('#ni11').attributes['data-color'].value = this.hexFromArray(this.color.rotate(79));
    }
 
 
    this.construct = function(){
       this.color.setrgb(this.r, this.g, this.b);
+      document.querySelector('header .ni').style.display = 'none';
+      document.querySelector('header .nu').style.display = 'none';
 
-      var els = document.querySelectorAll('header .ni, header .nu');
-      for(el of els){ el.style.display = 'none'; }
-      console.log("launch");
       this.changeColor(this.r, this.g, this.b);
    }
 
 
    document.querySelector('.nuance').onclick = () => {
-         this.toggleFlexbox('header .nu');
-         this.toggleFlexbox('header .ni');
+      this.toggleFlexbox('header .nu');
+      this.toggleFlexbox('header .ni');
    }
 
    document.querySelector('.alea').onclick = ()=>{
@@ -285,7 +347,6 @@ function Colorpicker(r, g, b){
    }
 
    document.querySelector('#close').onclick = function(){
-      console.log('close click');
       remote.getCurrentWindow().close();
    }
 
@@ -300,6 +361,14 @@ function Colorpicker(r, g, b){
    document.querySelector('.blueBar input').oninput = () =>{
       this.b = document.querySelector('.blueBar input').value;
       this.changeColor(this.r, this.g, this.b);
+   }
+
+   var els = document.querySelectorAll('header .ni aside, header .nu aside');
+   for(el of els){
+      el.onclick = function(){
+         var color = self.hexToRGB(this.attributes['data-color'].value);
+         self.changeColor(color.r, color.g, color.b);
+      }
    }
 
 
