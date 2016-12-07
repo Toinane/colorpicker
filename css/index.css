@@ -18,9 +18,26 @@ a{color: inherit;text-decoration: none;}
    box-sizing: border-box;
    -webkit-app-region: drag;
 }
+.whited{
+   background: rgba(255, 255, 255, 0.1);
+}
    .toolbar p{
-      color: rgb(255, 255, 255);
+      color: rgba(0, 0, 0, 0.3);
+      font-weight: bold;
       cursor: default;
+      display: inline-block;
+      margin-right: 20px;
+   }
+   .whited p{
+      color: rgba(255, 255, 255, 0.3);
+   }
+   .toolbar #nuances, .toolbar #random{
+      -webkit-app-region: no-drag;
+      cursor: pointer;
+      transition: 0.3s;
+   }
+   .toolbar #nuances:hover, .toolbar #random:hover{
+      color: rgba(255, 255, 255, 0.9);
    }
    .toolbar p::selection, .toolbar li::selection, .toolbar div::selection{
       background: rgba(0, 0, 0, 0);
@@ -53,6 +70,9 @@ a{color: inherit;text-decoration: none;}
       bottom: 1px;
       border-bottom: 3px solid rgba(0, 0, 0, 0.3);
    }
+   .whited .minimize{
+      border-bottom: 3px solid rgba(255, 255, 255, 0.3);
+   }
    .toolbar li:hover .minimize{
       border-bottom: 3px solid rgb(255, 255, 255);
    }
@@ -60,6 +80,10 @@ a{color: inherit;text-decoration: none;}
       width: 12px; height: 9px;
       border: 2px solid rgba(0, 0, 0, 0.3);
       border-top: 3px solid rgba(0, 0, 0, 0.3);
+   }
+   .whited .square{
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top: 3px solid rgba(255, 255, 255, 0.3);
    }
    .toolbar li:hover .square{
       border: 2px solid rgb(255, 255, 255);
@@ -72,9 +96,14 @@ a{color: inherit;text-decoration: none;}
       transform: scale(1.5,1);
       color: rgba(0, 0, 0, 0.3);
    }
+   .whited .close{
+      color: rgba(255, 255, 255, 0.3);
+   }
    .toolbar li:hover .close{
       color: rgb(255, 255, 255);
    }
+
+
 
 
 /**

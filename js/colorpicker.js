@@ -1,16 +1,3 @@
-/*jQuery.fn.toggleFlexbox = function(){
-   var elm = $(this[0]);
-   if(elm.css('display') === "none"){
-      elm.slideDown(500, function(){
-         elm.css('display', 'flex');
-      });
-      return;
-   }else{
-      elm.slideUp(500);
-      return;
-   }
-};*/
-
 
 function Color(){
    this.red;
@@ -156,12 +143,6 @@ function Color(){
 }
 
 
-// console.log(color.getrgb());
-// console.log(color.negate());
-// console.log(color.lighten(0.05));
-
-
-
 
 
 /**
@@ -240,6 +221,9 @@ function Colorpicker(r, g, b){
 
 
    this.changeColor = function(r, g, b){
+      if((r < 60 && g < 60 && b < 60) || (r < 30 && g < 30 && b < 230))
+      { document.querySelector('.toolbar').classList.add('whited'); }
+      else{ document.querySelector('.toolbar').classList.remove('whited'); }
       document.querySelector('.redBar progress').value = r;
       document.querySelector('.redBar input').value = r;
       document.querySelector('#rangeRed').value = r;
@@ -256,6 +240,13 @@ function Colorpicker(r, g, b){
       this.g = g;
       this.b = b;
    }
+
+
+      /*var value = document.getElementById('text-rgb'), range = document.createRange();
+      range.selectNode(value);
+      window.getSelection().addRange(range);
+      document.execCommand('copy');
+      window.getSelection().removeAllRanges();*/
 
 
    this.changeShade = function(r, g, b){
@@ -317,23 +308,20 @@ function Colorpicker(r, g, b){
    }
 
 
-   document.querySelector('.nuance').onclick = () => {
+   document.querySelector('#nuances').onclick = () => {
       this.toggleFlexbox('header .nu');
       this.toggleFlexbox('header .ni');
    }
-
-   document.querySelector('.alea').onclick = ()=>{
+   document.querySelector('#random').onclick = ()=>{
       var r = Math.floor(Math.random() * 255) + 0,
       g = Math.floor(Math.random() * 255) + 0,
       b = Math.floor(Math.random() * 255) + 0;
       this.changeColor(r, g, b);
    }
 
-
    document.querySelector('#minimize').onclick = function(){
       remote.getCurrentWindow().minimize();
    }
-
    document.querySelector('#square').onclick = function(){
       var window = remote.getCurrentWindow();
       if(this.maximize){
@@ -345,7 +333,6 @@ function Colorpicker(r, g, b){
          this.maximize = true;
       }
    }
-
    document.querySelector('#close').onclick = function(){
       remote.getCurrentWindow().close();
    }
