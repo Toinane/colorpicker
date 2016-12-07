@@ -4,27 +4,30 @@ const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
-let mainWindow;
+let win;
 
 function createWindow(){
 
   //mainWindow = new BrowserWindow({frame:false, 'auto-hide-menu-bar': true, width: 820, height: 460, icon: __dirname+'/colorpicker.ico'});
-  mainWindow = new BrowserWindow({
+  win = new BrowserWindow({
      frame:false,
      'auto-hide-menu-bar': true,
-     width: 1420,
-     height: 700,
+     width: 390,
+     height: 190,
      icon: __dirname+'/colorpicker.ico'
   });
 
-  mainWindow.loadURL('file://' + __dirname + '/index.html');
+  win.loadURL('file://' + __dirname + '/index.html');
+
   // FOR DEV
-  mainWindow.webContents.openDevTools();
+  win.webContents.openDevTools();
 
   // Emitted when the window is closed.
-  mainWindow.on('closed', function(){
-    mainWindow = null;
+  win.on('closed', function(){
+    win = null;
   });
+
+  //mainWindow.setAlwaysOnTop(true);
 }
 
 // This method will be called when Electron has finished

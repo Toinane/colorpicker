@@ -12,14 +12,12 @@ a{color: inherit;text-decoration: none;}
  * TOOLBAR
  */
 .toolbar{
+   margin: 3px;
    padding: 10px;
-   background: rgba(0, 0, 0, 0.1);
    position: relative;
+   z-index: 10000;
    box-sizing: border-box;
    -webkit-app-region: drag;
-}
-.whited{
-   background: rgba(255, 255, 255, 0.1);
 }
    .toolbar p{
       color: rgba(0, 0, 0, 0.3);
@@ -27,17 +25,24 @@ a{color: inherit;text-decoration: none;}
       cursor: default;
       display: inline-block;
       margin-right: 20px;
-   }
-   .whited p{
-      color: rgba(255, 255, 255, 0.3);
-   }
-   .toolbar #nuances, .toolbar #random{
       -webkit-app-region: no-drag;
       cursor: pointer;
       transition: 0.3s;
    }
-   .toolbar #nuances:hover, .toolbar #random:hover{
-      color: rgba(255, 255, 255, 0.9);
+   .toolbar p:hover{
+      color: rgba(0, 0, 0, 0.4);
+   }
+   .toolbar .active{
+      color: rgba(0, 0, 0, 0.5);
+   }
+   .whited p{
+      color: rgba(255, 255, 255, 0.3);
+   }
+   .whited p:hover{
+      color: rgba(255, 255, 255, 0.4);
+   }
+   .whited .active{
+      color: rgba(255, 255, 255, 0.5);
    }
    .toolbar p::selection, .toolbar li::selection, .toolbar div::selection{
       background: rgba(0, 0, 0, 0);
@@ -111,6 +116,7 @@ a{color: inherit;text-decoration: none;}
  */
 header{
    position: relative;
+   z-index: 900;
    width: 100%;
 }
 header .nu, header .ni{
@@ -150,7 +156,7 @@ header .ni aside{
  * BOX COLORPICKER CSS
  */
 .edit-box{
-   background: rgba(0, 0, 0, 0.1);
+   background: rgba(0, 0, 0, 0);
    position: absolute;
    bottom: 0; left: 0;
    padding-top: 15px;
@@ -234,24 +240,32 @@ progress{
       margin-left: 10px;
    }
 
-input[type="text"]{
-   width: 30px;
-   text-align: center;
-   background: rgba(0, 0, 0, 0.1);
-   color: white;
-   border: none;
-   padding: 2px;
-   font-family: "Source Sans Pro", sans-serif;
-   font-size: 1em;
-   font-weight: 300;
-   outline: none;
-}
+   .inputs input[type=number]::-webkit-inner-spin-button,
+   .inputs input[type=number]::-webkit-outer-spin-button {
+       -webkit-appearance: none;
+       -moz-appearance: none;
+       appearance: none;
+       margin: 0;
+   }
 
-.value{
-   margin-bottom: 9px;
-   margin-left: 10px;
-}
-.value input{ width: 70px; }
+   .inputs input[type="number"], input[type="text"]{
+      width: 30px;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.1);
+      color: white;
+      border: none;
+      padding: 2px;
+      font-family: "Source Sans Pro", sans-serif;
+      font-size: 1em;
+      font-weight: 300;
+      outline: none;
+   }
+
+   .value{
+      margin-bottom: 9px;
+      margin-left: 10px;
+   }
+   .value input{ width: 70px; }
 
 
 
@@ -263,6 +277,11 @@ input[type="text"]{
 
 }
 
+@media screen and (max-height: 200px){
+   .edit-box{
+      background: none;
+   }
+}
 /**
  * VIEWPORT CSS
  */
