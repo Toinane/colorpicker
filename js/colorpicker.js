@@ -161,7 +161,6 @@ function Colorpicker(r, g, b){
    this.maximize = false;
 
    let remote = require('electron').remote, self = this;
-   console.log(remote.getCurrentWindow());
 
    /**
     * hexFromRGB function.
@@ -222,18 +221,21 @@ function Colorpicker(r, g, b){
 
 
    this.changeColor = function(r, g, b){
-      if((r < 60 && g < 60 && b < 60) || (r < 30 && g < 30 && b < 230))
+      if((r <= 255 && g <= 126 && b <= 255) || (r <= 70 && g <= 55 && b <= 255))
       { document.querySelector('body').classList.add('whited'); }
       else{ document.querySelector('body').classList.remove('whited'); }
       document.querySelector('.redBar progress').value = r;
       document.querySelector('.redBar input').value = r;
       document.querySelector('#rangeRed').value = r;
+      document.querySelector('#r').innerHTML = r;
       document.querySelector('.greenBar progress').value = g;
       document.querySelector('.greenBar input').value = g;
       document.querySelector('#rangeGreen').value = g;
+      document.querySelector('#g').innerHTML = g;
       document.querySelector('.blueBar progress').value = b;
       document.querySelector('.blueBar input').value = b;
       document.querySelector('#rangeBlue').value = b;
+      document.querySelector('#b').innerHTML = b;
       document.querySelector("#numberHex").value = '#'+this.hexFromRGB(r, g, b);
       this.changeShade(r, g, b);
       document.querySelector("body").style.background = "#"+this.hexFromRGB(r, g, b);
@@ -303,6 +305,7 @@ function Colorpicker(r, g, b){
    this.construct = function(){
       this.initListener();
       this.color.setrgb(this.r, this.g, this.b);
+      document.querySelector('#numberBoxHex').value = '#'+this.hexFromArray(this.color.negate());
       document.querySelector('header .ni').style.display = 'none';
       document.querySelector('header .nu').style.display = 'none';
 
@@ -429,6 +432,25 @@ function Colorpicker(r, g, b){
             var color = self.hexToRGB(this.attributes['data-color'].value);
             self.changeColor(color.r, color.g, color.b);
          }
+      }
+
+      document.querySelector('#newBox').onclick = function(){
+         this.classList.toggle('active');
+         if(document.querySelector('body').classList.contains('boxed')){
+            document.querySelector('body').classList.remove('boxed');
+            document.querySelector('.box').style.right = '-200px';
+            document.querySelector('#numberBoxHex').style.cursor = 'default';
+            document.querySelector('#numberBoxHex').style.visibility = 'none';
+            document.querySelector('#numberBoxHex').style.opacity = '0';
+         }
+         else{
+            document.querySelector('body').classList.add('boxed');
+            document.querySelector('.box').style.right = '0';
+            document.querySelector('#numberBoxHex').style.cursor = 'text';
+            document.querySelector('#numberBoxHex').style.visibility = 'visible';
+            document.querySelector('#numberBoxHex').style.opacity = '1';
+         }
+
       }
 
    }

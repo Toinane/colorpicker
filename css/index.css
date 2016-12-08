@@ -158,6 +158,7 @@ header .ni aside{
 .edit-box{
    background: rgba(0, 0, 0, 0);
    position: absolute;
+   z-index: 200;
    bottom: 0; left: 0;
    padding-top: 15px;
    padding-bottom: 3px;
@@ -165,7 +166,7 @@ header .ni aside{
    width: 100%;
    text-align: center;
    display: flex;
-   align-items: center;
+   align-items: flex-end;
 }
 
 .sliders{
@@ -252,21 +253,78 @@ progress{
       width: 30px;
       text-align: center;
       background: rgba(0, 0, 0, 0.1);
-      color: white;
+      color: rgba(0, 0, 0, 0.5);
       border: none;
       padding: 2px;
       font-family: "Source Sans Pro", sans-serif;
-      font-size: 1em;
-      font-weight: 300;
+      font-size: 1.1em;
+      font-weight: bold;
       outline: none;
+      transition: 0.3s;
+   }
+   .whited .inputs input[type="number"], .whited input[type="text"], .whited .value p{
+      background: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.5);
    }
 
    .value{
-      margin-bottom: 9px;
+      margin-bottom: 8px;
       margin-left: 10px;
    }
-   .value input{ width: 70px; }
+   .value input{
+      display: block;
+      margin-bottom: 8px;
+      width: 105px;
+   }
+   .value p{
+      background: rgba(0, 0, 0, 0.1);
+      color: rgba(0, 0, 0, 0.5);
+      font-weight: bold;
+      padding: 4px 2px;
+      width: 105px;
+      transition: 0.3s;
+   }
 
+#newBox{
+   position: absolute;
+   bottom: 15px; right: 30px;
+   border: 3px solid rgba(0, 0, 0, 0.15);
+   width: 12px; height: 12px;
+   cursor: pointer;
+   z-index: 999;
+   transition: 0.3s;
+}
+#newBox:hover{
+   border: 3px solid rgba(0, 0, 0, 0.25);
+}
+.whited #newBox{
+   border: 3px solid rgba(255, 255, 255, 0.15);
+}
+.whited #newBox:hover{
+   border: 3px solid rgba(255, 255, 255, 0.25);
+}
+#newBox.active{
+   border: 3px solid rgba(0, 0, 0, 0.3);
+}
+.whited #newBox.active{
+   border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.box{
+   position: absolute;
+   top: 0; right: -200px;
+   background: #FF5110;
+   height: 100%;
+   width: 200px;
+   transition: 0.5s;
+}
+
+#numberBoxHex{
+   cursor: default;
+   visibility: hidden;
+   opacity: 0;
+   transition: 0.4s;
+}
 
 
 

@@ -45,22 +45,20 @@
 				<aside id="nu10" data-color=""></aside>
 				<aside id="nu11" data-color=""></aside>
 			</div>
-			<!--<div class="nuance"><p>Nuances</p></div>
-			<div class="alea"><p>Aléatoire</p></div>-->
 		</header>
 		<section class="edit-box">
 			<aside class="sliders">
 				<div class="redBar">
-					<input type="range" min="0" max="255" value="75" />
-					<progress min="0" max="255" value="75" />
+					<input type="range" min="0" max="255" value="0" />
+					<progress min="0" max="255" value="0" />
 				</div>
 				<div class="greenBar">
-					<input type="range" min="0" max="255" value="75" />
-					<progress min="0" max="255" value="75" />
+					<input type="range" min="0" max="255" value="0" />
+					<progress min="0" max="255" value="0" />
 				</div>
 				<div class="blueBar">
-					<input type="range" min="0" max="255" value="75" />
-					<progress min="0" max="255" value="75" />
+					<input type="range" min="0" max="255" value="0" />
+					<progress min="0" max="255" value="0" />
 				</div>
 			</aside>
 			<aside class="inputs">
@@ -69,9 +67,13 @@
 				<input type="number" id="rangeBlue" maxlength="3" />
 			</aside>
 			<aside class="value">
+				<input type="text" id="numberBoxHex" maxlength="7"/>
 				<input type="text" id="numberHex" maxlength="7"/>
+				<p id="numberRGB">(<span id="r">0</span>,<span id="g">0</span>,<span id="b">0</span>)</p>
 			</aside>
+			<div id="newBox"></div>
 		</section>
+		<section class="box"></section>
       <script src="./js/colorpicker.js"></script>
    </body>
 </html>

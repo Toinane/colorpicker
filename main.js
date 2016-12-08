@@ -1,18 +1,29 @@
 'use strict';
 
 const electron = require('electron');
+const Tray = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
-let win;
+let win, tray;
 
 function createWindow(){
+
+   /*tray = new Tray(__dirname+'/colorpicker.png')
+  const contextMenu = Menu.buildFromTemplate([
+    {label: 'Test', type: 'radio'},
+    {label: 'Item2', type: 'radio'},
+    {label: 'Item3', type: 'radio', checked: true},
+    {label: 'Item4', type: 'radio'}
+  ])
+  tray.setToolTip('This is my application.')
+  tray.setContextMenu(contextMenu)*/
 
   //mainWindow = new BrowserWindow({frame:false, 'auto-hide-menu-bar': true, width: 820, height: 460, icon: __dirname+'/colorpicker.ico'});
   win = new BrowserWindow({
      frame:false,
      'auto-hide-menu-bar': true,
-     width: 390,
+     width: 484,
      height: 190,
      icon: __dirname+'/colorpicker.ico'
   });
@@ -20,15 +31,18 @@ function createWindow(){
   win.loadURL('file://' + __dirname + '/index.html');
 
   // FOR DEV
-  win.webContents.openDevTools();
+  //win.webContents.openDevTools();
+
+
+  //win.setOverlayIcon(__dirname+'/colorpicker-min.ico', 'Little application to get color code')
 
   // Emitted when the window is closed.
   win.on('closed', function(){
     win = null;
   });
 
-  //mainWindow.setAlwaysOnTop(true);
 }
+
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
