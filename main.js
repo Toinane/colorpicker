@@ -1,23 +1,26 @@
 'use strict';
 
 const electron = require('electron');
-const Tray = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
+const path = require('path');
 
 let win, tray;
 
 function createWindow(){
 
-   /*tray = new Tray(__dirname+'/colorpicker.png')
-  const contextMenu = Menu.buildFromTemplate([
-    {label: 'Test', type: 'radio'},
-    {label: 'Item2', type: 'radio'},
-    {label: 'Item3', type: 'radio', checked: true},
-    {label: 'Item4', type: 'radio'}
-  ])
-  tray.setToolTip('This is my application.')
-  tray.setContextMenu(contextMenu)*/
+   app.setUserTasks([
+  {
+    program: __dirname+'/main.js',
+    arguments: '',
+    iconPath: __dirname+'/colorpicker.ico',
+    iconIndex: 0,
+    title: 'Nouveau colorpicker',
+    description: 'Nouvelle fenêtre colorpicker'
+  }
+])
+
+
 
   //mainWindow = new BrowserWindow({frame:false, 'auto-hide-menu-bar': true, width: 820, height: 460, icon: __dirname+'/colorpicker.ico'});
   win = new BrowserWindow({
@@ -27,6 +30,7 @@ function createWindow(){
      height: 190,
      icon: __dirname+'/colorpicker.ico'
   });
+
 
   win.loadURL('file://' + __dirname + '/index.html');
 
