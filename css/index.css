@@ -313,10 +313,9 @@ progress{
 .box{
    position: absolute;
    top: 0; right: -200px;
-   background: #FF5110;
    height: 100%;
    width: 200px;
-   transition: 0.5s;
+   transition: right 0.5s;
 }
 
 #numberBoxHex{

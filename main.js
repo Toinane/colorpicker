@@ -9,7 +9,7 @@ let win, tray;
 
 function createWindow(){
 
-   app.setUserTasks([
+   /*app.setUserTasks([
   {
     program: __dirname+'/main.js',
     arguments: '',
@@ -19,7 +19,7 @@ function createWindow(){
     description: 'Nouvelle fenêtre colorpicker'
   }
 ])
-
+*/
 
 
   //mainWindow = new BrowserWindow({frame:false, 'auto-hide-menu-bar': true, width: 820, height: 460, icon: __dirname+'/colorpicker.ico'});
@@ -28,8 +28,10 @@ function createWindow(){
      'auto-hide-menu-bar': true,
      width: 484,
      height: 190,
-     icon: __dirname+'/colorpicker.ico'
+     icon: __dirname+'/colorpicker.png'
   });
+
+  //win.setSkipTaskbar(true);
 
 
   win.loadURL('file://' + __dirname + '/index.html');

@@ -305,6 +305,7 @@ function Colorpicker(r, g, b){
    this.construct = function(){
       this.initListener();
       this.color.setrgb(this.r, this.g, this.b);
+      document.querySelector('.box').style.background = '#'+this.hexFromArray(this.color.negate());
       document.querySelector('#numberBoxHex').value = '#'+this.hexFromArray(this.color.negate());
       document.querySelector('header .ni').style.display = 'none';
       document.querySelector('header .nu').style.display = 'none';
@@ -394,6 +395,37 @@ function Colorpicker(r, g, b){
             }
          }
       }
+      document.querySelector('#numberBoxHex').oninput = function(e){
+         var hex = this.value.replace('#', '');
+         if(hex.length == 6){
+            document.querySelector('.box').style.background = '#'+hex;
+         }
+      }
+      document.querySelector('#numberBoxHex').onfocus = function(e){
+         this.onkeydown = function(e){ changeHex(e, this.value); }
+         this.onwheel = function(e){ changeHex(e, this.value); }
+         function changeHex(e, hex){
+            console.log('okokok');
+            var color = self.hexToRGB(hex);
+            if(hex.length >= 6){
+               if(e.keyCode == 38 || e.deltaY < 0){
+                  if(color.r >= 255){color.r = 254;}
+                  if(color.g >= 255){color.g = 254;}
+                  if(color.b >= 255){color.b = 254;}
+                  document.querySelector('#numberBoxHex').value = '#'+self.hexFromRGB(color.r+1, color.g+1, color.b+1);
+                  document.querySelector('.box').style.background = '#'+self.hexFromRGB(color.r+1, color.g+1, color.b+1);
+               }
+               else if(e.keyCode == 40 || e.deltaY > 0){
+                  if(color.r <= 0){color.r = 1;}
+                  if(color.g <= 0){color.g = 1;}
+                  if(color.b <= 0){color.b = 1;}
+                  document.querySelector('#numberBoxHex').value = '#'+self.hexFromRGB(color.r-1, color.g-1, color.b-1);
+                  document.querySelector('.box').style.background = '#'+self.hexFromRGB(color.r-1, color.g-1, color.b-1);
+               }
+            }
+         }
+      }
+
       var els = document.querySelectorAll('#rangeRed, #rangeGreen, #rangeBlue, #numberHex');
       for(el of els){
          el.onfocus = function(){
