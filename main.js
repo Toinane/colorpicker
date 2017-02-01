@@ -28,7 +28,7 @@ function createWindow(){
      'auto-hide-menu-bar': true,
      width: 484,
      height: 190,
-     icon: __dirname+'/colorpicker.png'
+     icon: __dirname+'/logo.png'
   });
 
   //win.setSkipTaskbar(true);
