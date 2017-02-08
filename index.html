@@ -8,8 +8,10 @@
 	</head>
 	<body>
 		<div class="window"></div>
+		<video id="stream" style="height: 100%; width: 100%; position: absolute;"></video>
 		<div class="toolbar">
 			<p id="onTop">CP</p>
+			<p id="picker">{P}</p>
 			<p id="nuances">Nuances</p>
 			<p id="random">Random</p>
 			<ul>
@@ -74,6 +76,8 @@
 			<div id="newBox"></div>
 		</section>
 		<section class="box"></section>
+      <script src="./js/paper-core.min.js"></script>
+      <script src="./js/paper-full.min.js"></script>
       <script src="./js/colorpicker.js"></script>
    </body>
 </html>
