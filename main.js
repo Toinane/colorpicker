@@ -9,15 +9,15 @@ let win, tray;
 
 function createWindow(){
 
-  var robot = require("robotjs");
+//var robot = require("robotjs");
 
 // Get mouse position.
-var mouse = robot.getMousePos();
+//var mouse = robot.getMousePos();
 
 // Get pixel color in hex format.
-var hex = robot.getPixelColor(mouse.x, mouse.y);
-console.log("#" + hex + " at x:" + mouse.x + " y:" + mouse.y);
-  
+//var hex = robot.getPixelColor(mouse.x, mouse.y);
+//console.log("#" + hex + " at x:" + mouse.x + " y:" + mouse.y);
+
    /*app.setUserTasks([
   {
     program: __dirname+'/main.js',
