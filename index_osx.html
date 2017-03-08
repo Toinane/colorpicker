@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+	<head>
+		<title>ColorPicker</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="./css/index_osx.css" />
+		<link rel="shortcut icon" href="favicon.ico" />
+	</head>
+	<body>
+		<div class="toolbar">
+			<ul>
+				<li id="close"><div class="close"></div></li>
+				<li id="minimize"><div class="minimize"></div></li>
+				<li id="square"><div class="square"></div></li>
+			</ul>
+			<p id="onTop">CP</p>
+			<p id="nuances">Nuances</p>
+			<p id="random">Random</p>
+		</div>
+		<header>
+			<div class="ni">
+				<aside id="ni1" data-color=""></aside>
+				<aside id="ni2" data-color=""></aside>
+				<aside id="ni3" data-color=""></aside>
+				<aside id="ni4" data-color=""></aside>
+				<aside id="ni5" data-color=""></aside>
+				<aside id="ni6" data-color=""></aside>
+				<aside id="ni7" data-color=""></aside>
+				<aside id="ni8" data-color=""></aside>
+				<aside id="ni9" data-color=""></aside>
+				<aside id="ni10" data-color=""></aside>
+				<aside id="ni11" data-color=""></aside>
+			</div>
+			<div class="nu">
+				<aside id="nu1" data-color=""></aside>
+				<aside id="nu2" data-color=""></aside>
+				<aside id="nu3" data-color=""></aside>
+				<aside id="nu4" data-color=""></aside>
+				<aside id="nu5" data-color=""></aside>
+				<aside id="nu6" data-color=""></aside>
+				<aside id="nu7" data-color=""></aside>
+				<aside id="nu8" data-color=""></aside>
+				<aside id="nu9" data-color=""></aside>
+				<aside id="nu10" data-color=""></aside>
+				<aside id="nu11" data-color=""></aside>
+			</div>
+		</header>
+		<section class="edit-box">
+			<aside class="sliders">
+				<div class="redBar">
+					<input type="range" min="0" max="255" value="0" />
+					<progress min="0" max="255" value="0" />
+				</div>
+				<div class="greenBar">
+					<input type="range" min="0" max="255" value="0" />
+					<progress min="0" max="255" value="0" />
+				</div>
+				<div class="blueBar">
+					<input type="range" min="0" max="255" value="0" />
+					<progress min="0" max="255" value="0" />
+				</div>
+			</aside>
+			<aside class="inputs">
+				<input type="number" id="rangeRed" maxlength="3" />
+				<input type="number" id="rangeGreen" maxlength="3" />
+				<input type="number" id="rangeBlue" maxlength="3" />
+			</aside>
+			<aside class="value">
+				<input type="text" id="numberBoxHex" maxlength="7"/>
+				<input type="text" id="numberHex" maxlength="7"/>
+				<p id="numberRGB">(<span id="r">0</span>,<span id="g">0</span>,<span id="b">0</span>)</p>
+			</aside>
+			<div id="newBox"></div>
+		</section>
+		<section class="box"></section>
+      <script src="./js/colorpicker.js"></script>
+   </body>
+</html>

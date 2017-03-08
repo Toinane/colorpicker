@@ -372,9 +372,9 @@ console.log("#" + hex + " at x:" + mouse.x + " y:" + mouse.y);
             remote.getCurrentWindow().setAlwaysOnTop(false);
          }
       }
-      document.querySelector('#picker').onclick = () => {
+      /*document.querySelector('#picker').onclick = () => {
         this.picker();
-      }
+      }*/
       document.querySelector('#nuances').onclick = () => {
          document.querySelector('#nuances').classList.toggle('active');
          this.toggleFlexbox('header .nu');
