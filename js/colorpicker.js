@@ -64,6 +64,14 @@ function Color(){
 
    }
 
+   this.isDarkColor = function(){
+       return Math.round((
+         parseInt(this.red) * 299 +
+         parseInt(this.green) * 587 +
+         parseInt(this.blue) * 114) / 1000
+       ) <= 140;
+   }
+
    this.grayscale = function(){
       var gray = parseInt(this.red * 0.3 + this.green * 0.59 + this.blue * 0.11);
       if(gray < 0){gray = 0;}
