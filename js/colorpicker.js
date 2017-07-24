@@ -64,6 +64,14 @@ function Color(){
 
    }
 
+   this.isDarkColor = function(){
+       return Math.round((
+         parseInt(this.red) * 299 +
+         parseInt(this.green) * 587 +
+         parseInt(this.blue) * 114) / 1000
+       ) <= 140;
+   }
+
    this.grayscale = function(){
       var gray = parseInt(this.red * 0.3 + this.green * 0.59 + this.blue * 0.11);
       if(gray < 0){gray = 0;}
@@ -302,50 +310,8 @@ function Colorpicker(r, g, b){
    }
 
    this.picker = function(){
+      // For future update.
       //document.querySelector('*').style.cursor = "crosshair";
-
-      const {desktopCapturer} = require('electron');
-      desktopCapturer.getSources({types: ['window', 'screen']}, (error, sources) => {
-        if (error) throw error
-        for (let i = 0; i < sources.length; ++i) {
-          console.log(sources);
-          if (sources[i].name === 'Entire screen') {
-            console.log('ok');
-            navigator.webkitGetUserMedia({
-              audio: false,
-              video: {
-                mandatory: {
-                  chromeMediaSource: 'desktop',
-                  chromeMediaSourceId: sources[i].id,
-                  minWidth: 1280,
-                  maxWidth: 1280,
-                  minHeight: 720,
-                  maxHeight: 720
-                }
-              }
-            }, handleStream, handleError)
-            return
-          }
-        }
-      });
-
-      function handleStream (stream) {
-        console.log(stream);
-
-        var robot = require("robotjs");
-
-// Get mouse position.
-var mouse = robot.getMousePos();
-
-// Get pixel color in hex format.
-var hex = robot.getPixelColor(mouse.x, mouse.y);
-console.log("#" + hex + " at x:" + mouse.x + " y:" + mouse.y);
-        //document.querySelector('video').src = URL.createObjectURL(stream);
-      }
-
-      function handleError (e) {
-        console.log(e)
-      }
    }
 
 
