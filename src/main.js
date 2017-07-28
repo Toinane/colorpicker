@@ -65,11 +65,11 @@ function createWindow(){
     Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 
 
-    win.loadURL('file://' + __dirname + '/index_osx.html');
+    win.loadURL('file://' + __dirname + '/views/index_osx.html');
   }
   else{
     console.log('toher');
-    win.loadURL('file://' + __dirname + '/index.html');
+    win.loadURL('file://' + __dirname + '/views/index.html');
   }
 
 

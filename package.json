@@ -5,7 +5,7 @@
   "description": "Colorpicker is a little Electron app that can show colors with hex/rgb code, and generate shading for your color.",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
+    "start": "electron src/main.js",
     "test": "xvfb-maybe electron-mocha main.js",
     "pack": "build --dir",
     "build": "build --config electron-builder.json"
