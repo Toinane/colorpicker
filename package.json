@@ -8,7 +8,8 @@
     "start": "electron src/main.js",
     "test": "xvfb-maybe electron-mocha main.js",
     "pack": "build --dir",
-    "build": "build --config electron-builder.json"
+    "build": "build --config electron-builder.json",
+    "rebuild": "npm rebuild --runtime=electron --target=1.6.11 --disturl=https://atom.io/download/atom-shell --abi=57"
   },
   "repository": "https://github.com/toinane/colorpicker",
   "keywords": [
@@ -27,5 +28,8 @@
   },
   "author": "Toinane",
   "homepage": "https://toinane.crea-th.at",
-  "license": "GNU GPLv3"
+  "license": "GNU GPLv3",
+  "dependencies": {
+    "robotjs": "^0.4.7"
+  }
 }

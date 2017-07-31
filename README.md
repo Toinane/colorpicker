@@ -35,3 +35,9 @@ A new input is visible to change the second color.
 - For Linux : In future update.. :)
 
 #### **Happy Design !**
+
+### Developer
+
+- To build robotjs :
+  > npm rebuild --runtime=electron --target=1.6.11 --disturl=https://atom.io/download/atom-shell --abi=57
+  > or use npm run rebuild
