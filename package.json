@@ -3,12 +3,13 @@
   "productName": "colorpicker",
   "version": "1.2.3",
   "description": "Colorpicker is a little Electron app that can show colors with hex/rgb code, and generate shading for your color.",
-  "main": "main.js",
+  "main": "src/main.js",
   "scripts": {
     "start": "electron src/main.js",
     "test": "xvfb-maybe electron-mocha main.js",
     "pack": "build --dir",
-    "build": "build --config electron-builder.json",
+    "build": "build --config colorpicker-build.json",
+    "nightly": "build --config colorpicker-build-nightly.json",
     "rebuild": "npm rebuild --runtime=electron --target=1.6.11 --disturl=https://atom.io/download/atom-shell --abi=57"
   },
   "repository": "https://github.com/toinane/colorpicker",
@@ -30,6 +31,8 @@
   "homepage": "https://toinane.crea-th.at",
   "license": "GNU GPLv3",
   "dependencies": {
+    "electron-json-storage": "^3.0.7",
+    "electron-storage": "^1.0.7",
     "robotjs": "^0.4.7"
   }
 }

@@ -1,0 +1,28 @@
+{
+  "appId": "com.electron.colorpicker.nightly",
+  "productName": "ColorPicker-Nightly",
+  "compression": "store",
+  "copyright": "Copyright @Toinane",
+  "directories": {
+    "output": "out"
+  },
+  "files": [
+    "**/*"
+  ],
+  "mac": {
+    "category": "public.app-category.graphics-design",
+    "icon": "build/icon-nightly.icns",
+    "type": "development"
+  },
+  "dmg": {
+    "icon": "build/VolumeIcon-nightly.icns",
+    "background": "build/background.png",
+    "window": {
+      "width": 540,
+      "height": 380
+    }
+  },
+  "win": {
+    "icon": "build/icon-nightly.ico"
+  }
+}

@@ -1,8 +1,9 @@
 'use strict';
 
 const {BrowserWindow, Menu} = require('electron');
+const config = require('../settings');
 
-let win, dirname;
+let win, dirname, settings;
 
 /**
  * [init]
@@ -10,10 +11,13 @@ let win, dirname;
  */
 let init = folder => {
   dirname = folder;
-  if(win === null || win === undefined) {
-    setMenu();
-    createWindow(484, 190);
-  }
+  config.getSettings('colorpicker').then(config => {
+    settings = config;
+    if(win === null || win === undefined) {
+      setMenu();
+      createWindow(settings.size.width, settings.size.height);
+    } else { win.show(); }
+  });
 };
 
 /**
@@ -26,21 +30,42 @@ let createWindow = (width, height) => {
   win = new BrowserWindow({
      frame:false,
      'auto-hide-menu-bar': true,
-     width: 484,
-     height: 190,
+     width: width,
+     height: height,
+     minWidth: 438,
+     minHeight: 139,
      icon: `${dirname}/build/logo.png`
   });
 
   win.loadURL(`file://${dirname}/views/colorpicker.html`);
 
-  win.on('closed', function(){
+  win.on('closed', event => {
     win = undefined;
+  });
+
+  windowEvents(win);
+};
+
+/**
+ * [windowEvents - BrowserWindow events]
+ * @param  {BrowserWindow} win [current window]
+ * @return {void}
+ */
+let windowEvents = win => {
+
+
+
+  win.on('resize', event => {
+    const size = win.getBounds();
+    settings.size.width = size.width;
+    settings.size.height = size.height;
+    config.saveSettings('colorpicker', settings);
   });
 };
 
 /**
- * [setMenu]
- * @return {void} [Set new menu]
+ * [setMenu - set new app menu]
+ * @return {void}
  */
 let setMenu = () => {
   let template = [{
@@ -48,7 +73,7 @@ let setMenu = () => {
     submenu: [
         { label: "About Colorpicker", selector: "orderFrontStandardAboutPanel:" },
         { type: "separator" },
-        { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+        { label: "Quit", accelerator: "Command+Q", click:() => { app.quit(); }}
     ]}, {
     label: "Edit",
     submenu: [

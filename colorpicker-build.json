@@ -6,6 +6,9 @@
   "directories": {
     "output": "out"
   },
+  "files": [
+    "**/*"
+  ],
   "mac": {
     "category": "public.app-category.graphics-design",
     "icon": "build/icon.icns",
