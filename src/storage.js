@@ -1,6 +1,7 @@
 'use strict';
 
 const electron_storage = require('electron-json-storage');
+const {dialog} = require('electron');
 
 let storage, template, defaultStorage;
 
@@ -28,7 +29,11 @@ let init = () => (
 let fetch = () => (
   new Promise((resolve, reject) => {
     electron_storage.get('colorpicker', (err, data) => {
-      if (err) throw err;
+      if (err) {
+        dialog.showErrorBox('loading storage file error', err);
+        storage = defaultStorage;
+        resolve(false);
+      }
       storage = data;
       resolve(true);
     });
@@ -125,7 +130,8 @@ defaultStorage = {
   colorpicker: {
     size: { width: 484, height: 190 },
     buttonsPosition: template[platform()]['buttonsPosition'],
-    buttonsType: template[platform()]['buttonsType']
+    buttonsType: template[platform()]['buttonsType'],
+    lastColor: '00AEEF'
   },
   hexacolor: {},
   picker: {}

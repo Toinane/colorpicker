@@ -1,6 +1,6 @@
 'use strict';
 
-const {BrowserWindow} = require('electron');
+const {BrowserWindow, ipcMain} = require('electron');
 
 module.exports = (dirname, storage) => {
 
@@ -41,6 +41,8 @@ module.exports = (dirname, storage) => {
     win.on('closed', event => {
       win = undefined;
     });
+
+    win.webContents.openDevTools();
 
     windowEvents(win);
   };
