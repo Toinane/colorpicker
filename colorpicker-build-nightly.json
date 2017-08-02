@@ -7,7 +7,7 @@
     "output": "out"
   },
   "files": [
-    "**/*"
+    "src/*"
   ],
   "mac": {
     "category": "public.app-category.graphics-design",

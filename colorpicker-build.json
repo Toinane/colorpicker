@@ -7,7 +7,7 @@
     "output": "out"
   },
   "files": [
-    "**/*"
+    "src/*"
   ],
   "mac": {
     "category": "public.app-category.graphics-design",
@@ -21,6 +21,11 @@
       "width": 540,
       "height": 380
     }
+  },
+  "linux": {
+    "icon": "./build",
+    "synopsis": "Colorpicker App",
+    "category": "Graphics"
   },
   "win": {
     "icon": "build/icon.ico"

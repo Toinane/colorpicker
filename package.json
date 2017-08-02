@@ -23,16 +23,15 @@
     "Crea-THAT",
     "crea-that"
   ],
+  "dependencies": {
+    "electron-json-storage": "^3.0.7",
+    "robotjs": "^0.4.7"
+  },
   "devDependencies": {
     "electron": "1.6.11",
     "electron-builder": "19.6.3"
   },
   "author": "Toinane",
   "homepage": "https://toinane.crea-th.at",
-  "license": "GNU GPLv3",
-  "dependencies": {
-    "electron-json-storage": "^3.0.7",
-    "electron-storage": "^1.0.7",
-    "robotjs": "^0.4.7"
-  }
+  "license": "GNU GPLv3"
 }
