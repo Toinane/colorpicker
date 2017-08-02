@@ -8,12 +8,14 @@ module.exports = (dirname, storage) => {
 
   /**
    * [init]
+   * @param {boolean} force [force launching new window]
    * @return {void} [new Colorpicker]
    */
-  let init = () => {
+  let init = force => {
     const size = storage.get('size');
-    if(win === null || win === undefined) {
-      createWindow(size.width, size.height, 200, 200);
+    const pos = storage.get('pos');
+    if(win === null || win === undefined || force) {
+      createWindow(size.width, size.height, pos.x, pos.y);
     } else { win.show(); }
   };
 
@@ -24,18 +26,16 @@ module.exports = (dirname, storage) => {
    * @return {void}
    */
   let createWindow = (width, height, x, y) => {
-    win = new BrowserWindow({
-       frame:false,
-       'auto-hide-menu-bar': true,
-       width: width,
-       height: height,
-       x: x,
-       y: y,
-       minWidth: 438,
-       minHeight: 139,
-       icon: `${dirname}/build/logo.png`
-    });
+    let options = {
+      frame:false,
+      'auto-hide-menu-bar': true,
+      width: width, height: height,
+      minWidth: 438, minHeight: 139,
+      icon: `${dirname}/build/logo.png`
+    }
+    if (x && y) { options.x = x; options.y = y; }
 
+    win = new BrowserWindow(options);
     win.loadURL(`file://${dirname}/views/colorpicker.html`);
 
     win.on('closed', event => {
@@ -54,20 +54,13 @@ module.exports = (dirname, storage) => {
 
     win.on('resize', event => {
       const size = win.getBounds();
-      storage.add({
-        size: {
-          width: size.width,
-          height: size.height
-        }
-      });
+      storage.add({size: { width: size.width, height: size.height }});
     });
 
-    // win.on('move', event => {
-    //   const size = win.getBounds();
-    //   settings.pos.x = size.x;
-    //   settings.pos.y = size.y;
-    //   config.saveSettings('colorpicker', settings);
-    // });
+    win.on('move', event => {
+      const size = win.getBounds();
+      storage.add({pos: { x: size.x, y: size.y }});
+    });
   };
 
   return {

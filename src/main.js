@@ -37,7 +37,7 @@ let setMenu = () => {
     ]}, {
 		label: 'Show',
 		submenu: [
-			{ label: 'Colorpicker', accelerator: "CmdOrCtrl+Shift+C", click:() => colorpicker.init()},
+			{ label: 'Colorpicker', accelerator: "CmdOrCtrl+Shift+C", click:() => colorpicker.init(true)},
 			{ label: 'Hexacolor', accelerator: "CmdOrCtrl+H", click:() => hexacolor.init()},
 			{ label: 'Picker', accelerator: "CmdOrCtrl+P", click:() => picker.init()}
 		]}
@@ -61,7 +61,7 @@ app.on('ready', () => {
  * [App activate - On app icon clicked]
  */
 app.on('activate', () => {
-    colorpicker.init(__dirname);
+    colorpicker.init();
 });
 
 /**

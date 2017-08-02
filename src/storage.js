@@ -43,7 +43,7 @@ let fetch = () => (
  */
 let get = (el, name) => {
   name = name ? name : 'colorpicker';
-  return storage[name][el];
+  return storage[name][el] ? storage[name][el] : {};
 }
 
 /**
