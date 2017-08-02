@@ -1,12 +1,10 @@
 'use strict';
 
 const {app, Tray, Menu} = require('electron');
-const settings = require('./storage');
-const {colorpicker, hexacolor, picker} = require('./browsers');
+const storage = require('./storage');
+const {colorpicker, hexacolor, picker} = require('./browsers')(__dirname, storage);
 
 let tray;
-
-settings.init('colorpicker');
 
 let createTray = () => {
 	if (tray) return;
@@ -42,10 +40,13 @@ let setMenu = () => {
 }
 
 app.on('ready', () => {
-  createTray();
-	setMenu();
-  colorpicker.init(__dirname);
-  //picker.init(__dirname);
+	storage.init()
+		.then(() => {
+			createTray();
+			setMenu();
+		  colorpicker.init();
+		  //picker.init(__dirname);
+		});
 });
 
 app.on('activate', () => {

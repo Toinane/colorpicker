@@ -1,7 +1,7 @@
 'use strict';
 
-module.exports = {
-  colorpicker: require('./colorpicker'),
+module.exports = (dirname, storage) => ({
+  colorpicker: require('./colorpicker')(dirname, storage),
   hexacolor: require('./hexacolor'),
   picker: require('./picker')
-}
+});

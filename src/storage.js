@@ -1,67 +1,71 @@
 'use strict';
 
-const storage = require('electron-json-storage');
-// @TODO utiliser electron-json-storage quand async & await est possible
+const electron_storage = require('electron-json-storage');
 
-let settings = {};
-let templateWindows = {
-  'size': { 'width': 484, 'height': 190 },
-  'pos': { 'x': 300, 'y': 300},
-  'buttonsPosition': 'right',
-  'buttonsType': 'window'
-};
-let templateMacOS = {
-  'size': { 'width': 484, 'height': 190 },
-  'pos': { 'x': 300, 'y': 300},
-  'buttonsPosition': 'left',
-  'buttonsType': 'osx'
-};
-let templaceLinux = {
-  'size': { 'width': 484, 'height': 190 },
-  'pos': { 'x': 300, 'y': 300},
-  'buttonsPosition': 'right',
-  'buttonsType': 'linux'
-};
+let storage, template, defaultStorage;
 
 /**
- * [init - init settings]
- * @return {Promise} [promise for save/load settings]
+ * [init - init storage]
+ * @return {Promise} [promise when initialized]
  */
-let init = name => (
+let init = () => (
   new Promise((resolve, reject) => (
-    storage.has(name, (err, exist) => {
+    electron_storage.has('colorpicker', (err, exist) => {
       if (err) throw err;
-      if (exist) { resolve(getSettings(name)); }
-      else { resolve(initDefaultSettings(name)); }
+      if (exist) { resolve(fetch()); }
+      else {
+        storage = defaultStorage;
+        resolve(save());
+      }
     })
   ))
 );
 
 /**
- * [getSettings - return settings]
- * @return {object} [App settings]
+ * [fetch - fetch storage]
+ * @return {Promise} [promise when fetched]
  */
-let getSettings = name => (
+let fetch = () => (
   new Promise((resolve, reject) => {
-    console.log('get Settings');
-    storage.get(name, (err, data) => {
+    electron_storage.get('colorpicker', (err, data) => {
       if (err) throw err;
-      settings = data;
-      resolve(data);
+      storage = data;
+      resolve(true);
     });
   })
 );
 
 /**
- * [saveSettings - save settings]
- * @param  {[type]} name   [description]
- * @param  {[type]} config [description]
- * @return {[type]}        [description]
+ * [get - return settings of target browser]
+ * @param  {string} el      [element to get]
+ * @param  {string} name    [name of the target browser]
+ * @return {string|Object}  [settings string or object]
  */
-let saveSettings = (name, config) => (
+let get = (el, name) => {
+  name = name ? name : 'colorpicker';
+  return storage[name][el];
+}
+
+/**
+ * [add - add object settings to storage]
+ * @param {Object} payload [object setting to add & save]
+ * @param {string} name    [name of the target browser]
+ */
+let add = (payload, name) => (
   new Promise((resolve, reject) => {
-    settings = config;
-    storage.set(name, config, (err, data) => {
+    name = name ? name : 'colorpicker';
+    Object.assign(storage[name], payload);
+    resolve(save());
+  })
+)
+
+/**
+ * [save - save current storage]
+ * @return {Promise} [promise when saved]
+ */
+let save = () => (
+  new Promise((resolve, reject) => {
+    electron_storage.set('colorpicker', storage, (err, data) => {
       if (err) throw err;
       resolve(true);
     });
@@ -69,24 +73,66 @@ let saveSettings = (name, config) => (
 );
 
 /**
- * [initDefaultSettings - save default settings to storage]
- * @return {Promise} [promise for save settings]
+ * [reset - reset storage to default]
  */
-let initDefaultSettings = name => {
-  console.log('Init default settings');
-  switch(process.platform) {
-    case 'darwin': settings = templateMacOS; break;
-    case 'win32': settings = templateWindows; break;
-    case 'linux': settings = templaceLinux; break;
-    case 'freebsd': settings = templaceLinux; break;
-    case 'sunos': settings = templaceLinux; break;
-    default: settings = templateMacOS; break;
-  }
-  return saveSettings(name, settings);
+let reset = () => {
+  electron_storage.remove('colorpicker');
+  storage = defaultStorage;
+  save();
 }
+
+/**
+ * [platform - get actual platfom]
+ * @return {string} [actual platform]
+ */
+let platform = () => {
+  switch(process.platform) {
+    case 'darwin':  return 'darwin';  break;
+    case 'win32':   return 'windows'; break;
+    case 'linux':   return 'linux';   break;
+    case 'freebsd': return 'linux';   break;
+    case 'sunos':   return 'linux';   break;
+    default:        return 'darwin';  break;
+  }
+  return save(name, storage);
+}
+
+/**
+ * [template - default settings for each platform]
+ * @type {Object}
+ */
+template = {
+  windows: {
+    buttonsPosition: 'right',
+    buttonsType: 'window'
+  },
+  darwin: {
+    buttonsPosition: 'left',
+    'buttonsType': 'osx'
+  },
+  linux: {
+    buttonsPosition: 'right',
+    buttonsType: 'linux'
+  }
+};
+
+/**
+ * [defaultStorage - default storage]
+ * @type {Object}
+ */
+defaultStorage = {
+  colorpicker: {
+    size: { width: 484, height: 190 },
+    buttonsPosition: template[platform()]['buttonsPosition'],
+    buttonsType: template[platform()]['buttonsType']
+  },
+  hexacolor: {},
+  picker: {}
+};
 
 module.exports = {
   init: init,
-  getSettings: getSettings,
-  saveSettings: saveSettings
+  get: get,
+  add: add,
+  reset, reset
 }
