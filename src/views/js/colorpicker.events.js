@@ -8,12 +8,12 @@ ipcRenderer.on('lastColor', (event, color) => {
   console.log(color);
 });
 
-ipcRenderer.on('buttonsPosition', (event, color) => {
-  console.log(color);
+ipcRenderer.on('buttonsPosition', (event, pos) => {
+  console.log(pos);
 });
 
-ipcRenderer.on('buttonsType', (event, color) => {
-  console.log(color);
+ipcRenderer.on('buttonsType', (event, type) => {
+  console.log(type);
 });
 
 function changeLastColor(color) {
