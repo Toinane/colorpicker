@@ -51,15 +51,18 @@ module.exports = (dirname, storage) => {
    * @return {void}
    */
   let windowEvents = win => {
+    let timing;
 
     win.on('resize', event => {
       const size = win.getBounds();
-      storage.add({size: { width: size.width, height: size.height }});
+      clearTimeout(timing);
+      timing = setTimeout(() => storage.add({size: { width: size.width, height: size.height }}), 300);
     });
 
     win.on('move', event => {
-      const size = win.getBounds();
-      storage.add({pos: { x: size.x, y: size.y }});
+      const pos = win.getBounds();
+      clearTimeout(timing);
+      timing = setTimeout(() => storage.add({pos: { x: pos.x, y: pos.y }}), 300);
     });
   };
 

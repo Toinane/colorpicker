@@ -4,6 +4,8 @@ const {app, Tray, Menu} = require('electron');
 const storage = require('./storage');
 const {colorpicker, hexacolor, picker} = require('./browsers')(__dirname, storage);
 
+console.log(app.getPath('userData'))
+
 let tray;
 
 let createTray = () => {

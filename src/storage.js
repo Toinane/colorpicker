@@ -53,6 +53,7 @@ let get = (el, name) => {
  */
 let add = (payload, name) => (
   new Promise((resolve, reject) => {
+    console.log('save payload:', payload);
     name = name ? name : 'colorpicker';
     Object.assign(storage[name], payload);
     resolve(save());
