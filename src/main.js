@@ -23,7 +23,7 @@ let setMenu = () => {
     submenu: [
         { label: "About Colorpicker", selector: "orderFrontStandardAboutPanel:" },
         { type: "separator" },
-        { label: "Quit", accelerator: "Command+Q", click:() => { app.quit(); }}
+        { label: "Quit", accelerator: "Command+Q", click:() => app.quit()}
     ]}, {
     label: "Edit",
     submenu: [
@@ -34,25 +34,39 @@ let setMenu = () => {
         { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
         { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
         { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
-    ]}
+    ]}, {
+		label: 'Show',
+		submenu: [
+			{ label: 'Colorpicker', accelerator: "CmdOrCtrl+Shift+C", click:() => colorpicker.init()},
+			{ label: 'Hexacolor', accelerator: "CmdOrCtrl+H", click:() => hexacolor.init()},
+			{ label: 'Picker', accelerator: "CmdOrCtrl+P", click:() => picker.init()}
+		]}
   ];
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 }
 
+/**
+ * [App ready - On app ready]
+ */
 app.on('ready', () => {
-	storage.init()
-		.then(() => {
-			createTray();
-			setMenu();
-		  colorpicker.init();
-		  //picker.init(__dirname);
-		});
+	storage.init().then(() => {
+		createTray();
+		setMenu();
+		colorpicker.init();
+	  //picker.init(__dirname);
+	});
 });
 
+/**
+ * [App activate - On app icon clicked]
+ */
 app.on('activate', () => {
     colorpicker.init(__dirname);
 });
 
+/**
+ * [App window-all-closed - quit app on all window closed ]
+ */
 app.on('window-all-closed', function(){
   if(process.platform !== 'darwin') {
     app.quit();

@@ -2,6 +2,6 @@
 
 module.exports = (dirname, storage) => ({
   colorpicker: require('./colorpicker')(dirname, storage),
-  hexacolor: require('./hexacolor'),
-  picker: require('./picker')
+  hexacolor: require('./hexacolor')(dirname, storage),
+  picker: require('./picker')(dirname, storage)
 });
