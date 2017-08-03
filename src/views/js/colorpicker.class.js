@@ -29,6 +29,7 @@ class Colorpicker extends Color{
   }
 
   setNewColor(hex) {
+    ipcRenderer.send('changeLastColor', hex);
     this.setColorFromHex(hex);
     const darknessColor = this.isDarkColor(this.rgb);
 

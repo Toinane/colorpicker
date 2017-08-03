@@ -1,6 +1,8 @@
 'use strict';
 
-const {ipcMain, BrowserWindow} = require('electron');
+const {ipcMain, BrowserWindow, app} = require('electron');
+
+let timing;
 
 module.exports = storage => {
 
@@ -14,8 +16,13 @@ module.exports = storage => {
   });
 
   ipcMain.on('changeLastColor', (event, color) => {
-    storage.add({'lastColor': color});
+    clearTimeout(timing);
+    timing = setTimeout(() => storage.add({'lastColor': color}), 300);
   });
+
+  ipcMain.on('minimize', event => BrowserWindow.fromWebContents(event.sender).minimize());
+  ipcMain.on('maximize', (event, bool) => BrowserWindow.fromWebContents(event.sender).maximize(bool));
+  ipcMain.on('close', event => BrowserWindow.fromWebContents(event.sender).close());
 
   ipcMain.on('setOnTop', (event, bool) => BrowserWindow.fromWebContents(event.sender).setAlwaysOnTop(bool));
 

@@ -12,72 +12,80 @@ a{color: inherit;text-decoration: none;}
  * TOOLBAR
  */
 .toolbar{
-   margin: 3px;
-   padding: 5px 5px 7px 5px;
-   position: relative;
-   z-index: 10000;
-   box-sizing: border-box;
-   -webkit-app-region: drag;
-   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 3px;
+  padding: 5px 5px 7px 5px;
+  position: relative;
   display: flex;
+  z-index: 10000;
+  box-sizing: border-box;
+  -webkit-app-region: drag;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.toolbar.setRight{
   flex-direction: row-reverse;
   justify-content: space-between;
 }
-   .toolbar p{
-      color: rgba(0, 0, 0, 0.3);
+  .toolbar ul{
+    margin: 0; padding: 0;
+    margin-right: 20px;
+  }
+
+  .toolbar.setRight ul{
+    margin-right: 0;
+  }
+    #app_buttons{ display: flex; }
+    #app_buttons.windows #minimize, #app_buttons.linux #minimize{
+      order: 3;
+    }
+    .toolbar.setRight #app_buttons{
+      flex-direction: row-reverse;
+    }
+    .toolbar li{
+      -webkit-app-region: no-drag;
+      cursor: pointer;
+      transition: color 0.2s;
+      list-style: none;
+      margin: 0 6px 0 6px;
+    }
+    .toolbar #app_buttons.darwin li{
+      margin: 0 4px 0 4px;
+    }
+      .toolbar li div{
+        cursor: pointer;
+        transition: 0.2s;
+        width: 13px; height: 13px;
+        margin-left: 4px;
+        border-radius: 15px;
+      }
+      #minimize{ color: #FEBF3C; }
+        .windows #minimize, .linux #minimize{ color: rgba(0, 0, 0, 0.35); }
+      #minimize:hover{ color: #FEB219; }
+        .windows #minimize:hover, .linux #minimize:hover{ color: rgba(0, 0, 0, 0.5); }
+      #maximize{ color: #35CC48; }
+        .windows #maximize, .linux #maximize{ color: rgba(0, 0, 0, 0.35); }
+      #maximize:hover{ color: #32C544; }
+        .windows #maximize:hover, .linux #maximize:hover{ color: rgba(0, 0, 0, 0.5); }
+      #close{ color: #FC635C; }
+        .windows #close{ color: rgba(0, 0, 0, 0.35); }
+      #close:hover{ color: #FC4B43; }
+        .windows #close:hover{ color: rgba(0, 0, 0, 0.5); }
+    .toolbar p{
+      color: rgba(0, 0, 0, 0.35);
       font-weight: bold;
       cursor: default;
       display: inline-block;
-      margin-right: 20px;
+      padding: 0 4px 0 4px;
+      width: 17px;
+      text-align: center;
       -webkit-app-region: no-drag;
       cursor: pointer;
       transition: 0.3s;
-   }
-   .toolbar p:hover{
-      color: rgba(0, 0, 0, 0.4);
-   }
-   .toolbar .active{
-      color: rgba(0, 0, 0, 0.5);
-   }
-   .toolbar p::selection, .toolbar li::selection, .toolbar div::selection{
+    }
+    .toolbar p:hover{ color: rgba(0, 0, 0, 0.4); }
+    .toolbar p.active{ color: rgba(0, 0, 0, 0.55); }
+    .toolbar p::selection, .toolbar li::selection, .toolbar div::selection{
       background: rgba(0, 0, 0, 0);
-   }
-   .toolbar ul{
-      margin: 0; padding: 0;
-   }
-      .toolbar li{
-        -webkit-app-region: no-drag;
-         display: inline-block;
-         vertical-align: middle;
-         cursor: pointer;
-      }
-      .toolbar li div{
-         cursor: pointer;
-         transition: 0.2s;
-         width: 13px; height: 13px;
-         margin-left: 4px;
-         border-radius: 15px;
-      }
-   .toolbar #minimize{
-     color: #FEBF3C;
-   }
-   .toolbar li:hover #minimize{
-     color: #FEB219;
-   }
-   .toolbar #maximize{
-     color: #35CC48;
-   }
-   .toolbar li:hover #maximize{
-     color: #32C544;
-   }
-   .toolbar #close{
-     color: #FC635C;
-   }
-   .toolbar li:hover #close{
-     color: #FC4B43;
-   }
-
-
+    }
 
 
 /**

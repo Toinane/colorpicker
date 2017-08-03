@@ -9,11 +9,33 @@ ipcRenderer.on('lastColor', (event, color) => {
 });
 
 ipcRenderer.on('buttonsPosition', (event, pos) => {
-  console.log(pos);
+  if (pos === 'right') document.querySelector('.toolbar').classList.add('setRight');
 });
 
 ipcRenderer.on('buttonsType', (event, type) => {
-  console.log(type);
+  const app_buttons = document.querySelector('#app_buttons');
+  const minimize = document.querySelector('#minimize');
+  const maximize = document.querySelector('#maximize');
+  const close = document.querySelector('#close');
+  switch (type) {
+    case 'windows':
+      app_buttons.classList.add('windows');
+      minimize.classList.add('fa-window-minimize');
+      maximize.classList.add('fa-window-maximize');
+      close.classList.add('fa-window-close');
+      break;
+    case 'linux':
+      app_buttons.classList.add('linux');
+      minimize.classList.add('fa-minus');
+      maximize.classList.add('fa-expand');
+      close.classList.add('fa-times-circle');
+      break;
+    default:
+      app_buttons.classList.add('darwin');
+      minimize.classList.add('fa-circle');
+      maximize.classList.add('fa-circle');
+      close.classList.add('fa-circle');
+  }
 });
 
 function changeLastColor(color) {
@@ -36,9 +58,10 @@ document.querySelector('#minimize').onclick = function() {
   ipcRenderer.send('minimize');
 }
 
-document.querySelector('#maximize').onclick = function() {
+document.querySelector('#maximize').onclick = function(event) {
   this.classList.toggle('active');
   ipcRenderer.send('maximize', this.classList.contains('active'));
+  event.preventDefault();
 }
 
 document.querySelector('#top_button').onclick = function() {
