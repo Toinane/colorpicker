@@ -15,6 +15,12 @@ module.exports = storage => {
 
   ipcMain.on('changeLastColor', (event, color) => {
     storage.add({'lastColor': color});
-  })
+  });
+
+  ipcMain.on('setOnTop', (event, bool) => {
+    console.log(event.sender);
+    //event.getCurrentWindow()
+    //event.sender.setAlwaysOnTop(bool);
+  });
 
 };

@@ -99,7 +99,7 @@ header{
    width: 100%;
 }
 header .nu, header .ni{
-   display: flex;
+   display: none;
 }
 header .nu aside{
    background: rgb(40, 40, 40);
@@ -152,7 +152,7 @@ header .ni aside{
 
 }
 
-.redBar, .greenBar, .blueBar{
+.red_bar, .green_bar, .blue_bar{
    position: relative;
    width: 220px;
    height: 20px;
@@ -190,17 +190,17 @@ progress[value]::-webkit-progress-bar {
    border-radius: 6px;
    height: 10px;
 }
-.redBar progress[value]::-webkit-progress-value {
+.red_bar progress[value]::-webkit-progress-value {
    background: rgb(255, 87, 57);
    border-radius: 6px;
    height: 10px;
 }
-.greenBar progress[value]::-webkit-progress-value {
+.green_bar progress[value]::-webkit-progress-value {
    background: rgb(105, 195, 59);
    border-radius: 6px;
    height: 10px;
 }
-.blueBar progress[value]::-webkit-progress-value {
+.blue_bar progress[value]::-webkit-progress-value {
    background: rgb(65, 165, 225);
    border-radius: 6px;
    height: 10px;
@@ -263,47 +263,6 @@ progress{
       width: 105px;
       transition: 0.3s;
    }
-
-#newBox{
-   position: absolute;
-   bottom: 15px; right: 30px;
-   border: 3px solid rgba(0, 0, 0, 0.15);
-   width: 12px; height: 12px;
-   cursor: pointer;
-   z-index: 999;
-   transition: 0.3s;
-}
-#newBox:hover{
-   border: 3px solid rgba(0, 0, 0, 0.25);
-}
-.whited #newBox{
-   border: 3px solid rgba(255, 255, 255, 0.15);
-}
-.whited #newBox:hover{
-   border: 3px solid rgba(255, 255, 255, 0.25);
-}
-#newBox.active{
-   border: 3px solid rgba(0, 0, 0, 0.3);
-}
-.whited #newBox.active{
-   border: 3px solid rgba(255, 255, 255, 0.3);
-}
-
-.box{
-   position: absolute;
-   top: 0; right: -200px;
-   height: 100%;
-   width: 200px;
-   transition: right 0.5s;
-}
-
-#numberBoxHex{
-   cursor: default;
-   visibility: hidden;
-   opacity: 0;
-   transition: 0.4s;
-}
-
 
 
 /**

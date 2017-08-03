@@ -11,5 +11,3 @@ let toggleFlexbox = el => {
       el.style.display = 'none';
    }
 };
-
-let getCSSFromRGB = rgb => `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;

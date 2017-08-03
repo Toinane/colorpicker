@@ -15,7 +15,7 @@
 				<li id="minimize"><div class="minimize"></div></li>
 				<li id="square"><div class="square"></div></li>
 			</ul>
-			<p id="onTop">CP</p>
+			<p id="top_button">CP</p>
 			<!--<p id="picker">{P}</p>-->
 			<p id="nuances">Shading</p>
 			<p id="random">Random</p>
@@ -50,28 +50,27 @@
 		</header>
 		<section class="edit-box">
 			<aside class="sliders">
-				<div class="redBar">
+				<div class="red_bar">
 					<input type="range" min="0" max="255" value="0" />
 					<progress min="0" max="255" value="0" />
 				</div>
-				<div class="greenBar">
+				<div class="green_bar">
 					<input type="range" min="0" max="255" value="0" />
 					<progress min="0" max="255" value="0" />
 				</div>
-				<div class="blueBar">
+				<div class="blue_bar">
 					<input type="range" min="0" max="255" value="0" />
 					<progress min="0" max="255" value="0" />
 				</div>
 			</aside>
 			<aside class="inputs">
-				<input type="number" id="rangeRed" maxlength="3" />
-				<input type="number" id="rangeGreen" maxlength="3" />
-				<input type="number" id="rangeBlue" maxlength="3" />
+				<input type="number" id="red_value" maxlength="3" />
+				<input type="number" id="green_value" maxlength="3" />
+				<input type="number" id="blue_value" maxlength="3" />
 			</aside>
 			<aside class="value">
-				<input type="text" id="numberBoxHex" maxlength="7"/>
-				<input type="text" id="numberHex" maxlength="7"/>
-				<p id="numberRGB">(<span id="r">0</span>,<span id="g">0</span>,<span id="b">0</span>)</p>
+				<input type="text" id="hex_value" maxlength="7"/>
+				<p id="rgb_value"></p>
 			</aside>
 			<div id="newBox"></div>
 		</section>

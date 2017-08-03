@@ -36,6 +36,10 @@ class Color {
     return true;
   }
 
+  getCSSFromRGB(rgb) {
+    return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+  }
+
   getRGBFromIndividual(r, g, b) {
     return [r, g, b];
   }
