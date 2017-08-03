@@ -131,7 +131,7 @@ defaultStorage = {
     size: { width: 484, height: 190 },
     buttonsPosition: template[platform()]['buttonsPosition'],
     buttonsType: template[platform()]['buttonsType'],
-    lastColor: '00AEEF'
+    lastColor: '#00AEEF'
   },
   hexacolor: {},
   picker: {}

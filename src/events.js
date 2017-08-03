@@ -13,8 +13,8 @@ module.exports = storage => {
     event.sender.send('buttonsType', typeButton);
   });
 
-  ipcMain.on('changeLastColor', event => {
-    console.log(event);
+  ipcMain.on('changeLastColor', (event, color) => {
+    storage.add({'lastColor': color});
   })
 
 };

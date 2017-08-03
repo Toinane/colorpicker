@@ -5,7 +5,7 @@ const {ipcRenderer} = require('electron');
 document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-colorpicker'), false);
 
 ipcRenderer.on('lastColor', (event, color) => {
-  console.log(color);
+  cp = new Colorpicker(color);
 });
 
 ipcRenderer.on('buttonsPosition', (event, pos) => {

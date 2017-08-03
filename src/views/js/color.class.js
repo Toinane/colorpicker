@@ -1,150 +1,184 @@
-function Color(){
-   this.red;
-   this.green;
-   this.blue;
-   this.rgb;
-   this.hsl;
+'use strict';
 
-   this.setrgb = function(r, g, b){
-      this.red = parseInt(r);
-      this.green = parseInt(g);
-      this.blue = parseInt(b);
-      this.rgb = [this.red, this.green, this.blue];
-      this.sethsl();
-   }
+class Color {
 
-   this.rgbarray = function(rgb){
-      this.red = parseInt(rgb[0]);
-      this.green = parseInt(rgb[1]);
-      this.blue = parseInt(rgb[2]);
-      this.rgb = [this.red, this.green, this.blue];
-      this.sethsl();
-   }
+  constructor(r, g, b) {
+    this.setColorFromIndividual(r, g, b);
+  }
 
-   this.hex = function(hex){
-      var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-           this.red = parseInt(result[1], 16);
-           this.green = parseInt(result[2], 16);
-           this.blue=  parseInt(result[3], 16);
-           this.rgb = [this.red, this.green, this.blue];
-           this.sethsl();
-   }
+  // this.setrgb
+  setColorFromIndividual(r, g, b) {
+    this.red = parseInt(r);
+    this.green = parseInt(g);
+    this.blue = parseInt(b);
+    this.rgb = [r, g, b];
+    this.hex = this.getHexFromRGB(this.rgb);
+    this.hsl = this.getHSLFromRGB(this.rgb);
+    return true;
+  }
 
-   this.red = function(){
-      return this.red;
-   }
-   this.green = function(){
-      return this.green;
-   }
-   this.blue = function(){
-      return this.blue;
-   }
+  // this.rgbarray
+  setColorFromArray(rgb) {
+    this.setColorFromIndividual(rgb[0], rgb[1], rgb[2]);
+    return true;
+  }
 
-   this.getrgb = function(r, g, b){
-      if(isNaN(r)){
-         return 'rgb('+this.red+', '+this.green+', '+this.blue+')';
+  // this.hex
+  setColorFromHex(hex) {
+    const rgb = this.getRGBFromHex(hex);
+    this.setColorFromArray(rgb);
+    return true;
+  }
+
+  setColorFromHSL(hsl) {
+    const rgb = this.getRGBFromHSL(hsl);
+    this.setColorFromArray(rgb);
+    return true;
+  }
+
+  getRGBFromIndividual(r, g, b) {
+    return [r, g, b];
+  }
+
+  getHexFromRGB(rgb) {
+    let hex = [Number(rgb[0]).toString(16), Number(rgb[1]).toString(16), Number(rgb[2]).toString(16)];
+    for(let i = 0; i<3; i++){
+      if(hex[i] < 10 || hex[i].length === 1){ hex[i] = '0'+hex[i]; }
+    }
+    return '#'+hex.join('').toUpperCase();
+  }
+
+  getRGBFromHex(hex) {
+    hex = hex.replace(/^#/, '');
+    if (hex.length === 3) hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+	  let num = parseInt(hex, 16);
+	  return [num >> 16, num >> 8 & 255, num & 255];
+  }
+
+  // this.sethsl
+  getHSLFromRGB(rgb) {
+    let r = rgb[0]/255, g = rgb[1]/255, b = rgb[2]/255;
+    let max = Math.max(r, g, b), min = Math.min(r, g, b);
+    let h, s, l = (max + min) / 2;
+    if (max === min) { h = s = 0; }
+    else {
+      let d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      switch (max) {
+        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+        case g: h = (b - r) / d + 2; break;
+        case b: h = (r - g) / d + 4; break;
       }
-      else{
-         return 'rgb('+r+', '+g+', '+b+')';
+      h /= 6;
+    }
+    return [h, s, l];
+  }
+
+  // this.hsltorgb
+  getRGBFromHSL(hsl) {
+    let r, g, b, h = hsl[0], s = hsl[1], l = hsl[2];
+    if (s === 0) { r = g = b = l; } // achromatic
+    else {
+      let hue2rgb = (p, q, t) => {
+        if(t < 0) t += 1;
+        if(t > 1) t -= 1;
+        if(t < 1/6) return p + (q - p) * 6 * t;
+        if(t < 1/2) return q;
+        if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+        return p;
       }
-   }
+      let q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+      let p = 2 * l - q;
+      r = hue2rgb(p, q, h + 1/3);
+      g = hue2rgb(p, q, h);
+      b = hue2rgb(p, q, h - 1/3);
+    }
+    return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+  }
 
-   this.negate = function(isRGB){
-      var rgb = [];
-      for(var i = 0; i < 3; i++){
-         rgb[i] = 255 - this.rgb[i];
-      }
-      if(isRGB){
-         return this.getrgb(rgb[0], rgb[1], rgb[2]);
-      }
-      else{
-         return [rgb[0], rgb[1], rgb[2]];
-      }
+  getHSLFromHex(hex) {
+    const rgb = this.getRGBFromHex(hex);
+    return this.getRGBFromHSL(rgb);
+  }
 
-   }
+  getHexFromHSL(hsl) {
+    const rgb = this.getRGBFromHSL(hsl);
+    return this.getHexFromRGB(rgb);
+  }
 
-   this.isDarkColor = function(){
-       return Math.round((
-         parseInt(this.red) * 299 +
-         parseInt(this.green) * 587 +
-         parseInt(this.blue) * 114) / 1000
-       ) <= 140;
-   }
+  // this.isDarkColor
+  isDarkColor(rgb) {
+    if (rgb) return Math.round((
+      parseInt(rgb[0]) * 299 +
+      parseInt(rgb[1]) * 587 +
+      parseInt(rgb[2]) * 114) / 1000
+    ) <= 140;
+    return Math.round((
+      parseInt(this.red) * 299 +
+      parseInt(this.green) * 587 +
+      parseInt(this.blue) * 114) / 1000
+    ) <= 140;
+  }
 
-   this.grayscale = function(){
-      var gray = parseInt(this.red * 0.3 + this.green * 0.59 + this.blue * 0.11);
-      if(gray < 0){gray = 0;}
-      if(gray > 255){gray = 255;}
-      return this.getrgb(gray, gray, gray);
-   }
+  setNegativeColor(rgb) {
+    const negative = this.getNegativeColor(rgb);
+    this.setColorFromArray(negative);
+    return negative;
+  }
 
-   this.lightness = function(l, isRGB){
-      var lightness = this.hsltorgb(this.hsl[0], this.hsl[1], (this.hsl[2]+l));
-      for(var i = 0; i < lightness.length; i++){
-         if(lightness[i] < 0){lightness[i] = 0;}
-         if(lightness[i] > 255){lightness[i] = 255;}
-      }
-      if(isRGB){
-         return this.getrgb(lightness[0], lightness[1], lightness[2]);
-      }
-      else{
-         return [lightness[0], lightness[1], lightness[2]];
-      }
+  // this.negate
+  getNegativeColor(rgb) {
+    var negative = [];
+    for(let i = 0; i < 3; i++){
+      negative[i] = 255 - rgb[i];
+    }
+    return negative;
+  }
 
-   }
+  setGrayscale(rgb) {
+    const gray = this.getGrayscale(rgb);
+    this.setColorFromArray(gray);
+    return gray;
+  }
 
-   this.rotate = function(degrees, isRGB){
-      var hue = this.hsl[0];
-		hue = (hue + degrees) % 360;
-		hue = hue < 0 ? 360 + hue : hue;
-      hue = hue * 0.01;
-		var rgb = this.hsltorgb(hue, this.hsl[1], this.hsl[2]);
-      if(isRGB){
-         return this.getrgb(rgb[0], rgb[1], rgb[2]);
-      }
-      else{
-         return [rgb[0], rgb[1], rgb[2]];
-      }
-   }
+  // this.grayscale
+  getGrayscale(setColor) {
+    var gray = parseInt(this.red * 0.3 + this.green * 0.59 + this.blue * 0.11);
+    if(gray < 0){gray = 0;}
+    if(gray > 255){gray = 255;}
+    return [gray, gray, gray];
+  }
 
-   this.sethsl = function(){
-      r = this.red/255, g = this.green/255, b = this.blue/255;
-     var max = Math.max(r, g, b), min = Math.min(r, g, b);
-     var h, s, l = (max + min) / 2;
-     if(max == min){
-         h = s = 0;
-     }else{
-         var d = max - min;
-         s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-         switch(max){
-              case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-              case g: h = (b - r) / d + 2; break;
-              case b: h = (r - g) / d + 4; break;
-         }
-         h /= 6;
-     }
-     return this.hsl = [h, s, l];
-   }
+  setLightness(light, hsl) {
+    const rgb = this.getLightness(light, hsl);
+    this.setColorFromArray(rgb);
+    return rgb;
+  }
 
-   this.hsltorgb = function(h, s, l){
-      var r, g, b;
-       if(s == 0){  r = g = b = l; // achromatic
-       }else{
-           var hue2rgb = function hue2rgb(p, q, t){
-               if(t < 0) t += 1;
-               if(t > 1) t -= 1;
-               if(t < 1/6) return p + (q - p) * 6 * t;
-               if(t < 1/2) return q;
-               if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
-               return p;
-           }
-           var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-           var p = 2 * l - q;
-           r = hue2rgb(p, q, h + 1/3);
-           g = hue2rgb(p, q, h);
-           b = hue2rgb(p, q, h - 1/3);
-       }
+  // this.lightness
+  getLightness(light, hsl) {
+    hsl = [hsl[0], hsl[1], (hsl[2]+light)];
+    const lightness = this.getRGBFromHSL(hsl);
+    for(let i = 0; i < lightness.length; i++){
+      if(lightness[i] < 0){lightness[i] = 0;}
+      if(lightness[i] > 255){lightness[i] = 255;}
+    }
+    return lightness;
+  }
 
-       return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
-   }
+  setRotatedColor(degrees, hsl) {
+    const rgb = this.getRotatedColor(degrees, hsl);
+    this.setColorFromArray(rgb);
+    return rgb;
+  }
+
+  // this.rotate
+  getRotatedColor(degrees, hsl){
+    let hue = hsl[0];
+    hue = (hue + degrees) % 360;
+    hue = hue < 0 ? 360 + hue : hue;
+    hue = hue * 0.01;
+    return this.getRGBFromHSL([hue, hsl[1], hsl[2]]);
+  }
+
 }
