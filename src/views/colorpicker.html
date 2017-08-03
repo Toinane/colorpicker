@@ -4,21 +4,25 @@
 		<title>ColorPicker</title>
 		<meta charset="utf-8" />
 		<link rel="stylesheet" href="css/colorpicker.css" />
+		<link rel="stylesheet" href="css/font-awesome.min.css" />
 		<script defer src="js/color.class.js"></script>
 		<script defer src="js/colorpicker.class.js"></script>
 		<script defer src="js/colorpicker.events.js"></script>
 	</head>
 	<body>
 		<div class="toolbar">
-			<ul>
-				<li id="close"><div class="close"></div></li>
-				<li id="minimize"><div class="minimize"></div></li>
-				<li id="square"><div class="square"></div></li>
+			<ul id="app_buttons">
+				<li id="close"><i class="fa fa-circle"></i></li>
+				<li id="minimize"><i class="fa fa-circle"></i></li>
+				<li id="maximize"><i class="fa fa-circle"></i></li>
 			</ul>
-			<p id="top_button">CP</p>
-			<!--<p id="picker">{P}</p>-->
-			<p id="nuances">Shading</p>
-			<p id="random">Random</p>
+			<ul id="tools">
+				<p id="top_button"><i class="fa fa-map-pin"></i></p>
+				<p id="picker_button"><i class="fa fa-eyedropper"></i></p>
+				<p id="tags_button"><i class="fa fa-bookmark"></i></p>
+				<p id="shade_button"><i class="fa fa-tint"></i></p>
+				<p id="random_button"><i class="fa fa-random"></i></p>
+			</ul>
 		</div>
 		<header>
 			<div class="ni">
@@ -72,8 +76,7 @@
 				<input type="text" id="hex_value" maxlength="7"/>
 				<p id="rgb_value"></p>
 			</aside>
-			<div id="newBox"></div>
+			<div id="settings"><i class="fas fa-cog"></i></div>
 		</section>
-		<section class="box"></section>
    </body>
 </html>

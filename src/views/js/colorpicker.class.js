@@ -24,6 +24,10 @@ class Colorpicker extends Color{
     this.setNewColor(hex);
   }
 
+  setNewRGBColor(rgb) {
+    this.setNewColor(this.getHexFromRGB(rgb));
+  }
+
   setNewColor(hex) {
     this.setColorFromHex(hex);
     const darknessColor = this.isDarkColor(this.rgb);

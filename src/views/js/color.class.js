@@ -6,7 +6,6 @@ class Color {
     this.setColorFromIndividual(r, g, b);
   }
 
-  // this.setrgb
   setColorFromIndividual(r, g, b) {
     this.red = parseInt(r);
     this.green = parseInt(g);
@@ -17,13 +16,11 @@ class Color {
     return true;
   }
 
-  // this.rgbarray
   setColorFromArray(rgb) {
     this.setColorFromIndividual(rgb[0], rgb[1], rgb[2]);
     return true;
   }
 
-  // this.hex
   setColorFromHex(hex) {
     const rgb = this.getRGBFromHex(hex);
     this.setColorFromArray(rgb);
@@ -59,7 +56,6 @@ class Color {
 	  return [num >> 16, num >> 8 & 255, num & 255];
   }
 
-  // this.sethsl
   getHSLFromRGB(rgb) {
     let r = rgb[0]/255, g = rgb[1]/255, b = rgb[2]/255;
     let max = Math.max(r, g, b), min = Math.min(r, g, b);
@@ -78,7 +74,6 @@ class Color {
     return [h, s, l];
   }
 
-  // this.hsltorgb
   getRGBFromHSL(hsl) {
     let r, g, b, h = hsl[0], s = hsl[1], l = hsl[2];
     if (s === 0) { r = g = b = l; } // achromatic
@@ -110,7 +105,6 @@ class Color {
     return this.getHexFromRGB(rgb);
   }
 
-  // this.isDarkColor
   isDarkColor(rgb) {
     if (rgb) return Math.round((
       parseInt(rgb[0]) * 299 +
@@ -130,7 +124,6 @@ class Color {
     return negative;
   }
 
-  // this.negate
   getNegativeColor(rgb) {
     var negative = [];
     for(let i = 0; i < 3; i++){
@@ -145,7 +138,6 @@ class Color {
     return gray;
   }
 
-  // this.grayscale
   getGrayscale(setColor) {
     var gray = parseInt(this.red * 0.3 + this.green * 0.59 + this.blue * 0.11);
     if(gray < 0){gray = 0;}
@@ -159,7 +151,6 @@ class Color {
     return rgb;
   }
 
-  // this.lightness
   getLightness(light, hsl) {
     hsl = [hsl[0], hsl[1], (hsl[2]+light)];
     const lightness = this.getRGBFromHSL(hsl);
@@ -176,7 +167,6 @@ class Color {
     return rgb;
   }
 
-  // this.rotate
   getRotatedColor(degrees, hsl){
     let hue = hsl[0];
     hue = (hue + degrees) % 360;

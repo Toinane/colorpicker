@@ -13,11 +13,15 @@ a{color: inherit;text-decoration: none;}
  */
 .toolbar{
    margin: 3px;
-   padding: 10px;
+   padding: 5px 5px 7px 5px;
    position: relative;
    z-index: 10000;
    box-sizing: border-box;
    -webkit-app-region: drag;
+   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
 }
    .toolbar p{
       color: rgba(0, 0, 0, 0.3);
@@ -35,28 +39,14 @@ a{color: inherit;text-decoration: none;}
    .toolbar .active{
       color: rgba(0, 0, 0, 0.5);
    }
-   .whited p{
-      color: rgba(255, 255, 255, 0.3);
-   }
-   .whited p:hover{
-      color: rgba(255, 255, 255, 0.4);
-   }
-   .whited .active{
-      color: rgba(255, 255, 255, 0.5);
-   }
    .toolbar p::selection, .toolbar li::selection, .toolbar div::selection{
       background: rgba(0, 0, 0, 0);
    }
    .toolbar ul{
-      -webkit-app-region: no-drag;
-      display: inline-block;
-      position: relative;
-      bottom: 3px; right: 3px;
-      margin: 0;
-      margin-right: 10px;;
-      padding: 0;
+      margin: 0; padding: 0;
    }
       .toolbar li{
+        -webkit-app-region: no-drag;
          display: inline-block;
          vertical-align: middle;
          cursor: pointer;
@@ -68,23 +58,23 @@ a{color: inherit;text-decoration: none;}
          margin-left: 4px;
          border-radius: 15px;
       }
-   .toolbar .minimize{
-     background: #FEBF3C;
+   .toolbar #minimize{
+     color: #FEBF3C;
    }
-   .toolbar li:hover .minimize{
-     background: #FEB219;
+   .toolbar li:hover #minimize{
+     color: #FEB219;
    }
-   .toolbar .square{
-     background: #35CC48;
+   .toolbar #maximize{
+     color: #35CC48;
    }
-   .toolbar li:hover .square{
-     background: #32C544;
+   .toolbar li:hover #maximize{
+     color: #32C544;
    }
-   .toolbar .close{
-     background: #FC635C;
+   .toolbar #close{
+     color: #FC635C;
    }
-   .toolbar li:hover .close{
-     background: #FC4B43;
+   .toolbar li:hover #close{
+     color: #FC4B43;
    }
 
 

@@ -30,7 +30,7 @@ module.exports = (dirname, storage) => {
       frame:false,
       'auto-hide-menu-bar': true,
       width: width, height: height,
-      minWidth: 438, minHeight: 139,
+      minWidth: 440, minHeight: 150,
       icon: `${dirname}/build/logo.png`
     }
     if (x && y) { options.x = x; options.y = y; }
