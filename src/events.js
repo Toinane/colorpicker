@@ -1,6 +1,6 @@
 'use strict';
 
-const {ipcMain} = require('electron');
+const {ipcMain, BrowserWindow} = require('electron');
 
 module.exports = storage => {
 
@@ -17,10 +17,6 @@ module.exports = storage => {
     storage.add({'lastColor': color});
   });
 
-  ipcMain.on('setOnTop', (event, bool) => {
-    console.log(event.sender);
-    //event.getCurrentWindow()
-    //event.sender.setAlwaysOnTop(bool);
-  });
+  ipcMain.on('setOnTop', (event, bool) => BrowserWindow.fromWebContents(event.sender).setAlwaysOnTop(bool));
 
 };
