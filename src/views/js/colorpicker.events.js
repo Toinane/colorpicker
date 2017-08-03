@@ -17,24 +17,25 @@ ipcRenderer.on('buttonsType', (event, type) => {
   const minimize = document.querySelector('#minimize');
   const maximize = document.querySelector('#maximize');
   const close = document.querySelector('#close');
+  console.log(type)
   switch (type) {
     case 'windows':
       app_buttons.classList.add('windows');
-      minimize.classList.add('fa-window-minimize');
-      maximize.classList.add('fa-window-maximize');
-      close.classList.add('fa-window-close');
+      minimize.classList.add('fa', 'fa-window-minimize');
+      maximize.classList.add('fa', 'fa-window-maximize');
+      close.classList.add('fa', 'fa-window-close');
       break;
     case 'linux':
       app_buttons.classList.add('linux');
-      minimize.classList.add('fa-minus');
-      maximize.classList.add('fa-expand');
-      close.classList.add('fa-times-circle');
+      minimize.classList.add('fa', 'fa-minus');
+      maximize.classList.add('fa', 'fa-expand');
+      close.classList.add('fa', 'fa-times-circle');
       break;
     default:
       app_buttons.classList.add('darwin');
-      minimize.classList.add('fa-circle');
-      maximize.classList.add('fa-circle');
-      close.classList.add('fa-circle');
+      minimize.classList.add('fa', 'fa-circle');
+      maximize.classList.add('fa', 'fa-circle');
+      close.classList.add('fa', 'fa-circle');
   }
 });
 

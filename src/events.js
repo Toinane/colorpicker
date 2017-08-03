@@ -21,7 +21,10 @@ module.exports = storage => {
   });
 
   ipcMain.on('minimize', event => BrowserWindow.fromWebContents(event.sender).minimize());
-  ipcMain.on('maximize', (event, bool) => BrowserWindow.fromWebContents(event.sender).maximize(bool));
+  ipcMain.on('maximize', (event, bool) => {
+    if (bool) return BrowserWindow.fromWebContents(event.sender).maximize()
+    return BrowserWindow.fromWebContents(event.sender).unmaximize()
+  });
   ipcMain.on('close', event => BrowserWindow.fromWebContents(event.sender).close());
 
   ipcMain.on('setOnTop', (event, bool) => BrowserWindow.fromWebContents(event.sender).setAlwaysOnTop(bool));

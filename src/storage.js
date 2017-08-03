@@ -110,7 +110,7 @@ let platform = () => {
 template = {
   windows: {
     buttonsPosition: 'right',
-    buttonsType: 'window'
+    buttonsType: 'windows'
   },
   darwin: {
     buttonsPosition: 'left',
