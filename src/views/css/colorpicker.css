@@ -127,8 +127,19 @@ header .ni aside{
    align-items: flex-end;
 }
 
-.sliders{
+.sliders, .inputs{
+  position: relative;
+  bottom: -32px;
+  transition: 0.5s;
+}
 
+.alpha_bar, #alpha_value{
+  position: relative;
+  transition: 0.5s;
+  bottom: -20px;
+}
+.opacity .sliders, .opacity .alpha_bar, .opacity .inputs, .opacity #alpha_value{
+  bottom: 0;
 }
 
 .red_bar, .green_bar, .blue_bar, .alpha_bar{

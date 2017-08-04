@@ -4,15 +4,13 @@ const {ipcRenderer} = require('electron');
 
 document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-colorpicker'), false);
 
-ipcRenderer.on('lastColor', (event, color) => {
-  cp = new Colorpicker(color);
+ipcRenderer.on('init', (event, config) => {
+  if (config.posButton === 'right') document.querySelector('.toolbar').classList.add('setRight');
+  initButtonsType(config.typeButton);
+  cp = new Colorpicker(config.color);
 });
 
-ipcRenderer.on('buttonsPosition', (event, pos) => {
-  if (pos === 'right') document.querySelector('.toolbar').classList.add('setRight');
-});
-
-ipcRenderer.on('buttonsType', (event, type) => {
+function initButtonsType(type) {
   const app_buttons = document.querySelector('#app_buttons');
   const minimize = document.querySelector('#minimize');
   const maximize = document.querySelector('#maximize');
@@ -36,7 +34,7 @@ ipcRenderer.on('buttonsType', (event, type) => {
       maximize.classList.add('fa', 'fa-circle');
       close.classList.add('fa', 'fa-circle');
   }
-});
+}
 
 function changeLastColor(color) {
   ipcRenderer.send('changeLastColor', color);
@@ -59,20 +57,21 @@ document.querySelector('#minimize').onclick = function() {
 }
 
 document.querySelector('#maximize').onclick = function(event) {
-  this.classList.toggle('active');
-  ipcRenderer.send('maximize', this.classList.contains('active'));
-  event.preventDefault();
+  let bool = this.classList.toggle('active');
+  ipcRenderer.send('maximize', bool);
 }
 
 document.querySelector('#top_button').onclick = function() {
-    this.classList.toggle('active');
-    ipcRenderer.send('setOnTop', this.classList.contains('active'));
+    let bool = this.classList.toggle('active');
+    ipcRenderer.send('setOnTop', bool);
 }
 
 document.querySelector('#shade_button').onclick = function() {
-  this.classList.toggle('active');
-  toggleFlexbox('header .nu');
-  toggleFlexbox('header .ni');
+  let bool = this.classList.toggle('active');
+  if (bool) document.querySelector('header .ni').style.display = 'flex';
+  else document.querySelector('header .ni').style.display = 'none';
+  if (bool) document.querySelector('header .nu').style.display = 'flex';
+  else document.querySelector('header .nu').style.display = 'none';
 }
 
 document.querySelector('#random_button').onclick = function() {
@@ -80,6 +79,11 @@ document.querySelector('#random_button').onclick = function() {
   const g = Math.floor(Math.random() * 255) + 0;
   const b = Math.floor(Math.random() * 255) + 0;
   cp.setNewRGBColor([r, g, b]);
+}
+
+document.querySelector('#opacity_button').onclick = function() {
+  let bool = cp.toggleOpacity();
+  ipcRenderer.send('opacityActive', bool);
 }
 
 document.querySelector('.red_bar input').oninput = function() {

@@ -4,6 +4,7 @@ class Color {
 
   constructor(r, g, b) {
     this.alpha = 1;
+    this.activeAlpha = false;
     this.setColor(r, g, b);
   }
 

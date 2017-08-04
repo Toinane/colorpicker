@@ -51,6 +51,21 @@ class Colorpicker extends Color{
     //this.changeShade();
   }
 
+  toggleOpacity() {
+    this.activeAlpha = document.querySelector('#opacity_button').classList.toggle('active');
+    document.querySelector('.main').classList.toggle('opacity', this.activeAlpha);
+    if (!this.activeAlpha) {
+      let restore = () => {
+        if (this.alpha >= 1) return this.alpha = 1;
+        this.alpha = Math.round((this.alpha+0.01)*100)/100;
+        this.setNewColor(this.hex);
+        setTimeout(restore, 5);
+      }
+      restore();
+    }
+    return this.activeAlpha;
+  }
+
   changeShade(){
      document.querySelector('#nu1').style.background = this.color.lightness(0.16, true);
      document.querySelector('#nu1').attributes['data-color'].value = this.hexFromArray(this.color.lightness(0.16));
