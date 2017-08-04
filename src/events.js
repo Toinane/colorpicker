@@ -20,6 +20,14 @@ module.exports = storage => {
     timing = setTimeout(() => storage.add({'lastColor': color}), 300);
   });
 
+  ipcMain.on('opacityActive', (event, bool) => {
+    let win = BrowserWindow.fromWebContents(event.sender);
+    let size = win.getSize();
+    if(!bool) return win.setMinimumSize(440, 150);
+    if (size[1] < 180) win.setSize(size[0], 180, true);
+    win.setMinimumSize(440, 180);
+  });
+
   ipcMain.on('minimize', event => BrowserWindow.fromWebContents(event.sender).minimize());
   ipcMain.on('maximize', (event, bool) => {
     if (bool) return BrowserWindow.fromWebContents(event.sender).maximize()
