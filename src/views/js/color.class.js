@@ -3,33 +3,39 @@
 class Color {
 
   constructor(r, g, b) {
-    this.setColorFromIndividual(r, g, b);
+    this.alpha = 1;
+    this.setColor(r, g, b);
   }
 
-  setColorFromIndividual(r, g, b) {
+  setColor(r, g, b) {
     this.red = parseInt(r);
     this.green = parseInt(g);
     this.blue = parseInt(b);
     this.rgb = [r, g, b];
+    this.rgba = [r, g, b, this.alpha];
     this.hex = this.getHexFromRGB(this.rgb);
     this.hsl = this.getHSLFromRGB(this.rgb);
     return true;
   }
 
-  setColorFromArray(rgb) {
-    this.setColorFromIndividual(rgb[0], rgb[1], rgb[2]);
+  setAlpha(alpha) {
+    this.alpha = alpha;
+  }
+
+  setColorFromRGB(rgb) {
+    this.setColor(rgb[0], rgb[1], rgb[2], 1);
     return true;
   }
 
   setColorFromHex(hex) {
     const rgb = this.getRGBFromHex(hex);
-    this.setColorFromArray(rgb);
+    this.setColorFromRGB(rgb);
     return true;
   }
 
   setColorFromHSL(hsl) {
     const rgb = this.getRGBFromHSL(hsl);
-    this.setColorFromArray(rgb);
+    this.setColorFromRGB(rgb);
     return true;
   }
 
@@ -37,9 +43,13 @@ class Color {
     return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
   }
 
-  getRGBFromIndividual(r, g, b) {
-    return [r, g, b];
+  getCSSFromRGBA(rgba) {
+    return `rgba(${rgba[0]}, ${rgba[1]}, ${rgba[2]}, ${rgba[3]})`;
   }
+
+  getRGBAFromRGB(rgb) { return rgb.concat([this.alpha]); }
+
+  getRGBFromRGBA(rgba) { return [rgb[0], rgb[1], rgb[2]]; }
 
   getHexFromRGB(rgb) {
     let hex = [Number(rgb[0]).toString(16), Number(rgb[1]).toString(16), Number(rgb[2]).toString(16)];
@@ -54,6 +64,10 @@ class Color {
     if (hex.length === 3) hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
 	  let num = parseInt(hex, 16);
 	  return [num >> 16, num >> 8 & 255, num & 255];
+  }
+
+  getRGBAFromHex(hex) {
+    return this.getRGBFromHex(hex).concat([this.alpha]);
   }
 
   getHSLFromRGB(rgb) {
@@ -120,7 +134,7 @@ class Color {
 
   setNegativeColor(rgb) {
     const negative = this.getNegativeColor(rgb);
-    this.setColorFromArray(negative);
+    this.setColorFromRGB(negative);
     return negative;
   }
 
@@ -134,12 +148,12 @@ class Color {
 
   setGrayscale(rgb) {
     const gray = this.getGrayscale(rgb);
-    this.setColorFromArray(gray);
+    this.setColorFromRGB(gray);
     return gray;
   }
 
-  getGrayscale(setColor) {
-    var gray = parseInt(this.red * 0.3 + this.green * 0.59 + this.blue * 0.11);
+  getGrayscale(rgb) {
+    var gray = parseInt(rgb[0] * 0.3 + rgb[1] * 0.59 + rgb[2] * 0.11);
     if(gray < 0){gray = 0;}
     if(gray > 255){gray = 255;}
     return [gray, gray, gray];
@@ -147,7 +161,7 @@ class Color {
 
   setLightness(light, hsl) {
     const rgb = this.getLightness(light, hsl);
-    this.setColorFromArray(rgb);
+    this.setColorFromRGBA(rgba);
     return rgb;
   }
 
@@ -163,7 +177,7 @@ class Color {
 
   setRotatedColor(degrees, hsl) {
     const rgb = this.getRotatedColor(degrees, hsl);
-    this.setColorFromArray(rgb);
+    this.setColorFromRGBA(rgba);
     return rgb;
   }
 

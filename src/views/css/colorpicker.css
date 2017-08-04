@@ -28,12 +28,12 @@ a{color: inherit;text-decoration: none;}
   .toolbar ul{
     margin: 0; padding: 0;
     margin-right: 20px;
+    display: flex;
   }
 
   .toolbar.setRight ul{
     margin-right: 0;
   }
-    #app_buttons{ display: flex; }
     #app_buttons.windows #minimize, #app_buttons.linux #minimize{
       order: 3;
     }
@@ -72,9 +72,7 @@ a{color: inherit;text-decoration: none;}
     .toolbar p{
       color: rgba(0, 0, 0, 0.35);
       font-weight: bold;
-      cursor: default;
-      display: inline-block;
-      padding: 0 4px 0 4px;
+      padding: 0 5px 0 5px;
       width: 17px;
       text-align: center;
       -webkit-app-region: no-drag;
@@ -83,7 +81,7 @@ a{color: inherit;text-decoration: none;}
     }
     .toolbar p:hover{ color: rgba(0, 0, 0, 0.4); }
     .toolbar p.active{ color: rgba(0, 0, 0, 0.55); }
-    .toolbar p::selection, .toolbar li::selection, .toolbar div::selection{
+    .toolbar::selection, .toolbar p::selection, .toolbar li::selection, .toolbar div::selection{
       background: rgba(0, 0, 0, 0);
     }
 
@@ -112,28 +110,11 @@ header .ni aside{
    cursor: pointer;
 }
 
-/**
- * HEADER BOX CSS
- */
-.nuance, .alea, .mode{
-   display: inline-block;
-   width: 80px;
-   padding: 5px 0;
-   background: rgba(0, 0, 0, 0.2);
-   cursor: pointer;
-   text-align: center;
-   color: white;
-   font-weight: 300;
-}
-.alea{ left: 200px;}
-.mode{ left: 110px;}
-
 
 /**
- * BOX COLORPICKER CSS
+ * MAIN COLORPICKER CSS
  */
-.edit-box{
-   background: rgba(0, 0, 0, 0);
+.main{
    position: absolute;
    z-index: 200;
    bottom: 0; left: 0;
@@ -150,7 +131,7 @@ header .ni aside{
 
 }
 
-.red_bar, .green_bar, .blue_bar{
+.red_bar, .green_bar, .blue_bar, .alpha_bar{
    position: relative;
    width: 220px;
    height: 20px;
@@ -176,6 +157,7 @@ input[type=range]::-webkit-slider-thumb {
    width: 22px;
    border-radius: 50%;
    background: white;
+   border-bottom: 2px solid #F3F3F3;
    margin-top: -10px;
    cursor: pointer;
 }
@@ -188,21 +170,14 @@ progress[value]::-webkit-progress-bar {
    border-radius: 6px;
    height: 10px;
 }
-.red_bar progress[value]::-webkit-progress-value {
-   background: rgb(255, 87, 57);
-   border-radius: 6px;
-   height: 10px;
+progress[value]::-webkit-progress-value {
+  border-radius: 6px;
+  height: 10px;
 }
-.green_bar progress[value]::-webkit-progress-value {
-   background: rgb(105, 195, 59);
-   border-radius: 6px;
-   height: 10px;
-}
-.blue_bar progress[value]::-webkit-progress-value {
-   background: rgb(65, 165, 225);
-   border-radius: 6px;
-   height: 10px;
-}
+.red_bar progress[value]::-webkit-progress-value { background: rgb(255, 87, 57); }
+.green_bar progress[value]::-webkit-progress-value { background: rgb(105, 195, 59); }
+.blue_bar progress[value]::-webkit-progress-value { background: rgb(65, 165, 225); }
+.alpha_bar progress[value]::-webkit-progress-value { background: rgba(0, 0, 0, 0.5); }
 progress{
    -webkit-appearance: none;
    appearance: none;
@@ -250,17 +225,15 @@ progress{
    }
    .value input{
       display: block;
-      margin-bottom: 8px;
       width: 105px;
    }
-   .value p{
-      background: rgba(0, 0, 0, 0.1);
-      color: rgba(0, 0, 0, 0.5);
-      font-weight: bold;
-      padding: 4px 2px;
-      width: 105px;
-      transition: 0.3s;
-   }
+
+#settings{
+  position: absolute;
+  bottom: 7px; right: 19px;
+  color: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
 
 
 /**
@@ -271,18 +244,5 @@ progress{
 }
 
 @media screen and (max-height: 200px){
-   .edit-box{
-      background: none;
-   }
-}
-/**
- * VIEWPORT CSS
- */
-@viewport{
-   zoom: 1.0;
-   width: extend-to-zoom;
-}
-@-ms-viewport{
-   zoom: 1.0;
-   width: extend-to-zoom;
+
 }

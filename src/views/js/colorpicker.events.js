@@ -17,7 +17,6 @@ ipcRenderer.on('buttonsType', (event, type) => {
   const minimize = document.querySelector('#minimize');
   const maximize = document.querySelector('#maximize');
   const close = document.querySelector('#close');
-  console.log(type)
   switch (type) {
     case 'windows':
       app_buttons.classList.add('windows');
@@ -96,6 +95,10 @@ document.querySelector('.green_bar input').oninput = function() {
 document.querySelector('.blue_bar input').oninput = function() {
   const blue = this.value;
   cp.setNewRGBColor([cp.red, cp.green, blue]);
+}
+
+document.querySelector('.alpha_bar input').oninput = function() {
+  cp.setNewAlphaColor(this.value/255);
 }
 
 document.querySelector('#red_value').oninput = function() {

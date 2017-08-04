@@ -31,6 +31,8 @@ module.exports = (dirname, storage) => {
       'auto-hide-menu-bar': true,
       width: width, height: height,
       minWidth: 440, minHeight: 150,
+      transparent: true,
+      experimentalFeatures: true,
       icon: `${dirname}/build/logo.png`
     }
     if (x && y) { options.x = x; options.y = y; }

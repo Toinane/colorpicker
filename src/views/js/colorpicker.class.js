@@ -8,7 +8,6 @@ class Colorpicker extends Color{
     super();
     this.body = document.querySelector('body');
     this.hex_value = document.querySelector('#hex_value');
-    this.rgb_value = document.querySelector('#rgb_value');
     this.rgbhtml = {
       red_progress: document.querySelector('.red_bar progress'),
       red_input: document.querySelector('.red_bar input'),
@@ -18,14 +17,21 @@ class Colorpicker extends Color{
       green_range: document.querySelector('#green_value'),
       blue_progress: document.querySelector('.blue_bar progress'),
       blue_input: document.querySelector('.blue_bar input'),
-      blue_range: document.querySelector('#blue_value')
+      blue_range: document.querySelector('#blue_value'),
+      alpha_range: document.querySelector('#alpha_value'),
+      alpha_progress: document.querySelector('.alpha_bar progress'),
+      alpha_input: document.querySelector('.alpha_bar input')
     };
-
     this.setNewColor(hex);
   }
 
   setNewRGBColor(rgb) {
     this.setNewColor(this.getHexFromRGB(rgb));
+  }
+
+  setNewAlphaColor(alpha) {
+    this.setAlpha(alpha);
+    this.setNewColor(this.hex);
   }
 
   setNewColor(hex) {
@@ -34,11 +40,14 @@ class Colorpicker extends Color{
     const darknessColor = this.isDarkColor(this.rgb);
 
     for(let i = 0; i < Object.keys(this.rgbhtml).length; i++){
-      this.rgbhtml[Object.keys(this.rgbhtml)[i]].value = this.rgb[Math.floor(i/3)];
+      if (Object.keys(this.rgbhtml).length - 2 <= i) {
+        this.rgbhtml[Object.keys(this.rgbhtml)[i]].value = this.rgba[Math.floor(i/3)]*255;
+      } else {
+        this.rgbhtml[Object.keys(this.rgbhtml)[i]].value = this.rgba[Math.floor(i/3)];
+      }
     }
     this.hex_value.value = this.hex;
-    this.rgb_value.innerHTML = this.getCSSFromRGB(this.rgb);
-    this.body.style.background = this.hex;
+    this.body.style.background = this.getCSSFromRGBA(this.rgba);
     //this.changeShade();
   }
 

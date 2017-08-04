@@ -12,22 +12,16 @@
 	<body>
 		<div class="toolbar">
 			<ul id="app_buttons">
-				<li id="close">
-					<i></i>
-				</li>
-				<li id="minimize">
-					<i></i>
-				</li>
-				<li id="maximize">
-					<i></i>
-				</li>
+				<li id="close"><i></i></li>
+				<li id="minimize"><i></i></li>
+				<li id="maximize"><i></i></li>
 			</ul>
 			<ul id="tools">
-				<p id="top_button"><i class="fa fa-map-pin"></i></p>
-				<p id="picker_button"><i class="fa fa-eyedropper"></i></p>
-				<p id="tags_button"><i class="fa fa-bookmark"></i></p>
-				<p id="shade_button"><i class="fa fa-tint"></i></p>
-				<p id="random_button"><i class="fa fa-random"></i></p>
+				<p id="top_button" title="Set always on Top"><i class="fa fa-map-pin"></i></p>
+				<p id="picker_button" title="Eyedropper"><i class="fa fa-eyedropper"></i></p>
+				<p id="tags_button" title="Open Colorbook"><i class="fa fa-bookmark"></i></p>
+				<p id="shade_button" title="Toggle Shading"><i class="fa fa-tint"></i></p>
+				<p id="random_button" title="Set random Color"><i class="fa fa-random"></i></p>
 			</ul>
 		</div>
 		<header>
@@ -58,7 +52,7 @@
 				<aside id="nu11" data-color=""></aside>
 			</div>
 		</header>
-		<section class="edit-box">
+		<section class="main">
 			<aside class="sliders">
 				<div class="red_bar">
 					<input type="range" min="0" max="255" value="0" />
@@ -72,15 +66,19 @@
 					<input type="range" min="0" max="255" value="0" />
 					<progress min="0" max="255" value="0" />
 				</div>
+				<div class="alpha_bar">
+					<input type="range" min="0" max="255" value="0" />
+					<progress min="0" max="255" value="0" />
+				</div>
 			</aside>
 			<aside class="inputs">
 				<input type="number" id="red_value" maxlength="3" />
 				<input type="number" id="green_value" maxlength="3" />
 				<input type="number" id="blue_value" maxlength="3" />
+				<input type="number" id="alpha_value" maxlength="3" />
 			</aside>
 			<aside class="value">
 				<input type="text" id="hex_value" maxlength="7"/>
-				<p id="rgb_value"></p>
 			</aside>
 			<div id="settings"><i class="fa fa-cog"></i></div>
 		</section>
