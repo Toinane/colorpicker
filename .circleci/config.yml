@@ -20,6 +20,9 @@ jobs:
           name: npm install
           command: 'sudo npm install -g node-gyp'
       - run:
+          name: show folder
+          command: 'ls -la'
+      - run:
           name: rebuild node-gyp
           command: 'sudo node-gyp rebuild'
       - save_cache:
