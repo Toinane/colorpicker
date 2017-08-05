@@ -72,52 +72,113 @@ class Color {
   }
 
   getHSLFromRGB(rgb) {
-    let r = rgb[0]/255, g = rgb[1]/255, b = rgb[2]/255;
-    let max = Math.max(r, g, b), min = Math.min(r, g, b);
-    let h, s, l = (max + min) / 2;
-    if (max === min) { h = s = 0; }
-    else {
-      let d = max - min;
-      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-      switch (max) {
-        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-        case g: h = (b - r) / d + 2; break;
-        case b: h = (r - g) / d + 4; break;
-      }
-      h /= 6;
-    }
-    return [h, s, l];
+    let r = rgb[0] / 255;
+  	let g = rgb[1] / 255;
+  	let b = rgb[2] / 255;
+  	let min = Math.min(r, g, b), max = Math.max(r, g, b);
+  	let delta = max - min, h, s, l;
+
+  	if (max === min) h = 0;
+  	else if (r === max) h = (g - b) / delta;
+  	else if (g === max) h = 2 + (b - r) / delta;
+	  else if (b === max) h = 4 + (r - g) / delta;
+
+	  h = Math.min(h * 60, 360);
+	  if (h < 0) h += 360;
+	  l = (min + max) / 2;
+
+  	if (max === min) s = 0;
+  	else if (l <= 0.5) s = delta / (max + min);
+  	else s = delta / (2 - max - min);
+
+    return [Math.round(h), Math.round(s * 100), Math.round(l * 100)];
   }
 
   getRGBFromHSL(hsl) {
-    let r, g, b, h = hsl[0], s = hsl[1], l = hsl[2];
-    if (s === 0) { r = g = b = l; } // achromatic
-    else {
-      let hue2rgb = (p, q, t) => {
-        if(t < 0) t += 1;
-        if(t > 1) t -= 1;
-        if(t < 1/6) return p + (q - p) * 6 * t;
-        if(t < 1/2) return q;
-        if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
-        return p;
-      }
-      let q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-      let p = 2 * l - q;
-      r = hue2rgb(p, q, h + 1/3);
-      g = hue2rgb(p, q, h);
-      b = hue2rgb(p, q, h - 1/3);
-    }
-    return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+    let h = hsl[0] / 360;
+  	let s = hsl[1] / 100;
+  	let l = hsl[2] / 100;
+  	let t1, t2, t3, rgb, val;
+
+  	if (s === 0) {
+  		val = l * 255;
+  		return [val, val, val];
+  	}
+  	if (l < 0.5) t2 = l * (1 + s);
+  	else t2 = l + s - l * s;
+
+	  t1 = 2 * l - t2;
+	  rgb = [0, 0, 0];
+
+    for (let i = 0; i < 3; i++) {
+		  t3 = h + 1 / 3 * -(i - 1);
+		  if (t3 < 0) t3++;
+		  if (t3 > 1) t3--;
+		  if (6 * t3 < 1) val = t1 + (t2 - t1) * 6 * t3;
+		  else if (2 * t3 < 1) val = t2;
+		  else if (3 * t3 < 2) val = t1 + (t2 - t1) * (2 / 3 - t3) * 6;
+		  else val = t1;
+
+		  rgb[i] = Math.round(val * 255);
+	  }
+    return rgb;
   }
 
   getHSLFromHex(hex) {
     const rgb = this.getRGBFromHex(hex);
-    return this.getRGBFromHSL(rgb);
+    return this.getHSLFromRGB(rgb);
   }
 
   getHexFromHSL(hsl) {
     const rgb = this.getRGBFromHSL(hsl);
     return this.getHexFromRGB(rgb);
+  }
+
+  getRGBFromHSV(hsv) {
+    const h = hsv[0] / 60;
+  	const s = hsv[1] / 100;
+  	let v = hsv[2] / 100;
+  	const hi = Math.floor(h) % 6;
+
+  	const f = h - Math.floor(h);
+  	let p = 255 * v * (1 - s);
+  	let q = 255 * v * (1 - (s * f));
+  	let t = 255 * v * (1 - (s * (1 - f)));
+  	v *= 255;
+
+    v = Math.round(v);
+    t = Math.round(t);
+    p = Math.round(p);
+    q = Math.round(q);
+
+  	if (hi === 0) return [v, t, p];
+  	else if (hi === 1) return [q, v, p];
+  	else if (hi === 2) return [p, v, t];
+  	else if (hi === 3) return [p, q, v];
+  	else if (hi === 4) return [t, p, v];
+  	else if (hi === 5) return [v, p, q];
+  }
+
+
+  getHSVFromRGB(rgb) {
+    const r = rgb[0];
+  	const g = rgb[1];
+  	const b = rgb[2];
+  	const min = Math.min(r, g, b);
+  	const max = Math.max(r, g, b);
+  	const delta = max - min;
+  	let h;
+  	const s = max === 0 ? 0 : (delta / max * 1000) / 10;
+  	const v = ((max / 255) * 1000) / 10;
+
+  	if (max === min) h = 0;
+  	else if (r === max) h = (g - b) / delta;
+  	else if (g === max) h = 2 + ((b - r) / delta);
+  	else if (b === max) h = 4 + ((r - g) / delta);
+  	h = Math.min(h * 60, 360);
+  	if (h < 0) h += 360;
+
+    return [Math.round(h), Math.round(s), Math.round(v)];
   }
 
   isDarkColor(rgb) {
@@ -160,34 +221,129 @@ class Color {
     return [gray, gray, gray];
   }
 
-  setLightness(light, hsl) {
-    const rgb = this.getLightness(light, hsl);
-    this.setColorFromRGBA(rgba);
+  setLightnessFromHSL(light, hsl) {
+    const rgb = this.getLightnessFromHSL(light, hsl);
+    this.setColorFromRGB(rgb);
     return rgb;
   }
 
-  getLightness(light, hsl) {
+  getLightnessFromHSL(light, hsl) {
     hsl = [hsl[0], hsl[1], (hsl[2]+light)];
-    const lightness = this.getRGBFromHSL(hsl);
-    for(let i = 0; i < lightness.length; i++){
-      if(lightness[i] < 0){lightness[i] = 0;}
-      if(lightness[i] > 255){lightness[i] = 255;}
+    let rgb = this.getRGBFromHSL(hsl);
+    for(let i = 0; i < rgb.length; i++){
+      if(rgb[i] < 0){rgb[i] = 0;}
+      if(rgb[i] > 255){rgb[i] = 255;}
     }
-    return lightness;
-  }
-
-  setRotatedColor(degrees, hsl) {
-    const rgb = this.getRotatedColor(degrees, hsl);
-    this.setColorFromRGBA(rgba);
     return rgb;
   }
 
-  getRotatedColor(degrees, hsl){
-    let hue = hsl[0];
-    hue = (hue + degrees) % 360;
-    hue = hue < 0 ? 360 + hue : hue;
-    hue = hue * 0.01;
-    return this.getRGBFromHSL([hue, hsl[1], hsl[2]]);
+  setLightnessFromRGB(light, rgb) {
+    rgb = this.getLightnessFromRGB(light, rgb);
+    this.setColorFromRGB(rgb);
+    return rgb;
+  }
+
+  getLightnessFromRGB(light, rgb) {
+    let hsl = this.getHSLFromRGB(rgb);
+    hsl = [hsl[0], hsl[1], (hsl[2]+light)];
+    rgb = this.getRGBFromHSL(hsl);
+    for(let i = 0; i < rgb.length; i++){
+      if(rgb[i] < 0){rgb[i] = 0;}
+      if(rgb[i] > 255){rgb[i] = 255;}
+    }
+    return rgb;
+  }
+
+  setLightnessFromHex(light, hex) {
+    hex = this.getLightnessFromHex(light, hex);
+    this.setColorFromHex(hex);
+    return hex;
+  }
+
+  getLightnessFromHex(light, hex) {
+    let hsl = this.getHSLFromHex(hex);
+    hsl = [hsl[0], hsl[1], (hsl[2]+light)];
+    let rgb = this.getRGBFromHSL(hsl);
+    for(let i = 0; i < rgb.length; i++){
+      if(rgb[i] < 0){rgb[i] = 0;}
+      if(rgb[i] > 255){rgb[i] = 255;}
+    }
+    return this.getHexFromRGB(rgb);
+  }
+
+  setChangeHueFromHSL(degrees, hsl) {
+    hsl = this.getChangeHueFromHSL(degrees, hsl);
+    this.setColorFromHSL(hsl);
+    return hsl;
+  }
+
+  getChangeHueFromHSL(degrees, hsl) {
+    hsl[0] += degrees;
+    if (hsl[0] > 360) hsl[0] -= 360;
+    else if (hsl[0] < 0) hsl[0] += 360;
+    return this.getRGBFromHSL(hsl);
+  }
+
+  setChangeHueFromRGB(degrees, rgb) {
+    rgb = this.getChangeHueFromRGB(degrees, rgb);
+    this.setColorFromRGB(rgb);
+    return rgb;
+  }
+
+  getChangeHueFromRGB(degrees, rgb) {
+    const hsl = this.getHSLFromRGB(rgb);
+    hsl[0] += degrees;
+    if (hsl[0] > 360) hsl[0] -= 360;
+    else if (hsl[0] < 0) hsl[0] += 360;
+    return this.getRGBFromHSL(hsl);
+  }
+
+  setChangeHueFromHex(degrees, hex) {
+    hex = this.getChangeHueFromHex(degrees, hex);
+    this.setColorFromHex(hex);
+    return hex;
+  }
+
+  getChangeHueFromHex(degrees, hex) {
+    const hsl = this.getHSLFromHex(hex);
+    hsl[0] += degrees;
+    if (hsl[0] > 360) hsl[0] -= 360;
+    else if (hsl[0] < 0) hsl[0] += 360;
+    return this.getHexFromHSL(hsl);
+  }
+
+  getNaturalFromRGB(percent, rgb) {
+    let hsv = this.getHSVFromRGB(rgb);
+    let h = hsv[0], s = hsv[1], v = hsv[2];
+
+    h += 0.8 * percent;
+    if (h > 360) h -= 360;
+    else if (h < 0) h += 360;
+
+    if (hsv[0] > 240 || hsv[0] < 60) { // red
+      if (percent > 0) s -= 0.7 * percent ;
+      else s -= 0.7 * percent;
+      if (s > 100) s = 100;
+      else if (s < 0) s = 0;
+
+      if (percent < 0 ) v += 0.4 * percent;
+      else v += 0.3 * percent;
+      if (v > 100) v = 100;
+      else if (v < 0) v = 0;
+    }
+    else {
+      if (percent > 0) s += 0.7 * percent ;
+      else s += 0.7 * percent;
+      if (s > 100) s = 100;
+      else if (s < 0) s = 0;
+
+      if (percent < 0 ) v -= 0.4 * percent;
+      else v -= 0.3 * percent;
+      if (v > 100) v = 100;
+      else if (v < 0) v = 0;
+    }
+
+    return this.getRGBFromHSV([h, s, v]);
   }
 
 }

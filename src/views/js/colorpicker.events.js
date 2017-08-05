@@ -68,10 +68,8 @@ document.querySelector('#top_button').onclick = function() {
 
 document.querySelector('#shade_button').onclick = function() {
   let bool = this.classList.toggle('active');
-  if (bool) document.querySelector('header .ni').style.display = 'flex';
-  else document.querySelector('header .ni').style.display = 'none';
-  if (bool) document.querySelector('header .nu').style.display = 'flex';
-  else document.querySelector('header .nu').style.display = 'none';
+  ipcRenderer.send('shadingActive', bool);
+  document.querySelector('header').classList.toggle('shading');
 }
 
 document.querySelector('#random_button').onclick = function() {

@@ -48,7 +48,7 @@ class Colorpicker extends Color{
     }
     this.hex_value.value = this.hex;
     this.body.style.background = this.getCSSFromRGBA(this.rgba);
-    //this.changeShade();
+    this.changeShading();
   }
 
   toggleOpacity() {
@@ -66,52 +66,27 @@ class Colorpicker extends Color{
     return this.activeAlpha;
   }
 
-  changeShade(){
-     document.querySelector('#nu1').style.background = this.color.lightness(0.16, true);
-     document.querySelector('#nu1').attributes['data-color'].value = this.hexFromArray(this.color.lightness(0.16));
-     document.querySelector('#nu2').style.background = this.color.lightness(0.08, true);
-     document.querySelector('#nu2').attributes['data-color'].value = this.hexFromArray(this.color.lightness(0.08));
-     document.querySelector('#nu3').style.background = this.color.lightness(0.04, true);
-     document.querySelector('#nu3').attributes['data-color'].value = this.hexFromArray(this.color.lightness(0.04));
-     document.querySelector('#nu4').style.background = this.color.lightness(0.02, true);
-     document.querySelector('#nu4').attributes['data-color'].value = this.hexFromArray(this.color.lightness(0.02));
-     document.querySelector('#nu5').style.background = this.color.lightness(0.01, true);
-     document.querySelector('#nu5').attributes['data-color'].value = this.hexFromArray(this.color.lightness(0.01));
-     document.querySelector('#nu6').style.background = this.hex;
-     document.querySelector('#nu6').attributes['data-color'].value = this.hex;
-     document.querySelector('#nu7').style.background = this.color.lightness(-0.01, true);
-     document.querySelector('#nu7').attributes['data-color'].value = this.hexFromArray(this.color.lightness(-0.01));
-     document.querySelector('#nu8').style.background = this.color.lightness(-0.02, true);
-     document.querySelector('#nu8').attributes['data-color'].value = this.hexFromArray(this.color.lightness(-0.02));
-     document.querySelector('#nu9').style.background = this.color.lightness(-0.04, true);
-     document.querySelector('#nu9').attributes['data-color'].value = this.hexFromArray(this.color.lightness(-0.04));
-     document.querySelector('#nu10').style.background = this.color.lightness(-0.08, true);
-     document.querySelector('#nu10').attributes['data-color'].value = this.hexFromArray(this.color.lightness(-0.08));
-     document.querySelector('#nu11').style.background = this.color.lightness(-0.16, true);
-     document.querySelector('#nu11').attributes['data-color'].value = this.hexFromArray(this.color.lightness(-0.16));
+  changeShading(){
+    for(let shades = 1, light = -25, total = 22, html = ''; shades <= total; shades++) {
+      let hex = this.getLightnessFromHex(light, this.hex);
+      html += `<aside id="shade${shades}" data-color="${hex}" style="background: ${hex}"></aside>`;
+      light += 2;
+      if (total === shades) document.querySelector('.shades').innerHTML = html;
+    }
 
-     document.querySelector('#ni1').style.background = this.color.negate(true);
-     document.querySelector('#ni1').attributes['data-color'].value = this.hexFromArray(this.color.negate());
-     document.querySelector('#ni2').style.background = this.color.rotate(10, true);
-     document.querySelector('#ni2').attributes['data-color'].value = this.hexFromArray(this.color.rotate(10));
-     document.querySelector('#ni3').style.background = this.color.rotate(15, true);
-     document.querySelector('#ni3').attributes['data-color'].value = this.hexFromArray(this.color.rotate(15));
-     document.querySelector('#ni4').style.background = this.color.rotate(20, true);
-     document.querySelector('#ni4').attributes['data-color'].value = this.hexFromArray(this.color.rotate(20));
-     document.querySelector('#ni5').style.background = this.color.rotate(30, true);
-     document.querySelector('#ni5').attributes['data-color'].value = this.hexFromArray(this.color.rotate(30));
-     document.querySelector('#ni6').style.background = this.color.rotate(40, true);
-     document.querySelector('#ni6').attributes['data-color'].value = this.hexFromArray(this.color.rotate(40));
-     document.querySelector('#ni7').style.background = this.color.rotate(50, true);
-     document.querySelector('#ni7').attributes['data-color'].value = this.hexFromArray(this.color.rotate(50));
-     document.querySelector('#ni8').style.background = this.color.rotate(55, true);
-     document.querySelector('#ni8').attributes['data-color'].value = this.hexFromArray(this.color.rotate(55));
-     document.querySelector('#ni9').style.background = this.color.rotate(60, true);
-     document.querySelector('#ni9').attributes['data-color'].value = this.hexFromArray(this.color.rotate(60));
-     document.querySelector('#ni10').style.background = this.color.rotate(75, true);
-     document.querySelector('#ni10').attributes['data-color'].value = this.hexFromArray(this.color.rotate(75));
-     document.querySelector('#ni11').style.background = this.color.rotate(79, true);
-     document.querySelector('#ni11').attributes['data-color'].value = this.hexFromArray(this.color.rotate(79));
+    for(let tints = 1, degrees = -100, total = 22, html = ''; tints <= total; tints++) {
+      let hex = this.getChangeHueFromHex(degrees, this.hex);
+      html += `<aside id="tint${tints}" data-color="${hex}" style="background: ${hex}"></aside>`;
+      degrees += 10;
+      if (total === tints) document.querySelector('.tints').innerHTML = html;
+    }
+
+    for(let naturals = 1, percent = -84, total = 22, html = ''; naturals <= total; naturals++) {
+      let hex = this.getHexFromRGB(this.getNaturalFromRGB(percent, this.rgb));
+      html += `<aside id="natural${naturals}" data-color="${hex}" style="background: ${hex}"></aside>`;
+      percent += 8;
+      if (total === naturals) document.querySelector('.naturals').innerHTML = html;
+    }
   }
 
 }

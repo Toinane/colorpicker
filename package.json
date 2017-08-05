@@ -6,6 +6,7 @@
   "main": "src/main.js",
   "scripts": {
     "start": "electron src/main.js",
+    "start-linux": "electron src/main.js --enable-transparent-visuals --disable-gpu",
     "test": "xvfb-maybe electron-mocha main.js",
     "pack": "build --dir",
     "build": "build --config colorpicker-build.json",
