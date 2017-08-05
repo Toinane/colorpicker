@@ -18,10 +18,10 @@ jobs:
       #     command: 'npm rm'
       - run:
           name: npm install
-          command: 'npm install -g node-gyp'
+          command: 'sudo npm install -g node-gyp'
       - run:
           name: rebuild node-gyp
-          command: 'node-gyp rebuild'
+          command: 'sudo node-gyp rebuild'
       - save_cache:
           paths:
             - ./node_modules
