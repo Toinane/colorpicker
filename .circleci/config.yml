@@ -24,7 +24,7 @@ jobs:
           command: 'ls -la'
       - run:
           name: rebuild node-gyp
-          command: 'sudo node-gyp rebuild'
+          command: 'sudo npm run rebuild'
       - save_cache:
           paths:
             - ./node_modules
