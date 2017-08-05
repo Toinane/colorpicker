@@ -14,6 +14,9 @@ jobs:
       - restore_cache:
           keys: dependency-cache-{{ checksum "package.json" }}
       - run:
+          name: rm node_modules
+          command: 'npm rm'
+      - run:
           name: npm install
           command: 'npm install -g node-gyp'
       - run:
