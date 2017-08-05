@@ -9,18 +9,19 @@ jobs:
     steps:
       - checkout
       - run:
-        name: update-npm
-        command: 'sudo npm install -g npm@latest'
+          name: update-npm
+          command: 'sudo npm install -g npm@latest'
       - restore_cache:
           keys: dependency-cache-{{ checksum "package.json" }}
       - run:
-        name: npm install
-        command: 'npm install -g node-gyp'
+          name: npm install
+          command: 'npm install -g node-gyp'
       - run:
-        name: rebuild node-gyp
-        command: 'node-gyp rebuild'
+          name: rebuild node-gyp
+          command: 'node-gyp rebuild'
       - save_cache:
           paths:
             - ./node_modules
-      # run tests!
-      - run: echo done
+      - run:
+          name: run tests
+          command: 'echo done'
