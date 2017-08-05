@@ -2,7 +2,7 @@
 
 const {ipcMain, BrowserWindow, app} = require('electron');
 
-let timing;
+let timing, opacity, shading;
 
 module.exports = storage => {
 
@@ -21,11 +21,27 @@ module.exports = storage => {
   });
 
   ipcMain.on('opacityActive', (event, bool) => {
+    opacity = bool;
     let win = BrowserWindow.fromWebContents(event.sender);
     let size = win.getSize();
-    if(!bool) return win.setMinimumSize(440, 150);
-    if (size[1] < 180) win.setSize(size[0], 180, true);
-    win.setMinimumSize(440, 180);
+    if(!opacity && shading) return win.setMinimumSize(440, 220);
+    if(!opacity) return win.setMinimumSize(440, 150);
+    if (size[1] < 180 && !shading) win.setSize(size[0], 180, true);
+    if (size[1] < 255 && shading) win.setSize(size[0], 255, true);
+    if(!shading) win.setMinimumSize(440, 180);
+    else win.setMinimumSize(440, 255);
+  });
+
+  ipcMain.on('shadingActive', (event, bool) => {
+    shading = bool;
+    let win = BrowserWindow.fromWebContents(event.sender);
+    let size = win.getSize();
+    if(!shading && !opacity) return win.setMinimumSize(440, 150);
+    if(!shading && opacity) return win.setMinimumSize(440, 180);
+    if (size[1] < 220 && !opacity) win.setSize(size[0], 220, true);
+    if (size[1] < 255 && opacity) win.setSize(size[0], 255, true);
+    if (!opacity) win.setMinimumSize(440, 220);
+    else win.setMinimumSize(440, 255);
   });
 
   ipcMain.on('minimize', event => BrowserWindow.fromWebContents(event.sender).minimize());

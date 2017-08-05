@@ -87,6 +87,14 @@ class Colorpicker extends Color{
       percent += 8;
       if (total === naturals) document.querySelector('.naturals').innerHTML = html;
     }
+
+    let shading = document.querySelectorAll('header .shades aside, header .tints aside, header .naturals aside');
+    for (let shade of shading) {
+      shade.addEventListener('click', function() {
+        cp.setNewColor(this.attributes['data-color'].value);
+      });
+    }
+
   }
 
 }
