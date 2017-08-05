@@ -22,7 +22,7 @@ jobs:
       - save_cache:
           paths:
             - ./node_modules
-          keys: dependency-cache-{{ checksum "package.json" }}
+          key: dependency-cache-{{ checksum "package.json" }}
       - run:
           name: run tests
           command: 'echo done'
