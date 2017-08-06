@@ -44,8 +44,6 @@ module.exports = (dirname, storage) => {
       win = undefined;
     });
 
-    win.webContents.openDevTools();
-
     windowEvents(win);
   };
 

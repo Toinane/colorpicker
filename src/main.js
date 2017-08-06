@@ -22,27 +22,29 @@ let createTray = () => {
  */
 let setMenu = () => {
   let template = [{
-    label: "Colorpicker",
+    label: 'Colorpicker',
     submenu: [
-        { label: "About Colorpicker", selector: "orderFrontStandardAboutPanel:" },
-        { type: "separator" },
-        { label: "Quit", accelerator: "Command+Q", click:() => app.quit()}
+        { label: 'About Colorpicker', selector: 'orderFrontStandardAboutPanel:' },
+				{ label: 'Toggle Devtools', accelerator: 'CmdOrCtrl+Alt+I', role: 'toggledevtools' },
+				{ label: 'Reload Window', accelerator: 'CmdOrCtrl+R', role: 'reload' },
+        { type: 'separator' },
+        { label: 'Quit', accelerator: 'Command+Q', click:() => app.quit()}
     ]}, {
-    label: "Edit",
+    label: 'Edit',
     submenu: [
-        { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
-        { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
-        { type: "separator" },
-        { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
-        { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
-        { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
-        { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+        { label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:' },
+        { label: 'Redo', accelerator: 'Shift+CmdOrCtrl+Z', selector: 'redo:' },
+        { type: 'separator' },
+        { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
+        { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
+        { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
+        { label: 'Select All', accelerator: 'CmdOrCtrl+A', selector: 'selectAll:' }
     ]}, {
 		label: 'Show',
 		submenu: [
-			{ label: 'Colorpicker', accelerator: "CmdOrCtrl+Shift+C", click:() => colorpicker.init(true)},
-			{ label: 'Hexacolor', accelerator: "CmdOrCtrl+H", click:() => hexacolor.init()},
-			{ label: 'Picker', accelerator: "CmdOrCtrl+P", click:() => picker.init()}
+			{ label: 'Colorpicker', accelerator: 'CmdOrCtrl+Shift+C', click:() => colorpicker.init(true)},
+			{ label: 'ColorsBook', accelerator: 'CmdOrCtrl+B', click:() => hexacolor.init()},
+			{ label: 'Picker', accelerator: 'CmdOrCtrl+P', click:() => picker.init()}
 		]}
   ];
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));

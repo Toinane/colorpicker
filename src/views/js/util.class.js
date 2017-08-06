@@ -1,47 +1,33 @@
 'use strict';
 
-const {ipcRenderer} = require('electron');
+let cm;
 
 class ContextMenu {
 
   constructor() {
-    this.menu = document.querySelector('#contextMenu');
-    this.menuActive = false;
-    this.colorpickerMenu = [
-      {text: 'Save color', id: 'savecolor'},
-      'separator',
-      {text: 'Copy Hex code', id: 'copyhexcode'},
-      {text: 'Copy RGB code', id: 'copyrgbcode'},
-      {text: 'Copy RGBA code', id: 'copyrgbacode'},
-      'separator',
-      {text: 'set Negative Color', id: 'setnegativecolor'}
-    ]
+    this.window = remote.getCurrentWindow();
   }
 
-  openMenu(type, x, y) {
-    this.menuActive = true;
-    this.setMenu(type);
-    this.menu.style.top = `${y}px`;
-    this.menu.style.left = `${x}px`;
-    this.menu.style.display = 'block';
+  openMenu(type) {
+    let menu;
+    switch (type) {
+      case 'colorpickerMenu': menu = remote.Menu.buildFromTemplate(this.colorpickerMenu()); break;
+    }
+    menu.popup(this.window);
   }
 
-  closeMenu() {
-    this.menu.style.display = 'none';
-    this.menuActive = false;
-  }
-
-  setMenu(type) {
-    let menu = '';
-    this[type].map(el => {
-      if (el === 'separator') menu += '<li class="separator"></li>';
-      else menu += `<li id="${el.id}">${el.text}</li>`;
-    });
-    this.menu.innerHTML = menu;
+  colorpickerMenu() {
+    return [
+      {label: 'Save color' , accelerator: "CmdOrCtrl+S", click: () => console.log(cp)},
+      {type: 'separator'},
+      {label: 'Copy Hex code'},
+      {label: 'Copy RGB code', visible: !cp.activeAlpha},
+      {label: 'Copy RGBA code', visible: cp.activeAlpha},
+      {type: 'separator'},
+      {label: 'set Negative Color'},
+      {type: 'separator'},
+      {label: 'toogle devtools', role: 'toggledevtools'}
+    ];
   }
 
 }
-
-
-
-let cm = new ContextMenu();

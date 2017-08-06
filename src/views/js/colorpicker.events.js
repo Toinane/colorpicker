@@ -6,6 +6,7 @@ ipcRenderer.on('init', (event, config) => {
   if (config.posButton === 'right') document.querySelector('.toolbar').classList.add('setRight');
   initButtonsType(config.typeButton);
   cp = new Colorpicker(config.color);
+  cm = new ContextMenu(cp);
   initEvents();
 });
 
@@ -49,10 +50,8 @@ function changebuttonsType(type) {
 
 function initEvents() {
   window.addEventListener('contextmenu', function(event) {
-    cm.openMenu('colorpickerMenu', event.clientX, event.clientY);
+    cm.openMenu('colorpickerMenu');
   });
-
-  window.addEventListener('click', () => cm.closeMenu());
 
   document.querySelector('#close').onclick = function() {
     ipcRenderer.send('close');

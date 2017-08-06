@@ -1,5 +1,7 @@
 'use strict';
 
+const {ipcRenderer, remote} = require('electron');
+
 class Color {
 
   constructor(r, g, b) {
