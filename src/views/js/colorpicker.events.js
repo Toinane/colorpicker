@@ -126,6 +126,17 @@ function initEvents() {
     cp.setNewRGBColor([cp.red, cp.green, blue]);
   }
 
+  document.querySelector('#alpha_value').oninput = function() {
+    let alpha = this.value;
+    if (alpha === '0.') return;
+    if (alpha === '1.') return cp.setNewAlphaColor(1);
+    console.log(alpha, alpha.length)
+    if (isNaN(alpha) || alpha.length > 4) return cp.setNewAlphaColor(0);
+    if (alpha > 1) alpha = 1;
+    if (alpha < 0) alpha = 0;
+    cp.setNewAlphaColor(alpha);
+  }
+
   document.querySelector('#hex_value').oninput = function() {
     let hex = this.value.replace('#', '');
     if (hex.length !== 6) return;

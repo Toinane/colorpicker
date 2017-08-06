@@ -8,14 +8,8 @@ jobs:
     working_directory: ~/repo
     steps:
       - checkout
-      # - run:
-      #     name: update-npm
-      #     command: 'sudo npm install -g npm@latest'
       - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      # - run:
-      #     name: rm node_modules
-      #     command: 'npm rm'
+          key: dependency-cache-{{ checksum "package.json" }}'
       - run:
           name: npm install
           command: 'sudo npm install -g node-gyp'
@@ -23,7 +17,7 @@ jobs:
           name: show folder
           command: 'ls -la'
       - run:
-          name: rebuild node-gyp
+          name: npm run rebuild
           command: 'sudo npm run rebuild'
       - save_cache:
           paths:

@@ -37,16 +37,17 @@ class Colorpicker extends Color{
   setNewColor(hex) {
     ipcRenderer.send('changeLastColor', hex);
     this.setColorFromHex(hex);
-    const darknessColor = this.isDarkColor(this.rgb);
+    this.isDark = this.isDarkColor(this.rgb);
 
-    for(let i = 0; i < Object.keys(this.rgbhtml).length; i++){
-      if (Object.keys(this.rgbhtml).length - 2 <= i) {
-        this.rgbhtml[Object.keys(this.rgbhtml)[i]].value = this.rgba[Math.floor(i/3)]*255;
-      } else {
-        this.rgbhtml[Object.keys(this.rgbhtml)[i]].value = this.rgba[Math.floor(i/3)];
+    for(let i = 0, total = Object.keys(this.rgbhtml).length; i < total; i++){
+      if (total - 2 <= i) this.rgbhtml[Object.keys(this.rgbhtml)[i]].value = this.rgba[Math.floor(i/3)]*255;
+      else {
+        if (i === 9 && this.rgba[3].toString().length > 4) this.rgbhtml[Object.keys(this.rgbhtml)[i]].value = this.rgba[Math.floor(i/3)].toFixed(2);
+        else this.rgbhtml[Object.keys(this.rgbhtml)[i]].value = this.rgba[Math.floor(i/3)];
       }
     }
     this.hex_value.value = this.hex;
+    this.body.classList.toggle('darkMode', this.isDark);
     this.body.style.background = this.getCSSFromRGBA(this.rgba);
     this.changeShading();
   }
