@@ -50,6 +50,10 @@ function changebuttonsType(type) {
 }
 
 function initEvents() {
+  window.addEventListener('contextmenu', function(event) {
+    cm.openMenu('colorpickerMenu', event.clientX, event.clientY);
+  });
+
   document.querySelector('#close').onclick = function() {
     ipcRenderer.send('close');
   }
