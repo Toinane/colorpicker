@@ -1,7 +1,5 @@
 'use strict';
 
-const {ipcRenderer} = require('electron');
-
 document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-colorpicker'), false);
 
 ipcRenderer.on('init', (event, config) => {
@@ -53,6 +51,8 @@ function initEvents() {
   window.addEventListener('contextmenu', function(event) {
     cm.openMenu('colorpickerMenu', event.clientX, event.clientY);
   });
+
+  window.addEventListener('click', () => cm.closeMenu());
 
   document.querySelector('#close').onclick = function() {
     ipcRenderer.send('close');
