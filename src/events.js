@@ -1,6 +1,7 @@
 'use strict';
 
 const {ipcMain, BrowserWindow, app} = require('electron');
+const localShortcut = require('electron-localshortcut');
 
 let timing, opacity, shading;
 
@@ -8,11 +9,16 @@ module.exports = storage => {
 
   ipcMain.on('init-colorpicker', event => {
     let config = {};
+    let win = BrowserWindow.fromWebContents(event.sender);
     config.color = storage.get('lastColor').length ? storage.get('lastColor') : '#00AEEF';
     config.posButton = storage.get('buttonsPosition');
     config.typeButton = storage.get('buttonsType');
 
     event.sender.send('init', config);
+
+    localShortcut.register(win, 'CmdOrCtrl+S', () => event.sender.send('saveShortcut'));
+    localShortcut.register(win, 'CmdOrCtrl+Space', () => event.sender.send('copyShortcut'));
+    localShortcut.register(win, 'CmdOrCtrl+Shift+Space', () => event.sender.send('copyShortcut'));
   });
 
   ipcMain.on('changeLastColor', (event, color) => {

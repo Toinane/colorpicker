@@ -6,9 +6,13 @@ ipcRenderer.on('init', (event, config) => {
   if (config.posButton === 'right') document.querySelector('.toolbar').classList.add('setRight');
   initButtonsType(config.typeButton);
   cp = new Colorpicker(config.color);
-  cm = new ContextMenu(cp);
+  cm = new ContextMenu();
   initEvents();
 });
+
+ipcRenderer.on('saveShortcut', () => cm.save());
+ipcRenderer.on('copyHexShortcut', () => cm.copyHex());
+ipcRenderer.on('copyRGBShortcut', () => cm.copyRGB());
 
 function initButtonsType(type) {
   const app_buttons = document.querySelector('#app_buttons');

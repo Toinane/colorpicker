@@ -17,17 +17,36 @@ class ContextMenu {
   }
 
   colorpickerMenu() {
+
+
     return [
-      {label: 'Save color' , accelerator: "CmdOrCtrl+S", click: () => console.log(cp)},
+      {label: 'Save color' , accelerator: 'CmdOrCtrl+S', click: () => this.save(), active: false},
       {type: 'separator'},
-      {label: 'Copy Hex code'},
-      {label: 'Copy RGB code', visible: !cp.activeAlpha},
-      {label: 'Copy RGBA code', visible: cp.activeAlpha},
+      {label: 'Copy Hex code', accelerator: 'CmdOrCtrl+Space', click: () => this.copyHex()},
+      {label: 'Copy RGB code', visible: !cp.activeAlpha, accelerator: 'CmdOrCtrl+Shift+Space', click: () => this.copyRGB()},
+      {label: 'Copy RGBA code', visible: cp.activeAlpha, accelerator: 'CmdOrCtrl+Shift+Space', click: () => this.copyRGB()},
       {type: 'separator'},
-      {label: 'set Negative Color'},
+      {label: 'set Negative Color', accelerator: 'CmdOrCtrl+N', click: () => this.setNegative()},
       {type: 'separator'},
       {label: 'toogle devtools', role: 'toggledevtools'}
     ];
+  }
+
+  save() {
+    console.log('save');
+  }
+
+  copyHex() {
+    console.log('copy hex');
+  }
+
+  copyRGB() {
+    if (cp.activeAlpha) console.log('copy rgba');
+    else console.log('copy rgb');
+  }
+
+  setNegative() {
+    
   }
 
 }
