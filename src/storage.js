@@ -48,7 +48,7 @@ let fetch = () => (
  */
 let get = (el, name) => {
   if (!name) name = 'colorpicker'
-  return storage[name][el] ? storage[name][el] : {}
+  return (storage[name][el] !== null || storage[name][el] !== undefined) ? storage[name][el] : {}
 }
 
 /**
@@ -127,6 +127,7 @@ template = {
  */
 defaultStorage = {
   colorpicker: {
+    frame: false,
     size: { width: 484, height: 190 },
     buttonsPosition: template[platform()]['buttonsPosition'],
     buttonsType: template[platform()]['buttonsType'],

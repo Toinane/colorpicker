@@ -1,9 +1,18 @@
 'use strict'
 
 const {ipcMain, BrowserWindow} = require('electron')
+const request = require('request')
 
 module.exports = storage => {
   let timing, opacity, shading
+
+  ipcMain.on('init-about', event => {
+    let message = 'You\'re up to date :)'
+    request('https://crea-th.at/p/colorpicker/release.php', (err, res, body) => {
+      if (err) console.log(err)
+      console.log(body)
+    })
+  })
 
   ipcMain.on('init-colorpicker', event => {
     let config = {}

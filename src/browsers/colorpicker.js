@@ -10,12 +10,12 @@ module.exports = (dirname, storage) => {
    * @param {boolean} force [force launching new window]
    * @return {void} [new Colorpicker]
    */
-  let init = force => {
+  let init = () => {
     const size = storage.get('size')
     const pos = storage.get('pos')
-    if (win === null || win === undefined || force) {
-      createWindow(size.width, size.height, pos.x, pos.y)
-    } else { win.show() }
+    const frame = storage.get('frame')
+    if (win === null || win === undefined) createWindow(size.width, size.height, pos.x, pos.y, frame)
+    else win.show()
   }
 
   /**
@@ -24,9 +24,10 @@ module.exports = (dirname, storage) => {
    * @param  {int} height [height of the window]
    * @return {void}
    */
-  let createWindow = (width, height, x, y) => {
+  let createWindow = (width, height, x, y, frame) => {
+    console.log(frame)
     let options = {
-      frame: false,
+      frame: frame,
       'auto-hide-menu-bar': true,
       width: width,
       height: height,

@@ -1,6 +1,11 @@
-body, p, h1, h2{
+@font-face{
+  font-family: 'Lato';
+  src: url('fonts/Lato-Regular.ttf');
+}
+
+body, p, h1, h2, input{
    margin: 0;
-   font-family: sans-serif;
+   font-family: 'Lato', sans-serif;
 }
 body{
    overflow: hidden;
@@ -149,7 +154,7 @@ header .shades aside, header .tints aside, header .naturals aside{
   bottom: -20px;
 }
 .opacity .sliders, .opacity .alpha_bar, .opacity .inputs, .opacity #alpha_value{
-  bottom: 0;
+  bottom: 0.5px;
 }
 
 .red_bar, .green_bar, .blue_bar, .alpha_bar{
@@ -226,8 +231,7 @@ progress{
       color: rgba(0, 0, 0, 0.5);
       border: none;
       padding: 2px;
-      font-family: "Source Sans Pro", sans-serif;
-      font-size: 1.1em;
+      font-size: 1.05em;
       font-weight: bold;
       outline: none;
       transition: 0.3s;
@@ -238,7 +242,7 @@ progress{
    }
 
    .value{
-      margin-bottom: 8px;
+      margin-bottom: 9px;
       margin-left: 10px;
    }
    .value input{

@@ -1,0 +1,54 @@
+@font-face{
+  font-family: 'Lato';
+  src: url('fonts/Lato-Regular.ttf');
+}
+
+body, p, h1, h2, input{
+   margin: 0;
+   font-family: 'Lato', sans-serif;
+   color: #3E4044;
+}
+
+body{
+  background: rgba(255, 255, 255, 0.9);
+  text-align: center;
+}
+
+img{
+  margin-top: 10px;
+  width: 30%;
+  height: auto;
+}
+
+h1{
+  color: #3B8BD5;
+  font-weight: normal;
+  font-family: , sans-serif;
+  font-size: 1.3em;
+  margin-top: -18px;
+  cursor: pointer;
+}
+
+#version{
+  padding: 10px 0;
+}
+
+
+#update{
+  padding: 15px 0;
+}
+  #update #blue{
+    color: #3B8BD5;
+    cursor: pointer;
+  }
+  #update #gray{
+    color: #595959;
+  }
+  #update i{
+    font-size: 1em;
+  }
+
+#thanks{
+  position: relative;
+  top: 30px;
+}
