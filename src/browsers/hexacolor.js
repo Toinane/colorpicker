@@ -1,21 +1,20 @@
-'use strict';
+'use strict'
 
-const {BrowserWindow, Menu} = require('electron');
+const {BrowserWindow} = require('electron')
 
 module.exports = (dirname, storage) => {
-
-  let win;
+  let win
 
   /**
    * [init]
    * @return {void} [new Hexacolor]
    */
   let init = folder => {
-    dirname = folder;
-    if(win === null || win === undefined) {
-      createWindow(484, 190);
+    dirname = folder
+    if (win === null || win === undefined) {
+      createWindow(484, 190)
     }
-  };
+  }
 
   /**
    * [createWindow - create new Window]
@@ -25,19 +24,19 @@ module.exports = (dirname, storage) => {
    */
   let createWindow = (width, height) => {
     win = new BrowserWindow({
-       frame:false,
-       'auto-hide-menu-bar': true,
-       width: 484,
-       height: 190,
-       icon: `${dirname}/build/logo.png`
-    });
+      frame: false,
+      'auto-hide-menu-bar': true,
+      width: 484,
+      height: 190,
+      icon: `${dirname}/build/logo.png`
+    })
 
-    win.loadURL(`file://${dirname}/views/hexacolor.html`);
+    win.loadURL(`file://${dirname}/views/hexacolor.html`)
 
-    win.on('closed', function(){
-      win = undefined;
-    });
-  };
+    win.on('closed', () => {
+      win = undefined
+    })
+  }
 
   return {
     init: init

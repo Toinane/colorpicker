@@ -1,10 +1,9 @@
-'use strict';
+'use strict'
 
-const {BrowserWindow, ipcMain} = require('electron');
+const {BrowserWindow} = require('electron')
 
 module.exports = (dirname, storage) => {
-
-  let win;
+  let win
 
   /**
    * [init]
@@ -12,12 +11,12 @@ module.exports = (dirname, storage) => {
    * @return {void} [new Colorpicker]
    */
   let init = force => {
-    const size = storage.get('size');
-    const pos = storage.get('pos');
-    if(win === null || win === undefined || force) {
-      createWindow(size.width, size.height, pos.x, pos.y);
-    } else { win.show(); }
-  };
+    const size = storage.get('size')
+    const pos = storage.get('pos')
+    if (win === null || win === undefined || force) {
+      createWindow(size.width, size.height, pos.x, pos.y)
+    } else { win.show() }
+  }
 
   /**
    * [createWindow - create new Window]
@@ -27,25 +26,27 @@ module.exports = (dirname, storage) => {
    */
   let createWindow = (width, height, x, y) => {
     let options = {
-      frame:false,
+      frame: false,
       'auto-hide-menu-bar': true,
-      width: width, height: height,
-      minWidth: 440, minHeight: 150,
+      width: width,
+      height: height,
+      minWidth: 440,
+      minHeight: 150,
       transparent: true,
       experimentalFeatures: true,
       icon: `${dirname}/build/logo.png`
     }
-    if (x && y) { options.x = x; options.y = y; }
+    if (x && y) { options.x = x; options.y = y }
 
-    win = new BrowserWindow(options);
-    win.loadURL(`file://${dirname}/views/colorpicker.html`);
+    win = new BrowserWindow(options)
+    win.loadURL(`file://${dirname}/views/colorpicker.html`)
 
-    win.on('closed', event => {
-      win = undefined;
-    });
+    win.on('closed', () => {
+      win = undefined
+    })
 
-    windowEvents(win);
-  };
+    windowEvents(win)
+  }
 
   /**
    * [windowEvents - BrowserWindow events]
@@ -53,22 +54,22 @@ module.exports = (dirname, storage) => {
    * @return {void}
    */
   let windowEvents = win => {
-    let timing;
+    let timing
 
     win.on('resize', event => {
-      const size = win.getBounds();
-      clearTimeout(timing);
-      timing = setTimeout(() => storage.add({size: { width: size.width, height: size.height }}), 300);
-    });
+      const size = win.getBounds()
+      clearTimeout(timing)
+      timing = setTimeout(() => storage.add({size: { width: size.width, height: size.height }}), 300)
+    })
 
     win.on('move', event => {
-      const pos = win.getBounds();
-      clearTimeout(timing);
-      timing = setTimeout(() => storage.add({pos: { x: pos.x, y: pos.y }}), 300);
-    });
-  };
+      const pos = win.getBounds()
+      clearTimeout(timing)
+      timing = setTimeout(() => storage.add({pos: { x: pos.x, y: pos.y }}), 300)
+    })
+  }
 
   return {
     init: init
-  };
+  }
 }

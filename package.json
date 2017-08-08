@@ -7,7 +7,7 @@
   "scripts": {
     "start": "electron src/main.js",
     "start-linux": "electron src/main.js --enable-transparent-visuals --disable-gpu",
-    "test": "xvfb-maybe electron-mocha main.js",
+    "standard": "standard",
     "pack": "build --dir",
     "build": "build --config colorpicker-build.json",
     "nightly": "build --config colorpicker-build-nightly.json",
@@ -30,7 +30,8 @@
   },
   "devDependencies": {
     "electron": "1.6.11",
-    "electron-builder": "19.6.3"
+    "electron-builder": "19.6.3",
+    "standard": "^10.0.3"
   },
   "author": "Toinane",
   "homepage": "https://toinane.crea-th.at",

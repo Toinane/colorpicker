@@ -1,9 +1,9 @@
-'use strict';
+'use strict'
 
-const electron_storage = require('electron-json-storage');
-const {dialog} = require('electron');
+const electronStorage = require('electron-json-storage')
+const {dialog} = require('electron')
 
-let storage, template, defaultStorage;
+let storage, template, defaultStorage
 
 /**
  * [init - init storage]
@@ -11,16 +11,16 @@ let storage, template, defaultStorage;
  */
 let init = () => (
   new Promise((resolve, reject) => (
-    electron_storage.has('colorpicker', (err, exist) => {
-      if (err) throw err;
-      if (exist) { resolve(fetch()); }
+    electronStorage.has('colorpicker', (err, exist) => {
+      if (err) throw err
+      if (exist) resolve(fetch())
       else {
-        storage = defaultStorage;
-        resolve(save());
+        storage = defaultStorage
+        resolve(save())
       }
     })
   ))
-);
+)
 
 /**
  * [fetch - fetch storage]
@@ -28,17 +28,17 @@ let init = () => (
  */
 let fetch = () => (
   new Promise((resolve, reject) => {
-    electron_storage.get('colorpicker', (err, data) => {
+    electronStorage.get('colorpicker', (err, data) => {
       if (err) {
-        dialog.showErrorBox('loading storage file error', err);
-        storage = defaultStorage;
-        resolve(false);
+        dialog.showErrorBox('loading storage file error', err)
+        storage = defaultStorage
+        resolve(false)
       }
-      storage = data;
-      resolve(true);
-    });
+      storage = data
+      resolve(true)
+    })
   })
-);
+)
 
 /**
  * [get - return settings of target browser]
@@ -47,8 +47,8 @@ let fetch = () => (
  * @return {string|Object}  [settings string or object]
  */
 let get = (el, name) => {
-  name = name ? name : 'colorpicker';
-  return storage[name][el] ? storage[name][el] : {};
+  if (!name) name = 'colorpicker'
+  return storage[name][el] ? storage[name][el] : {}
 }
 
 /**
@@ -58,10 +58,10 @@ let get = (el, name) => {
  */
 let add = (payload, name) => (
   new Promise((resolve, reject) => {
-    console.log('save payload:', payload);
-    name = name ? name : 'colorpicker';
-    Object.assign(storage[name], payload);
-    resolve(save());
+    console.log('save payload:', payload)
+    if (!name) name = 'colorpicker'
+    Object.assign(storage[name], payload)
+    resolve(save())
   })
 )
 
@@ -71,20 +71,20 @@ let add = (payload, name) => (
  */
 let save = () => (
   new Promise((resolve, reject) => {
-    electron_storage.set('colorpicker', storage, (err, data) => {
-      if (err) throw err;
-      resolve(true);
-    });
+    electronStorage.set('colorpicker', storage, (err, data) => {
+      if (err) throw err
+      resolve(true)
+    })
   })
-);
+)
 
 /**
  * [reset - reset storage to default]
  */
 let reset = () => {
-  electron_storage.remove('colorpicker');
-  storage = defaultStorage;
-  save();
+  electronStorage.remove('colorpicker')
+  storage = defaultStorage
+  save()
 }
 
 /**
@@ -92,15 +92,14 @@ let reset = () => {
  * @return {string} [actual platform]
  */
 let platform = () => {
-  switch(process.platform) {
-    case 'darwin':  return 'darwin';  break;
-    case 'win32':   return 'windows'; break;
-    case 'linux':   return 'linux';   break;
-    case 'freebsd': return 'linux';   break;
-    case 'sunos':   return 'linux';   break;
-    default:        return 'darwin';  break;
+  switch (process.platform) {
+    case 'darwin': return 'darwin'
+    case 'win32': return 'windows'
+    case 'linux': return 'linux'
+    case 'freebsd': return 'linux'
+    case 'sunos': return 'linux'
+    default: return 'darwin'
   }
-  return save(name, storage);
 }
 
 /**
@@ -120,7 +119,7 @@ template = {
     buttonsPosition: 'right',
     buttonsType: 'linux'
   }
-};
+}
 
 /**
  * [defaultStorage - default storage]
@@ -135,11 +134,11 @@ defaultStorage = {
   },
   hexacolor: {},
   picker: {}
-};
+}
 
 module.exports = {
   init: init,
   get: get,
   add: add,
-  reset, reset
+  reset: reset
 }
