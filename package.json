@@ -26,7 +26,6 @@
   ],
   "dependencies": {
     "electron-json-storage": "^3.0.7",
-    "electron-localshortcut": "^2.0.2",
     "robotjs": "^0.4.7"
   },
   "devDependencies": {

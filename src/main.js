@@ -24,27 +24,42 @@ let setMenu = () => {
   let template = [{
     label: 'Colorpicker',
     submenu: [
-        { label: 'About Colorpicker', selector: 'orderFrontStandardAboutPanel:' },
-				{ label: 'Toggle Devtools', accelerator: 'CmdOrCtrl+Alt+I', role: 'toggledevtools' },
-				{ label: 'Reload Window', accelerator: 'CmdOrCtrl+R', role: 'reload' },
-        { type: 'separator' },
-        { label: 'Quit', accelerator: 'Command+Q', click:() => app.quit()}
+      { label: 'About Colorpicker', 'accelerator': 'Shift+CmdOrCtrl+A', click: () => about.init() },
+			{ label: `Version ${app.getVersion()}`, active: false},
+			{ type: 'separator' },
+			{ label: 'Preferences', accelerator: 'CmdOrCtrl+,', click: () => settings.init() },
+			{ type: 'separator' },
+			{ label: 'Hide Colorpicker', accelerator: 'CmdOrCtrl+H', role: 'minimize' },
+			{ label: 'Developer',
+				submenu: [
+					{ label: 'Toggle Devtools', accelerator: 'CmdOrCtrl+Alt+I', role: 'toggledevtools' },
+					{ label: 'Reload Window', accelerator: 'CmdOrCtrl+R', role: 'reload' }
+			]},
+      { type: 'separator' },
+      { label: 'Quit', accelerator: 'Command+Q', click:() => app.quit()}
     ]}, {
-    label: 'Edit',
-    submenu: [
-        { label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:' },
-        { label: 'Redo', accelerator: 'Shift+CmdOrCtrl+Z', selector: 'redo:' },
-        { type: 'separator' },
-        { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
-        { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
-        { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
-        { label: 'Select All', accelerator: 'CmdOrCtrl+A', selector: 'selectAll:' }
-    ]}, {
-		label: 'Show',
+    label: 'Edit', role: 'editMenu'
+		}, {
+		label: 'View',
 		submenu: [
-			{ label: 'Colorpicker', accelerator: 'CmdOrCtrl+Shift+C', click:() => colorpicker.init(true)},
-			{ label: 'ColorsBook', accelerator: 'CmdOrCtrl+B', click:() => hexacolor.init()},
-			{ label: 'Picker', accelerator: 'CmdOrCtrl+P', click:() => picker.init()}
+			{ label: 'Show Colorpicker', accelerator: 'Shift+CmdOrCtrl+C', click:() => colorpicker.init()},
+			{ label: 'Show ColorsBook', accelerator: 'Shift+CmdOrCtrl+B', click:() => hexacolor.init()},
+			{ type: 'separator' },
+			{label: 'Save Color' , accelerator: 'CmdOrCtrl+S', click: () => this.save(), active: false},
+			{type: 'separator'},
+			{label: 'Copy Hex Color', accelerator: 'CmdOrCtrl+W', click: () => this.copyHex()},
+			{label: 'Copy RGB(a) Color', accelerator: 'Shift+CmdOrCtrl+W', click: () => this.copyRGB()},
+			{type: 'separator'},
+			{label: 'set Negative Color', accelerator: 'CmdOrCtrl+N', click: () => this.setNegative()}
+		]}, {
+		label: 'Tools',
+		submenu: [
+			{ label: 'Pin to Foreground', type: 'checkbox', accelerator: 'CmdOrCtrl+F', click:() => colorpicker.init()},
+			{ type: 'separator' },
+			{ label: 'Pick Color', accelerator: 'CmdOrCtrl+P', click:() => picker.init()},
+			{ label: 'Toggle Shading', type: 'checkbox', accelerator: 'CmdOrCtrl+T', click: () => this.copyHex()},
+			{ label: 'Toggle Opacity', type: 'checkbox', accelerator: 'CmdOrCtrl+O', click: () => this.copyHex()},
+			{ label: 'Set Random Color', accelerator: 'CmdOrCtrl+M', click: () => this.copyRGB()},
 		]}
   ];
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));

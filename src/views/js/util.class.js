@@ -18,17 +18,14 @@ class ContextMenu {
 
   colorpickerMenu() {
 
-
     return [
-      {label: 'Save color' , accelerator: 'CmdOrCtrl+S', click: () => this.save(), active: false},
+      {label: 'Save Color' , accelerator: 'CmdOrCtrl+S', click: () => this.save(), active: false},
       {type: 'separator'},
-      {label: 'Copy Hex code', accelerator: 'CmdOrCtrl+Space', click: () => this.copyHex()},
-      {label: 'Copy RGB code', visible: !cp.activeAlpha, accelerator: 'CmdOrCtrl+Shift+Space', click: () => this.copyRGB()},
-      {label: 'Copy RGBA code', visible: cp.activeAlpha, accelerator: 'CmdOrCtrl+Shift+Space', click: () => this.copyRGB()},
+      {label: 'Copy Hex Code', accelerator: 'CmdOrCtrl+W', click: () => this.copyHex()},
+      {label: 'Copy RGB Code', visible: !cp.activeAlpha, accelerator: 'Shift+CmdOrCtrl+W', click: () => this.copyRGB()},
+      {label: 'Copy RGBA Code', visible: cp.activeAlpha, accelerator: 'Shift+CmdOrCtrl+W', click: () => this.copyRGB()},
       {type: 'separator'},
-      {label: 'set Negative Color', accelerator: 'CmdOrCtrl+N', click: () => this.setNegative()},
-      {type: 'separator'},
-      {label: 'toogle devtools', role: 'toggledevtools'}
+      {label: 'set Negative Color', accelerator: 'CmdOrCtrl+N', click: () => this.setNegative()}
     ];
   }
 
@@ -46,7 +43,7 @@ class ContextMenu {
   }
 
   setNegative() {
-    
+
   }
 
 }
