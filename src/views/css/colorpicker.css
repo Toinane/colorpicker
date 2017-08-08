@@ -268,9 +268,12 @@ progress{
 
 #settings{
   position: absolute;
-  bottom: 7px; right: 19px;
-  color: rgba(0, 0, 0, 0.3);
+  top: 5px; right: 15px;
+  color: rgba(0, 0, 0, 0.2);
   cursor: pointer;
+}
+.setRight #settings{
+  right: 80px;
 }
 
 
