@@ -28,7 +28,7 @@ let setMenu = () => {
       label: 'Colorpicker',
       submenu: [
         { label: 'About Colorpicker', 'accelerator': 'Shift+CmdOrCtrl+A', click: () => about.init() },
-        { label: `Version ${app.getVersion()}`, active: false },
+        { label: `Version ${app.getVersion()}`, enabled: false },
         { type: 'separator' },
         { label: 'Preferences', accelerator: 'CmdOrCtrl+,', click: () => settings.init() },
         { type: 'separator' },
@@ -41,7 +41,7 @@ let setMenu = () => {
           ]
         },
         { type: 'separator' },
-        { label: 'Quit', accelerator: 'Command+Q', click: () => app.quit() }
+        { label: 'Quit', accelerator: 'CmdOrCtrl+Q', click: () => app.quit() }
       ]
     }, {
       label: 'Edit', role: 'editMenu'
@@ -51,22 +51,22 @@ let setMenu = () => {
         { label: 'Show Colorpicker', accelerator: 'Shift+CmdOrCtrl+C', click: () => colorpicker.init() },
         { label: 'Show ColorsBook', accelerator: 'Shift+CmdOrCtrl+B', click: () => hexacolor.init() },
         { type: 'separator' },
-        { label: 'Save Color', accelerator: 'CmdOrCtrl+S', click: () => this.save() },
+        { label: 'Save Color', accelerator: 'CmdOrCtrl+S', click: () => colorpicker.getWindow().webContents.send('shortSave') },
         { type: 'separator' },
-        { label: 'Copy Hex Color', accelerator: 'CmdOrCtrl+W', click: () => this.copyHex() },
-        { label: 'Copy RGB(a) Color', accelerator: 'Shift+CmdOrCtrl+W', click: () => this.copyRGB() },
+        { label: 'Copy Hex Color', accelerator: 'CmdOrCtrl+W', click: () => colorpicker.getWindow().webContents.send('shortCopyHex') },
+        { label: 'Copy RGB(a) Color', accelerator: 'Shift+CmdOrCtrl+W', click: () => colorpicker.getWindow().webContents.send('shortCopyRGB') },
         { type: 'separator' },
-        { label: 'set Negative Color', accelerator: 'CmdOrCtrl+N', click: () => this.setNegative() }
+        { label: 'set Negative Color', accelerator: 'CmdOrCtrl+N', click: () => colorpicker.getWindow().webContents.send('shortNegative') }
       ]
     }, {
       label: 'Tools',
       submenu: [
-        { label: 'Pin to Foreground', type: 'checkbox', accelerator: 'CmdOrCtrl+F', click: () => colorpicker.init() },
+        { label: 'Pin to Foreground', accelerator: 'CmdOrCtrl+F', click: () => colorpicker.getWindow().webContents.send('shortPin') },
         { type: 'separator' },
         { label: 'Pick Color', accelerator: 'CmdOrCtrl+P', click: () => picker.init() },
-        { label: 'Toggle Shading', type: 'checkbox', accelerator: 'CmdOrCtrl+T', click: () => this.copyHex() },
-        { label: 'Toggle Opacity', type: 'checkbox', accelerator: 'CmdOrCtrl+O', click: () => this.copyHex() },
-        { label: 'Set Random Color', accelerator: 'CmdOrCtrl+M', click: () => this.copyRGB() }
+        { label: 'Toggle Shading', accelerator: 'CmdOrCtrl+T', click: () => colorpicker.getWindow().webContents.send('shortShading') },
+        { label: 'Toggle Opacity', accelerator: 'CmdOrCtrl+O', click: () => colorpicker.getWindow().webContents.send('shortOpacity') },
+        { label: 'Set Random Color', accelerator: 'CmdOrCtrl+M', click: () => colorpicker.getWindow().webContents.send('shortRandom') }
       ]
     }
   ]

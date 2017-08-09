@@ -11,9 +11,8 @@ module.exports = (dirname, storage) => {
    */
   let init = folder => {
     dirname = folder
-    if (win === null || win === undefined) {
-      createWindow(484, 190)
-    }
+    if (win === null || win === undefined) createWindow()
+    else win.show()
   }
 
   /**
@@ -22,7 +21,7 @@ module.exports = (dirname, storage) => {
    * @param  {int} height [height of the window]
    * @return {void}
    */
-  let createWindow = (width, height) => {
+  let createWindow = () => {
     win = new BrowserWindow({
       frame: false,
       'auto-hide-menu-bar': true,

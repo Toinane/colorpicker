@@ -12,9 +12,14 @@ ipcRenderer.on('init', (event, config) => {
   initEvents()
 })
 
-ipcRenderer.on('saveShortcut', () => cm.save())
-ipcRenderer.on('copyHexShortcut', () => cm.copyHex())
-ipcRenderer.on('copyRGBShortcut', () => cm.copyRGB())
+ipcRenderer.on('shortSave', () => cm.save())
+ipcRenderer.on('shortCopyHex', () => cm.copyHex())
+ipcRenderer.on('shortCopyRGB', () => cm.copyRGB())
+ipcRenderer.on('shortNegative', () => cp.setNegativeColor())
+ipcRenderer.on('shortPin', () => togglePin())
+ipcRenderer.on('shortShading', () => toggleShading())
+ipcRenderer.on('shortOpacity', () => toggleOpacity())
+ipcRenderer.on('shortRandom', () => toggleRandom())
 
 function initButtonsType (type) {
   const appButtons = document.querySelector('#app_buttons')
@@ -54,46 +59,45 @@ function changebuttonsType (type) {
   ipcRenderer.send('buttonsType', type)
 }
 
+function togglePin () {
+  let bool = document.querySelector('#top_button').classList.toggle('active')
+  ipcRenderer.send('setOnTop', bool)
+}
+
+function toggleShading () {
+  let bool = document.querySelector('#shade_button').classList.toggle('active')
+  ipcRenderer.send('shadingActive', bool)
+  document.querySelector('header').classList.toggle('shading')
+}
+
+function toggleRandom () {
+  const r = Math.floor(Math.random() * 255) + 0
+  const g = Math.floor(Math.random() * 255) + 0
+  const b = Math.floor(Math.random() * 255) + 0
+  cp.setNewRGBColor([r, g, b])
+}
+
+function toggleOpacity () {
+  let bool = cp.toggleOpacity()
+  ipcRenderer.send('opacityActive', bool)
+}
+
 function initEvents () {
   window.addEventListener('contextmenu', event => {
     cm.openMenu('colorpickerMenu')
   })
 
-  document.querySelector('#close').onclick = () => {
-    ipcRenderer.send('close')
-  }
-
-  document.querySelector('#minimize').onclick = () => {
-    ipcRenderer.send('minimize')
-  }
-
-  document.querySelector('#maximize').onclick = function (event) {
+  document.querySelector('#close').onclick = () => ipcRenderer.send('close')
+  document.querySelector('#minimize').onclick = () => ipcRenderer.send('minimize')
+  document.querySelector('#maximize').onclick = function () {
     let bool = this.classList.toggle('active')
     ipcRenderer.send('maximize', bool)
   }
 
-  document.querySelector('#top_button').onclick = function () {
-    let bool = this.classList.toggle('active')
-    ipcRenderer.send('setOnTop', bool)
-  }
-
-  document.querySelector('#shade_button').onclick = function () {
-    let bool = this.classList.toggle('active')
-    ipcRenderer.send('shadingActive', bool)
-    document.querySelector('header').classList.toggle('shading')
-  }
-
-  document.querySelector('#random_button').onclick = () => {
-    const r = Math.floor(Math.random() * 255) + 0
-    const g = Math.floor(Math.random() * 255) + 0
-    const b = Math.floor(Math.random() * 255) + 0
-    cp.setNewRGBColor([r, g, b])
-  }
-
-  document.querySelector('#opacity_button').onclick = () => {
-    let bool = cp.toggleOpacity()
-    ipcRenderer.send('opacityActive', bool)
-  }
+  document.querySelector('#top_button').onclick = () => togglePin()
+  document.querySelector('#shade_button').onclick = () => toggleShading()
+  document.querySelector('#random_button').onclick = () => toggleRandom()
+  document.querySelector('#opacity_button').onclick = () => toggleOpacity()
 
   document.querySelector('.red_bar input').oninput = function () {
     const red = this.value

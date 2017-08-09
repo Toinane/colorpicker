@@ -199,6 +199,7 @@ class Color {
   }
 
   setNegativeColor (rgb) {
+    if (!rgb) rgb = this.rgb
     const negative = this.getNegativeColor(rgb)
     this.setColorFromRGB(negative)
     return negative

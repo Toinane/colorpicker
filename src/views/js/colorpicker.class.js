@@ -31,6 +31,13 @@ class Colorpicker extends Color {
     this.setNewColor(this.hex)
   }
 
+  setNegativeColor (rgb) {
+    if (!rgb) rgb = this.rgb
+    const negative = this.getNegativeColor(rgb)
+    this.setNewColor(this.getHexFromRGB(negative))
+    return negative
+  }
+
   setNewColor (hex) {
     ipcRenderer.send('changeLastColor', hex)
     this.setColorFromHex(hex)
