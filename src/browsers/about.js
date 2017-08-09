@@ -25,7 +25,6 @@ module.exports = (dirname, storage) => {
     let options = {
       width: 400,
       height: 300,
-      transparent: true,
       resizable: false,
       fullscreenable: false,
       vibrancy: 'light',

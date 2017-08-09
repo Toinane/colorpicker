@@ -12,9 +12,8 @@ module.exports = (dirname, storage) => {
    */
   let init = () => {
     const size = storage.get('size')
-    const pos = storage.get('pos')
     const frame = storage.get('frame')
-    if (win === null || win === undefined) createWindow(size.width, size.height, pos.x, pos.y, frame)
+    if (win === null || win === undefined) createWindow(size.width, size.height, frame)
     else win.show()
   }
 
@@ -24,8 +23,8 @@ module.exports = (dirname, storage) => {
    * @param  {int} height [height of the window]
    * @return {void}
    */
-  let createWindow = (width, height, x, y, frame) => {
-    console.log(frame)
+  let createWindow = (width, height, frame) => {
+    const pos = storage.get('pos')
     let options = {
       frame: frame,
       'auto-hide-menu-bar': true,
@@ -37,7 +36,7 @@ module.exports = (dirname, storage) => {
       experimentalFeatures: true,
       icon: `${dirname}/build/logo.png`
     }
-    if (x && y) { options.x = x; options.y = y }
+    if (pos) { options.x = pos.x; options.y = pos.y }
 
     win = new BrowserWindow(options)
     win.loadURL(`file://${dirname}/views/colorpicker.html`)
