@@ -48,5 +48,6 @@ h1{
 
 #thanks{
   position: relative;
-  top: 30px;
+  top: 40px;
+  font-size: 0.9em;
 }

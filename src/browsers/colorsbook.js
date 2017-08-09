@@ -7,7 +7,7 @@ module.exports = (dirname, storage) => {
 
   /**
    * [init]
-   * @return {void} [new Hexacolor]
+   * @return {void} [new Colorsbook]
    */
   let init = folder => {
     dirname = folder
@@ -38,7 +38,10 @@ module.exports = (dirname, storage) => {
     })
   }
 
+  let getWindow = () => win
+
   return {
-    init: init
+    init: init,
+    getWindow: getWindow
   }
 }

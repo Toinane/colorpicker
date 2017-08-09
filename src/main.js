@@ -2,9 +2,10 @@
 
 const {app, Tray, Menu} = require('electron')
 const storage = require('./storage')
-const {colorpicker, hexacolor, picker, about, settings} = require('./browsers')(__dirname, storage)
+const browsers = require('./browsers')(__dirname, storage)
+const {colorpicker, colorsbook, picker, about, settings} = browsers
 
-require('./events')(storage)
+require('./events')(storage, browsers)
 
 // console.log(app.getPath('userData'))
 

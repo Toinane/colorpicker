@@ -69,7 +69,10 @@ module.exports = (dirname, storage) => {
     })
   }
 
+  let getWindow = () => win
+
   return {
-    init: init
+    init: init,
+    getWindow: getWindow
   }
 }

@@ -34,6 +34,9 @@ let fetch = () => (
         storage = defaultStorage
         resolve(false)
       }
+      for(let key in defaultStorage.colorpicker) {
+        if(!data.colorpicker.hasOwnProperty(key)) data.colorpicker[key] = defaultStorage.colorpicker[key]
+      }
       storage = data
       resolve(true)
     })
@@ -109,15 +112,18 @@ let platform = () => {
 template = {
   windows: {
     buttonsPosition: 'right',
-    buttonsType: 'windows'
+    buttonsType: 'windows',
+    frame: false
   },
   darwin: {
     buttonsPosition: 'left',
-    'buttonsType': 'osx'
+    buttonsType: 'osx',
+    frame: false
   },
   linux: {
     buttonsPosition: 'right',
-    buttonsType: 'linux'
+    buttonsType: 'linux',
+    frame: true
   }
 }
 
@@ -127,13 +133,13 @@ template = {
  */
 defaultStorage = {
   colorpicker: {
-    frame: false,
+    frame: template[platform()].frame,
     size: { width: 484, height: 190 },
-    buttonsPosition: template[platform()]['buttonsPosition'],
-    buttonsType: template[platform()]['buttonsType'],
+    buttonsPosition: template[platform()].buttonsPosition,
+    buttonsType: template[platform()].buttonsType,
     lastColor: '#00AEEF'
   },
-  hexacolor: {},
+  colorsbook: {},
   picker: {}
 }
 
