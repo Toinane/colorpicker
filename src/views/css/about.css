@@ -36,13 +36,11 @@ h1{
 
 #update{
   padding: 15px 0;
+  color: #6C6C6C;
 }
-  #update #blue{
+  #update span{
     color: #3B8BD5;
     cursor: pointer;
-  }
-  #update #gray{
-    color: #595959;
   }
   #update i{
     font-size: 1em;
