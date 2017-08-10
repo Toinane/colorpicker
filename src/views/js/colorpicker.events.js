@@ -30,13 +30,13 @@ function initButtonsType (type) {
     case 'windows':
       appButtons.classList.add('windows')
       minimize.classList.add('fa', 'fa-window-minimize')
-      maximize.classList.add('fa', 'fa-window-maximize')
-      close.classList.add('fa', 'fa-window-close')
+      maximize.classList.add('fa', 'fa-square')
+      close.classList.add('fa', 'fa-times')
       break
     case 'linux':
       appButtons.classList.add('linux')
       minimize.classList.add('fa', 'fa-minus')
-      maximize.classList.add('fa', 'fa-expand')
+      maximize.classList.add('fa', 'fa-sort')
       close.classList.add('fa', 'fa-times-circle')
       break
     default:
