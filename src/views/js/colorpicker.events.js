@@ -12,9 +12,9 @@ ipcRenderer.on('init', (event, config) => {
   initEvents()
 })
 
-ipcRenderer.on('shortSave', () => cm.save())
-ipcRenderer.on('shortCopyHex', () => cm.copyHex())
-ipcRenderer.on('shortCopyRGB', () => cm.copyRGB())
+ipcRenderer.on('shortSave', () => cb.save())
+ipcRenderer.on('shortCopyHex', () => cp.copyHex())
+ipcRenderer.on('shortCopyRGB', () => cp.activeAlpha ? cp.copyRGBA() : cp.copyRGB())
 ipcRenderer.on('shortNegative', () => cp.setNegativeColor())
 ipcRenderer.on('shortPin', () => togglePin())
 ipcRenderer.on('shortShading', () => toggleShading())

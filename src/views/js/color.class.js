@@ -1,6 +1,6 @@
 'use strict'
 
-const {ipcRenderer, remote} = require('electron')
+const {ipcRenderer, remote, clipboard} = require('electron')
 
 class Color {
   constructor (r, g, b) {
@@ -46,7 +46,7 @@ class Color {
   }
 
   getCSSFromRGBA (rgba) {
-    return `rgba(${rgba[0]}, ${rgba[1]}, ${rgba[2]}, ${rgba[3]})`
+    return `rgba(${rgba[0]}, ${rgba[1]}, ${rgba[2]}, ${rgba[3].toFixed(2)})`
   }
 
   getRGBAFromRGB (rgb) { return rgb.concat([this.alpha]) }

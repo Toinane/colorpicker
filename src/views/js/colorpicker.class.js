@@ -56,6 +56,12 @@ class Colorpicker extends Color {
     this.changeShading()
   }
 
+  copyHex () { clipboard.writeText(this.hex) }
+
+  copyRGB () { clipboard.writeText(this.getCSSFromRGB(this.rgb)) }
+
+  copyRGBA () { clipboard.writeText(this.getCSSFromRGBA(this.rgba)) }
+
   toggleOpacity () {
     this.activeAlpha = document.querySelector('#opacity_button').classList.toggle('active')
     document.querySelector('.main').classList.toggle('opacity', this.activeAlpha)

@@ -47,7 +47,7 @@ h1{
   }
 
 #thanks{
-  position: relative;
-  top: 40px;
-  font-size: 0.9em;
+  margin-top: 20px;
+  color: #6C6C6C;
+  font-size: 0.8em;
 }
