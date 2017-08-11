@@ -21,7 +21,7 @@ module.exports = (dirname, storage) => {
    * @param  {int} height [height of the window]
    * @return {void}
    */
-  let createWindow = (width, height, x, y) => {
+  let createWindow = () => {
     let options = {
       width: 400,
       height: 300,
@@ -30,7 +30,6 @@ module.exports = (dirname, storage) => {
       vibrancy: 'light',
       icon: `${dirname}/build/logo.png`
     }
-    if (x && y) { options.x = x; options.y = y }
 
     win = new BrowserWindow(options)
     win.loadURL(`file://${dirname}/views/about.html`)
