@@ -1,47 +1,73 @@
 'use strict'
 
 const robot = require('robotjs')
-const {BrowserWindow, ipcMain} = require('electron')
+const {BrowserWindow} = require('electron')
 
 module.exports = (dirname, storage) => {
-  let win
-
-  ipcMain.on('picker', event => {
-    let color = getColor()
-    event.sender.send('picker', color)
-  })
+  let win, colors
 
   let init = () => {
     if (win === null || win === undefined) {
-      createWindow(484, 190)
+      createWindow()
     }
   }
 
-  let getColor = () => {
+  let getColors = () => {
     let mouse = robot.getMousePos()
-    let hex = robot.getPixelColor(mouse.x, mouse.y)
-    // console.log("#" + hex + " at x:" + mouse.x + " y:" + mouse.y)
-    return '#' + hex
+    colors = {
+      '#l0-0': robot.getPixelColor(mouse.x-2, mouse.y-2),
+      '#l0-1': robot.getPixelColor(mouse.x-1, mouse.y-2),
+      '#l0-2': robot.getPixelColor(mouse.x, mouse.y-2),
+      '#l0-3': robot.getPixelColor(mouse.x+1, mouse.y-2),
+      '#l0-4': robot.getPixelColor(mouse.x+2, mouse.y-2),
+      '#l1-0': robot.getPixelColor(mouse.x-2, mouse.y-1),
+      '#l1-1': robot.getPixelColor(mouse.x-1, mouse.y-1),
+      '#l1-2': robot.getPixelColor(mouse.x, mouse.y-1),
+      '#l1-3': robot.getPixelColor(mouse.x+1, mouse.y-1),
+      '#l1-4': robot.getPixelColor(mouse.x+2, mouse.y-1),
+      '#l2-0': robot.getPixelColor(mouse.x-2, mouse.y),
+      '#l2-1': robot.getPixelColor(mouse.x-1, mouse.y),
+      '#l2-2': robot.getPixelColor(mouse.x, mouse.y),
+      '#l2-3': robot.getPixelColor(mouse.x+1, mouse.y),
+      '#l2-4': robot.getPixelColor(mouse.x+2, mouse.y),
+      '#l3-0': robot.getPixelColor(mouse.x-2, mouse.y+1),
+      '#l3-1': robot.getPixelColor(mouse.x-1, mouse.y+1),
+      '#l3-2': robot.getPixelColor(mouse.x, mouse.y+1),
+      '#l3-3': robot.getPixelColor(mouse.x+1, mouse.y+1),
+      '#l3-4': robot.getPixelColor(mouse.x+2, mouse.y+1),
+      '#l4-0': robot.getPixelColor(mouse.x-2, mouse.y+2),
+      '#l4-1': robot.getPixelColor(mouse.x-1, mouse.y+2),
+      '#l4-2': robot.getPixelColor(mouse.x, mouse.y+2),
+      '#l4-3': robot.getPixelColor(mouse.x+1, mouse.y+2),
+      '#l4-4': robot.getPixelColor(mouse.x+2, mouse.y+2)
+    }
+    return colors
   }
 
-  let createWindow = (width, height) => {
+  let createWindow = () => {
     win = new BrowserWindow({
       frame: false,
       'auto-hide-menu-bar': true,
-      width: 100,
-      height: 100,
+      width: 110,
+      height: 110,
+      transparent: true,
+      alwaysOnTop: true,
+      focusable: false,
       icon: `${dirname}/build/logo.png`
     })
 
     win.loadURL(`file://${dirname}/views/picker.html`)
-
+    win.openDevTools()
     win.on('closed', () => {
       win = undefined
     })
   }
 
+  let getWindow = () => win
+
   return {
     init: init,
-    getColor: getColor
+    getColors: getColors,
+    getWindow: getWindow
   }
 }

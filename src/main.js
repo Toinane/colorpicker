@@ -7,8 +7,6 @@ const {colorpicker, colorsbook, picker, about, settings} = browsers
 
 require('./events')(storage, browsers)
 
-// console.log(app.getPath('userData'))
-
 let tray
 
 let createTray = () => {
@@ -81,7 +79,6 @@ app.on('ready', () => {
     createTray()
     setMenu()
     colorpicker.init()
-    // picker.init(__dirname)
   })
 })
 
