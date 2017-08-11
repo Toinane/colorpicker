@@ -27,7 +27,9 @@ class ContextMenu {
       { label: 'Toggle Opacity', accelerator: 'CmdOrCtrl+O', click: () => toggleOpacity() },
       { type: 'separator' },
       { label: 'Set Random Color', accelerator: 'CmdOrCtrl+M', click: () => toggleRandom() },
-      { label: 'set Negative Color', accelerator: 'CmdOrCtrl+N', click: () => cp.setNegativeColor() }
+      { label: 'set Negative Color', accelerator: 'CmdOrCtrl+N', click: () => cp.setNegativeColor() },
+      { type: 'separator' },
+      { label: 'Preferences', accelerator: 'CmdOrCtrl+,', click: () => ipcRenderer.send('showPreferences') }
     ]
   }
 

@@ -3,7 +3,7 @@
 const {ipcMain, BrowserWindow, app} = require('electron')
 
 module.exports = (storage, browsers) => {
-  const {colorpicker} = browsers
+  const {colorpicker, settings} = browsers
   let timing, opacity, shading
 
   ipcMain.on('init-colorpicker', event => {
@@ -52,4 +52,6 @@ module.exports = (storage, browsers) => {
   ipcMain.on('close', event => colorpicker.getWindow().close())
 
   ipcMain.on('setOnTop', (event, bool) => colorpicker.getWindow().setAlwaysOnTop(bool))
+
+  ipcMain.on('showPreferences', event => settings.init())
 }
