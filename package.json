@@ -26,8 +26,6 @@
   ],
   "dependencies": {
     "electron-json-storage": "^3.0.7",
-    "iohook": "^0.1.9",
-    "node-mouse": "0.0.2",
     "request": "^2.81.0",
     "robotjs": "^0.4.7"
   },
