@@ -26,6 +26,7 @@
   ],
   "dependencies": {
     "electron-json-storage": "^3.0.7",
+    "iohook": "^0.1.9",
     "node-mouse": "0.0.2",
     "request": "^2.81.0",
     "robotjs": "^0.4.7"
@@ -34,6 +35,19 @@
     "electron": "1.6.11",
     "electron-builder": "19.6.3",
     "standard": "^10.0.3"
+  },
+  "iohook": {
+    "targets": [
+      "electron-53"
+    ],
+    "platforms": [
+      "win32",
+      "darwin",
+      "linux"
+    ],
+    "arches": [
+      "x64"
+    ]
   },
   "author": "Toinane",
   "homepage": "https://toinane.crea-th.at",

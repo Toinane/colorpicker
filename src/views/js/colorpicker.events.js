@@ -12,6 +12,7 @@ ipcRenderer.on('init', (event, config) => {
   initEvents()
 })
 
+ipcRenderer.on('changeColor', (event, color) => cp.setNewColor(color))
 ipcRenderer.on('shortSave', () => cb.save())
 ipcRenderer.on('shortCopyHex', () => cp.copyHex())
 ipcRenderer.on('shortCopyRGB', () => cp.activeAlpha ? cp.copyRGBA() : cp.copyRGB())
@@ -95,6 +96,8 @@ function initEvents () {
   }
 
   document.querySelector('#top_button').onclick = () => togglePin()
+  document.querySelector('#picker_button').onclick = () => ipcRenderer.send('launchPicker')
+  document.querySelector('#tags_button').onclick = () => ipcRenderer.send('launchColorsbook')
   document.querySelector('#shade_button').onclick = () => toggleShading()
   document.querySelector('#random_button').onclick = () => toggleRandom()
   document.querySelector('#opacity_button').onclick = () => toggleOpacity()

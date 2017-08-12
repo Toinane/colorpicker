@@ -1,6 +1,6 @@
 let color = new Color(0, 0, 0)
 
-document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-picker'), false)
+document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('picker-requested'), false)
 
 ipcRenderer.on('new-colors', (event, colors) => {
   Object.keys(colors).map((key, index) => {
