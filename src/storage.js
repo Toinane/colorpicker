@@ -112,18 +112,15 @@ let platform = () => {
 template = {
   windows: {
     buttonsPosition: 'right',
-    buttonsType: 'windows',
-    frame: false
+    buttonsType: 'windows'
   },
   darwin: {
     buttonsPosition: 'left',
-    buttonsType: 'osx',
-    frame: false
+    buttonsType: 'osx'
   },
   linux: {
     buttonsPosition: 'right',
-    buttonsType: 'linux',
-    frame: true
+    buttonsType: 'linux'
   }
 }
 
@@ -133,7 +130,6 @@ template = {
  */
 defaultStorage = {
   colorpicker: {
-    frame: template[platform()].frame,
     size: { width: 484, height: 190 },
     buttonsPosition: template[platform()].buttonsPosition,
     buttonsType: template[platform()].buttonsType,

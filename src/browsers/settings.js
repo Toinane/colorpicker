@@ -24,10 +24,10 @@ module.exports = (dirname, storage) => {
   let createWindow = () => {
     let options = {
       width: 700,
-      height: 400,
-      resizable: false,
+      height: 500,
+      minWidth: 370,
+      minHeight: 340,
       fullscreenable: false,
-      vibrancy: 'light',
       icon: `${dirname}/build/logo.png`
     }
 
