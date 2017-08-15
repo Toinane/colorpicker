@@ -23,6 +23,18 @@ ipcRenderer.on('init', (event, config) => {
 })
 
 
+document.querySelector('#position-left').addEventListener('click', function () {
+  document.querySelector('#position .active').classList.remove('active')
+  this.classList.add('active')
+  ipcRenderer.send('set-position', 'left')
+})
+document.querySelector('#position-right').addEventListener('click', function () {
+  document.querySelector('#position .active').classList.remove('active')
+  this.classList.add('active')
+  ipcRenderer.send('set-position', 'right')
+})
+
+
 //
 // ipcRenderer.on('init', (event, version) => {
 //   document.querySelector('#version span').innerHTML = version

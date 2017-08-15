@@ -15,4 +15,9 @@ module.exports = (storage, browsers) => {
     event.sender.send('init', config)
   })
 
+  ipcMain.on('set-position', (event, position) => {
+    storage.add({buttonsPosition: position})
+    colorpicker.getWindow().webContents.send('changePosition', position)
+  })
+
 }

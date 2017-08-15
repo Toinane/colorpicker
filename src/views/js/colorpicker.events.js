@@ -22,6 +22,12 @@ ipcRenderer.on('shortShading', () => toggleShading())
 ipcRenderer.on('shortOpacity', () => toggleOpacity())
 ipcRenderer.on('shortRandom', () => toggleRandom())
 
+ipcRenderer.on('changePosition', (event, position) => {
+  console.log(position)
+  if (position === 'right') document.querySelector('.toolbar').classList.add('setRight')
+  else document.querySelector('.toolbar').classList.remove('setRight')
+})
+
 function initButtonsType (type) {
   const appButtons = document.querySelector('#app_buttons')
   const minimize = document.querySelector('#minimize')
