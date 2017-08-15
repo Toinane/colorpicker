@@ -77,12 +77,16 @@ header{
     color: #282E3D;
   }
 
-  #position{
+  .panel section + p{
+    margin-top: 30px;
+  }
+
+  #position, #type-icons{
     text-align: center;
     display: flex;
     justify-content: center;
   }
-    #position li{
+    #position li, #type-icons li{
       cursor: pointer;
       list-style: none;
       width: 200px;
@@ -93,13 +97,17 @@ header{
       margin: 10px;
       text-align: center;
     }
-    #position li.active{
+    #position li.active, #type-icons li.active{
       border: 1px solid #2BA0E0;
       color: #2BA0E0;
     }
       #position img{
         width: 100%;
       }
-      #positio li.active img{
-        filter: rgb(43, 160, 224)
+      #position li.active img{
+        filter: sepia(50%) hue-rotate(180deg) saturate(200%);
       }
+
+    #type-icons li{
+      width: 140px;
+    }

@@ -15,10 +15,14 @@ for (let el of els) {
   })
 }
 
+document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-settings'), false)
+
+ipcRenderer.on('init', (event, config) => {
+  document.querySelector(`#position-${config.posButton}`).classList.add('active')
+  document.querySelector(`#type-${config.typeButton}`).classList.add('active')
+})
 
 
-
-// document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-about'), false)
 //
 // ipcRenderer.on('init', (event, version) => {
 //   document.querySelector('#version span').innerHTML = version

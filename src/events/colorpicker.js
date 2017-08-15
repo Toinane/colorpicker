@@ -8,7 +8,7 @@ module.exports = (storage, browsers) => {
 
   ipcMain.on('init-colorpicker', event => {
     let config = {}
-    config.color = storage.get('lastColor').length ? storage.get('lastColor') : '#00AEEF'
+    config.color = storage.get('lastColor') ? storage.get('lastColor') : '#00AEEF'
     config.posButton = storage.get('buttonsPosition')
     config.typeButton = storage.get('buttonsType')
 
