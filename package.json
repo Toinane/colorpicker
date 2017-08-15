@@ -6,11 +6,12 @@
   "main": "src/main.js",
   "scripts": {
     "start": "electron src/main.js",
-    "start-linux": "electron src/main.js --enable-transparent-visuals --disable-gpu",
     "standard": "standard",
     "pack": "build --dir",
     "build": "build --config colorpicker-build.json",
+    "build-linux": "build --config colorpicker-build.json --linux deb, apk, rpm, zip, appImage",
     "nightly": "build --config colorpicker-build-nightly.json",
+    "nightly-linux": "build --config colorpicker-build-nightly.json --linux deb appImage",
     "rebuild": "npm rebuild --runtime=electron --target=1.6.11 --disturl=https://atom.io/download/atom-shell --abi=57"
   },
   "repository": "https://github.com/toinane/colorpicker",
@@ -47,7 +48,11 @@
       "x64"
     ]
   },
-  "author": "Toinane",
-  "homepage": "https://toinane.crea-th.at",
+  "author": {
+    "name": "Toinane",
+    "email": "toinane@crea-that.fr",
+    "url": "https://toinane.crea-th.at"
+  },
+  "homepage": "https://crea-th.at/p/colorpicker",
   "license": "GNU GPLv3"
 }

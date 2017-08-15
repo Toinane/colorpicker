@@ -4,39 +4,61 @@
     <meta charset="utf-8">
     <title>Settings Colorpicker</title>
     <link rel="stylesheet" href="./css/settings.css" />
+    <link rel="stylesheet" href="./css/font-awesome.min.css" />
     <script defer src="./js/settings.js"></script>
   </head>
   <body>
     <header>
-      <li id="general-tab" class="active">
+      <li id="general" class="active">
         <img src="../ressources/general-icon.png" alt="General Settings">
         <p>General</p>
       </li>
-      <li id="colorpicker-tab">
+      <li id="colorpicker">
         <img src="../ressources/colorpicker-icon.png" alt="Colorpicker Settings">
         <p>Colorpicker</p>
       </li>
-      <li id="picker-tab">
+      <li id="picker">
         <img src="../ressources/picker-icon.png" alt="Picker Settings">
         <p>Picker</p>
       </li>
-      <li id="colorsbook-tab">
+      <li id="colorsbook">
         <img src="../ressources/colorsbook-icon.png" alt="Colorsbook Settings">
         <p>Colorsbook</p>
       </li>
-      <li id="about-tab">
+      <li id="about">
         <img src="../ressources/about-icon.png" alt="About Settings">
         <p>About</p>
       </li>
     </header>
-    <section class="panel" id="general">
-
+    <section class="panel active" id="general-tab">
+      <h2>General</h2>
+      <p>No settings here for the moment.</p>
     </section>
-    <h2>Appearance</h2>
-    <section id="position">
+    <section class="panel" id="colorpicker-tab">
+      <h2>Appearance</h2>
       <p>Change the position of icons app</p>
-      <li><img src="../ressources/position-left.png" alt="Position Left" /></li>
-      <li><img src="../ressources/position-right.png" alt="Position Right" /></li>
+      <section id="position">
+        <li class="active">
+          <img src="../ressources/position-left.png" alt="Position Left" />
+          <p>Left position</p>
+        </li>
+        <li>
+          <img src="../ressources/position-right.png" alt="Position Right" />
+          <p>Right position</p>
+        </li>
+      </section>
+    </section>
+    <section class="panel" id="picker-tab">
+      <h2>Picker</h2>
+      <p>No settings here for the moment.</p>
+    </section>
+    <section class="panel" id="colorsbook-tab">
+      <h2>Colorsbook</h2>
+      <p>No settings here for the moment.</p>
+    </section>
+    <section class="panel" id="about-tab">
+      <h2>About</h2>
+      <p>Colorpicker is developed by Toinane with <i class="fa fa-heart"></i></p>
     </section>
   </body>
 </html>

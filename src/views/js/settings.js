@@ -2,11 +2,16 @@
 
 const {ipcRenderer, shell} = require('electron')
 
+let tabActive = 'general';
+
 let els = document.querySelectorAll('header li')
 for (let el of els) {
   el.addEventListener('click', function (event) {
-    if(document.querySelector('header li.active')) document.querySelector('header li.active').classList.remove('active')
+    document.querySelector(`#${tabActive}-tab`).classList.remove('active')
+    if (document.querySelector('header li.active')) document.querySelector('header li.active').classList.remove('active')
     this.classList.add('active')
+    tabActive = this.id
+    document.querySelector(`#${tabActive}-tab`).classList.add('active')
   })
 }
 

@@ -12,8 +12,7 @@ module.exports = (dirname, storage) => {
    */
   let init = () => {
     const size = storage.get('size')
-    const frame = storage.get('frame')
-    if (win === null || win === undefined) createWindow(size.width, size.height, frame)
+    if (win === null || win === undefined) createWindow(size.width, size.height)
     else win.show()
   }
 
@@ -26,7 +25,7 @@ module.exports = (dirname, storage) => {
   let createWindow = (width, height, frame) => {
     const pos = storage.get('pos')
     let options = {
-      frame: frame,
+      frame: false,
       'auto-hide-menu-bar': true,
       width: width,
       height: height,

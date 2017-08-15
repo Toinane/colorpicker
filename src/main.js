@@ -7,12 +7,19 @@ const {colorpicker, colorsbook, picker, about, settings} = browsers
 
 require('./events')(storage, browsers)
 
+if (process.platform === 'linux') {
+  app.commandLine.appendSwitch('--enable-transparent-visuals')
+  app.disableHardwareAcceleration()
+}
+
 let tray
 
 let createTray = () => {
   if (tray) return
-  tray = new Tray(`${__dirname}/ressources/tray-black@3x.png`)
-  tray.setPressedImage(`${__dirname}/ressources/tray-white@3x.png`)
+  if (process.platform === 'darwin') tray = new Tray(`${__dirname}/ressources/tray-black@3x.png`)
+  if (process.platform === 'win32') tray = new Tray(`${__dirname}/ressources/tray-black@3x.png`) // color here
+  if (process.platform === 'linux') tray = new Tray(`${__dirname}/ressources/tray-white@3x.png`)
+  if (process.platform === 'darwin') tray.setPressedImage(`${__dirname}/ressources/tray-white@3x.png`)
   tray.on('click', event => colorpicker.init(__dirname))
 }
 

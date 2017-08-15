@@ -25,7 +25,7 @@ module.exports = (dirname, storage) => {
     let options = {
       width: 700,
       height: 500,
-      minWidth: 370,
+      minWidth: 450,
       minHeight: 340,
       fullscreenable: false,
       icon: `${dirname}/build/logo.png`

@@ -3,6 +3,11 @@ body, *{
   font-family: 'Lato', sans-serif;
 }
 
+html, body{
+  overflow: hidden;
+  height: 100%;
+}
+
 header{
   display: flex;
   justify-content: center;
@@ -39,3 +44,62 @@ header{
       font-size: 0.8em;
       color: #2F3A4A;
     }
+
+.panel{
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 109px);
+  bottom: 0; left: 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.panel.active{
+  visibility: visible;
+  overflow-y: auto;
+  overflow-x: hidden;
+  opacity: 1;
+  transition: opacity 1.3s;
+}
+  .panel h2{
+    color: #2BA0E0;
+    padding-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 2px;
+    box-sizing: border-box;
+    font-weight: normal;
+    font-size: 1.3em;
+    border-bottom: 1px solid #8CCBEE;
+    margin-bottom: 20px;
+  }
+  .panel > p{
+    padding-left: 20px;
+    color: #282E3D;
+  }
+
+  #position{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
+    #position li{
+      cursor: pointer;
+      list-style: none;
+      width: 200px;
+      border: 1px solid #8991A3;
+      color: #8991A3;
+      border-radius: 10px;
+      padding: 5px 10px;
+      margin: 10px;
+      text-align: center;
+    }
+    #position li.active{
+      border: 1px solid #2BA0E0;
+      color: #2BA0E0;
+    }
+      #position img{
+        width: 100%;
+      }
+      #positio li.active img{
+        filter: rgb(43, 160, 224)
+      }
