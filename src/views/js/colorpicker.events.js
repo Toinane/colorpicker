@@ -19,8 +19,8 @@ ipcRenderer.on('shortCopyRGB', () => cp.activeAlpha ? cp.copyRGBA() : cp.copyRGB
 ipcRenderer.on('shortNegative', () => cp.setNegativeColor())
 ipcRenderer.on('shortPin', () => togglePin())
 ipcRenderer.on('shortShading', () => toggleShading())
-ipcRenderer.on('shortOpacity', () => toggleOpacity())
 ipcRenderer.on('shortRandom', () => toggleRandom())
+ipcRenderer.on('shortOpacity', () => toggleOpacity())
 
 ipcRenderer.on('hasLooseFocus', (event, looseFocus) => document.querySelector('html').classList.toggle('blured', looseFocus))
 
@@ -92,6 +92,11 @@ function toggleOpacity () {
   ipcRenderer.send('opacityActive', bool)
 }
 
+function toggleClean () {
+  let bool = document.querySelector('#clean_button').classList.toggle('active')
+  document.querySelector('body').classList.toggle('clean')
+}
+
 function initEvents () {
   window.addEventListener('contextmenu', event => {
     cm.openMenu('colorpickerMenu')
@@ -110,6 +115,7 @@ function initEvents () {
   document.querySelector('#shade_button').onclick = () => toggleShading()
   document.querySelector('#random_button').onclick = () => toggleRandom()
   document.querySelector('#opacity_button').onclick = () => toggleOpacity()
+  document.querySelector('#clean_button').onclick = () => toggleClean()
 
   document.querySelector('.red_bar input').oninput = function () {
     const red = this.value
@@ -155,7 +161,6 @@ function initEvents () {
     let alpha = this.value
     if (alpha === '0.') return
     if (alpha === '1.') return cp.setNewAlphaColor(1)
-    console.log(alpha, alpha.length)
     if (isNaN(alpha) || alpha.length > 4) return cp.setNewAlphaColor(0)
     if (alpha > 1) alpha = 1
     if (alpha < 0) alpha = 0

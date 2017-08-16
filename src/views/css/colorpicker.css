@@ -3,6 +3,10 @@
   src: url('fonts/Lato-Regular.ttf');
 }
 
+html, body{
+  height: 100%;
+}
+
 body, p, h1, h2, input{
    margin: 0;
    font-family: 'Lato', sans-serif;
@@ -10,7 +14,22 @@ body, p, h1, h2, input{
 body{
    overflow: hidden;
 }
-a{color: inherit;text-decoration: none;}
+a{
+  color: inherit;
+  text-decoration: none;
+}
+
+/* CLEAN OPTION */
+.clean .toolbar, .clean.darkMode .toolbar{
+  border-bottom: 1px solid rgba(0, 0, 0, 0);
+}
+.clean .toolbar p:not(#clean_button), .clean #app_buttons{
+  opacity: 0.1;
+}
+
+.clean .inputs, .clean .value, .clean .sliders{
+  opacity: 0;
+}
 
 
 /**
@@ -25,10 +44,12 @@ a{color: inherit;text-decoration: none;}
   box-sizing: border-box;
   -webkit-app-region: drag;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  transition: border-bottom 0.4s;
 }
 .darkMode .toolbar{
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
+
 .toolbar.setRight{
   flex-direction: row-reverse;
   justify-content: space-between;
@@ -42,12 +63,13 @@ a{color: inherit;text-decoration: none;}
   .toolbar.setRight ul{
     margin-right: 0;
   }
-    #app_buttons.windows #minimize, #app_buttons.linux #minimize{
-      order: 3;
-    }
-    .toolbar.setRight #app_buttons{
-      flex-direction: row-reverse;
-    }
+  #app_buttons{
+    transition: opacity 0.4s;
+  }
+  .toolbar.setRight #app_buttons{
+    flex-direction: row-reverse;
+  }
+
     .toolbar li{
       -webkit-app-region: no-drag;
       cursor: pointer;
@@ -58,55 +80,126 @@ a{color: inherit;text-decoration: none;}
     .toolbar #app_buttons.darwin li{
       margin: 0 4px 0 4px;
     }
-      .toolbar li div{
-        cursor: pointer;
-        transition: 0.2s;
-        width: 13px; height: 13px;
-        margin-left: 4px;
-        border-radius: 15px;
-      }
-      #minimize{ color: #FEBF3C; }
-        .windows #minimize, .linux #minimize{ color: rgba(0, 0, 0, 0.35); }
-        .darkMode .windows #minimize, .darkMode .linux #minimize{ color: rgba(255, 255, 255, 0.4); }
-        .windows #minimize{
-          font-size: 0.9em;
-          position: relative;
-          top: 1px;
-        }
-        .linux #minimize{
-          font-size: 0.9em;
-          position: relative;
-          top: 3px;
-        }
-      #minimize:hover{ color: #FEB219; }
-        .windows #minimize:hover, .linux #minimize:hover{ color: rgba(0, 0, 0, 0.5); }
-        .darkMode .windows #minimize:hover, .darkMode .linux #minimize:hover{ color: rgba(255, 255, 255, 0.6); }
-      #maximize{ color: #35CC48; }
-        .windows #maximize, .linux #maximize{ color: rgba(0, 0, 0, 0.35); }
-        .darkMode .windows #maximize, .darkMode .linux #maximize{ color: rgba(255, 255, 255, 0.4); }
-        .windows #maximize{
-          font-size: 0.9em;
-          position: relative;
-          top: 2px;
-        }
-        .linux #maximize{
-          transform: rotate(45deg);
-          font-size: 0.9em;
-          position: relative;
-          top: 1px;
-        }
-      #maximize:hover{ color: #32C544; }
-        .windows #maximize:hover, .linux #maximize:hover{ color: rgba(0, 0, 0, 0.5); }
-        .darkMode .windows #maximize:hover, .darkMode .linux #maximize:hover{ color: rgba(255, 255, 255, 0.6); }
-      #close{ color: #FC635C; }
-      .windows #close, .blured .linux #close{ color: rgba(0, 0, 0, 0.35); }
-      .darkMode .windows #close{ color: rgba(255, 255, 255, 0.4); }
-      #close:hover{ color: #FC4B43; }
-      .windows #close:hover{ color: rgba(0, 0, 0, 0.5); }
-      .darkMode .windows #close:hover{ color: rgba(255, 255, 255, 0.6); }
+
       .blured .darwin #minimize, .blured .darwin #maximize, .blured .darwin #close{
         color: #DDDDDD;
       }
+
+      /* Minimize Button */
+      /* Minimize position for Windows & Linux */
+      #app_buttons.windows #minimize, #app_buttons.linux #minimize{
+        order: 3;
+      }
+      #minimize{
+        color: rgba(0, 0, 0, 0.35);
+      }
+      .blured #minimize{
+        color: rgba(0, 0, 0, 0.2);
+      }
+      .darwin #minimize{
+        color: #FEBF3C;
+      }
+      .windows #minimize{
+        font-size: 0.9em;
+        position: relative;
+        top: 1px;
+      }
+      .linux #minimize{
+        font-size: 0.9em;
+        position: relative;
+        top: 3px;
+      }
+
+      #minimize:hover{
+        color: #FEB219;
+      }
+      .windows #minimize:hover, .linux #minimize:hover{
+        color: rgba(0, 0, 0, 0.5);
+      }
+
+      .darkMode .windows #minimize, .darkMode .linux #minimize{
+        color: rgba(255, 255, 255, 0.4);
+      }
+      .blured .darkMode .windows #minimize, .blured .darkMode .linux #minimize{
+        color: rgba(255, 255, 255, 0.2);
+      }
+      .darkMode .windows #minimize:hover, .darkMode .linux #minimize:hover{
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      /* Maximize button */
+      #maximize{
+        color: rgba(0, 0, 0, 0.35);
+      }
+      .blured #maximize{
+        color: rgba(0, 0, 0, 0.2);
+      }
+      .darwin #maximize{
+        color: #35CC48;
+      }
+      .windows #maximize{
+        font-size: 0.9em;
+        position: relative;
+        top: 2px;
+      }
+      .linux #maximize{
+        transform: rotate(45deg);
+        font-size: 0.9em;
+        position: relative;
+        top: 1px;
+      }
+
+      #maximize:hover{
+        color: #32C544;
+      }
+      .windows #maximize:hover, .linux #maximize:hover{
+        color: rgba(0, 0, 0, 0.5);
+      }
+
+      .darkMode .windows #maximize, .darkMode .linux #maximize{
+        color: rgba(255, 255, 255, 0.4);
+      }
+      .blured .darkMode .windows #maximize, .blured .darkMode .linux #maximize{
+        color: rgba(255, 255, 255, 0.2);
+      }
+      .darkMode .windows #maximize:hover, .darkMode .linux #maximize:hover{
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      /* Close button */
+      #close{
+        color: rgba(0, 0, 0, 0.35);
+      }
+      .blured #close, .blured .linux #close{
+        color: rgba(0, 0, 0, 0.2);
+      }
+      .darwin #close{
+        color: #FC635C;
+      }
+      .linux #close{
+        color: #CF555E;
+      }
+
+      #close:hover{
+        color: #FC4B43;
+      }
+      .linux #close:hover, .blured .linux #close:hover, .blured .darkMode .linux #close:hover{
+        color: #DA767D;
+      }
+      .windows #close:hover{
+        color: rgba(0, 0, 0, 0.5);
+      }
+
+      .darkMode .windows #close{
+        color: rgba(255, 255, 255, 0.4);
+      }
+      .blured .darkMode .windows #close, .blured .darkMode .linux #close{
+        color: rgba(255, 255, 255, 0.2);
+      }
+      .darkMode .windows #close:hover{
+        color: rgba(255, 255, 255, 0.6);
+      }
+
     #tools p{
       color: rgba(0, 0, 0, 0.30);
       font-weight: bold;
@@ -122,8 +215,10 @@ a{color: inherit;text-decoration: none;}
     }
     #tools p:hover{ color: rgba(0, 0, 0, 0.45); }
     .darkMode #tools p:hover{ color: rgba(255, 255, 255, 0.60); }
+
     #tools p.active{ color: rgba(0, 0, 0, 0.60); }
     .darkMode #tools p.active{ color: rgba(255, 255, 255, 0.85); }
+
     #tools::selection, #tools p::selection, #tools li::selection, #tools div::selection{
       background: rgba(0, 0, 0, 0);
     }
@@ -274,6 +369,7 @@ progress{
    .value{
       margin-bottom: 9px;
       margin-left: 10px;
+      transition: opacity 0.4s;
    }
    .value input{
       display: block;
@@ -309,16 +405,4 @@ progress{
 .setRight #settings{
   display: none;
   right: 110px;
-}
-
-
-/**
- * RESPONSIVE CSS
- */
-@media screen and (max-width: 500px){
-
-}
-
-@media screen and (max-height: 200px){
-
 }
