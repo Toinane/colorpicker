@@ -75,12 +75,12 @@ a{
       cursor: pointer;
       transition: color 0.2s;
       list-style: none;
-      margin: 0 6px 0 6px;
+      margin: 0 5px 0 5px;
     }
     .toolbar #app_buttons.darwin li{
       margin: 0 4px 0 4px;
     }
-
+    
       .blured .darwin #minimize, .blured .darwin #maximize, .blured .darwin #close{
         color: #DDDDDD;
       }
@@ -105,9 +105,9 @@ a{
         top: 1px;
       }
       .linux #minimize{
-        font-size: 0.9em;
+        font-size: 0.6em;
         position: relative;
-        top: 3px;
+        padding: 4px 1px;
       }
 
       #minimize:hover{
@@ -144,9 +144,8 @@ a{
       }
       .linux #maximize{
         transform: rotate(45deg);
-        font-size: 0.9em;
-        position: relative;
-        top: 1px;
+        font-size: 0.7em;
+        padding: 3px;
       }
 
       #maximize:hover{
@@ -177,6 +176,7 @@ a{
         color: #FC635C;
       }
       .linux #close{
+        font-size: 1.1em;
         color: #CF555E;
       }
 
