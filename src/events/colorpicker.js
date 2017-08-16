@@ -4,9 +4,10 @@ const {ipcMain, BrowserWindow, app} = require('electron')
 
 module.exports = (storage, browsers) => {
   const {colorpicker, settings, picker, colorsbook} = browsers
-  let timing, opacity, shading
+  let win, timing, opacity, shading
 
   ipcMain.on('init-colorpicker', event => {
+    win = colorpicker.getWindow()
     let config = {}
     config.color = storage.get('lastColor') ? storage.get('lastColor') : '#00AEEF'
     config.posButton = storage.get('buttonsPosition')
@@ -22,7 +23,6 @@ module.exports = (storage, browsers) => {
 
   ipcMain.on('opacityActive', (event, bool) => {
     opacity = bool
-    let win = colorpicker.getWindow()
     let size = win.getSize()
     if (!opacity && shading) return win.setMinimumSize(440, 250)
     if (!opacity) return win.setMinimumSize(440, 180)
@@ -34,7 +34,6 @@ module.exports = (storage, browsers) => {
 
   ipcMain.on('shadingActive', (event, bool) => {
     shading = bool
-    let win = colorpicker.getWindow()
     let size = win.getSize()
     if (!shading && !opacity) return win.setMinimumSize(440, 180)
     if (!shading && opacity) return win.setMinimumSize(440, 205)
@@ -44,13 +43,13 @@ module.exports = (storage, browsers) => {
     else win.setMinimumSize(440, 300)
   })
 
-  ipcMain.on('minimize', event => colorpicker.getWindow().minimize())
+  ipcMain.on('minimize', event => win.minimize())
   ipcMain.on('maximize', (event, bool) => {
-    if (bool) return colorpicker.getWindow().maximize()
-    return colorpicker.getWindow().unmaximize()
+    if (bool) return win.maximize()
+    return win.unmaximize()
   })
-  ipcMain.on('close', event => colorpicker.getWindow().close())
-  ipcMain.on('setOnTop', (event, bool) => colorpicker.getWindow().setAlwaysOnTop(bool))
+  ipcMain.on('close', event => win.close())
+  ipcMain.on('setOnTop', (event, bool) => win.setAlwaysOnTop(bool))
   ipcMain.on('launchPicker', event => picker.init())
   ipcMain.on('launchColorsbook', event => colorsbook.init())
   ipcMain.on('showPreferences', event => settings.init())

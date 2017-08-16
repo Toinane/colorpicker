@@ -22,6 +22,8 @@ ipcRenderer.on('shortShading', () => toggleShading())
 ipcRenderer.on('shortOpacity', () => toggleOpacity())
 ipcRenderer.on('shortRandom', () => toggleRandom())
 
+ipcRenderer.on('hasLooseFocus', (event, looseFocus) => document.querySelector('html').classList.toggle('blured', looseFocus))
+
 ipcRenderer.on('changePosition', (event, position) => {
   if (position === 'right') document.querySelector('.toolbar').classList.add('setRight')
   else document.querySelector('.toolbar').classList.remove('setRight')

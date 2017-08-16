@@ -55,6 +55,9 @@ module.exports = (dirname, storage) => {
   let windowEvents = win => {
     let timing
 
+    win.on('focus', event => win.webContents.send('hasLooseFocus', false))
+    win.on('blur', event => win.webContents.send('hasLooseFocus', true))
+
     win.on('resize', event => {
       const size = win.getBounds()
       clearTimeout(timing)
