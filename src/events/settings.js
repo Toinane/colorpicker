@@ -20,4 +20,9 @@ module.exports = (storage, browsers) => {
     colorpicker.getWindow().webContents.send('changePosition', position)
   })
 
+  ipcMain.on('set-type-icon', (event, type) => {
+    storage.add({buttonsType: type})
+    colorpicker.getWindow().webContents.send('changeTypeIcons', type)
+  })
+
 }

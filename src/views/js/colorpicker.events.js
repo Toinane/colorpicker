@@ -23,10 +23,11 @@ ipcRenderer.on('shortOpacity', () => toggleOpacity())
 ipcRenderer.on('shortRandom', () => toggleRandom())
 
 ipcRenderer.on('changePosition', (event, position) => {
-  console.log(position)
   if (position === 'right') document.querySelector('.toolbar').classList.add('setRight')
   else document.querySelector('.toolbar').classList.remove('setRight')
 })
+
+ipcRenderer.on('changeTypeIcons', (event, type) => initButtonsType(type))
 
 function initButtonsType (type) {
   const appButtons = document.querySelector('#app_buttons')
@@ -35,22 +36,22 @@ function initButtonsType (type) {
   const close = document.querySelector('#close')
   switch (type) {
     case 'windows':
-      appButtons.classList.add('windows')
-      minimize.classList.add('fa', 'fa-window-minimize')
-      maximize.classList.add('fa', 'fa-square')
-      close.classList.add('fa', 'fa-times')
+      appButtons.classList = 'windows'
+      minimize.classList = 'fa fa-window-minimize'
+      maximize.classList = 'fa fa-square'
+      close.classList = 'fa fa-times'
       break
     case 'linux':
-      appButtons.classList.add('linux')
-      minimize.classList.add('fa', 'fa-minus')
-      maximize.classList.add('fa', 'fa-sort')
-      close.classList.add('fa', 'fa-times-circle')
+      appButtons.classList = 'linux'
+      minimize.classList = 'fa fa-minus'
+      maximize.classList = 'fa fa-sort'
+      close.classList = 'fa fa-times-circle'
       break
     default:
-      appButtons.classList.add('darwin')
-      minimize.classList.add('fa', 'fa-circle')
-      maximize.classList.add('fa', 'fa-circle')
-      close.classList.add('fa', 'fa-circle')
+      appButtons.classList = 'darwin'
+      minimize.classList = 'fa fa-circle'
+      maximize.classList = 'fa fa-circle'
+      close.classList = 'fa fa-circle'
   }
 }
 

@@ -4,8 +4,7 @@ const {ipcRenderer, shell} = require('electron')
 
 let tabActive = 'general';
 
-let els = document.querySelectorAll('header li')
-for (let el of els) {
+for (let el of document.querySelectorAll('header li')) {
   el.addEventListener('click', function (event) {
     document.querySelector(`#${tabActive}-tab`).classList.remove('active')
     if (document.querySelector('header li.active')) document.querySelector('header li.active').classList.remove('active')
@@ -18,21 +17,27 @@ for (let el of els) {
 document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-settings'), false)
 
 ipcRenderer.on('init', (event, config) => {
-  document.querySelector(`#position-${config.posButton}`).classList.add('active')
+  document.querySelector(`#position li[data-position="${config.posButton}"]`).classList.add('active')
+  document.querySelector(`#type-icons li[data-type="${config.typeButton}"]`).classList.add('active')
   document.querySelector(`#type-${config.typeButton}`).classList.add('active')
 })
 
+for (let el of document.querySelectorAll('#position li')) {
+  el.addEventListener('click', function () {
+    document.querySelector('#position .active').classList.remove('active')
+    this.classList.add('active')
+    ipcRenderer.send('set-position', this.getAttribute('data-position'))
+  })
+}
 
-document.querySelector('#position-left').addEventListener('click', function () {
-  document.querySelector('#position .active').classList.remove('active')
-  this.classList.add('active')
-  ipcRenderer.send('set-position', 'left')
-})
-document.querySelector('#position-right').addEventListener('click', function () {
-  document.querySelector('#position .active').classList.remove('active')
-  this.classList.add('active')
-  ipcRenderer.send('set-position', 'right')
-})
+for (let el of document.querySelectorAll('#type-icons li')) {
+  el.addEventListener('click', function () {
+    document.querySelector('#type-icons .active').classList.remove('active')
+    this.classList.add('active')
+    ipcRenderer.send('set-type-icon', this.getAttribute('data-type'))
+  })
+}
+
 
 
 //
