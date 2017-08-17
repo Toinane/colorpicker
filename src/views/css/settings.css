@@ -81,6 +81,44 @@ header{
     margin-top: 30px;
   }
 
+/* GENERAL TAB */
+
+  #toolset{
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+    #toolset .arrow{
+      color: #ECECEC;
+      font-size: 3em;
+    }
+    #allTools{
+      background: #F6F6F6;
+      min-width: 50px; max-width: 50px;
+      height: 137px;
+      text-align: justify;
+      margin: 0 12px 0 10px;
+      padding: 5px;
+      border-radius: 10px;
+    }
+    #selectedTools{
+      margin-left: 12px;
+      background: url('../../ressources/toolset.png') top 28px left 0 no-repeat, #F6F6F6;
+      background-size: contain;
+      width: 350px; height: 137px;
+      border-radius: 6px 0 0 6px;
+      padding: 6px 0 6px 10px;
+    }
+      #toolset p{
+        cursor: pointer;
+        color: #A4A6AD;
+        display: inline-block;
+        margin: 3px 4px;
+      }
+
+/* COLORPICKER TAB */
+
   #position, #type-icons{
     text-align: center;
     display: flex;

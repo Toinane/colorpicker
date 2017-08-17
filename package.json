@@ -28,7 +28,8 @@
   "dependencies": {
     "electron-json-storage": "^3.0.7",
     "request": "^2.81.0",
-    "robotjs": "^0.4.7"
+    "robotjs": "^0.4.7",
+    "sortablejs": "^1.6.0"
   },
   "devDependencies": {
     "electron": "1.6.11",

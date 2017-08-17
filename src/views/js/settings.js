@@ -1,9 +1,15 @@
 'use strict'
 
 const {ipcRenderer, shell} = require('electron')
+let Sortable = require('sortablejs')
 
 let tabActive = 'general';
 
+/* TAB GENERAL */
+Sortable.create(document.querySelector('#allTools'), { group: "colorpicker"})
+Sortable.create(document.querySelector('#selectedTools'), { group: "colorpicker"})
+
+/* TAB COLORPICKER */
 for (let el of document.querySelectorAll('header li')) {
   el.addEventListener('click', function (event) {
     document.querySelector(`#${tabActive}-tab`).classList.remove('active')
@@ -19,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-setti
 ipcRenderer.on('init', (event, config) => {
   document.querySelector(`#position li[data-position="${config.posButton}"]`).classList.add('active')
   document.querySelector(`#type-icons li[data-type="${config.typeButton}"]`).classList.add('active')
-  document.querySelector(`#type-${config.typeButton}`).classList.add('active')
 })
 
 for (let el of document.querySelectorAll('#position li')) {

@@ -130,6 +130,7 @@ template = {
  */
 defaultStorage = {
   colorpicker: {
+    tools: [],
     size: { width: 484, height: 190 },
     buttonsPosition: template[platform()].buttonsPosition,
     buttonsType: template[platform()].buttonsType,
