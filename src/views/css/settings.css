@@ -76,6 +76,9 @@ header{
     padding-left: 20px;
     color: #282E3D;
   }
+  .panel > p span{
+    color: #4C5F76;
+  }
 
   .panel section + p{
     margin-top: 30px;
@@ -121,7 +124,7 @@ header{
         background: #62DCAD;
         width: 17px; height: 17px;
         text-align: center;
-        cursor: pointer;
+        cursor: move;
         color: #0A9182;
         padding: 2px;
         border-radius: 3px;
@@ -130,6 +133,10 @@ header{
       #toolset #allTools p{
         background: #BEEEEC;
         margin: 2px;
+      }
+      #toolset .sortable-drag{
+        background: none !important;
+        opacity: 0.8;
       }
 
 /* COLORPICKER TAB */

@@ -6,8 +6,14 @@ let Sortable = require('sortablejs')
 let tabActive = 'general';
 
 /* TAB GENERAL */
-Sortable.create(document.querySelector('#allTools'), { group: "colorpicker"})
-Sortable.create(document.querySelector('#selectedTools'), { group: "colorpicker"})
+let options = {
+  dragClass: "sortable-drag",
+  group: "colorpicker",
+  animation: 180,
+  onEnd: event => updateTools(event)
+}
+Sortable.create(document.querySelector('#allTools'), options)
+Sortable.create(document.querySelector('#selectedTools'), options)
 
 /* TAB COLORPICKER */
 for (let el of document.querySelectorAll('header li')) {
@@ -43,7 +49,13 @@ for (let el of document.querySelectorAll('#type-icons li')) {
   })
 }
 
+function initTools(tools) {
 
+}
+
+function updateTools(event) {
+  console.log(event)
+}
 
 //
 // ipcRenderer.on('init', (event, version) => {
