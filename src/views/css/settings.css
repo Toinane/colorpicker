@@ -90,31 +90,46 @@ header{
     align-items: center;
   }
     #toolset .arrow{
-      color: #ECECEC;
+      color: #69DBBB;
       font-size: 3em;
     }
     #allTools{
-      background: #F6F6F6;
-      min-width: 50px; max-width: 50px;
+      min-width: 52px; max-width: 52px;
       height: 137px;
-      text-align: justify;
       margin: 0 12px 0 10px;
-      padding: 5px;
+      padding: 6px;
       border-radius: 10px;
+      border: 2px dashed #00798F;
+      background: #F6FEFC;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
     }
     #selectedTools{
+      display: flex;
       margin-left: 12px;
-      background: url('../../ressources/toolset.png') top 28px left 0 no-repeat, #F6F6F6;
+      border-top: 2px dashed #0A9182;
+      border-left: 2px dashed #0A9182;
+      border-bottom: 2px dashed #0A9182;
+      background: url('../../ressources/toolset.png') top 28px left 0 no-repeat, #90EAB8;
       background-size: contain;
       width: 350px; height: 137px;
       border-radius: 6px 0 0 6px;
       padding: 6px 0 6px 10px;
     }
       #toolset p{
+        background: #62DCAD;
+        width: 17px; height: 17px;
+        text-align: center;
         cursor: pointer;
-        color: #A4A6AD;
-        display: inline-block;
-        margin: 3px 4px;
+        color: #0A9182;
+        padding: 2px;
+        border-radius: 3px;
+        margin: 0 4px;
+      }
+      #toolset #allTools p{
+        background: #BEEEEC;
+        margin: 2px;
       }
 
 /* COLORPICKER TAB */
