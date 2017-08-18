@@ -12,6 +12,7 @@ module.exports = (storage, browsers) => {
     config.color = storage.get('lastColor') ? storage.get('lastColor') : '#00AEEF'
     config.posButton = storage.get('buttonsPosition')
     config.typeButton = storage.get('buttonsType')
+    config.tools = storage.get('tools')
 
     event.sender.send('init', config)
   })

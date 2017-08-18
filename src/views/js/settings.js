@@ -29,6 +29,7 @@ for (let el of document.querySelectorAll('header li')) {
 document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-settings'), false)
 
 ipcRenderer.on('init', (event, config) => {
+  initTools(config.tools)
   document.querySelector(`#position li[data-position="${config.posButton}"]`).classList.add('active')
   document.querySelector(`#type-icons li[data-type="${config.typeButton}"]`).classList.add('active')
 })
@@ -49,12 +50,41 @@ for (let el of document.querySelectorAll('#type-icons li')) {
   })
 }
 
-function initTools(tools) {
+function initTools(selectedTools) {
+  let htmlSelected = ''
+  let htmlAll = ''
+  let tools = {
+    top: { title: 'Pin to Foreground', icon: 'fa-map-pin' },
+    picker: { title: 'Pick Color', icon: 'fa-eyedropper' },
+    tags: { title: 'Open Colorsbook', icon: 'fa-bookmark' },
+    shade: { title: 'Toggle Shading', icon: 'fa-tint' },
+    random: { title: 'Set Random Color', icon: 'fa-random' },
+    opacity: { title: 'Toggle Opacity', icon: 'fa-sliders' },
+    clean: { title: 'Clean Vue', icon: 'fa-adjust' },
+    settings: { title: 'Open Settings', icon: 'fa-gear' }
+  }
 
+  for (let tool of selectedTools) {
+    htmlSelected += `<p id="${tool}_button" title="${tools[tool].title}"><i class="fa ${tools[tool].icon}"></i></p>`
+  }
+  for (let tool in tools) {
+    if (selectedTools.indexOf(tool) === -1) {
+      htmlAll += `<p id="${tool}_button" title="${tools[tool].title}"><i class="fa ${tools[tool].icon}"></i></p>`
+    }
+  }
+
+  document.querySelector('#allTools').innerHTML = htmlAll;
+  document.querySelector('#selectedTools').innerHTML = htmlSelected;
 }
 
 function updateTools(event) {
-  console.log(event)
+  let toSave = []
+  let tools = document.querySelectorAll('#selectedTools p')
+  for (let tool of tools) {
+    let id = tool.id.split('_')
+    toSave.push(id[0]);
+  }
+  ipcRenderer.send('changeTools', toSave)
 }
 
 //

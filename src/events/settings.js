@@ -9,6 +9,7 @@ module.exports = (storage, browsers) => {
     let config = {
       version: app.getVersion()
     }
+    config.tools = storage.get('tools')
     config.posButton = storage.get('buttonsPosition')
     config.typeButton = storage.get('buttonsType')
 
@@ -23,6 +24,11 @@ module.exports = (storage, browsers) => {
   ipcMain.on('set-type-icon', (event, type) => {
     storage.add({buttonsType: type})
     colorpicker.getWindow().webContents.send('changeTypeIcons', type)
+  })
+
+  ipcMain.on('changeTools', (event, tools) => {
+    storage.add({tools: tools})
+    colorpicker.getWindow().webContents.send('changeTools', tools)
   })
 
 }

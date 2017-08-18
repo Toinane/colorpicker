@@ -80,7 +80,7 @@ a{
     .toolbar #app_buttons.darwin li{
       margin: 0 4px 0 4px;
     }
-    
+
       .blured .darwin #minimize, .blured .darwin #maximize, .blured .darwin #close{
         color: #DDDDDD;
       }
@@ -395,14 +395,3 @@ progress{
     padding: 0; margin: 4px 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.5);
   }
-
-#settings{
-  position: absolute;
-  top: 5px; right: 15px;
-  color: rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-}
-.setRight #settings{
-  display: none;
-  right: 110px;
-}

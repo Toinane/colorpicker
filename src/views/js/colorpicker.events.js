@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-color
 ipcRenderer.on('init', (event, config) => {
   if (config.posButton === 'right') document.querySelector('.toolbar').classList.add('setRight')
   initButtonsType(config.typeButton)
+  initTools(config.tools)
   cp = new Colorpicker(config.color)
   cm = new ContextMenu()
   initEvents()
@@ -30,6 +31,10 @@ ipcRenderer.on('changePosition', (event, position) => {
 })
 
 ipcRenderer.on('changeTypeIcons', (event, type) => initButtonsType(type))
+ipcRenderer.on('changeTools', (event, tools) => {
+  initTools(tools)
+  initEvents()
+})
 
 function initButtonsType (type) {
   const appButtons = document.querySelector('#app_buttons')
@@ -55,6 +60,26 @@ function initButtonsType (type) {
       maximize.classList = 'fa fa-circle'
       close.classList = 'fa fa-circle'
   }
+}
+
+function initTools (tools) {
+  let html = ''
+  let allTools = {
+    top: { title: 'Pin to Foreground', icon: 'fa-map-pin' },
+    picker: { title: 'Pick Color', icon: 'fa-eyedropper' },
+    tags: { title: 'Open Colorsbook', icon: 'fa-bookmark' },
+    shade: { title: 'Toggle Shading', icon: 'fa-tint' },
+    random: { title: 'Set Random Color', icon: 'fa-random' },
+    opacity: { title: 'Toggle Opacity', icon: 'fa-sliders' },
+    clean: { title: 'Clean Vue', icon: 'fa-adjust' },
+    settings: { title: 'Open Settings', icon: 'fa-gear' }
+  }
+
+  for (let tool of tools) {
+    html += `<p id="${tool}_button" title="${allTools[tool].title}"><i class="fa ${allTools[tool].icon}"></i></p>`
+  }
+
+  document.querySelector('#tools').innerHTML = html
 }
 
 function changeLastColor (color) {
@@ -109,13 +134,14 @@ function initEvents () {
     ipcRenderer.send('maximize', bool)
   }
 
-  document.querySelector('#top_button').onclick = () => togglePin()
-  document.querySelector('#picker_button').onclick = () => ipcRenderer.send('launchPicker')
-  document.querySelector('#tags_button').onclick = () => ipcRenderer.send('launchColorsbook')
-  document.querySelector('#shade_button').onclick = () => toggleShading()
-  document.querySelector('#random_button').onclick = () => toggleRandom()
-  document.querySelector('#opacity_button').onclick = () => toggleOpacity()
-  document.querySelector('#clean_button').onclick = () => toggleClean()
+  if (document.querySelector('#top_button')) document.querySelector('#top_button').onclick = () => togglePin()
+  if (document.querySelector('#picker_button')) document.querySelector('#picker_button').onclick = () => ipcRenderer.send('launchPicker')
+  if (document.querySelector('#tags_button')) document.querySelector('#tags_button').onclick = () => ipcRenderer.send('launchColorsbook')
+  if (document.querySelector('#shade_button')) document.querySelector('#shade_button').onclick = () => toggleShading()
+  if (document.querySelector('#random_button')) document.querySelector('#random_button').onclick = () => toggleRandom()
+  if (document.querySelector('#opacity_button')) document.querySelector('#opacity_button').onclick = () => toggleOpacity()
+  if (document.querySelector('#clean_button')) document.querySelector('#clean_button').onclick = () => toggleClean()
+  if (document.querySelector('#settings_button')) document.querySelector('#settings_button').onclick = () => ipcRenderer.send('showPreferences')
 
   document.querySelector('.red_bar input').oninput = function () {
     const red = this.value
