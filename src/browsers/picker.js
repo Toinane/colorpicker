@@ -15,8 +15,8 @@ module.exports = (dirname, storage) => {
     win = new BrowserWindow({
       frame: false,
       'auto-hide-menu-bar': true,
-      width: 110,
-      height: 110,
+      width: 140,
+      height: 140,
       transparent: true,
       alwaysOnTop: true,
       focusable: false,

@@ -42,10 +42,10 @@ let getColors = () => {
 
 let setPickerPosition = picker => {
   let pos = robot.getMousePos()
-  if(pos.x >= size.width - 120 && pos.y >= size.height - 120) picker.getWindow().setPosition(pos.x - 120, pos.y - 120)
-  else if(pos.x >= size.width - 120) picker.getWindow().setPosition(pos.x - 120, pos.y + 10)
-  else if(pos.y >= size.height - 120) picker.getWindow().setPosition(pos.x + 10, pos.y - 120)
-  else picker.getWindow().setPosition(pos.x + 10, pos.y + 10)
+  if(pos.x >= size.width - 120 && pos.y >= size.height - 120) picker.getWindow().setPosition(pos.x - 130, pos.y - 130)
+  else if(pos.x >= size.width - 120) picker.getWindow().setPosition(pos.x - 130, pos.y - 5)
+  else if(pos.y >= size.height - 120) picker.getWindow().setPosition(pos.x - 5, pos.y - 130)
+  else picker.getWindow().setPosition(pos.x - 5, pos.y - 5)
 }
 
 module.exports = (storage, browsers) => {

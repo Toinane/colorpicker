@@ -7,36 +7,30 @@ body{
   background: transparent;
 }
 
+#border{
+  display: inline-block;
+  border-radius: 90px;
+}
+
 #picker{
-  display: flex;
-  flex-direction: column;
+  margin: 3px;
+  border-radius: 120px;
+  overflow: hidden;
 }
 
-ul{
-  display: flex;
-}
+table{
 
-li{
-  margin: 0;
-  width: 20px;
-  height: 20px;
-  display: block;
-  border: 0.5px solid rgba(0, 0, 0, 0.1);
 }
+  tr{
+    display: flex;
+  }
+  td{
+    margin: 0;
+    width: 20px;
+    height: 20px;
+    border: 0.5px solid rgba(0, 0, 0, 0.1);
+  }
 
 #l2-2{
   border: 1px solid black;
-}
-
-#l0-0{
-  border-radius: 50px 0 0 0;
-}
-#l0-4{
-  border-radius: 0 50px 0 0;
-}
-#l4-0{
-  border-radius: 0 0 0 50px;
-}
-#l4-4{
-  border-radius: 0 0 50px 0;
 }
