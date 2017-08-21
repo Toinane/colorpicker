@@ -23,6 +23,7 @@ ipcRenderer.on('shortPin', () => togglePin())
 ipcRenderer.on('shortShading', () => toggleShading())
 ipcRenderer.on('shortRandom', () => toggleRandom())
 ipcRenderer.on('shortOpacity', () => toggleOpacity())
+ipcRenderer.on('shortApply', () => applyColor())
 
 ipcRenderer.on('hasLooseFocus', (event, looseFocus) => document.querySelector('html').classList.toggle('blured', looseFocus))
 
@@ -73,6 +74,7 @@ function initTools (tools) {
     random: { title: 'Set Random Color', icon: 'fa-random' },
     opacity: { title: 'Toggle Opacity', icon: 'fa-sliders' },
     clean: { title: 'Clean Vue', icon: 'fa-adjust' },
+    apply: { title: 'Apply color from clipboard', icon: 'fa-magic' },
     settings: { title: 'Open Settings', icon: 'fa-gear' }
   }
 
@@ -123,6 +125,13 @@ function toggleClean () {
   document.querySelector('body').classList.toggle('clean')
 }
 
+function applyColor () {
+  const regex = /(#(?:[\da-f]{3}){1,2}|rgb\((?:\d{1,3},\s*){2}\d{1,3}\)|rgba\((?:\d{1,3},\s*){3}\d*\.?\d+\))/ig
+  let content = clipboard.readText()
+  let colors = content.replace(/\n/g, ' ').match(regex)
+  console.log(colors)
+}
+
 function initToolsEvent () {
   if (document.querySelector('#top_button')) document.querySelector('#top_button').onclick = () => togglePin()
   if (document.querySelector('#picker_button')) document.querySelector('#picker_button').onclick = () => ipcRenderer.send('launchPicker')
@@ -131,6 +140,7 @@ function initToolsEvent () {
   if (document.querySelector('#random_button')) document.querySelector('#random_button').onclick = () => toggleRandom()
   if (document.querySelector('#opacity_button')) document.querySelector('#opacity_button').onclick = () => toggleOpacity()
   if (document.querySelector('#clean_button')) document.querySelector('#clean_button').onclick = () => toggleClean()
+  if (document.querySelector('#apply_button')) document.querySelector('#apply_button').onclick = () => applyColor()
   if (document.querySelector('#settings_button')) document.querySelector('#settings_button').onclick = () => ipcRenderer.send('showPreferences')
 }
 

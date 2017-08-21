@@ -19,6 +19,7 @@ module.exports = (dirname, storage) => {
       height: 140,
       transparent: true,
       alwaysOnTop: true,
+      resizable: false,
       focusable: false,
       icon: `${dirname}/build/logo.png`
     })
