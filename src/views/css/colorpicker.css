@@ -31,197 +31,28 @@ a{
   opacity: 0;
 }
 
-
-/**
- * TOOLBAR
- */
-.toolbar{
-  margin: 3px;
-  padding: 5px 5px 7px 5px;
-  position: relative;
-  display: flex;
-  z-index: 10000;
-  box-sizing: border-box;
-  -webkit-app-region: drag;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  transition: border-bottom 0.4s;
-}
-.darkMode .toolbar{
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.toolbar.setRight{
-  flex-direction: row-reverse;
-  justify-content: space-between;
-}
-  .toolbar ul{
-    margin: 0; padding: 0;
-    margin-right: 20px;
-    display: flex;
+  #tools p{
+    color: rgba(0, 0, 0, 0.30);
+    font-weight: bold;
+    padding: 0 5px 0 5px;
+    width: 17px;
+    text-align: center;
+    -webkit-app-region: no-drag;
+    cursor: pointer;
+    transition: 0.3s;
   }
-
-  .toolbar.setRight ul{
-    margin-right: 0;
+  .darkMode #tools p{
+    color: rgba(255, 255, 255, 0.50);
   }
-  #app_buttons{
-    transition: opacity 0.4s;
+  #tools p:hover{ color: rgba(0, 0, 0, 0.45); }
+  .darkMode #tools p:hover{ color: rgba(255, 255, 255, 0.60); }
+
+  #tools p.active{ color: rgba(0, 0, 0, 0.60); }
+  .darkMode #tools p.active{ color: rgba(255, 255, 255, 0.85); }
+
+  #tools::selection, #tools p::selection, #tools li::selection, #tools div::selection{
+    background: rgba(0, 0, 0, 0);
   }
-  .toolbar.setRight #app_buttons{
-    flex-direction: row-reverse;
-  }
-
-    .toolbar li{
-      -webkit-app-region: no-drag;
-      cursor: pointer;
-      transition: color 0.2s;
-      list-style: none;
-      margin: 0 5px 0 5px;
-    }
-    .toolbar #app_buttons.darwin li{
-      margin: 0 4px 0 4px;
-    }
-
-      .blured .darwin #minimize, .blured .darwin #maximize, .blured .darwin #close{
-        color: #DDDDDD;
-      }
-
-      /* Minimize Button */
-      /* Minimize position for Windows & Linux */
-      #app_buttons.windows #minimize, #app_buttons.linux #minimize{
-        order: 3;
-      }
-      #minimize{
-        color: rgba(0, 0, 0, 0.35);
-      }
-      .blured #minimize{
-        color: rgba(0, 0, 0, 0.2);
-      }
-      .darwin #minimize{
-        color: #FEBF3C;
-      }
-      .windows #minimize{
-        font-size: 0.9em;
-        position: relative;
-        top: 1px;
-      }
-      .linux #minimize{
-        font-size: 0.6em;
-        position: relative;
-        padding: 4px 1px;
-      }
-
-      #minimize:hover{
-        color: #FEB219;
-      }
-      .windows #minimize:hover, .linux #minimize:hover{
-        color: rgba(0, 0, 0, 0.5);
-      }
-
-      .darkMode .windows #minimize, .darkMode .linux #minimize{
-        color: rgba(255, 255, 255, 0.4);
-      }
-      .blured .darkMode .windows #minimize, .blured .darkMode .linux #minimize{
-        color: rgba(255, 255, 255, 0.2);
-      }
-      .darkMode .windows #minimize:hover, .darkMode .linux #minimize:hover{
-        color: rgba(255, 255, 255, 0.6);
-      }
-
-      /* Maximize button */
-      #maximize{
-        color: rgba(0, 0, 0, 0.35);
-      }
-      .blured #maximize{
-        color: rgba(0, 0, 0, 0.2);
-      }
-      .darwin #maximize{
-        color: #35CC48;
-      }
-      .windows #maximize{
-        font-size: 0.9em;
-        position: relative;
-        top: 2px;
-      }
-      .linux #maximize{
-        transform: rotate(45deg);
-        font-size: 0.7em;
-        padding: 3px;
-      }
-
-      #maximize:hover{
-        color: #32C544;
-      }
-      .windows #maximize:hover, .linux #maximize:hover{
-        color: rgba(0, 0, 0, 0.5);
-      }
-
-      .darkMode .windows #maximize, .darkMode .linux #maximize{
-        color: rgba(255, 255, 255, 0.4);
-      }
-      .blured .darkMode .windows #maximize, .blured .darkMode .linux #maximize{
-        color: rgba(255, 255, 255, 0.2);
-      }
-      .darkMode .windows #maximize:hover, .darkMode .linux #maximize:hover{
-        color: rgba(255, 255, 255, 0.6);
-      }
-
-      /* Close button */
-      #close{
-        color: rgba(0, 0, 0, 0.35);
-      }
-      .blured #close, .blured .linux #close{
-        color: rgba(0, 0, 0, 0.2);
-      }
-      .darwin #close{
-        color: #FC635C;
-      }
-      .linux #close{
-        font-size: 1.1em;
-        color: #CF555E;
-      }
-
-      #close:hover{
-        color: #FC4B43;
-      }
-      .linux #close:hover, .blured .linux #close:hover, .blured .darkMode .linux #close:hover{
-        color: #DA767D;
-      }
-      .windows #close:hover{
-        color: rgba(0, 0, 0, 0.5);
-      }
-
-      .darkMode .windows #close{
-        color: rgba(255, 255, 255, 0.4);
-      }
-      .blured .darkMode .windows #close, .blured .darkMode .linux #close{
-        color: rgba(255, 255, 255, 0.2);
-      }
-      .darkMode .windows #close:hover{
-        color: rgba(255, 255, 255, 0.6);
-      }
-
-    #tools p{
-      color: rgba(0, 0, 0, 0.30);
-      font-weight: bold;
-      padding: 0 5px 0 5px;
-      width: 17px;
-      text-align: center;
-      -webkit-app-region: no-drag;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .darkMode #tools p{
-      color: rgba(255, 255, 255, 0.50);
-    }
-    #tools p:hover{ color: rgba(0, 0, 0, 0.45); }
-    .darkMode #tools p:hover{ color: rgba(255, 255, 255, 0.60); }
-
-    #tools p.active{ color: rgba(0, 0, 0, 0.60); }
-    .darkMode #tools p.active{ color: rgba(255, 255, 255, 0.85); }
-
-    #tools::selection, #tools p::selection, #tools li::selection, #tools div::selection{
-      background: rgba(0, 0, 0, 0);
-    }
 
 
 /**

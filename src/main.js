@@ -54,7 +54,7 @@ let setMenu = () => {
       label: 'View',
       submenu: [
         { label: 'Show Colorpicker', accelerator: 'Shift+CmdOrCtrl+C', click: () => colorpicker.init() },
-        { label: 'Show ColorsBook', accelerator: 'Shift+CmdOrCtrl+B', click: () => hexacolor.init() },
+        { label: 'Show ColorsBook', accelerator: 'Shift+CmdOrCtrl+B', click: () => colorsbook.init() },
         { type: 'separator' },
         { label: 'Save Color', accelerator: 'CmdOrCtrl+S', click: () => colorpicker.getWindow().webContents.send('shortSave') },
         { type: 'separator' },

@@ -5,11 +5,11 @@ let cp, cm
 document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-colorpicker'), false)
 
 ipcRenderer.on('init', (event, config) => {
-  if (config.posButton === 'right') document.querySelector('.toolbar').classList.add('setRight')
-  initButtonsType(config.typeButton)
-  initTools(config.tools)
   cp = new Colorpicker(config.color)
   cm = new ContextMenu()
+  if (config.posButton === 'right') document.querySelector('.toolbar').classList.add('setRight')
+  cm.initButtonsType(config.typeButton)
+  initTools(config.tools)
   initToolsEvent()
   initEvents()
 })
@@ -32,37 +32,12 @@ ipcRenderer.on('changePosition', (event, position) => {
   else document.querySelector('.toolbar').classList.remove('setRight')
 })
 
-ipcRenderer.on('changeTypeIcons', (event, type) => initButtonsType(type))
+ipcRenderer.on('changeTypeIcons', (event, type) => cm.initButtonsType(type))
 ipcRenderer.on('changeTools', (event, tools) => {
   initTools(tools)
   initToolsEvent()
 })
 
-function initButtonsType (type) {
-  const appButtons = document.querySelector('#app_buttons')
-  const minimize = document.querySelector('#minimize')
-  const maximize = document.querySelector('#maximize')
-  const close = document.querySelector('#close')
-  switch (type) {
-    case 'windows':
-      appButtons.classList = 'windows'
-      minimize.classList = 'fa fa-window-minimize'
-      maximize.classList = 'fa fa-square'
-      close.classList = 'fa fa-times'
-      break
-    case 'linux':
-      appButtons.classList = 'linux'
-      minimize.classList = 'fa fa-minus'
-      maximize.classList = 'fa fa-sort'
-      close.classList = 'fa fa-times-circle'
-      break
-    default:
-      appButtons.classList = 'darwin'
-      minimize.classList = 'fa fa-circle'
-      maximize.classList = 'fa fa-circle'
-      close.classList = 'fa fa-circle'
-  }
-}
 
 function initTools (tools) {
   let html = ''

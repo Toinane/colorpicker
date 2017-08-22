@@ -34,4 +34,30 @@ class ContextMenu {
     ]
   }
 
+  initButtonsType (type) {
+    const appButtons = document.querySelector('#app_buttons')
+    const minimize = document.querySelector('#minimize')
+    const maximize = document.querySelector('#maximize')
+    const close = document.querySelector('#close')
+    switch (type) {
+      case 'windows':
+        appButtons.classList = 'windows'
+        minimize.classList = 'fa fa-window-minimize'
+        maximize.classList = 'fa fa-square'
+        close.classList = 'fa fa-times'
+        break
+      case 'linux':
+        appButtons.classList = 'linux'
+        minimize.classList = 'fa fa-minus'
+        maximize.classList = 'fa fa-sort'
+        close.classList = 'fa fa-times-circle'
+        break
+      default:
+        appButtons.classList = 'darwin'
+        minimize.classList = 'fa fa-circle'
+        maximize.classList = 'fa fa-circle'
+        close.classList = 'fa fa-circle'
+    }
+  }
+
 }
