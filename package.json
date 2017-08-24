@@ -54,6 +54,7 @@
     "email": "toinane@crea-that.fr",
     "url": "https://toinane.crea-th.at"
   },
+  "bugs": "https://github.com/toinane/colorpicker/issues",
   "homepage": "https://crea-th.at/p/colorpicker",
-  "license": "GNU GPLv3"
+  "license": "GPL-3.0"
 }
