@@ -25,7 +25,7 @@ module.exports = (dirname, storage) => {
     })
 
     win.loadURL(`file://${dirname}/views/picker.html`)
-    //win.openDevTools()
+    // win.openDevTools()
     win.on('closed', () => {
       win = undefined
     })
