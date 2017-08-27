@@ -23,8 +23,15 @@ module.exports = (storage, browsers) => {
   }
 
   ipcMain.on('picker-requested', event => {
+    console.log(storage.get('size', 'picker'))
+    event.sender.send('picker-size', storage.get('size', 'picker'))
     support.init()
     changePosition()
+
+    support.getWindow().on('blur', () => {
+      support.getWindow().close()
+      picker.getWindow().close()
+    })
   })
 
   ipcMain.on('supportMove', event => changePosition())

@@ -19,18 +19,15 @@ body{
 }
 
 table{
-
+  width: 100px;
+  height: 100px;
+  border-collapse: collapse;
+  display: grid;
 }
   tr{
-    display: flex;
+    display: grid;
   }
   td{
     margin: 0;
-    width: 20px;
-    height: 20px;
-    border: 0.5px solid rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.02);
   }
-
-#l2-2{
-  border: 1px solid black;
-}
