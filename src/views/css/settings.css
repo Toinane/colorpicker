@@ -80,8 +80,8 @@ header{
     color: #4C5F76;
   }
 
-  .panel section + p{
-    margin-top: 30px;
+  .panel section{
+    margin-bottom: 30px;
   }
 
 /* GENERAL TAB */
@@ -141,24 +141,37 @@ header{
 
 /* COLORPICKER TAB */
 
-  #position, #type-icons{
+  #position, #type-icons, #zoom-level{
     text-align: center;
     display: flex;
     justify-content: center;
   }
-    #position li, #type-icons li{
+    #position li, #type-icons li, #zoom-level li{
       cursor: pointer;
       list-style: none;
       width: 200px;
-      border: 1px solid #8991A3;
+      border: 1px solid #F2F6FA;
+      box-shadow: 2px 5px 10px 0 #E9EDF2;
       color: #8991A3;
       border-radius: 10px;
       padding: 5px 10px;
       margin: 10px;
       text-align: center;
+      transition: 0.3s;
     }
-    #position li.active, #type-icons li.active{
-      border: 1px solid #2BA0E0;
+    #position li:not(.active) img,
+    #type-icons li:not(.active) img,
+    #zoom-level li:not(.active) img{
+      opacity: 0.5;
+      transition: 0.3s;
+    }
+    #position li:not(.active):hover img,
+    #type-icons li:not(.active):hover img,
+    #zoom-level li:not(.active):hover img{
+      opacity: 0.7;
+      transition: 0.3s;
+    }
+    #position li.active, #type-icons li.active, #zoom-level li.active{
       color: #2BA0E0;
     }
       #position img{
@@ -170,4 +183,11 @@ header{
 
     #type-icons li{
       width: 140px;
+    }
+
+  #zoom-level{
+    flex-wrap: wrap;
+  }
+    #zoom-level li{
+      width: 130px;
     }

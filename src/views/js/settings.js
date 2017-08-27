@@ -16,24 +16,6 @@ Sortable.create(document.querySelector('#allTools'), options)
 Sortable.create(document.querySelector('#selectedTools'), options)
 
 /* TAB COLORPICKER */
-for (let el of document.querySelectorAll('header li')) {
-  el.addEventListener('click', function (event) {
-    document.querySelector(`#${tabActive}-tab`).classList.remove('active')
-    if (document.querySelector('header li.active')) document.querySelector('header li.active').classList.remove('active')
-    this.classList.add('active')
-    tabActive = this.id
-    document.querySelector(`#${tabActive}-tab`).classList.add('active')
-  })
-}
-
-document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-settings'), false)
-
-ipcRenderer.on('init', (event, config) => {
-  initTools(config.tools)
-  document.querySelector(`#position li[data-position="${config.posButton}"]`).classList.add('active')
-  document.querySelector(`#type-icons li[data-type="${config.typeButton}"]`).classList.add('active')
-})
-
 for (let el of document.querySelectorAll('#position li')) {
   el.addEventListener('click', function () {
     document.querySelector('#position .active').classList.remove('active')
@@ -49,6 +31,36 @@ for (let el of document.querySelectorAll('#type-icons li')) {
     ipcRenderer.send('set-type-icon', this.getAttribute('data-type'))
   })
 }
+
+/* TAB PICKER */
+for (let el of document.querySelectorAll('#zoom-level li')) {
+  el.addEventListener('click', function () {
+    document.querySelector('#zoom-level .active').classList.remove('active')
+    this.classList.add('active')
+    ipcRenderer.send('changeSizePicker', this.getAttribute('data-zoom'))
+  })
+}
+
+
+/* GLOBAL */
+document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-settings'), false)
+
+for (let el of document.querySelectorAll('header li')) {
+  el.addEventListener('click', function (event) {
+    document.querySelector(`#${tabActive}-tab`).classList.remove('active')
+    if (document.querySelector('header li.active')) document.querySelector('header li.active').classList.remove('active')
+    this.classList.add('active')
+    tabActive = this.id
+    document.querySelector(`#${tabActive}-tab`).classList.add('active')
+  })
+}
+
+ipcRenderer.on('init', (event, config) => {
+  initTools(config.tools)
+  document.querySelector(`#position li[data-position="${config.posButton}"]`).classList.add('active')
+  document.querySelector(`#type-icons li[data-type="${config.typeButton}"]`).classList.add('active')
+  document.querySelector(`#zoom-level li[data-zoom="${config.zoomLevel}"]`).classList.add('active')
+})
 
 function initTools(selectedTools) {
   let htmlSelected = ''

@@ -31,8 +31,7 @@ A new input is visible to change the second color.
 
 # Installation
 
-- For macOS / Windows : you can download [latest build here.](https://github.com/Toinane/colorpicker/releases)
-- For Linux : In future update.. :)
+- For macOS, Windows and Linux : you can download [latest build here.](https://github.com/Toinane/colorpicker/releases)
 
 #### **Happy Design !**
 

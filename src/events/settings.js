@@ -12,6 +12,7 @@ module.exports = (storage, browsers) => {
     config.tools = storage.get('tools')
     config.posButton = storage.get('buttonsPosition')
     config.typeButton = storage.get('buttonsType')
+    config.zoomLevel = storage.get('size', 'picker')
 
     event.sender.send('init', config)
   })
@@ -30,5 +31,7 @@ module.exports = (storage, browsers) => {
     storage.add({tools: tools})
     colorpicker.getWindow().webContents.send('changeTools', tools)
   })
+
+  ipcMain.on('changeSizePicker', (event, size) => storage.add({size: size}, 'picker'))
 
 }
