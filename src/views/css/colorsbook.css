@@ -1,5 +1,5 @@
 body{
-  background: #424242;
+  background: #95B6D2;
   margin: 0; padding: 0;
   overflow: hidden;
 }
@@ -18,7 +18,7 @@ body{
 }
 
   #categories{
-    background: #333333;
+    background: rgba(0, 0, 0, 0.15);
     padding-top: 10px;
     display: flex;
     align-items: center;
@@ -60,11 +60,11 @@ body{
 
     #colors li{
       background: #BF363F;
-      margin: 10px;
-      border-radius: 18px;
+      margin: 5px;
+      border-radius: 50px;
       display: block;
       list-style: none;
-      width: 80px;
-      height: 80px;
+      width: 70px;
+      height: 70px;
       cursor: pointer;
     }

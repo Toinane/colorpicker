@@ -22,7 +22,9 @@ module.exports = (dirname, storage) => {
       frame: false,
       'auto-hide-menu-bar': true,
       width: 484,
-      height: 200,
+      height: 400,
+      minHeight: 300,
+      minWidth: 320,
       icon: `${dirname}/build/logo.png`
     })
 
@@ -31,6 +33,9 @@ module.exports = (dirname, storage) => {
     win.on('closed', () => {
       win = undefined
     })
+
+    win.on('focus', event => win.webContents.send('hasLooseFocus', false))
+    win.on('blur', event => win.webContents.send('hasLooseFocus', true))
   }
 
   let getWindow = () => win

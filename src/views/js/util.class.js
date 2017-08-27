@@ -34,7 +34,7 @@ class ContextMenu {
     ]
   }
 
-  initButtonsType (type) {
+  initButtonsType (type, name) {
     const appButtons = document.querySelector('#app_buttons')
     const minimize = document.querySelector('#minimize')
     const maximize = document.querySelector('#maximize')
@@ -57,6 +57,13 @@ class ContextMenu {
         minimize.classList = 'fa fa-circle'
         maximize.classList = 'fa fa-circle'
         close.classList = 'fa fa-circle'
+    }
+
+    document.querySelector('#close').onclick = () => ipcRenderer.send(`close-${name}`)
+    document.querySelector('#minimize').onclick = () => ipcRenderer.send(`minimize-${name}`)
+    document.querySelector('#maximize').onclick = function () {
+      let bool = this.classList.toggle('active')
+      ipcRenderer.send(`maximize-${name}`, bool)
     }
   }
 

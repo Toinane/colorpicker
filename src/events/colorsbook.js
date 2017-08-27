@@ -14,4 +14,11 @@ module.exports = (storage, browsers) => {
 
     event.sender.send('init', config)
   })
+
+  ipcMain.on('minimize-colorsbook', event => win.minimize())
+  ipcMain.on('maximize-colorsbook', (event, bool) => {
+    if (bool) return win.maximize()
+    return win.unmaximize()
+  })
+  ipcMain.on('close-colorsbook', event => win.close())
 }

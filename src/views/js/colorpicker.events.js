@@ -8,7 +8,7 @@ ipcRenderer.on('init', (event, config) => {
   cp = new Colorpicker(config.color)
   cm = new ContextMenu()
   if (config.posButton === 'right') document.querySelector('.toolbar').classList.add('setRight')
-  cm.initButtonsType(config.typeButton)
+  cm.initButtonsType(config.typeButton, 'colorpicker')
   initTools(config.tools)
   initToolsEvent()
   initEvents()
@@ -32,7 +32,7 @@ ipcRenderer.on('changePosition', (event, position) => {
   else document.querySelector('.toolbar').classList.remove('setRight')
 })
 
-ipcRenderer.on('changeTypeIcons', (event, type) => cm.initButtonsType(type))
+ipcRenderer.on('changeTypeIcons', (event, type) => cm.initButtonsType(type, 'colorpicker'))
 ipcRenderer.on('changeTools', (event, tools) => {
   initTools(tools)
   initToolsEvent()
@@ -123,13 +123,6 @@ function initEvents () {
   window.addEventListener('contextmenu', event => {
     cm.openMenu('colorpickerMenu')
   })
-
-  document.querySelector('#close').onclick = () => ipcRenderer.send('close')
-  document.querySelector('#minimize').onclick = () => ipcRenderer.send('minimize')
-  document.querySelector('#maximize').onclick = function () {
-    let bool = this.classList.toggle('active')
-    ipcRenderer.send('maximize', bool)
-  }
 
   document.querySelector('.red_bar input').oninput = function () {
     const red = this.value

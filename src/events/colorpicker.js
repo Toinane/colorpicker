@@ -44,12 +44,12 @@ module.exports = (storage, browsers) => {
     else win.setMinimumSize(440, 255)
   })
 
-  ipcMain.on('minimize', event => win.minimize())
-  ipcMain.on('maximize', (event, bool) => {
+  ipcMain.on('minimize-colorpicker', event => win.minimize())
+  ipcMain.on('maximize-colorpicker', (event, bool) => {
     if (bool) return win.maximize()
     return win.unmaximize()
   })
-  ipcMain.on('close', event => win.close())
+  ipcMain.on('close-colorpicker', event => win.close())
   ipcMain.on('setOnTop', (event, bool) => win.setAlwaysOnTop(bool))
   ipcMain.on('launchPicker', event => picker.init())
   ipcMain.on('launchColorsbook', event => colorsbook.init())
