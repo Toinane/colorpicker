@@ -7,7 +7,13 @@ module.exports = (storage, browsers) => {
 
   ipcMain.on('init-settings', event => {
     let config = {
-      version: app.getVersion()
+      versions: {
+        colorpicker: app.getVersion(),
+        node: process.versions.node,
+        electron: process.versions.electron,
+        v8: process.versions.v8,
+        chrome: process.versions.chrome
+      }
     }
     config.tools = storage.get('tools')
     config.posButton = storage.get('buttonsPosition')

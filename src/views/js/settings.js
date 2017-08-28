@@ -57,6 +57,11 @@ for (let el of document.querySelectorAll('header li')) {
 
 ipcRenderer.on('init', (event, config) => {
   initTools(config.tools)
+  document.querySelector('#colorpicker-version').innerHTML = config.versions.colorpicker
+  document.querySelector('#electron-version').innerHTML = config.versions.electron
+  document.querySelector('#node-version').innerHTML = process.versions.node
+  document.querySelector('#chrome-version').innerHTML = process.versions.chrome
+  document.querySelector('#v8-version').innerHTML = process.versions.v8
   document.querySelector(`#position li[data-position="${config.posButton}"]`).classList.add('active')
   document.querySelector(`#type-icons li[data-type="${config.typeButton}"]`).classList.add('active')
   document.querySelector(`#zoom-level li[data-zoom="${config.zoomLevel}"]`).classList.add('active')
