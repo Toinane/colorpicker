@@ -1,5 +1,14 @@
+@font-face{
+  font-family: 'Lato';
+  src: url('fonts/Lato-Regular.ttf');
+}
+
+*{
+   font-family: 'Lato', sans-serif;
+}
+
 body{
-  background: #95B6D2;
+  background: #484D56;
   margin: 0; padding: 0;
   overflow: hidden;
 }
@@ -33,6 +42,10 @@ body{
       height: 60px;
       transition: 0.4s;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
     }
 
     #categories li.active, #categories li:hover{
@@ -46,8 +59,15 @@ body{
       background: #3A8398;
     }
 
-    #categories #new-categorie{
-
+    #categories #new-categorie, #colors #new-color{
+      box-sizing: border-box;
+      border: 2px dashed rgba(0, 0, 0, 0.2);
+      color: rgba(0, 0, 0, 0.2);
+    }
+    #categories #new-categorie:hover, #colors #new-color:hover{
+      border-radius: 50px;
+      border: 2px dashed rgba(0, 0, 0, 0.4);
+      color: rgba(0, 0, 0, 0.4);
     }
 
   #colors{
@@ -55,11 +75,11 @@ body{
     display: flex;
     flex-wrap: wrap;
     align-content: flex-start;
+    justify-content: justify;
     overflow-y: auto;
   }
 
     #colors li{
-      background: #BF363F;
       margin: 5px;
       border-radius: 50px;
       display: block;
@@ -67,4 +87,11 @@ body{
       width: 70px;
       height: 70px;
       cursor: pointer;
+    }
+
+    #colors #new-color{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.4s;
     }

@@ -21,10 +21,10 @@ module.exports = (dirname, storage) => {
     win = new BrowserWindow({
       frame: false,
       'auto-hide-menu-bar': true,
-      width: 484,
+      width: 355,
       height: 400,
-      minHeight: 300,
-      minWidth: 320,
+      minHeight: 285,
+      minWidth: 355,
       icon: `${dirname}/build/logo.png`
     })
 

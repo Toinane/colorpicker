@@ -32,7 +32,6 @@ module.exports = (dirname, storage) => {
       minWidth: 440,
       minHeight: 150,
       transparent: true,
-      experimentalFeatures: true,
       icon: `${dirname}/build/logo.png`
     }
     if (pos) { options.x = pos.x; options.y = pos.y }
