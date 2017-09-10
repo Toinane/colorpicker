@@ -3,7 +3,7 @@
 const {ipcMain} = require('electron')
 const robot = require('robotjs')
 
-let size;
+let size, mouse, color;
 
 let setPickerPosition = picker => {
   let pos = robot.getMousePos()
@@ -23,7 +23,6 @@ module.exports = (storage, browsers) => {
   }
 
   ipcMain.on('picker-requested', event => {
-    console.log(storage.get('size', 'picker'))
     event.sender.send('picker-size', storage.get('size', 'picker'))
     support.init()
     changePosition()
@@ -34,10 +33,14 @@ module.exports = (storage, browsers) => {
     })
   })
 
-  ipcMain.on('supportMove', event => changePosition())
+  ipcMain.on('supportMove', event => {
+    mouse = robot.getMousePos()
+    colorpicker.getWindow().webContents.send('changeColor', '#' + robot.getPixelColor(mouse.x, mouse.y))
+    changePosition()
+  })
 
   ipcMain.on('supportClick', event => {
-    let mouse = robot.getMousePos()
+    mouse = robot.getMousePos()
     if (picker.getWindow()) {
       picker.getWindow().close()
       support.getWindow().close()
@@ -49,6 +52,7 @@ module.exports = (storage, browsers) => {
   ipcMain.on('supportQuit', event => {
     picker.getWindow().close()
     support.getWindow().close()
+    colorpicker.getWindow().webContents.send('changeColor', color)
     colorpicker.getWindow().focus()
   })
 }
