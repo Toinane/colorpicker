@@ -16,7 +16,6 @@ let setPickerPosition = picker => {
 module.exports = (storage, browsers) => {
   const {picker, colorpicker, support} = browsers
 
-
   let changePosition = () => {
     const {screen} = require('electron')
     if (!size) size = screen.getPrimaryDisplay().workAreaSize
@@ -24,7 +23,6 @@ module.exports = (storage, browsers) => {
   }
 
   ipcMain.on('picker-requested', event => {
-    color = storage.get('lastColor')
     event.sender.send('picker-size', storage.get('size', 'picker'))
     support.init()
     changePosition()
