@@ -23,6 +23,7 @@ module.exports = (storage, browsers) => {
   }
 
   ipcMain.on('picker-requested', event => {
+    color = storage.get('lastColor')
     event.sender.send('picker-size', storage.get('size', 'picker'))
     support.init()
     changePosition()
