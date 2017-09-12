@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://crea-th.at/p/colorpicker">
-    <img src="build/logo.png" width="256" height="256" alt="ColorPicker icon" />
+    <img src="build/icon.png" width="256" height="256" alt="ColorPicker icon" />
   </a>
 </p>
 

@@ -25,7 +25,7 @@ module.exports = (dirname, storage) => {
       height: 400,
       minHeight: 285,
       minWidth: 355,
-      icon: `${dirname}/build/logo.png`
+      icon: `${dirname}/build/icon.png`
     })
 
     win.loadURL(`file://${dirname}/views/colorsbook.html`)

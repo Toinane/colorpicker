@@ -28,7 +28,7 @@ module.exports = (dirname, storage) => {
       resizable: false,
       fullscreenable: false,
       vibrancy: 'light',
-      icon: `${dirname}/build/logo.png`
+      icon: `${dirname}/build/icon.png`
     }
 
     win = new BrowserWindow(options)

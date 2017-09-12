@@ -21,7 +21,7 @@ module.exports = (dirname, storage) => {
       alwaysOnTop: true,
       resizable: false,
       focusable: false,
-      icon: `${dirname}/build/logo.png`
+      icon: `${dirname}/build/icon.png`
     })
 
     win.loadURL(`file://${dirname}/views/picker.html`)

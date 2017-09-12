@@ -1,6 +1,6 @@
 {
   "appId": "com.electron.colorpicker.nightly",
-  "productName": "ColorPicker-Nightly",
+  "productName": "ColorpickerNightly",
   "compression": "store",
   "copyright": "Copyright @Toinane",
   "directories": {
@@ -16,7 +16,7 @@
   },
   "dmg": {
     "icon": "build/VolumeIcon-nightly.icns",
-    "background": "build/background.png",
+    "background": "build/background-nightly.png",
     "window": {
       "width": 540,
       "height": 380
