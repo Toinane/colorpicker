@@ -10,9 +10,9 @@ module.exports = (dirname, storage) => {
    * @param {boolean} force [force launching new window]
    * @return {void} [new Colorpicker]
    */
-  let init = () => {
+  let init = touchbar => {
     const size = storage.get('size')
-    if (win === null || win === undefined) createWindow(size.width, size.height)
+    if (win === null || win === undefined) createWindow(size.width, size.height, touchbar)
     else win.show()
   }
 
@@ -22,7 +22,7 @@ module.exports = (dirname, storage) => {
    * @param  {int} height [height of the window]
    * @return {void}
    */
-  let createWindow = (width, height, frame) => {
+  let createWindow = (width, height, touchbar) => {
     const pos = storage.get('pos')
     let options = {
       frame: false,
@@ -38,6 +38,8 @@ module.exports = (dirname, storage) => {
 
     win = new BrowserWindow(options)
     win.loadURL(`file://${dirname}/views/colorpicker.html`)
+
+    if (touchbar) win.setTouchBar(touchbar)
 
     win.on('closed', () => {
       win = undefined

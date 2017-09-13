@@ -2,6 +2,7 @@
 
 const {app, Tray, Menu} = require('electron')
 const storage = require('./storage')
+const touchbar = require('./touchbar')
 const browsers = require('./browsers')(__dirname, storage)
 const {colorpicker, colorsbook, picker, about, settings} = browsers
 
@@ -86,7 +87,7 @@ app.on('ready', () => {
   storage.init().then(() => {
     createTray()
     setMenu()
-    colorpicker.init()
+    colorpicker.init(touchbar.get())
   })
 })
 
