@@ -1,25 +1,25 @@
 'use strict'
 
 const {TouchBar} = require('electron')
-const {TouchBarLabel, TouchBarButton, TouchBarSpacer} = TouchBar;
+const {TouchBarLabel, TouchBarButton, TouchBarPopover, TouchBarColorPicker} = TouchBar;
 
 let touchbar
 
-let test = new TouchBarLabel({
-  label: 'Colorpicker'
-})
-
-let test2 = new TouchBarButton({
-  label: 'Test',
-  click: () => {
-    console.log('test ici')
+let colorpicker = new TouchBarColorPicker({
+  change: color => {
+    console.log(color)
   }
 })
 
-touchbar = new TouchBar([test, test2])
+touchbar = new TouchBar([colorpicker])
 
 let get = () => touchbar
 
+let updateHistory = () => {
+
+}
+
 module.exports = {
-  get: get
+  get: get,
+  updateHistory: updateHistory
 }
