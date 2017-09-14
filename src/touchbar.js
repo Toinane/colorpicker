@@ -3,15 +3,17 @@
 const {TouchBar} = require('electron')
 const {TouchBarLabel, TouchBarButton, TouchBarPopover, TouchBarColorPicker} = TouchBar;
 
-let touchbar
-
 let colorpicker = new TouchBarColorPicker({
   change: color => {
     console.log(color)
   }
 })
 
-touchbar = new TouchBar([colorpicker])
+let history = [
+  new TouchBarButton({backgroundColor: '#00AEEF'})
+]
+
+let touchbar = new TouchBar([colorpicker, ...history])
 
 let get = () => touchbar
 
