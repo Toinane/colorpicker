@@ -2,9 +2,13 @@
 
 const {ipcMain, BrowserWindow, app} = require('electron')
 
-module.exports = (storage, browsers) => {
+module.exports = (storage, browsers, eventEmitter) => {
   const {colorpicker, settings, picker, colorsbook} = browsers
   let win, timing, opacity, shading
+
+  eventEmitter.on('changeColor', color => {
+    win.webContents.send('changeColor', color)
+  })
 
   ipcMain.on('init-colorpicker', event => {
     win = colorpicker.getWindow()

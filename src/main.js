@@ -1,12 +1,15 @@
 'use strict'
 
+let eventEmitter = require('events')
+eventEmitter = new eventEmitter()
+
 const {app, Tray, Menu} = require('electron')
 const storage = require('./storage')
-const touchbar = require('./touchbar')
-const browsers = require('./browsers')(__dirname, storage)
+const touchbar = require('./touchbar')(eventEmitter)
+const browsers = require('./browsers')(__dirname, storage, {touchbar, eventEmitter})
 const {colorpicker, colorsbook, picker, about, settings} = browsers
 
-require('./events')(storage, browsers)
+require('./events')(storage, browsers, eventEmitter)
 
 if (process.platform === 'linux') {
   app.commandLine.appendSwitch('--enable-transparent-visuals')
@@ -21,7 +24,7 @@ let createTray = () => {
   if (process.platform === 'win32') tray = new Tray(`${__dirname}/ressources/tray-black@3x.png`) // color here
   if (process.platform === 'linux') tray = new Tray(`${__dirname}/ressources/tray-white@3x.png`)
   if (process.platform === 'darwin') tray.setPressedImage(`${__dirname}/ressources/tray-white@3x.png`)
-  tray.on('click', event => colorpicker.init(__dirname))
+  tray.on('click', event => colorpicker.init())
 }
 
 /**
@@ -87,7 +90,7 @@ app.on('ready', () => {
   storage.init().then(() => {
     createTray()
     setMenu()
-    colorpicker.init(touchbar.get())
+    colorpicker.init()
   })
 })
 

@@ -2,7 +2,8 @@
 
 const {BrowserWindow} = require('electron')
 
-module.exports = (dirname, storage) => {
+module.exports = (dirname, storage, util) => {
+  const {touchbar} = util
   let win
 
   /**
@@ -10,9 +11,9 @@ module.exports = (dirname, storage) => {
    * @param {boolean} force [force launching new window]
    * @return {void} [new Colorpicker]
    */
-  let init = touchbar => {
+  let init = () => {
     const size = storage.get('size')
-    if (win === null || win === undefined) createWindow(size.width, size.height, touchbar)
+    if (win === null || win === undefined) createWindow(size.width, size.height)
     else win.show()
   }
 
@@ -22,7 +23,7 @@ module.exports = (dirname, storage) => {
    * @param  {int} height [height of the window]
    * @return {void}
    */
-  let createWindow = (width, height, touchbar) => {
+  let createWindow = (width, height) => {
     const pos = storage.get('pos')
     let options = {
       frame: false,
