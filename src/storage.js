@@ -144,7 +144,8 @@ defaultStorage = {
   },
   colorsbook: {},
   picker: {
-    size: 5
+    size: 5,
+    realTime: true
   }
 }
 

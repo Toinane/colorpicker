@@ -12,7 +12,7 @@ body, p, h1, h2, input{
    font-family: 'Lato', sans-serif;
 }
 body{
-   overflow: hidden;
+ overflow: hidden;
 }
 a{
   color: inherit;
@@ -96,6 +96,8 @@ header .shades aside, header .tints aside, header .naturals aside{
    text-align: center;
    display: flex;
    align-items: flex-end;
+   overflow: hidden;
+   box-sizing: border-box;
 }
 
 .sliders, .inputs{
@@ -107,7 +109,7 @@ header .shades aside, header .tints aside, header .naturals aside{
 .alpha_bar, #alpha_value{
   position: relative;
   transition: 0.5s;
-  bottom: -20px;
+  bottom: -10px;
 }
 .opacity .sliders, .opacity .alpha_bar, .opacity .inputs, .opacity #alpha_value{
   bottom: 0.5px;

@@ -104,7 +104,11 @@ function applyColor () {
   const regex = /(#(?:[\da-f]{3}){1,2}|rgb\((?:\d{1,3},\s*){2}\d{1,3}\)|rgba\((?:\d{1,3},\s*){3}\d*\.?\d+\))/ig
   let content = clipboard.readText()
   let colors = content.replace(/\n/g, ' ').match(regex)
-  console.log(colors)
+  colors = [...new Set(colors)]
+  for(let color of colors) {
+    if (color === colors[0]) cp.setNewColor(color)
+    else ipcRenderer.send('openNewColor', colors)
+  }
 }
 
 function initToolsEvent () {
@@ -123,6 +127,8 @@ function initEvents () {
   window.addEventListener('contextmenu', event => {
     cm.openMenu('colorpickerMenu')
   })
+
+  document.querySelector('.toolbar').addEventListener('dblclick', () => ipcRenderer.send(`maximize-colorpicker`))
 
   document.querySelector('.red_bar input').oninput = function () {
     const red = this.value
@@ -188,11 +194,13 @@ function initEvents () {
 
       function changeHex (e) {
         if (e.keyCode === 38 || e.deltaY < 0) {
+          e.preventDefault()
           let red = (cp.red >= 255) ? 255 : cp.red + 1
           let green = (cp.green >= 255) ? 255 : cp.green + 1
           let blue = (cp.blue >= 255) ? 255 : cp.blue + 1
           return cp.setNewRGBColor([red, green, blue])
         } else if (e.keyCode === 40 || e.deltaY > 0) {
+          e.preventDefault()
           let red = (cp.red <= 0) ? 0 : cp.red - 1
           let green = (cp.green <= 0) ? 0 : cp.green - 1
           let blue = (cp.blue <= 0) ? 0 : cp.blue - 1

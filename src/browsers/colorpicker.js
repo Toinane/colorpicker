@@ -11,9 +11,9 @@ module.exports = (dirname, storage, util) => {
    * @param {boolean} force [force launching new window]
    * @return {void} [new Colorpicker]
    */
-  let init = () => {
+  let init = (force, color) => {
     const size = storage.get('size')
-    if (win === null || win === undefined) createWindow(size.width, size.height)
+    if (win === null || win === undefined || force) createWindow(size.width, size.height)
     else win.show()
   }
 
@@ -43,7 +43,10 @@ module.exports = (dirname, storage, util) => {
     if (touchbar) win.setTouchBar(touchbar)
 
     win.on('closed', () => {
-      win = undefined
+      let windows = BrowserWindow.getAllWindows()
+      for (win of windows) {
+        win.close()
+      }
     })
 
     windowEvents(win)

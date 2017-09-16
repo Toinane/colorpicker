@@ -62,8 +62,7 @@ class ContextMenu {
     document.querySelector('#close').onclick = () => ipcRenderer.send(`close-${name}`)
     document.querySelector('#minimize').onclick = () => ipcRenderer.send(`minimize-${name}`)
     document.querySelector('#maximize').onclick = function () {
-      let bool = this.classList.toggle('active')
-      ipcRenderer.send(`maximize-${name}`, bool)
+      ipcRenderer.send(`maximize-${name}`)
     }
   }
 

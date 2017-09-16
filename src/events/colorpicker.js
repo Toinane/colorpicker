@@ -49,9 +49,9 @@ module.exports = (storage, browsers, eventEmitter) => {
   })
 
   ipcMain.on('minimize-colorpicker', event => win.minimize())
-  ipcMain.on('maximize-colorpicker', (event, bool) => {
-    if (bool) return win.maximize()
-    return win.unmaximize()
+  ipcMain.on('maximize-colorpicker', event => {
+    if (win.isMaximized()) return win.unmaximize()
+    else return win.maximize()
   })
   ipcMain.on('close-colorpicker', event => win.close())
   ipcMain.on('setOnTop', (event, bool) => win.setAlwaysOnTop(bool))
