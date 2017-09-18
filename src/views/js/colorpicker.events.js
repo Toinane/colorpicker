@@ -5,7 +5,10 @@ let cp, cm
 document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-colorpicker'), false)
 
 ipcRenderer.on('init', (event, config) => {
-  cp = new Colorpicker(config.color)
+  cp = new Colorpicker({
+    color: config.color,
+    colorfullApp: config.colorfullApp
+  })
   cm = new ContextMenu()
   if (config.posButton === 'right') document.querySelector('.toolbar').classList.add('setRight')
   cm.initButtonsType(config.typeButton, 'colorpicker')

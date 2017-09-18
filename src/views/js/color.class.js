@@ -213,6 +213,33 @@ class Color {
     return negative
   }
 
+  setRedComplementary (rgb) {
+    this.setColorFromRGB(this.getRedComplementary(rgb))
+  }
+
+  getRedComplementary (rgb) {
+    if (!rgb) rgb = this.rgb
+    return [rgb[0], rgb[2], rgb[1]]
+  }
+
+  setGreenComplementary (rgb) {
+    this.setColorFromRGB(this.getGreenComplementary(rgb))
+  }
+
+  getGreenComplementary (rgb) {
+    if (!rgb) rgb = this.rgb
+    return [rgb[2], rgb[1], rgb[0]]
+  }
+
+  setBlueComplementary (rgb) {
+    this.setColorFromRGB(this.getBlueComplementary(rgb))
+  }
+
+  getBlueComplementary (rgb) {
+    if (!rgb) rgb = this.rgb
+    return [rgb[1], rgb[0], rgb[2]]
+  }
+
   setGrayscale (rgb) {
     const gray = this.getGrayscale(rgb)
     this.setColorFromRGB(gray)

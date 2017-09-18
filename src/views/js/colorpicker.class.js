@@ -1,8 +1,11 @@
 'use strict'
 
 class Colorpicker extends Color {
-  constructor (hex) {
+  constructor (config) {
     super()
+
+    this.colorfullApp = config.colorfullApp || true
+
     this.body = document.querySelector('body')
     this.hex_value = document.querySelector('#hex_value')
     this.rgbhtml = {
@@ -19,7 +22,8 @@ class Colorpicker extends Color {
       alpha_progress: document.querySelector('.alpha_bar progress'),
       alpha_input: document.querySelector('.alpha_bar input')
     }
-    this.setNewColor(hex)
+
+    this.setNewColor(config.color)
   }
 
   setNewRGBColor (rgb) {
@@ -54,6 +58,18 @@ class Colorpicker extends Color {
     this.body.classList.toggle('darkMode', this.isDark)
     this.body.style.background = this.getCSSFromRGBA(this.rgba)
     this.changeShading()
+
+    if (this.colorfullApp) {
+      if (this.isDark) {
+        document.querySelector('#close').style.color = this.getHexFromRGB(this.getLightnessFromRGB(20, this.getRedComplementary()))
+        document.querySelector('#minimize').style.color = this.getHexFromRGB(this.getLightnessFromRGB(20, this.getGreenComplementary()))
+        document.querySelector('#maximize').style.color = this.getHexFromRGB(this.getLightnessFromRGB(20, this.getBlueComplementary()))
+      } else {
+        document.querySelector('#close').style.color = this.getHexFromRGB(this.getLightnessFromRGB(-20, this.getRedComplementary()))
+        document.querySelector('#minimize').style.color = this.getHexFromRGB(this.getLightnessFromRGB(-20, this.getGreenComplementary()))
+        document.querySelector('#maximize').style.color = this.getHexFromRGB(this.getLightnessFromRGB(-20, this.getBlueComplementary()))
+      }
+    }
   }
 
   copyHex () { clipboard.writeText(this.hex) }

@@ -43,10 +43,9 @@ module.exports = (dirname, storage, util) => {
     if (touchbar) win.setTouchBar(touchbar)
 
     win.on('closed', () => {
-      let windows = BrowserWindow.getAllWindows()
-      for (win of windows) {
-        win.close()
-      }
+      win = undefined
+      let totalWin = BrowserWindow.getAllWindows()
+      for (let wins of totalWin) wins.close()
     })
 
     windowEvents(win)
