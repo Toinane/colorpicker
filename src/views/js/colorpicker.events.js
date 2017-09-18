@@ -52,7 +52,7 @@ function initTools (tools) {
     random: { title: 'Set Random Color', icon: 'fa-random' },
     opacity: { title: 'Toggle Opacity', icon: 'fa-sliders' },
     clean: { title: 'Clean Vue', icon: 'fa-adjust' },
-    apply: { title: 'Apply color from clipboard', icon: 'fa-magic' },
+    apply: { title: 'Get Clipboard\'s Colors', icon: 'fa-magic' },
     settings: { title: 'Open Settings', icon: 'fa-gear' }
   }
 

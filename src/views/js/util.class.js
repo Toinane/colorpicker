@@ -23,7 +23,7 @@ class ContextMenu {
       { label: 'Copy RGBA Code', visible: cp.activeAlpha, accelerator: 'Shift+CmdOrCtrl+W', click: () => cp.copyRGBA() },
       { type: 'separator' },
       { label: 'Pick Color', accelerator: 'CmdOrCtrl+P', click: () => picker.init() },
-      { label: 'Apply Color from Clipboard', accelerator: 'Shift+CmdOrCtrl+V', click: () => applyColor() },
+      { label: 'Get Clipboard\'s Colors', accelerator: 'Shift+CmdOrCtrl+V', click: () => applyColor() },
       { label: 'Toggle Shading', accelerator: 'CmdOrCtrl+T', click: () => toggleShading() },
       { label: 'Toggle Opacity', accelerator: 'CmdOrCtrl+O', click: () => toggleOpacity() },
       { type: 'separator' },

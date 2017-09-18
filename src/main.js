@@ -73,7 +73,7 @@ let setMenu = () => {
         { label: 'Pin to Foreground', accelerator: 'CmdOrCtrl+F', click: () => colorpicker.getWindow().webContents.send('shortPin') },
         { type: 'separator' },
         { label: 'Pick Color', accelerator: 'CmdOrCtrl+P', click: () => picker.init() },
-        { label: 'Apply Color from Clipboard', accelerator: 'Shift+CmdOrCtrl+V', click: () => colorpicker.getWindow().webContents.send('shortApply') },
+        { label: 'Get Clipboard\'s Colors', accelerator: 'Shift+CmdOrCtrl+V', click: () => colorpicker.getWindow().webContents.send('shortApply') },
         { label: 'Toggle Shading', accelerator: 'CmdOrCtrl+T', click: () => colorpicker.getWindow().webContents.send('shortShading') },
         { label: 'Toggle Opacity', accelerator: 'CmdOrCtrl+O', click: () => colorpicker.getWindow().webContents.send('shortOpacity') },
         { label: 'Set Random Color', accelerator: 'CmdOrCtrl+M', click: () => colorpicker.getWindow().webContents.send('shortRandom') }
