@@ -128,7 +128,10 @@ function initEvents () {
     cm.openMenu('colorpickerMenu')
   })
 
-  document.querySelector('.toolbar').addEventListener('dblclick', () => ipcRenderer.send(`maximize-colorpicker`))
+  document.querySelector('.toolbar').addEventListener('dblclick', function(event) {
+    if (event.target !== this) return;
+    ipcRenderer.send(`maximize-colorpicker`)
+  })
 
   document.querySelector('.red_bar input').oninput = function () {
     const red = this.value
