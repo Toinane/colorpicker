@@ -30,7 +30,7 @@ module.exports = (storage, browsers) => {
 
     support.getWindow().on('blur', () => {
       support.getWindow().close()
-      picker.getWindow().close()
+      //picker.getWindow().close()
     })
   })
 

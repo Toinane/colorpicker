@@ -9,25 +9,25 @@ body{
 
 #border{
   display: inline-block;
-  border-radius: 90px;
+  /*border-radius: 90px;*/
 }
 
 #picker{
   margin: 3px;
-  border-radius: 120px;
+  /*border-radius: 120px;*/
   overflow: hidden;
 }
 
-table{
+#grid{
   width: 100px;
   height: 100px;
   border-collapse: collapse;
   display: grid;
 }
-  tr{
+  .outbox{
     display: grid;
   }
-  td{
+  .box{
     margin: 0;
     border: 1px solid rgba(0, 0, 0, 0.02);
   }

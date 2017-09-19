@@ -7,7 +7,7 @@
       html{
         margin: 0; padding: 0;
         height: 100%;
-        /*border: 3px solid red;*/
+        border: 1px solid red;
         cursor: crosshair;
         box-sizing: border-box;
       }
@@ -16,7 +16,7 @@
   <body>
     <script>
       const {ipcRenderer} = require('electron')
-      window.addEventListener('mousemove', event => ipcRenderer.send('supportMove'))
+      //window.addEventListener('mousemove', event => ipcRenderer.send('supportMove'))
       window.addEventListener('mouseup', event => ipcRenderer.send('supportClick'))
       window.addEventListener('keyup', event => {
         if (event.code === 'Escape') ipcRenderer.send('supportQuit')

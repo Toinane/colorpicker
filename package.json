@@ -12,7 +12,7 @@
     "build-linux": "build --config colorpicker-build.json --linux deb, apk, rpm, zip, appImage",
     "nightly": "build --config colorpicker-build-nightly.json",
     "nightly-linux": "build --config colorpicker-build-nightly.json --linux deb appImage",
-    "rebuild": "npm rebuild --runtime=electron --target=1.6.11 --disturl=https://atom.io/download/atom-shell --abi=57"
+    "rebuild": "npm rebuild --runtime=electron --target=1.8.0 --disturl=https://atom.io/download/atom-shell --abi=$(electron --abi)"
   },
   "repository": "https://github.com/toinane/colorpicker",
   "keywords": [
@@ -26,19 +26,19 @@
     "crea-that"
   ],
   "dependencies": {
-    "electron-json-storage": "^3.0.7",
+    "electron-json-storage": "^3.1.0",
     "request": "^2.81.0",
     "robotjs": "^0.4.7",
-    "sortablejs": "^1.6.0"
+    "sortablejs": "^1.6.1"
   },
   "devDependencies": {
-    "electron": "1.6.11",
-    "electron-builder": "19.6.3",
+    "electron": "1.8.0",
+    "electron-builder": "19.28.4",
     "standard": "^10.0.3"
   },
   "iohook": {
     "targets": [
-      "electron-53"
+      "electron-54"
     ],
     "platforms": [
       "win32",
