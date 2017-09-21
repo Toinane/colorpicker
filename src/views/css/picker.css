@@ -24,10 +24,3 @@ body{
   border-collapse: collapse;
   display: grid;
 }
-  .outbox{
-    display: grid;
-  }
-  .box{
-    margin: 0;
-    border: 1px solid rgba(0, 0, 0, 0.02);
-  }

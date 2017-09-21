@@ -20,7 +20,7 @@ module.exports = (dirname, storage) => {
   let createWindow = () => {
     win = new BrowserWindow({
       frame: false,
-      'auto-hide-menu-bar': true,
+      autoHideMenuBar: true,
       width: 355,
       height: 400,
       minHeight: 285,

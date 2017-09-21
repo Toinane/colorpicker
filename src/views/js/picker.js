@@ -25,24 +25,12 @@ ipcRenderer.on('picker-size', (event, size) => {
         if (color.isDarkColor()) table += `<div class="box" id="l${y}-${x}" style="border: 1px solid white; background: ` + colors[`#l${y}-${x}`] + '"></div>'
         else table += `<div class="box" id="l${y}-${x}" style="border: 1px solid black; background: ` + colors[`#l${y}-${x}`] + '"></div>'
       }
-      else if (x === half - 1 && y === half) {
-        color.setColorFromHex(colors[`#l${half}-${half}`])
-        document.querySelector('#border').style.border = `9px solid ${colors[`#l${y}-${x}`]}`
-        if (color.isDarkColor()) table += `<div class="box" id="l${y}-${x}" style="border-right: 1px solid white; background: ` + colors[`#l${y}-${x}`] + '"></div>'
-        else table += `<div class="box" id="l${y}-${x}" style="border-right: 1px solid black; background: ` + colors[`#l${y}-${x}`] + '"></div>'
-      }
-      else if (x === half && y === half - 1) {
-        color.setColorFromHex(colors[`#l${half}-${half}`])
-        document.querySelector('#border').style.border = `9px solid ${colors[`#l${y}-${x}`]}`
-        if (color.isDarkColor()) table += `<div class="box" id="l${y}-${x}" style="border-bottom: 1px solid white; background: ` + colors[`#l${y}-${x}`] + '"></div>'
-        else table += `<div class="box" id="l${y}-${x}" style="border-bottom: 1px solid black; background: ` + colors[`#l${y}-${x}`] + '"></div>'
-      }
       else table += `<div class="box" id="l${y}-${x}" style="background: ` + colors[`#l${y}-${x}`] + '"></div>'
     }
     table += '</div>'
   }
   document.querySelector('#grid').innerHTML = table
-// }, 1)
+// }, 0)
 
 function getColors (size, half) {
   let mouse = robot.getMousePos()

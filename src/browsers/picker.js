@@ -14,14 +14,17 @@ module.exports = (dirname, storage) => {
   let createWindow = () => {
     win = new BrowserWindow({
       frame: false,
-      'auto-hide-menu-bar': true,
+      autoHideMenuBar: true,
       width: 140,
       height: 140,
       transparent: true,
       alwaysOnTop: true,
       resizable: false,
       focusable: false,
-      icon: `${dirname}/build/icon.png`
+      icon: `${dirname}/build/icon.png`,
+      webPreferences: {
+        experimentalFeatures: true
+      }
     })
 
     win.loadURL(`file://${dirname}/views/picker.html`)

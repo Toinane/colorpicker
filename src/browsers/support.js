@@ -16,7 +16,7 @@ module.exports = (dirname, storage) => {
     const {width, height} = screen.getPrimaryDisplay().workAreaSize
     win = new BrowserWindow({
       frame: false,
-      'auto-hide-menu-bar': true,
+      autoHideMenuBar: true,
       width: width,
       height: height,
       transparent: true,

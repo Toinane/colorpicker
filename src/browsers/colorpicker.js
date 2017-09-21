@@ -27,7 +27,7 @@ module.exports = (dirname, storage, util) => {
     const pos = storage.get('pos')
     let options = {
       frame: false,
-      'auto-hide-menu-bar': true,
+      autoHideMenuBar: true,
       width: width,
       height: height,
       minWidth: 440,
