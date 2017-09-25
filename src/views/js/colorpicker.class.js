@@ -5,6 +5,7 @@ class Colorpicker extends Color {
     super()
 
     this.colorfullApp = config.colorfullApp || true
+    this.isShadingActive = false
 
     this.body = document.querySelector('body')
     this.hex_value = document.querySelector('#hex_value')
@@ -57,7 +58,7 @@ class Colorpicker extends Color {
     this.hex_value.value = this.hex
     this.body.classList.toggle('darkMode', this.isDark)
     this.body.style.background = this.getCSSFromRGBA(this.rgba)
-    this.changeShading()
+    if(this.isShadingActive) this.changeShading()
 
     if (this.colorfullApp) {
       if (this.isDark) {
@@ -97,6 +98,13 @@ class Colorpicker extends Color {
   }
 
   changeShading () {
+    let shading = document.querySelectorAll('header .shades aside, header .tints aside, header .naturals aside')
+    for (let shade of shading) {
+      shade.removeEventListener('click', function () {
+        cp.setNewColor(this.attributes['data-color'].value)
+      })
+      shade.parentNode.removeChild(shade)
+    }
     for (let shades = 1, light = -25, total = 22, html = ''; shades <= total; shades++) {
       let hex = this.getLightnessFromHex(light, this.hex)
       html += `<aside id="shade${shades}" data-color="${hex}" style="background: ${hex}"></aside>`
@@ -118,7 +126,7 @@ class Colorpicker extends Color {
       if (total === naturals) document.querySelector('.naturals').innerHTML = html
     }
 
-    let shading = document.querySelectorAll('header .shades aside, header .tints aside, header .naturals aside')
+    shading = document.querySelectorAll('header .shades aside, header .tints aside, header .naturals aside')
     for (let shade of shading) {
       shade.addEventListener('click', function () {
         cp.setNewColor(this.attributes['data-color'].value)
