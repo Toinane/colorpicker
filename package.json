@@ -13,7 +13,7 @@
     "build-window": "build --config colorpicker-build.json --win nsis, portable",
     "nightly": "build --config colorpicker-build-nightly.json",
     "nightly-linux": "build --config colorpicker-build-nightly.json --linux deb appImage",
-    "rebuild": "npm rebuild --runtime=electron --target=1.8.0 --disturl=https://atom.io/download/atom-shell --abi=$(electron --abi)"
+    "rebuild": "npm rebuild --runtime=electron --target=1.7.8 --disturl=https://atom.io/download/atom-shell --abi=$(electron --abi)"
   },
   "repository": "https://github.com/toinane/colorpicker",
   "keywords": [
@@ -37,13 +37,13 @@
     "win-mouse": "^1.1.2"
   },
   "devDependencies": {
-    "electron": "1.8.0",
+    "electron": "1.7.8",
     "electron-builder": "19.28.4",
     "standard": "^10.0.3"
   },
   "iohook": {
     "targets": [
-      "electron-57"
+      "electron-54"
     ],
     "platforms": [
       "win32",

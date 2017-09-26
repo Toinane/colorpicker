@@ -23,6 +23,7 @@ module.exports = (storage, browsers) => {
     let realtime = storage.get('realtime', 'picker')
 
     if (process.platform === 'darwin') mouseEvent = require('osx-mouse')()
+    if (process.platform === 'linux') mouseEvent = require('osx-mouse')()
     if (process.platform === 'win32') mouseEvent = require('win-mouse')()
     color = storage.get('lastColor')
 

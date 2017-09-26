@@ -74,7 +74,7 @@ class Colorpicker extends Color {
     }
   }
 
-  saveHex () {
+  saveColor (hex) {
     ipcRenderer.send('changeLastColor', hex)
   }
 
