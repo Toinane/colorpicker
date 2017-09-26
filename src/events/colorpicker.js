@@ -17,7 +17,8 @@ module.exports = (storage, browsers, eventEmitter) => {
       posButton: storage.get('buttonsPosition'),
       typeButton:  storage.get('buttonsType'),
       tools: storage.get('tools'),
-      colorfullApp: storage.get('colorfullApp')
+      colorfullApp: storage.get('colorfullApp'),
+      history: storage.get('history')
     }
 
     event.sender.send('init', config)
