@@ -19,6 +19,7 @@ ipcRenderer.on('init', (event, config) => {
 
 ipcRenderer.on('changeColor', (event, color) => cp.setNewColor(color))
 ipcRenderer.on('previewColor', (event, color) => cp.setNewColor(color, true))
+ipcRenderer.on('changeColorfullApp', (event, bool) => cp.colorfullApp = bool)
 ipcRenderer.on('shortSave', () => cb.save())
 ipcRenderer.on('shortCopyHex', () => cp.copyHex())
 ipcRenderer.on('shortCopyRGB', () => cp.activeAlpha ? cp.copyRGBA() : cp.copyRGB())

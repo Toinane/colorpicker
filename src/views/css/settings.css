@@ -87,6 +87,9 @@ header{
   p.toggle{
     cursor: pointer;
   }
+  p.toggle + p{
+    margin-top: 25px;
+  }
   .toggle i{
     position: relative;
     top: 3px;

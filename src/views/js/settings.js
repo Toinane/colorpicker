@@ -16,6 +16,11 @@ Sortable.create(document.querySelector('#allTools'), options)
 Sortable.create(document.querySelector('#selectedTools'), options)
 
 /* TAB COLORPICKER */
+document.querySelector('#colorfull-app').addEventListener('click', function () {
+  let bool = this.classList.toggle('active')
+  ipcRenderer.send('set-colorfull-app', bool)
+})
+
 for (let el of document.querySelectorAll('#position li')) {
   el.addEventListener('click', function () {
     document.querySelector('#position .active').classList.remove('active')
@@ -61,6 +66,7 @@ ipcRenderer.on('init', (event, config) => {
   document.querySelector('#v8-version').innerHTML = process.versions.v8
   document.querySelector(`#position li[data-position="${config.posButton}"]`).classList.add('active')
   document.querySelector(`#type-icons li[data-type="${config.typeButton}"]`).classList.add('active')
+  if (config.colorfullApp) document.querySelector('#colorfull-app').classList.add('active')
   if (config.realtime) document.querySelector('#picker-realtime').classList.add('active')
 })
 

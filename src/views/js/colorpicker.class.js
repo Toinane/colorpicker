@@ -4,7 +4,7 @@ class Colorpicker extends Color {
   constructor (config) {
     super()
 
-    this.colorfullApp = config.colorfullApp || true
+    this.colorfullApp = config.colorfullApp
     this.isShadingActive = false
 
     this.body = document.querySelector('body')
