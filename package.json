@@ -28,8 +28,12 @@
   "dependencies": {
     "electron-json-storage": "^3.1.0",
     "request": "^2.81.0",
-    "robotjs": "^0.4.7",
+    "robotjs-shade": "git+https://github.com/jdan/robotjs.git",
     "sortablejs": "^1.6.1"
+  },
+  "optionalDependencies": {
+    "osx-mouse": "^1.2.1",
+    "win-mouse": "^1.1.2"
   },
   "devDependencies": {
     "electron": "1.8.0",
@@ -38,7 +42,7 @@
   },
   "iohook": {
     "targets": [
-      "electron-54"
+      "electron-57"
     ],
     "platforms": [
       "win32",

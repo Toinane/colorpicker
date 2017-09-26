@@ -43,8 +43,8 @@ class Colorpicker extends Color {
     return negative
   }
 
-  setNewColor (hex) {
-    ipcRenderer.send('changeLastColor', hex)
+  setNewColor (hex, dontSaveIt) {
+    if (!dontSaveIt) ipcRenderer.send('changeLastColor', hex)
     this.setColorFromHex(hex)
     this.isDark = this.isDarkColor(this.rgb)
 

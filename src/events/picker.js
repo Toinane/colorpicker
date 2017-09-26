@@ -1,59 +1,46 @@
 'use strict'
 
 const {ipcMain} = require('electron')
-const robot = require('robotjs')
+const robot = require('robotjs-shade')
 
-let size, mouse, color;
-
-let setPickerPosition = picker => {
-  let pos = robot.getMousePos()
-  if(pos.x >= size.width - 120 && pos.y >= size.height - 120) picker.getWindow().setPosition(pos.x - 140, pos.y - 140)
-  else if(pos.x >= size.width - 120) picker.getWindow().setPosition(pos.x - 140, pos.y + 4)
-  else if(pos.y >= size.height - 120) picker.getWindow().setPosition(pos.x + 4, pos.y - 140)
-  else picker.getWindow().setPosition(pos.x + 4, pos.y + 4)
-}
+let size, mouse, mouseEvent, color;
 
 module.exports = (storage, browsers) => {
-  const {picker, colorpicker, support} = browsers
+  const {picker, colorpicker} = browsers
 
-  let changePosition = () => {
-    const {screen} = require('electron')
-    if (!size) size = screen.getPrimaryDisplay().workAreaSize
-    if (picker.getWindow()) setPickerPosition(picker)
-  }
-
-  ipcMain.on('picker-requested', event => {
-    color = storage.get('lastColor')
-    event.sender.send('picker-size', storage.get('size', 'picker'))
-    support.init()
-    changePosition()
-
-    support.getWindow().on('blur', () => {
-      support.getWindow().close()
-      //picker.getWindow().close()
-    })
-  })
-
-  ipcMain.on('supportMove', event => {
-    mouse = robot.getMousePos()
-    colorpicker.getWindow().webContents.send('changeColor', '#' + robot.getPixelColor(mouse.x, mouse.y))
-    changePosition()
-  })
-
-  ipcMain.on('supportClick', event => {
-    mouse = robot.getMousePos()
+  let closePicker = newColor => {
+    if (typeof newColor !== 'string') newColor = color
     if (picker.getWindow()) {
       picker.getWindow().close()
-      support.getWindow().close()
-      colorpicker.getWindow().webContents.send('changeColor', '#' + robot.getPixelColor(mouse.x, mouse.y))
+      colorpicker.getWindow().webContents.send('changeColor', newColor)
       colorpicker.getWindow().focus()
+      ipcMain.removeListener('closePicker', closePicker)
+      ipcMain.removeListener('pickerRequested', event => {})
     }
-  })
+  }
 
-  ipcMain.on('supportQuit', event => {
-    picker.getWindow().close()
-    support.getWindow().close()
-    colorpicker.getWindow().webContents.send('changeColor', color)
-    colorpicker.getWindow().focus()
+  ipcMain.on('pickerRequested', event => {
+    let realtime = storage.get('realtime', 'picker')
+
+    if (process.platform === 'darwin') mouseEvent = require('osx-mouse')()
+    if (process.platform === 'win32') mouseEvent = require('win-mouse')()
+    color = storage.get('lastColor')
+
+    picker.getWindow().on('close', () => mouseEvent.destroy())
+
+    mouseEvent.on('move', (x, y) => {
+      mouse = robot.getMousePos()
+      picker.getWindow().setPosition(parseInt(x) - 50, parseInt(y) - 50)
+      picker.getWindow().webContents.send('updatePicker', '#' + robot.getPixelColor(mouse.x, mouse.y))
+      if (realtime) colorpicker.getWindow().webContents.send('previewColor', '#' + robot.getPixelColor(mouse.x, mouse.y))
+    })
+
+    mouseEvent.on('left-up', (x, y) => {
+      mouse = robot.getMousePos()
+      closePicker('#' + robot.getPixelColor(mouse.x, mouse.y))
+    })
+
+    ipcMain.on('closePicker', closePicker)
+    mouseEvent.on('right-up', closePicker)
   })
 }

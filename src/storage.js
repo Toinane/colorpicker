@@ -137,14 +137,13 @@ template = {
 defaultStorage = {
   colorpicker: {
     tools: ['top', 'picker', 'tags', 'shade', 'opacity', 'settings'],
-    size: { width: 484, height: 190 },
+    size: { width: 440, height: 150 },
     buttonsPosition: template[platform()].buttonsPosition,
     buttonsType: template[platform()].buttonsType,
     lastColor: '#00AEEF'
   },
   colorsbook: {},
   picker: {
-    size: 5,
     realTime: true
   }
 }

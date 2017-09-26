@@ -18,7 +18,7 @@ module.exports = (storage, browsers) => {
     config.tools = storage.get('tools')
     config.posButton = storage.get('buttonsPosition')
     config.typeButton = storage.get('buttonsType')
-    config.zoomLevel = storage.get('size', 'picker')
+    config.realtime = storage.get('realtime', 'picker')
 
     event.sender.send('init', config)
   })
@@ -33,11 +33,12 @@ module.exports = (storage, browsers) => {
     colorpicker.getWindow().webContents.send('changeTypeIcons', type)
   })
 
+  ipcMain.on('set-realtime', (event, bool) => storage.add({realtime: bool}, 'picker'))
+
   ipcMain.on('changeTools', (event, tools) => {
     storage.add({tools: tools})
     colorpicker.getWindow().webContents.send('changeTools', tools)
   })
 
-  ipcMain.on('changeSizePicker', (event, size) => storage.add({size: size}, 'picker'))
 
 }
