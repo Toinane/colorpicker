@@ -74,14 +74,40 @@ header{
   }
   .panel > p{
     padding-left: 20px;
-    color: #282E3D;
+    color: #627893;
   }
   .panel > p span{
-    color: #4C5F76;
+    color: #8295AB;
   }
 
   .panel section{
     margin-bottom: 30px;
+  }
+
+  p.toggle{
+    cursor: pointer;
+  }
+  p.toggle + p{
+    margin-top: 25px;
+  }
+  .toggle i{
+    position: relative;
+    top: 3px;
+    font-size: 1.4em;
+    color: #A6B3C4;
+    margin: 5px;
+    transition: 0.3s;
+  }
+  .toggle.active i{
+    color: #2BA0E0;
+  }
+  .toggle i:before{
+    content: "\f204";
+    font-family: "FontAwesome";
+  }
+  .toggle.active i:before {
+    content: "\f205";
+    font-family: "FontAwesome";
   }
 
 /* GENERAL TAB */

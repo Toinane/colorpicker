@@ -13,12 +13,13 @@ module.exports = (storage, browsers) => {
         electron: process.versions.electron,
         v8: process.versions.v8,
         chrome: process.versions.chrome
-      }
+      },
+      posButton: storage.get('buttonsPosition'),
+      typeButton:  storage.get('buttonsType'),
+      tools: storage.get('tools'),
+      realtime: storage.get('realtime', 'picker'),
+      colorfullApp: storage.get('colorfullApp')
     }
-    config.tools = storage.get('tools')
-    config.posButton = storage.get('buttonsPosition')
-    config.typeButton = storage.get('buttonsType')
-    config.zoomLevel = storage.get('size', 'picker')
 
     event.sender.send('init', config)
   })
@@ -33,11 +34,17 @@ module.exports = (storage, browsers) => {
     colorpicker.getWindow().webContents.send('changeTypeIcons', type)
   })
 
+  ipcMain.on('set-colorfull-app', (event, bool) => {
+    storage.add({colorfullApp: bool})
+    colorpicker.getWindow().webContents.send('changeColorfullApp', bool)
+  })
+
+  ipcMain.on('set-realtime', (event, bool) => storage.add({realtime: bool}, 'picker'))
+
   ipcMain.on('changeTools', (event, tools) => {
     storage.add({tools: tools})
     colorpicker.getWindow().webContents.send('changeTools', tools)
   })
 
-  ipcMain.on('changeSizePicker', (event, size) => storage.add({size: size}, 'picker'))
 
 }

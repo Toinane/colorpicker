@@ -12,11 +12,14 @@ module.exports = (storage, browsers, eventEmitter) => {
 
   ipcMain.on('init-colorpicker', event => {
     win = colorpicker.getWindow()
-    let config = {}
-    config.color = storage.get('lastColor') ? storage.get('lastColor') : '#00AEEF'
-    config.posButton = storage.get('buttonsPosition')
-    config.typeButton = storage.get('buttonsType')
-    config.tools = storage.get('tools')
+    let config = {
+      color: storage.get('lastColor') ? storage.get('lastColor') : '#00AEEF',
+      posButton: storage.get('buttonsPosition'),
+      typeButton:  storage.get('buttonsType'),
+      tools: storage.get('tools'),
+      colorfullApp: storage.get('colorfullApp'),
+      history: storage.get('history')
+    }
 
     event.sender.send('init', config)
   })

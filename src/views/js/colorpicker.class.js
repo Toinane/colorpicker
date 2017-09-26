@@ -4,7 +4,8 @@ class Colorpicker extends Color {
   constructor (config) {
     super()
 
-    this.colorfullApp = config.colorfullApp || true
+    this.history = config.history
+    this.colorfullApp = config.colorfullApp
     this.isShadingActive = false
 
     this.body = document.querySelector('body')
@@ -43,8 +44,8 @@ class Colorpicker extends Color {
     return negative
   }
 
-  setNewColor (hex) {
-    ipcRenderer.send('changeLastColor', hex)
+  setNewColor (hex, dontSaveIt) {
+    if (!dontSaveIt) this.saveColor(hex)
     this.setColorFromHex(hex)
     this.isDark = this.isDarkColor(this.rgb)
 
@@ -71,6 +72,10 @@ class Colorpicker extends Color {
         document.querySelector('#maximize').style.color = this.getHexFromRGB(this.getLightnessFromRGB(-20, this.getBlueComplementary()))
       }
     }
+  }
+
+  saveColor (hex) {
+    ipcRenderer.send('changeLastColor', hex)
   }
 
   copyHex () { clipboard.writeText(this.hex) }

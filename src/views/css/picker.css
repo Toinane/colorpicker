@@ -5,22 +5,13 @@
 
 body{
   background: transparent;
-}
-
-#border{
-  display: inline-block;
-  /*border-radius: 90px;*/
-}
-
-#picker{
-  margin: 3px;
-  /*border-radius: 120px;*/
+  cursor: crosshair;
   overflow: hidden;
 }
 
-#grid{
+#picker{
   width: 100px;
   height: 100px;
-  border-collapse: collapse;
-  display: grid;
+  border-radius: 120px;
+  box-sizing: border-box;
 }

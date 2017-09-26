@@ -1,7 +1,7 @@
 {
   "appId": "com.electron.colorpicker",
   "productName": "Colorpicker",
-  "compression": "store",
+  "compression": "maximum",
   "copyright": "Copyright @Toinane",
   "directories": {
     "output": "out"

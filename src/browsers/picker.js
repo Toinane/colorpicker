@@ -15,20 +15,17 @@ module.exports = (dirname, storage) => {
     win = new BrowserWindow({
       frame: false,
       autoHideMenuBar: true,
-      width: 140,
-      height: 140,
+      width: 100,
+      height: 100,
       transparent: true,
       alwaysOnTop: true,
       resizable: false,
-      focusable: false,
+      focusable: true,
+      hasShadow: false,
       icon: `${dirname}/build/icon.png`,
-      webPreferences: {
-        experimentalFeatures: true
-      }
     })
 
     win.loadURL(`file://${dirname}/views/picker.html`)
-    win.openDevTools()
     win.on('closed', () => {
       win = undefined
     })

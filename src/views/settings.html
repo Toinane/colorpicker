@@ -32,7 +32,7 @@
     </header>
     <section class="panel active" id="general-tab">
       <h2>Application</h2>
-      <p>Show Tray icon <i class="fa fa-toggle-off"></i></p>
+      <p class="toggle" id="tray-icon"><i class="fa fa-toggle-off"></i> Show Tray icon</p>
       <h2>Colorpicker Tools</h2>
       <p>Change your toolset <span>(hover icon for description)</span></p>
       <section id="toolset">
@@ -43,6 +43,7 @@
     </section>
     <section class="panel" id="colorpicker-tab">
       <h2>Appearance</h2>
+      <p class="toggle" id="colorfull-app"><i class="fa fa-toggle-off"></i> Show complementary colors in OSX Icons</p>
       <p>Change the position of app's icons</p>
       <section id="position">
         <li data-position="left">
@@ -71,26 +72,8 @@
       </section>
     </section>
     <section class="panel" id="picker-tab">
-      <h2>Zoom Level</h2>
-      <p>Change zoom level for picker</p>
-      <section id="zoom-level">
-        <li data-zoom="3">
-          <img src="../ressources/zoom-3.png" alt="Zoom 3" />
-          <p>Zoom level 3</p>
-        </li>
-        <li data-zoom="5">
-          <img src="../ressources/zoom-5.png" alt="Zoom 5" />
-          <p>Zoom level 5</p>
-        </li>
-        <li data-zoom="7">
-          <img src="../ressources/zoom-7.png" alt="Zoom 7" />
-          <p>Zoom level 7</p>
-        </li>
-        <li data-zoom="11">
-          <img src="../ressources/zoom-11.png" alt="Zoom 11" />
-          <p>Zoom level 11</p>
-        </li>
-      </section>
+      <h2>Options</h2>
+      <p class="toggle" id="picker-realtime"><i class="fa fa-toggle-on"></i> Show color in realtime</p>
     </section>
     <section class="panel" id="colorsbook-tab">
       <h2>Colorsbook</h2>

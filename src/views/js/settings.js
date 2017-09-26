@@ -16,6 +16,11 @@ Sortable.create(document.querySelector('#allTools'), options)
 Sortable.create(document.querySelector('#selectedTools'), options)
 
 /* TAB COLORPICKER */
+document.querySelector('#colorfull-app').addEventListener('click', function () {
+  let bool = this.classList.toggle('active')
+  ipcRenderer.send('set-colorfull-app', bool)
+})
+
 for (let el of document.querySelectorAll('#position li')) {
   el.addEventListener('click', function () {
     document.querySelector('#position .active').classList.remove('active')
@@ -33,13 +38,10 @@ for (let el of document.querySelectorAll('#type-icons li')) {
 }
 
 /* TAB PICKER */
-for (let el of document.querySelectorAll('#zoom-level li')) {
-  el.addEventListener('click', function () {
-    document.querySelector('#zoom-level .active').classList.remove('active')
-    this.classList.add('active')
-    ipcRenderer.send('changeSizePicker', this.getAttribute('data-zoom'))
-  })
-}
+document.querySelector('#picker-realtime').addEventListener('click', function () {
+  let bool = this.classList.toggle('active')
+  ipcRenderer.send('set-realtime', bool)
+})
 
 
 /* GLOBAL */
@@ -64,7 +66,8 @@ ipcRenderer.on('init', (event, config) => {
   document.querySelector('#v8-version').innerHTML = process.versions.v8
   document.querySelector(`#position li[data-position="${config.posButton}"]`).classList.add('active')
   document.querySelector(`#type-icons li[data-type="${config.typeButton}"]`).classList.add('active')
-  document.querySelector(`#zoom-level li[data-zoom="${config.zoomLevel}"]`).classList.add('active')
+  if (config.colorfullApp) document.querySelector('#colorfull-app').classList.add('active')
+  if (config.realtime) document.querySelector('#picker-realtime').classList.add('active')
 })
 
 function initTools(selectedTools) {
@@ -105,11 +108,6 @@ function updateTools(event) {
   ipcRenderer.send('changeTools', toSave)
 }
 
-//
-// ipcRenderer.on('init', (event, version) => {
-//   document.querySelector('#version span').innerHTML = version
-// })
-//
 // ipcRenderer.on('update', (event, message) => {
 //   document.querySelector('#update').innerHTML = message
 //   if (document.querySelector('#update span')) {
