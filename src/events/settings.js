@@ -46,5 +46,11 @@ module.exports = (storage, browsers) => {
     colorpicker.getWindow().webContents.send('changeTools', tools)
   })
 
+  ipcMain.on('resetPreferences', () => {
+    storage.reset()
+    app.relaunch({args: process.argv.slice(1).concat(['--reset'])})
+    app.exit(0)
+  })
+
 
 }

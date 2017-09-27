@@ -188,6 +188,18 @@ header{
         background: none !important;
         opacity: 0.8;
       }
+  #reset{
+    display: inline-block;
+    text-decoration: underline;
+    margin-bottom: 20px;
+    color: #8D9CB0;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: 0.3s;
+  }
+  #reset:hover{
+    color: #FF5739;
+  }
 
 /* COLORPICKER TAB */
 

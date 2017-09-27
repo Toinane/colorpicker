@@ -1,6 +1,6 @@
 'use strict'
 
-const {ipcRenderer, shell} = require('electron')
+const {ipcRenderer, shell, dialog} = require('electron')
 let Sortable = require('sortablejs')
 
 let tabActive = 'general';
@@ -14,6 +14,16 @@ let options = {
 }
 Sortable.create(document.querySelector('#allTools'), options)
 Sortable.create(document.querySelector('#selectedTools'), options)
+
+document.querySelector('#reset').addEventListener('click', () => {
+  const {dialog} = require('electron').remote
+  dialog.showMessageBox({
+    type: 'warning',
+    buttons: ['Oh no!', 'Reset it!'],
+    defaultId: 0,
+    message: 'Are you sure to reset your preferences? \n\n It will remove ALL your colors if you don\'t have an account!'
+  }, reset => {if (reset) ipcRenderer.send('resetPreferences')})
+})
 
 /* TAB COLORPICKER */
 document.querySelector('#colorfull-app').addEventListener('click', function () {
