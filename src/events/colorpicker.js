@@ -63,6 +63,9 @@ module.exports = (storage, browsers, eventEmitter) => {
   ipcMain.on('close-colorpicker', event => win.close())
   ipcMain.on('setOnTop', (event, bool) => win.setAlwaysOnTop(bool))
   ipcMain.on('launchPicker', event => picker.init())
+  eventEmitter.on('launchPicker', event => picker.init())
   ipcMain.on('launchColorsbook', event => colorsbook.init())
+  eventEmitter.on('launchColorsbook', event => colorsbook.init())
   ipcMain.on('showPreferences', event => settings.init())
+  eventEmitter.on('showPreferences', event => settings.init())
 }
