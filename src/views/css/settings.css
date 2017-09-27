@@ -3,6 +3,30 @@ body, *{
   font-family: 'Lato', sans-serif;
 }
 
+*::-webkit-scrollbar-track
+{
+	border-radius: 14px;
+	background: rgba(0, 0, 0, 0);
+  border: 3px solid #FFF;
+}
+
+*::-webkit-scrollbar
+{
+	width: 14px;
+  margin: 5px 0;
+  border-radius: 10px;
+	background: #EEF2F6;
+}
+
+*::-webkit-scrollbar-thumb
+{
+  width: 14px;
+  background-clip: padding-box;
+	border-radius: 10px;
+	background-color: #CAD7E8;
+  border: 3px solid #FFF;
+}
+
 html, body{
   overflow: hidden;
   height: 100%;

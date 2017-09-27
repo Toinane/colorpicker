@@ -7,6 +7,30 @@
    font-family: 'Lato', sans-serif;
 }
 
+*::-webkit-scrollbar-track
+{
+	border-radius: 14px;
+	background: rgba(0, 0, 0, 0);
+  border: 3px solid #484D56;
+}
+
+*::-webkit-scrollbar
+{
+	width: 14px;
+  margin: 5px 0;
+  border-radius: 10px;
+	background: #42454D;
+}
+
+*::-webkit-scrollbar-thumb
+{
+  width: 14px;
+  background-clip: padding-box;
+	border-radius: 10px;
+	background-color: #2C3035;
+  border: 3px solid #484D56;
+}
+
 body{
   background: #484D56;
   margin: 0; padding: 0;
