@@ -4,7 +4,6 @@ const {ipcMain, app} = require('electron')
 const request = require('request')
 
 module.exports = (storage, browsers) => {
-
   ipcMain.on('init-about', event => {
     event.sender.send('init', app.getVersion())
     const options = {

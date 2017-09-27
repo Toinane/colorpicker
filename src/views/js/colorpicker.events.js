@@ -85,6 +85,7 @@ function togglePin () {
 
 function toggleShading () {
   let bool = document.querySelector('#shade_button').classList.toggle('active')
+  if (bool) cp.changeShading()
   cp.isShadingActive = bool
   ipcRenderer.send('shadingActive', bool)
   document.querySelector('header').classList.toggle('shading')

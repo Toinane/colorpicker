@@ -34,14 +34,14 @@ let fetch = () => (
         storage = defaultStorage
         resolve(false)
       }
-      for(let key in defaultStorage.colorpicker) {
-        if(!data.colorpicker.hasOwnProperty(key)) data.colorpicker[key] = defaultStorage.colorpicker[key]
+      for (let key in defaultStorage.colorpicker) {
+        if (!data.colorpicker.hasOwnProperty(key)) data.colorpicker[key] = defaultStorage.colorpicker[key]
       }
-      for(let key in defaultStorage.picker) {
-        if(!data.picker.hasOwnProperty(key)) data.picker[key] = defaultStorage.picker[key]
+      for (let key in defaultStorage.picker) {
+        if (!data.picker.hasOwnProperty(key)) data.picker[key] = defaultStorage.picker[key]
       }
-      for(let key in defaultStorage.colorsbook) {
-        if(!data.colorsbook.hasOwnProperty(key)) data.colorsbook[key] = defaultStorage.colorsbook[key]
+      for (let key in defaultStorage.colorsbook) {
+        if (!data.colorsbook.hasOwnProperty(key)) data.colorsbook[key] = defaultStorage.colorsbook[key]
       }
       storage = data
       resolve(true)

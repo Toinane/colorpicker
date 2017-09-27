@@ -3,7 +3,7 @@
 const {BrowserWindow} = require('electron')
 
 module.exports = (dirname, storage) => {
-  let win, colors
+  let win
 
   let init = () => {
     if (win === null || win === undefined) {
@@ -22,7 +22,7 @@ module.exports = (dirname, storage) => {
       resizable: false,
       focusable: true,
       hasShadow: false,
-      icon: `${dirname}/build/icon.png`,
+      icon: `${dirname}/build/icon.png`
     })
 
     win.loadURL(`file://${dirname}/views/picker.html`)
