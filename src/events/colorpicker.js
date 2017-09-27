@@ -4,7 +4,7 @@ const {ipcMain, BrowserWindow, app} = require('electron')
 
 module.exports = (storage, browsers, eventEmitter) => {
   const {colorpicker, settings, picker, colorsbook} = browsers
-  let win, timing, opacity, shading
+  let win, opacity, shading
 
   eventEmitter.on('changeColor', color => {
     win.webContents.send('changeColor', color)
@@ -25,8 +25,12 @@ module.exports = (storage, browsers, eventEmitter) => {
   })
 
   ipcMain.on('changeLastColor', (event, color) => {
-    clearTimeout(timing)
-    timing = setTimeout(() => storage.add({'lastColor': color}), 300)
+    storage.add({'lastColor': color})
+  })
+
+  ipcMain.on('changeHistory', (event, array) => {
+    storage.add({'history': array})
+    eventEmitter.emit('updateHistory', array)
   })
 
   ipcMain.on('opacityActive', (event, bool) => {

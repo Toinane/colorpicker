@@ -5,7 +5,7 @@ eventEmitter = new eventEmitter()
 
 const {app, Tray, Menu} = require('electron')
 const storage = require('./storage')
-const touchbar = require('./touchbar')(eventEmitter)
+const touchbar = require('./touchbar')(eventEmitter, storage)
 const browsers = require('./browsers')(__dirname, storage, {touchbar, eventEmitter})
 const {colorpicker, colorsbook, picker, about, settings} = browsers
 

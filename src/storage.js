@@ -141,6 +141,7 @@ defaultStorage = {
     buttonsPosition: template[platform()].buttonsPosition,
     buttonsType: template[platform()].buttonsType,
     lastColor: '#00AEEF',
+    history: [],
     colorfullApp: false
   },
   colorsbook: {},

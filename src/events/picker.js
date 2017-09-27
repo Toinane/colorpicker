@@ -23,22 +23,21 @@ module.exports = (storage, browsers) => {
     let realtime = storage.get('realtime', 'picker')
 
     if (process.platform === 'darwin') mouseEvent = require('osx-mouse')()
-    if (process.platform === 'linux') mouseEvent = require('osx-mouse')()
+    // if (process.platform === 'linux') mouseEvent = require('linux-mouse')()
     if (process.platform === 'win32') mouseEvent = require('win-mouse')()
     color = storage.get('lastColor')
 
     picker.getWindow().on('close', () => mouseEvent.destroy())
 
     mouseEvent.on('move', (x, y) => {
-      mouse = robot.getMousePos()
+      let color = '#' + robot.getPixelColor(parseInt(x), parseInt(y))
       picker.getWindow().setPosition(parseInt(x) - 50, parseInt(y) - 50)
-      picker.getWindow().webContents.send('updatePicker', '#' + robot.getPixelColor(mouse.x, mouse.y))
-      if (realtime) colorpicker.getWindow().webContents.send('previewColor', '#' + robot.getPixelColor(mouse.x, mouse.y))
+      picker.getWindow().webContents.send('updatePicker', color)
+      if (realtime) colorpicker.getWindow().webContents.send('previewColor', color)
     })
 
     mouseEvent.on('left-up', (x, y) => {
-      mouse = robot.getMousePos()
-      closePicker('#' + robot.getPixelColor(mouse.x, mouse.y))
+      closePicker('#' + robot.getPixelColor(parseInt(x), parseInt(y)))
     })
 
     ipcMain.on('closePicker', closePicker)

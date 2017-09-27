@@ -1,30 +1,16 @@
 'use strict'
 
 const {TouchBar} = require('electron')
-const {TouchBarLabel, TouchBarButton, TouchBarPopover, TouchBarColorPicker, TouchBarGroup, TouchBarScrubber, TouchBarSegmentedControl, TouchBarSlider, TouchBarSpacer} = TouchBar;
+const {TouchBarColorPicker} = TouchBar;
 
-module.exports = eventEmitter => {
+module.exports = (eventEmitter, storage) => {
   let colorpicker = new TouchBarColorPicker({
-    change: color => {
-      eventEmitter.emit('changeColor', color)
-      //console.log(color)
-    }
+    change: color => eventEmitter.emit('changeColor', color)
   })
 
-  let history = [
-    new TouchBarButton({backgroundColor: '#00AEEF'}),
-    new TouchBarButton({backgroundColor: '#10bEFF'})
-  ]
-
-  let touchbar = new TouchBar([colorpicker, new TouchBarSlider(), new TouchBarGroup({
-    items: history
-  })])
+  let touchbar = new TouchBar([colorpicker])
 
   let get = () => touchbar
-
-  let updateHistory = () => {
-
-  }
 
   return touchbar
 }

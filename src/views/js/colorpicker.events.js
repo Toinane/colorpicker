@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-color
 ipcRenderer.on('init', (event, config) => {
   cp = new Colorpicker({
     color: config.color,
+    history: config.history,
     colorfullApp: config.colorfullApp
   })
   cm = new ContextMenu()

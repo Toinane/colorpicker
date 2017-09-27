@@ -4,7 +4,8 @@ class Colorpicker extends Color {
   constructor (config) {
     super()
 
-    this.history = config.history
+    this.timing
+    this.history = config.history || []
     this.colorfullApp = config.colorfullApp
     this.isShadingActive = false
 
@@ -25,7 +26,7 @@ class Colorpicker extends Color {
       alpha_input: document.querySelector('.alpha_bar input')
     }
 
-    this.setNewColor(config.color)
+    this.setNewColor(config.color, true)
   }
 
   setNewRGBColor (rgb) {
@@ -45,7 +46,10 @@ class Colorpicker extends Color {
   }
 
   setNewColor (hex, dontSaveIt) {
-    if (!dontSaveIt) this.saveColor(hex)
+    if (!dontSaveIt) {
+      clearTimeout(this.timing)
+      this.timing = setTimeout(() => this.saveColor(hex), 300)
+    }
     this.setColorFromHex(hex)
     this.isDark = this.isDarkColor(this.rgb)
 
@@ -75,7 +79,15 @@ class Colorpicker extends Color {
   }
 
   saveColor (hex) {
+    let newHistory = []
+    for (let i = 0; i < 9; i++) {
+      if (i === 0) newHistory[i] = hex
+      if(this.history.length > i) newHistory[i + 1] = this.history[i]
+    }
+    this.history = newHistory
+
     ipcRenderer.send('changeLastColor', hex)
+    ipcRenderer.send('changeHistory', newHistory)
   }
 
   copyHex () { clipboard.writeText(this.hex) }
