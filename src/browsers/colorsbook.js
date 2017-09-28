@@ -21,7 +21,7 @@ module.exports = (dirname, storage) => {
     win = new BrowserWindow({
       frame: false,
       autoHideMenuBar: true,
-      width: 355,
+      width: 365,
       height: 400,
       minHeight: 285,
       minWidth: 355,
