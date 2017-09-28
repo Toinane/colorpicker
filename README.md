@@ -58,9 +58,27 @@ Colorpicker's menu come with a lot of cool features :
 
 #### **Happy Design !**
 
-### Developer
+# Developers
+
+### How to compile
+- Install dependencies:
+```shell
+  npm install
+```
 
 - To build C/C++ modules to the correct Electron version, use:
 ```shell
   npm run rebuild
+```
+
+- To build a new version:
+```shell
+  # You can build nightly & release only for your current OS.
+  # i.e. you can't build a OSX version if you use a Windows  
+
+  # build a nightly version
+  npm run nightly
+
+  # build a release version
+  npm run release
 ```
