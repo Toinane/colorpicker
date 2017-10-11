@@ -11,7 +11,7 @@
   ],
   "mac": {
     "category": "public.app-category.graphics-design",
-    "icon": "build/test.icns",
+    "icon": "build/icon-nightly.icns",
     "type": "development"
   },
   "dmg": {
