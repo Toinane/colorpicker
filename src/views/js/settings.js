@@ -2,6 +2,7 @@
 
 const {ipcRenderer, shell, dialog} = require('electron')
 let Sortable = require('sortablejs')
+let tippy = require('tippy.js')
 
 let tabActive = 'general';
 
@@ -96,16 +97,23 @@ function initTools(selectedTools) {
   }
 
   for (let tool of selectedTools) {
-    htmlSelected += `<p id="${tool}_button" title="${tools[tool].title}"><i class="fa ${tools[tool].icon}"></i></p>`
+    htmlSelected += `<p id="${tool}_button" class="tools" title="${tools[tool].title}"><i class="fa ${tools[tool].icon}"></i></p>`
   }
   for (let tool in tools) {
     if (selectedTools.indexOf(tool) === -1) {
-      htmlAll += `<p id="${tool}_button" title="${tools[tool].title}"><i class="fa ${tools[tool].icon}"></i></p>`
+      htmlAll += `<p id="${tool}_button" class="tools" title="${tools[tool].title}"><i class="fa ${tools[tool].icon}"></i></p>`
     }
   }
 
   document.querySelector('#allTools').innerHTML = htmlAll;
   document.querySelector('#selectedTools').innerHTML = htmlSelected;
+
+  tippy('.tools', {
+    delay: 200,
+    distance: 15,
+    theme: 'transparent',
+    size: 'small'
+  })
 }
 
 function updateTools(event) {
