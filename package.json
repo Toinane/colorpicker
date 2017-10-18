@@ -7,6 +7,7 @@
   "scripts": {
     "start": "electron src/main.js",
     "standard": "standard",
+    "cypress:open": "cypress open",
     "pack": "build --dir",
     "release": "build --config colorpicker-build.json",
     "release-linux": "build --config colorpicker-build.json --linux deb, apk, rpm, zip, appImage",
@@ -44,7 +45,7 @@
   },
   "iohook": {
     "targets": [
-      "electron-54"
+      "electron-57"
     ],
     "platforms": [
       "win32",
