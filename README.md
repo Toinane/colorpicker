@@ -6,6 +6,8 @@
 
 # Colorpicker
 
+**note: A new ultra super amazing update is coming soon :D**
+
 Colorpicker is a little Electron app that can show colors with hex/rgb code, and generate shading for your color.
 
 ![ColorPicker Screenshot](screenshots/screen1.png)
