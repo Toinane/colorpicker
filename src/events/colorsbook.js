@@ -21,4 +21,6 @@ module.exports = (storage, browsers) => {
     return win.unmaximize()
   })
   ipcMain.on('close-colorsbook', event => win.close())
+
+  ipcMain.on('colorsbook-change-color', (event, color) => colorpicker.getWindow().webContents.send('previewColor', color) )
 }

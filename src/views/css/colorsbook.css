@@ -64,12 +64,16 @@ body{
       list-style: none;
       width: 60px;
       height: 60px;
+      padding: 4px;
+      box-sizing: border-box;
       transition: 0.4s;
       cursor: pointer;
       display: flex;
       align-items: center;
+      text-align: center;
       justify-content: center;
-      color: white;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.75em;
     }
 
     #categories li.active, #categories li:hover{

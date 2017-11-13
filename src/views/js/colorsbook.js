@@ -4,32 +4,31 @@ const {ipcRenderer, remote, clipboard} = require('electron')
 let cm
 
 let colorsbook = {
-  'Vert Pastel': [
-    '#68938D',
-    '#5A8B89',
-    '#538586',
-    '#497878',
-    '#3A666F',
-    '#325B6B',
-    '#264762',
-    '#538586',
-    '#497878',
-    '#3A666F',
-    '#325B6B',
-    '#264762',
-    '#22405E',
-    '#182C55'
+  'flat': [
+    '#2196F3',
+    '#00BCD4',
+    '#4CAF50',
+    '#8BC34A',
+    '#FFEB3B',
+    '#FF9800',
+    '#FF5722',
+    '#F44336',
+    '#673AB7',
+    '#3F51B5',
+    '#607D8B'
   ],
-  Toinane: [
-    '#542A00',
-    '#442002',
-    '#FACDA9',
-    '#F3BE9B',
-    '#E9A388',
-    '#C58471',
-    '#FEFEFE',
-    '#18274B',
-    '#D6C2B2'
+  'pastel': [
+    '#7E93C8',
+    '#8FC1E2',
+    '#AFBBE3',
+    '#EFCAC4',
+    '#E19494',
+    '#F8AF85',
+    '#F9C48C',
+    '#C2BB9B',
+    '#B0D9CD',
+    '#6B8790',
+    '#AC94C9'
   ]
 }
 
@@ -66,10 +65,23 @@ function initColorsbook (colorsbook, activeAt) {
 function initColors (colors) {
   let list = ''
   for (let color of colors) {
-    list += `<li data-color="${color}" style="background: ${color}"</li>`
+    list += `<li class="color" data-color="${color}" style="background: ${color}"</li>`
   }
   list += '<li id="new-color"><i class="fa fa-plus"></i></li>'
   document.querySelector('#colors').innerHTML = list
+
+  for(let color of document.querySelectorAll('.color')) {
+    color.addEventListener('click', event => {
+      ipcRenderer.send('colorsbook-change-color', color.dataset.color)
+    })
+    color.addEventListener('contextmenu', event => {
+      cm.openMenu('colorMenu')
+    })
+  }
+}
+
+function deleteColor () {
+
 }
 
 function initEvents () {

@@ -9,6 +9,7 @@ class ContextMenu {
     let menu
     switch (type) {
       case 'colorpickerMenu': menu = remote.Menu.buildFromTemplate(this.colorpickerMenu()); break
+      case 'colorMenu': menu = remote.Menu.buildFromTemplate(this.colorMenu()); break
     }
     menu.popup(this.window)
   }
@@ -31,6 +32,12 @@ class ContextMenu {
       { label: 'set Negative Color', accelerator: 'CmdOrCtrl+N', click: () => cp.setNegativeColor() },
       { type: 'separator' },
       { label: 'Preferences', accelerator: 'CmdOrCtrl+,', click: () => ipcRenderer.send('showPreferences') }
+    ]
+  }
+
+  colorMenu () {
+    return [
+      { label: 'Delete', click: () => deleteColor() },
     ]
   }
 
