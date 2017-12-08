@@ -86,14 +86,14 @@ function initTools(selectedTools) {
   let htmlAll = ''
   let tools = {
     top: { title: 'Pin to Foreground', icon: 'fa-map-pin' },
-    picker: { title: 'Pick Color', icon: 'fa-eyedropper' },
+    picker: { title: 'Pick Color', icon: 'fa-eye-dropper' },
     tags: { title: 'Open Colorsbook', icon: 'fa-bookmark' },
     shade: { title: 'Toggle Shading', icon: 'fa-tint' },
     random: { title: 'Set Random Color', icon: 'fa-random' },
-    opacity: { title: 'Toggle Opacity', icon: 'fa-sliders' },
+    opacity: { title: 'Toggle Opacity', icon: 'fa-sliders-h' },
     clean: { title: 'Clean Vue', icon: 'fa-adjust' },
-    apply: { title: 'Get Clipboard\'s Colors', icon: 'fa-magic' },
-    settings: { title: 'Open Settings', icon: 'fa-gear' }
+    apply: { title: 'Get Clipboard\'s Colors', icon: 'fa-clone' },
+    settings: { title: 'Open Settings', icon: 'fa-cog' }
   }
 
   for (let tool of selectedTools) {

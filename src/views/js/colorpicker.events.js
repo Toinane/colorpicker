@@ -49,18 +49,18 @@ function initTools (tools) {
   let html = ''
   let allTools = {
     top: { title: 'Pin to Foreground', icon: 'fa-map-pin' },
-    picker: { title: 'Pick Color', icon: 'fa-eyedropper' },
+    picker: { title: 'Pick Color', icon: 'fa-eye-dropper' },
     tags: { title: 'Open Colorsbook', icon: 'fa-bookmark' },
     shade: { title: 'Toggle Shading', icon: 'fa-tint' },
     random: { title: 'Set Random Color', icon: 'fa-random' },
-    opacity: { title: 'Toggle Opacity', icon: 'fa-sliders' },
+    opacity: { title: 'Toggle Opacity', icon: 'fa-sliders-h' },
     clean: { title: 'Clean Vue', icon: 'fa-adjust' },
-    apply: { title: 'Get Clipboard\'s Colors', icon: 'fa-magic' },
-    settings: { title: 'Open Settings', icon: 'fa-gear' }
+    apply: { title: 'Get Clipboard\'s Colors', icon: 'fa-clone' },
+    settings: { title: 'Open Settings', icon: 'fa-cog' }
   }
 
   for (let tool of tools) {
-    html += `<p id="${tool}_button" title="${allTools[tool].title}"><i class="fa ${allTools[tool].icon}"></i></p>`
+    html += `<p id="${tool}_button" title="${allTools[tool].title}"><i class="fas ${allTools[tool].icon}"></i></p>`
   }
 
   document.querySelector('#tools').innerHTML = html

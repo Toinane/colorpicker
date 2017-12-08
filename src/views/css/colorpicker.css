@@ -31,10 +31,15 @@ a{
   opacity: 0;
 }
 
+#tools {
+  font-size: 0.9em;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
   #tools p{
     color: rgba(0, 0, 0, 0.30);
     font-weight: bold;
-    padding: 0 5px 0 5px;
+    padding: 0 6px 0 5px;
     width: 17px;
     text-align: center;
     -webkit-app-region: no-drag;
