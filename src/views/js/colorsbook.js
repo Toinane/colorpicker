@@ -3,39 +3,13 @@
 const {ipcRenderer, remote, clipboard} = require('electron')
 let cm
 
-let colorsbook = {
-  'flat': [
-    '#2196F3',
-    '#00BCD4',
-    '#4CAF50',
-    '#8BC34A',
-    '#FFEB3B',
-    '#FF9800',
-    '#FF5722',
-    '#F44336',
-    '#673AB7',
-    '#3F51B5',
-    '#607D8B'
-  ],
-  'pastel': [
-    '#7E93C8',
-    '#8FC1E2',
-    '#AFBBE3',
-    '#EFCAC4',
-    '#E19494',
-    '#F8AF85',
-    '#F9C48C',
-    '#C2BB9B',
-    '#B0D9CD',
-    '#6B8790',
-    '#AC94C9'
-  ]
-}
+let colorsbook = {};
 
 document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-colorsbook'), false)
 
 ipcRenderer.on('init', (event, config) => {
   cm = new ContextMenu()
+  colorsbook = config.colors
   if (config.posButton === 'right') document.querySelector('.toolbar').classList.add('setRight')
   cm.initButtonsType(config.typeButton, 'colorsbook')
   initColorsbook(colorsbook, 0)
@@ -80,7 +54,21 @@ function initColors (colors) {
   }
 }
 
-function deleteColor () {
+function addColor (color, category) {
+
+}
+
+function deleteColor (color, category) {
+
+}
+
+function addCategory (name) {
+  colorsbook[name] = []
+  initColorsbook(colorsbook, 0)
+  initEvents()
+}
+
+function deleteCategory (name) {
 
 }
 
@@ -88,9 +76,30 @@ function initEvents () {
   let categories = document.querySelectorAll('#categories li')
   for (let categorie of categories) {
     categorie.addEventListener('click', function(event) {
-      document.querySelector('#categories .active').classList.remove('active')
-      this.classList.add('active')
-      initColors(colorsbook[this.title])
+      if(this.id === 'new-categorie') {
+        document.querySelector('#popup_category').classList.toggle('active')
+      } else {
+        document.querySelector('#categories .active').classList.remove('active')
+        this.classList.add('active')
+        initColors(colorsbook[this.title])
+      }
     })
   }
 }
+
+document.querySelector('#popup_category').addEventListener('click', function(event) {
+  console.log(event.target, this)
+  if(event.target === this) { this.classList.toggle('active') }
+})
+document.querySelector('#popup_category input').addEventListener('keypress', function(event) {
+  if (event.key === 'Enter') {
+    let name = this.value
+    this.value = ''
+    addCategory(name);
+    this.parentNode.classList.toggle('active');
+  }
+})
+
+document.querySelector('#popup_color').addEventListener('click', function(event) {
+  if(event.target === this) { this.classList.toggle('active') }
+})

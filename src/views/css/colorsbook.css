@@ -58,12 +58,14 @@ body{
     flex-direction: column;
   }
     #categories li{
+      background: rgba(0, 0, 0, 0.15);
       margin: 5px 10px;
       border-radius: 50px;
       display: block;
       list-style: none;
       width: 60px;
       height: 60px;
+      min-height: 60px;
       padding: 4px;
       box-sizing: border-box;
       transition: 0.4s;
@@ -88,6 +90,7 @@ body{
     }
 
     #categories #new-categorie, #colors #new-color{
+      background: none;
       box-sizing: border-box;
       border: 2px dashed rgba(0, 0, 0, 0.2);
       color: rgba(0, 0, 0, 0.2);
@@ -123,3 +126,28 @@ body{
       justify-content: center;
       transition: 0.4s;
     }
+
+#popup_category, #popup_color  {
+  position: absolute;
+  top: 0; left: 0;
+  background: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+#popup_category.active, #popup_color.active {
+  display: flex;
+}
+#popup_category input, #popup_color input{
+  border: none;
+  padding: 5px 15px;
+  background: #333;
+  color: #EFEFEF;
+  font-size: 1.3em;
+  display: block;
+  outline: none;
+  width: 140px;
+}

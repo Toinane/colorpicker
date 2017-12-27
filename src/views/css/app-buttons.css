@@ -66,7 +66,7 @@ a{
       top: 3px;
     }
     .toolbar #app_buttons.darwin li{
-      margin: 0 4px 0 4px;
+      margin: 0 4px 3px 4px;
     }
 
       .blured .darwin #minimize, .blured .darwin #maximize, .blured .darwin #close{

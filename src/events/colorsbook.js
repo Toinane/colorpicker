@@ -11,6 +11,7 @@ module.exports = (storage, browsers) => {
     let config = {}
     config.posButton = storage.get('buttonsPosition')
     config.typeButton = storage.get('buttonsType')
+    config.colors = storage.get('colors', 'colorsbook')
 
     event.sender.send('init', config)
   })

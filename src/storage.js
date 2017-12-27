@@ -144,7 +144,36 @@ defaultStorage = {
     history: [],
     colorfullApp: false
   },
-  colorsbook: {},
+  colorsbook: {
+    colors: {
+      'flat': [
+        '#2196F3',
+        '#00BCD4',
+        '#4CAF50',
+        '#8BC34A',
+        '#FFEB3B',
+        '#FF9800',
+        '#FF5722',
+        '#F44336',
+        '#673AB7',
+        '#3F51B5',
+        '#607D8B'
+      ],
+      'pastel': [
+        '#7E93C8',
+        '#8FC1E2',
+        '#AFBBE3',
+        '#EFCAC4',
+        '#E19494',
+        '#F8AF85',
+        '#F9C48C',
+        '#C2BB9B',
+        '#B0D9CD',
+        '#6B8790',
+        '#AC94C9'
+      ]
+    }
+  },
   picker: {
     realTime: true
   }
