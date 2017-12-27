@@ -1,7 +1,7 @@
 'use strict'
 
 const {ipcMain} = require('electron')
-const robot = require('robotjs-shade')
+const robot = require('robotjs')
 
 let size, mouse, mouseEvent, color;
 
@@ -39,6 +39,10 @@ module.exports = (storage, browsers) => {
     mouseEvent.on('left-up', (x, y) => {
       closePicker('#' + robot.getPixelColor(parseInt(x), parseInt(y)))
     })
+
+    let pos = robot.getMousePos()
+    picker.getWindow().setPosition(parseInt(pos.x) - 50, parseInt(pos.y) - 50)
+    picker.getWindow().webContents.send('updatePicker', robot.getPixelColor(pos.x, pos.y))
 
     ipcMain.on('closePicker', closePicker)
     mouseEvent.on('right-up', closePicker)
