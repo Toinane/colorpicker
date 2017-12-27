@@ -28,8 +28,8 @@
     "crea-that"
   ],
   "dependencies": {
-    "electron-json-storage": "^3.2.0",
-    "request": "^2.81.0",
+    "electron-json-storage": "^4.0.2",
+    "request": "^2.83.0",
     "robotjs-shade": "git+https://github.com/jdan/robotjs.git",
     "sortablejs": "^1.7.0",
     "tippy.js": "^1.4.2"
@@ -39,8 +39,8 @@
     "win-mouse": "^1.1.2"
   },
   "devDependencies": {
-    "electron": "1.7.9",
-    "electron-builder": "19.45.5",
+    "electron": "1.7.10",
+    "electron-builder": "19.49.2",
     "standard": "^10.0.3"
   },
   "iohook": {
