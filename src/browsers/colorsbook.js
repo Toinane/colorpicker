@@ -24,7 +24,7 @@ module.exports = (dirname, storage) => {
       width: 365,
       height: 400,
       minHeight: 285,
-      minWidth: 355,
+      minWidth: 360,
       icon: `${dirname}/build/icon.png`
     })
 

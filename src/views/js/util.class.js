@@ -10,6 +10,7 @@ class ContextMenu {
     switch (type) {
       case 'colorpickerMenu': menu = remote.Menu.buildFromTemplate(this.colorpickerMenu()); break
       case 'colorMenu': menu = remote.Menu.buildFromTemplate(this.colorMenu()); break
+      case 'categoryMenu': menu = remote.Menu.buildFromTemplate(this.categoryMenu()); break
     }
     menu.popup(this.window)
   }
@@ -18,7 +19,7 @@ class ContextMenu {
     return [
       { label: 'Pin to Foreground', accelerator: 'CmdOrCtrl+F', click: () => togglePin() },
       { type: 'separator' },
-      { label: 'Save Color', accelerator: 'CmdOrCtrl+S', click: () => cb.saveColor(cp.hex) },
+      { label: 'Save Color', accelerator: 'CmdOrCtrl+S', click: () => ipcRenderer.send('saveColor', cp.hex) },
       { label: 'Copy Hex Code', accelerator: 'CmdOrCtrl+W', click: () => cp.copyHex() },
       { label: 'Copy RGB Code', visible: !cp.activeAlpha, accelerator: 'Shift+CmdOrCtrl+W', click: () => cp.copyRGB() },
       { label: 'Copy RGBA Code', visible: cp.activeAlpha, accelerator: 'Shift+CmdOrCtrl+W', click: () => cp.copyRGBA() },
@@ -38,6 +39,12 @@ class ContextMenu {
   colorMenu () {
     return [
       { label: 'Delete', click: () => deleteColor() },
+    ]
+  }
+
+  categoryMenu () {
+    return [
+      { label: 'Delete', click: () => deleteCategory() },
     ]
   }
 

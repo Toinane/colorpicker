@@ -28,6 +28,12 @@ module.exports = (storage, browsers, eventEmitter) => {
     storage.add({'lastColor': color})
   })
 
+  ipcMain.on('saveColor', (event, color) => {
+    let colorsbook = storage.get('colors', 'colorsbook')
+    colorsbook[Object.getOwnPropertyNames(colorsbook)[Object.values(colorsbook).length - 1]].push(color)
+    storage.add({colors: colorsbook}, 'colorsbook')
+  })
+
   ipcMain.on('changeHistory', (event, array) => {
     storage.add({'history': array})
     eventEmitter.emit('updateHistory', array)

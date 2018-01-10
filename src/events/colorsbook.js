@@ -23,5 +23,7 @@ module.exports = (storage, browsers) => {
   })
   ipcMain.on('close-colorsbook', event => win.close())
 
+  ipcMain.on('save-colorsbook', (event, colorsbook) => storage.add({colors: colorsbook}, 'colorsbook'))
+
   ipcMain.on('colorsbook-change-color', (event, color) => colorpicker.getWindow().webContents.send('previewColor', color) )
 }

@@ -3,7 +3,7 @@
 const {ipcRenderer, remote, clipboard} = require('electron')
 let cm
 
-let colorsbook = {};
+let colorsbook = {}, categoryActive, categoryFocused, colorFocused;
 
 document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-colorsbook'), false)
 
@@ -25,12 +25,13 @@ ipcRenderer.on('changePosition', (event, position) => {
 
 function initColorsbook (colorsbook, activeAt) {
   let categories = ''
-  for (let categorie in colorsbook) {
-    if (Object.keys(colorsbook).indexOf(categorie) === activeAt) {
-      initColors(colorsbook[categorie])
-      categories += `<li title="${categorie}" class="active" style="background: ${colorsbook[categorie][0]}">${categorie}</li>`
+  for (let category in colorsbook) {
+    if (category === activeAt || !categoryActive) {
+      categoryActive = category;
+      initColors(colorsbook[category])
+      categories += `<li title="${category}" class="active" style="background: ${colorsbook[category][0]}">${category}</li>`
     }
-    else categories += `<li title="${categorie}" style="background: ${colorsbook[categorie][0]}">${categorie}</li>`
+    else categories += `<li title="${category}" style="background: ${colorsbook[category][0]}">${category}</li>`
   }
   categories += '<li id="new-categorie"><i class="fa fa-plus"></i></li>'
   document.querySelector('#categories').innerHTML = categories
@@ -39,7 +40,7 @@ function initColorsbook (colorsbook, activeAt) {
 function initColors (colors) {
   let list = ''
   for (let color of colors) {
-    list += `<li class="color" data-color="${color}" style="background: ${color}"</li>`
+    list += `<li class="color" title="${color}" style="background: ${color}"</li>`
   }
   list += '<li id="new-color"><i class="fa fa-plus"></i></li>'
   document.querySelector('#colors').innerHTML = list
@@ -48,39 +49,69 @@ function initColors (colors) {
     color.addEventListener('click', event => {
       ipcRenderer.send('colorsbook-change-color', color.dataset.color)
     })
-    color.addEventListener('contextmenu', event => {
+    color.addEventListener('contextmenu', function(event){
+      colorFocused = this.title;
       cm.openMenu('colorMenu')
     })
   }
+
+  document.querySelector('#new-color').addEventListener('click', () => {
+    document.querySelector('#popup_color').classList.toggle('active')
+    document.querySelector('#popup_color input').focus()
+  })
 }
 
-function addColor (color, category) {
-
+function addColor (color) {
+  if(!categoryActive) categoryActive = Object.values(colorsbook).length - 1
+  colorsbook[categoryActive].push(color);
+  initColorsbook(colorsbook, categoryActive)
+  initEvents()
+  saveColorsbook()
 }
 
-function deleteColor (color, category) {
-
+function deleteColor () {
+  let pos = colorsbook[categoryActive].indexOf(colorFocused);
+  colorsbook[categoryActive].splice(pos, 1);
+  initColorsbook(colorsbook, categoryActive)
+  initEvents()
+  saveColorsbook()
 }
 
 function addCategory (name) {
   colorsbook[name] = []
-  initColorsbook(colorsbook, 0)
+  categoryActive = name;
+  initColorsbook(colorsbook, name)
   initEvents()
+  saveColorsbook()
 }
 
-function deleteCategory (name) {
+function deleteCategory () {
+  delete colorsbook[categoryFocused]
+  categoryActive = false
+  initColorsbook(colorsbook)
+  initEvents()
+  saveColorsbook()
+}
 
+function saveColorsbook () {
+  ipcRenderer.send('save-colorsbook', colorsbook)
 }
 
 function initEvents () {
   let categories = document.querySelectorAll('#categories li')
-  for (let categorie of categories) {
-    categorie.addEventListener('click', function(event) {
+  for (let category of categories) {
+    category.addEventListener('contextmenu', function(event){
+      categoryFocused = this.title;
+      cm.openMenu('categoryMenu')
+    })
+    category.addEventListener('click', function(event) {
       if(this.id === 'new-categorie') {
         document.querySelector('#popup_category').classList.toggle('active')
+        document.querySelector('#popup_category input').focus()
       } else {
         document.querySelector('#categories .active').classList.remove('active')
         this.classList.add('active')
+        categoryActive = this.title;
         initColors(colorsbook[this.title])
       }
     })
@@ -88,7 +119,6 @@ function initEvents () {
 }
 
 document.querySelector('#popup_category').addEventListener('click', function(event) {
-  console.log(event.target, this)
   if(event.target === this) { this.classList.toggle('active') }
 })
 document.querySelector('#popup_category input').addEventListener('keypress', function(event) {
@@ -102,4 +132,12 @@ document.querySelector('#popup_category input').addEventListener('keypress', fun
 
 document.querySelector('#popup_color').addEventListener('click', function(event) {
   if(event.target === this) { this.classList.toggle('active') }
+})
+document.querySelector('#popup_color input').addEventListener('keypress', function(event) {
+  if (event.key === 'Enter') {
+    let color = this.value
+    this.value = ''
+    addColor(color);
+    this.parentNode.classList.toggle('active');
+  }
 })
