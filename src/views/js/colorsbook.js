@@ -47,7 +47,7 @@ function initColors (colors) {
 
   for(let color of document.querySelectorAll('.color')) {
     color.addEventListener('click', event => {
-      ipcRenderer.send('colorsbook-change-color', color.dataset.color)
+      ipcRenderer.send('colorsbook-change-color', color.title)
     })
     color.addEventListener('contextmenu', function(event){
       colorFocused = this.title;
