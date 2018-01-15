@@ -135,9 +135,11 @@ document.querySelector('#popup_color').addEventListener('click', function(event)
 })
 document.querySelector('#popup_color input').addEventListener('keypress', function(event) {
   if (event.key === 'Enter') {
-    let color = this.value
+    const regex = /^([0-9a-fA-F]{3}|([0-9a-fA-F]{6}))$/g;
+    let color = this.value.replace('#', '')
+    if (!regex.test(color)) return;
     this.value = ''
-    addColor(color);
+    addColor('#' + color);
     this.parentNode.classList.toggle('active');
   }
 })
