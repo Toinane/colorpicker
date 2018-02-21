@@ -69,7 +69,7 @@ module.exports = (storage, browsers) => {
       if (err) return event.sender.send('update', message)
       let update = JSON.parse(body)
       if (update === undefined || update === null) return event.sender.send('update', message)
-      if (update.release <= '0') return event.sender.send('update', '<i class="fa fa-check"></i> You\'re up to date :)!')
+      if (update.release <= app.getVersion()) return event.sender.send('update', '<i class="fa fa-check"></i> You\'re up to date :)!')
       else {
         let notification = new Notification({
           title: 'New update available',
