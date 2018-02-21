@@ -6,6 +6,8 @@ let tippy = require('tippy.js')
 
 let tabActive = 'general';
 
+ipcRenderer.send('init-settings');
+
 /* TAB GENERAL */
 let options = {
   dragClass: "sortable-drag",
@@ -54,6 +56,10 @@ document.querySelector('#picker-realtime').addEventListener('click', function ()
   ipcRenderer.send('set-realtime', bool)
 })
 
+/* TAB COLORSBOOK */
+ipcRenderer.on('export', (event, colorsbook) => {
+  document.querySelector('#export').href = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(colorsbook, null, 2))}`;
+})
 
 /* GLOBAL */
 document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-settings'), false)

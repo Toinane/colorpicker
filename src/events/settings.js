@@ -22,6 +22,7 @@ module.exports = (storage, browsers) => {
     }
 
     event.sender.send('init', config)
+    event.sender.send('export', storage.get('colors', 'colorsbook'))
   })
 
   ipcMain.on('set-position', (event, position) => {
