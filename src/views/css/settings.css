@@ -253,3 +253,13 @@ header{
     #zoom-level li{
       width: 130px;
     }
+
+
+/* ABOUT */
+#update span{
+  color: #3B8BD5;
+  cursor: pointer;
+}
+#update i{
+  font-size: 1em;
+}

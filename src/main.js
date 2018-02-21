@@ -7,7 +7,7 @@ const {app, Tray, Menu} = require('electron')
 const storage = require('./storage')
 const touchbar = require('./touchbar')(__dirname, eventEmitter)
 const browsers = require('./browsers')(__dirname, storage, {touchbar, eventEmitter})
-const {colorpicker, colorsbook, picker, about, settings} = browsers
+const {colorpicker, colorsbook, picker, settings} = browsers
 
 require('./events')(storage, browsers, eventEmitter)
 
@@ -36,7 +36,7 @@ let setMenu = () => {
     {
       label: 'Colorpicker',
       submenu: [
-        { label: 'About Colorpicker', 'accelerator': 'Shift+CmdOrCtrl+A', click: () => about.init() },
+        { label: 'About Colorpicker', 'accelerator': 'Shift+CmdOrCtrl+A', click: () => settings.init() },
         { label: `Version ${app.getVersion()}`, enabled: false },
         { type: 'separator' },
         { label: 'Preferences', accelerator: 'CmdOrCtrl+,', click: () => settings.init() },

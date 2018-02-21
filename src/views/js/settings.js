@@ -132,15 +132,15 @@ function updateTools(event) {
   ipcRenderer.send('changeTools', toSave)
 }
 
-// ipcRenderer.on('update', (event, message) => {
-//   document.querySelector('#update').innerHTML = message
-//   if (document.querySelector('#update span')) {
-//     document.querySelector('#update span').addEventListener('click', function(event) {
-//       shell.openExternal(this.getAttribute('data-link'))
-//     })
-//   }
-// })
-//
-// document.querySelector('h1').addEventListener('click', () => {
-//   shell.openExternal('https://crea-th.at/p/colorpicker/')
-// })
+ipcRenderer.on('update', (event, message) => {
+  document.querySelector('#update').innerHTML = message
+  if (document.querySelector('#update span')) {
+    document.querySelector('#update span').addEventListener('click', function(event) {
+      shell.openExternal(this.getAttribute('data-link'))
+    })
+  }
+})
+
+document.querySelector('h1').addEventListener('click', () => {
+  shell.openExternal('https://colorpicker.crea-th.at')
+})

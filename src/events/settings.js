@@ -1,6 +1,7 @@
 'use strict'
 
-  const {ipcMain, BrowserWindow, app} = require('electron')
+const {ipcMain, BrowserWindow, app, Notification, shell} = require('electron')
+const request = require('request')
 
 module.exports = (storage, browsers) => {
   const {colorpicker, picker, colorsbook} = browsers
@@ -23,6 +24,7 @@ module.exports = (storage, browsers) => {
 
     event.sender.send('init', config)
     event.sender.send('export', storage.get('colors', 'colorsbook'))
+    updateApp(event);
   })
 
   ipcMain.on('set-position', (event, position) => {
@@ -52,6 +54,35 @@ module.exports = (storage, browsers) => {
     app.relaunch({args: process.argv.slice(1).concat(['--reset'])})
     app.exit(0)
   })
+
+  function updateApp(event) {
+    const options = {
+      url: 'https://crea-th.at/p/colorpicker/release.json',
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+        'user-agent': `colorpicker-${app.getVersion()}`
+      }
+    }
+    let message = '<i class="fa fa-ban"></i> Can\'t connect to server, check manually <span data-link="https://colorpicker.crea-th.at">here</span>'
+    request(options, (err, res, body) => {
+      if (err) return event.sender.send('update', message)
+      let update = JSON.parse(body)
+      if (update === undefined || update === null) return event.sender.send('update', message)
+      if (update.release <= '0') return event.sender.send('update', '<i class="fa fa-check"></i> You\'re up to date :)!')
+      else {
+        let notification = new Notification({
+          title: 'New update available',
+          subtitle: update.release + ' release is available!'
+        })
+        notification.show()
+        notification.on('click', () => {
+          shell.openExternal('https://colorpicker.crea-th.at')
+        })
+        return event.sender.send('update', `<i class="fa fa-exclamation-triangle"></i> New update available <span data-link="${update.link}">here</span>`)
+      }
+    })
+  }
 
 
 }
