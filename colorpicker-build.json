@@ -27,6 +27,12 @@
     "synopsis": "Colorpicker App",
     "category": "Graphics"
   },
+  "snap": {
+    "plugs": [
+      "default",
+      "desktop"
+    ]
+  },
   "win": {
     "icon": "build/icon.ico"
   },
