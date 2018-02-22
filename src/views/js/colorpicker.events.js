@@ -54,7 +54,7 @@ function initTools (tools) {
     shade: { title: 'Toggle Shading', icon: 'fa-tint' },
     random: { title: 'Set Random Color', icon: 'fa-random' },
     opacity: { title: 'Toggle Opacity', icon: 'fa-sliders-h' },
-    clean: { title: 'Clean Vue', icon: 'fa-adjust' },
+    clean: { title: 'Focus Mode', icon: 'fa-adjust' },
     apply: { title: 'Get Clipboard\'s Colors', icon: 'fa-clone' },
     settings: { title: 'Open Settings', icon: 'fa-cog' }
   }
