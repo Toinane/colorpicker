@@ -12,7 +12,7 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}'
       - run:
           name: yarn
-          command: 'sudo yarn -g node-gyp'
+          command: 'sudo yarn global add node-gyp'
       - run:
           name: yarn rebuild
           command: 'sudo yarn rebuild'
