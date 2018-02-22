@@ -1,0 +1,37 @@
+{
+  "appId": "com.electron.colorpicker",
+  "productName": "Colorpicker",
+  "compression": "maximum",
+  "copyright": "Copyright @Toinane",
+  "directories": {
+    "output": "out"
+  },
+  "files": [
+    "**/*"
+  ],
+  "mac": {
+    "category": "public.app-category.graphics-design",
+    "icon": "build/icon.icns",
+    "type": "distribution"
+  },
+  "dmg": {
+    "icon": "build/VolumeIcon.icns",
+    "background": "build/background.png",
+    "window": {
+      "width": 540,
+      "height": 380
+    }
+  },
+  "linux": {
+    "icon": "./build",
+    "synopsis": "Colorpicker App",
+    "category": "Graphics"
+  },
+  "win": {
+    "icon": "build/icon.ico"
+  },
+  "nsis": {
+    "oneClick": false,
+    "allowToChangeInstallationDirectory": true
+  }
+}

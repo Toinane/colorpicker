@@ -1,0 +1,26 @@
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+version: 2
+jobs:
+  build:
+    docker:
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      - image: circleci/node:8.0.0
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}'
+      - run:
+          name: yarn
+          command: 'sudo yarn global add node-gyp'
+      - run:
+          name: yarn rebuild
+          command: 'sudo yarn rebuild'
+      - save_cache:
+          paths:
+            - ./node_modules
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+        # TODO: Make tests
+          name: run tests
+          command: 'echo done'
