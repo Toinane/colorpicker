@@ -11,18 +11,16 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}'
       - run:
-          name: npm install
-          command: 'sudo npm install -g node-gyp'
+          name: yarn
+          command: 'sudo yarn -g node-gyp'
       - run:
-          name: show folder
-          command: 'ls -la'
-      - run:
-          name: npm run rebuild
-          command: 'sudo npm run rebuild'
+          name: yarn rebuild
+          command: 'sudo yarn rebuild'
       - save_cache:
           paths:
             - ./node_modules
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
+        # TODO: Make tests
           name: run tests
           command: 'echo done'
