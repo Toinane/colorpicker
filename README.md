@@ -26,28 +26,34 @@ Colorpicker's menu come with a lot of cool features :
 
 ## Pin
 ![Pin gif](https://github.com/Toinane/colorpicker-website/blob/master/gifs/pin.gif?raw=true)
+
 With Pin, you can bring Colorpicker to the foreground. This makes it convenient to work quickly with different applications at the same time.
 
 ## Picker
-#### Note: This feature isn't available for Linux. See #18
+#### Note: This feature isn't available for Linux. See [#18](https://github.com/Toinane/colorpicker/issues/18)
 ![Picker gif](https://github.com/Toinane/colorpicker-website/blob/master/gifs/picker.gif?raw=true)
+
 The Picker allows you to quickly retrieve a color anywhere on the screen. Whether it's on your browser, Photoshop, or whatever.
 
 ## Colorsbook
 ![Colorsbook gif](https://github.com/Toinane/colorpicker-website/blob/master/gifs/colorsbook.gif?raw=true)
+
 Colorsbook is a full-fledged application. It allows you to store your colors, categorize them, and easily retrieve them. It is destined to mature over time.
 **Cool tip:** you can save color from colorpicker with ```CMD+S``` or ```CTRL+S```! 
 
 ## Shading
 ![Shading gif](https://github.com/Toinane/colorpicker-website/blob/master/gifs/shades.gif?raw=true)
+
 With the shades, you can find the perfect color you need. You have a chromatic bar, a natural color bar and a shadow bar.
 
 ## Opacity
 ![Opacity gif](https://github.com/Toinane/colorpicker-website/blob/master/gifs/opacity.gif?raw=true)
+
 This feature is a bit special. It allows you to render the application transparent. This can be useful to see the appearance of a transparent color.
 
 ## Focus Mode
 ![Focus screenshot](https://github.com/Toinane/colorpicker-website/blob/master/gifs/focus.png?raw=true)
+
 Need to compare a color or clean up the interface? This feature is for you, this will hide the sliders and make the menu more transparent.
 
 ## Magic Color
@@ -58,6 +64,7 @@ A traditional feature, it allows you to display a color randomly.
 
 ## Settings
 ![Settings gif](https://github.com/Toinane/colorpicker-website/blob/master/gifs/settings.gif?raw=true)
+
 The settings menu allows you to customize your Colorpicker, I let you discover it yourself :)!
 
 # Download
