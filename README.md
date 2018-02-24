@@ -71,6 +71,10 @@ The settings menu allows you to customize your Colorpicker, I let you discover i
 - You can download the [latest release on the website!](https://colorpicker.crea-th.at)
 - Or [previous versions here.](https://github.com/Toinane/colorpicker/releases)
 
+Want to support me?
+
+You can [buy me a coffee here](https://toinane.itch.io/colorpicker)! Thank you!
+
 #### **Happy Design !**
 
 # Developers
