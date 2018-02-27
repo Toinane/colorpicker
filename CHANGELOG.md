@@ -1,41 +1,51 @@
-# 2.0.0
+# Changelog
+All releases changes will be documented in this file.
 
-## Features
-- Refactoring application
+---
+# 2.0.0 - 2018-02-24
+
+## Added
 - Add Picker feature
 - Add Colorsbook feature
 - Add Opacity feature
 - Add Focus mode feature
-- Change Shading system
-- New icons
 - Add settings
 - Linux release available
-- Change fonts
-- Improve interface
 
-## Issues
+## Changed
+- Refactoring application
+- Improve interface
+- New icons
+- Change fonts
+- Change Shading system
+
+## Fixed
 - Fix shortcuts on OSX
 
+---
 # 1.2.2
 
-## Issues
+## Fixed
 - Fix close/unshow/extend buttons on OSX
 - Fix shortcuts CMD+C & CMD+V on OSX
 
+---
 # 1.2.1
 
-## Issues
+## Fixed
 - Fix HD main icon
 - Fix a window problem on OSX
 
+---
 # 1.2.0
 
-## Features
+## Added
 - Created an Electron App for Colorpicker
 
+---
 # 1.0.0
 
-## Features
+## Added
 - Add Three sliders with inputs for RGB color
 - Add input for hexadecimal color
 - Add Random button
