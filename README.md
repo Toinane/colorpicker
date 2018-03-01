@@ -1,10 +1,9 @@
-![Github All Releases](https://img.shields.io/github/downloads/toinane/colorpicker/total.svg?style=flat-square)
-![Github Releases](https://img.shields.io/github/downloads/toinane/colorpicker/latest/total.svg?style=flat-square)
-![CircleCI](https://img.shields.io/circleci/project/github/Toinane/colorpicker.svg?style=flat-square)
-![GitHub release](https://img.shields.io/github/release/toinane/colorpicker.svg?style=flat-square)
-![GitHub Release Date](https://img.shields.io/github/release-date/Toinane/colorpicker.svg?style=flat-square)
-![David](https://img.shields.io/david/toinane/colorpicker.svg?style=flat-square)
-![David](https://img.shields.io/david/dev/toinane/colorpicker.svg?style=flat-square)
+![](https://img.shields.io/github/downloads/toinane/colorpicker/total.svg?style=flat-square)
+![](https://img.shields.io/github/downloads/toinane/colorpicker/latest/total.svg?style=flat-square)
+![](https://img.shields.io/circleci/project/github/Toinane/colorpicker.svg?style=flat-square)
+![](https://img.shields.io/github/release/toinane/colorpicker.svg?style=flat-square)
+![](https://img.shields.io/github/release-date/Toinane/colorpicker.svg?style=flat-square)
+![](https://img.shields.io/david/toinane/colorpicker.svg?style=flat-square)
 <p align="center">
   <a href="https://crea-th.at/p/colorpicker">
     <img src="build/icon.png" width="256" height="256" alt="ColorPicker icon" />
