@@ -1,38 +1,27 @@
 'use strict'
 
-let eventEmitter = require('events')
-eventEmitter = new eventEmitter()
+import * as eventEmitter from 'events';
+import {app, Tray, Menu, NativeImage} from 'electron';
 
-const {app, Tray, Menu} = require('electron')
-const storage = require('./storage')
-const touchbar = require('./touchbar')(__dirname, eventEmitter)
-const browsers = require('./browsers')(__dirname, storage, {touchbar, eventEmitter})
-const {colorpicker, colorsbook, picker, settings} = browsers
+import Storage from './storage';
+import * as Touchbar from './touchbar';
+import * as Browsers from './browsers';
+import * as Events from './events';
 
-require('./events')(storage, browsers, eventEmitter)
+const dirname = __dirname;
+const event = new eventEmitter();
+const storage = new Storage();
 
-if (process.platform === 'linux') {
-  app.commandLine.appendSwitch('--enable-transparent-visuals')
-  app.disableHardwareAcceleration()
-}
+const touchbar = Touchbar(dirname, event);
+const browsers = Browsers(dirname, storage, {touchbar, event});
+const events = Events(storage, browsers, event);
 
-let tray
+const {colorpicker, colorsbook, picker, settings} = browsers;
 
-let createTray = () => {
-  if (tray) return
-  if (process.platform === 'darwin') tray = new Tray(`${__dirname}/ressources/tray-black@3x.png`)
-  if (process.platform === 'win32') tray = new Tray(`${__dirname}/ressources/tray-black@3x.png`) // color here
-  if (process.platform === 'linux') tray = new Tray(`${__dirname}/ressources/tray-white@3x.png`)
-  if (process.platform === 'darwin') tray.setPressedImage(`${__dirname}/ressources/tray-white@3x.png`)
-  tray.on('click', event => colorpicker.init())
-}
+abstract class ColorpickerApp {
 
-/**
-* [setMenu - set new app menu]
-* @return {void}
-*/
-let setMenu = () => {
-  let template = [
+  private tray:Tray;
+  private menuTemplate:Array<object> = [
     {
       label: 'Colorpicker',
       submenu: [
@@ -79,33 +68,45 @@ let setMenu = () => {
         { label: 'Set Random Color', accelerator: 'CmdOrCtrl+M', click: () => colorpicker.getWindow().webContents.send('shortRandom') }
       ]
     }
-  ]
-  Menu.setApplicationMenu(Menu.buildFromTemplate(template))
-}
+  ];
 
-/**
-* [App ready - On app ready]
-*/
-app.on('ready', () => {
-  storage.init().then(() => {
-    createTray()
-    setMenu()
-    colorpicker.init()
-  })
-})
+  constructor() {
+    if (process.platform === 'linux') {
+      app.commandLine.appendSwitch('--enable-transparent-visuals')
+      app.disableHardwareAcceleration()
+    }
 
-/**
-* [App activate - On app icon clicked]
-*/
-app.on('activate', () => {
-  colorpicker.init()
-})
-
-/**
-* [App window-all-closed - quit app on all window closed ]
-*/
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
+    this.initEvents();
   }
-})
+
+  private initEvents():void {
+    app.on('ready', () => {
+      this.createTray();
+      this.createMenu();
+      colorpicker.init();
+    });
+
+    app.on('activate', () => colorpicker.init());
+    
+    app.on('window-all-closed', () => {
+      if (process.platform !== 'darwin') {
+        app.quit()
+      }
+    });
+  }
+
+  private createTray():Tray {
+    const image = NativeImage.createFromPath(`${dirname}/ressources/trayTemplate.png`);
+
+    if (this.tray) return this.tray;
+    this.tray = new Tray(image);
+    this.tray.on('click', event => colorpicker.init())
+
+    return this.tray;
+  }
+
+  private createMenu():void {
+    Menu.setApplicationMenu(Menu.buildFromTemplate(this.menuTemplate))
+  }
+
+};

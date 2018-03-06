@@ -4,9 +4,11 @@ const {BrowserWindow} = require('electron')
 
 module.exports = (dirname, storage) => {
   let win
+
   /**
    * [init]
-   * @return {void} [new Colorsbook]
+   * @param {boolean} force [force launching new window]
+   * @return {void} [new Colorpicker]
    */
   let init = () => {
     if (win === null || win === undefined) createWindow()
@@ -15,27 +17,25 @@ module.exports = (dirname, storage) => {
 
   /**
    * [createWindow - create new Window]
+   * @param  {int} width  [width of the window]
+   * @param  {int} height [height of the window]
    * @return {void}
    */
   let createWindow = () => {
-    win = new BrowserWindow({
-      frame: false,
-      autoHideMenuBar: true,
-      width: 365,
-      height: 400,
-      minHeight: 285,
-      minWidth: 360,
-      icon: `${dirname}/build/icon.png`
-    })
+    let options = {
+      width: 400,
+      height: 300,
+      resizable: false,
+      fullscreenable: false,
+      icon: `${dirname}/assets/icon.png`
+    }
 
-    win.loadURL(`file://${dirname}/views/colorsbook.html`)
+    win = new BrowserWindow(options)
+    win.loadURL(`file://${dirname}/views/preview.html`)
 
     win.on('closed', () => {
       win = undefined
     })
-
-    win.on('focus', event => win.webContents.send('hasLooseFocus', false))
-    win.on('blur', event => win.webContents.send('hasLooseFocus', true))
   }
 
   let getWindow = () => win

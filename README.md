@@ -6,7 +6,7 @@
 ![](https://img.shields.io/david/toinane/colorpicker.svg?style=flat-square)
 <p align="center">
   <a href="https://crea-th.at/p/colorpicker">
-    <img src="build/icon.png" width="256" height="256" alt="ColorPicker icon" />
+    <img src="assets/icon.png" width="256" height="256" alt="ColorPicker icon" />
   </a>
   <h1 align="center">Colorpicker</h1>
   <p align="center">A mininal but complete colorpicker desktop app</p>

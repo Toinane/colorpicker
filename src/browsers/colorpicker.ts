@@ -33,7 +33,7 @@ module.exports = (dirname, storage, util) => {
       minWidth: 440,
       minHeight: 150,
       transparent: true,
-      icon: `${dirname}/build/icon.png`
+      icon: `${dirname}/assets/icon.png`
     }
     if (pos) { options.x = pos.x; options.y = pos.y }
 

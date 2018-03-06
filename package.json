@@ -5,7 +5,7 @@
   "description": "Colorpicker is a little Electron app that can show colors with hex/rgb code, and generate shading for your color.",
   "main": "src/main.js",
   "scripts": {
-    "start": "npx electron src/main.js",
+    "start": "tsc && electron built/main.js",
     "standard": "standard",
     "pack": "build --dir",
     "release": "build --publish=never --config colorpicker-build.json",
@@ -28,6 +28,7 @@
   ],
   "dependencies": {
     "electron-json-storage": "^4.0.2",
+    "electron-settings": "^3.1.4",
     "request": "^2.83.0",
     "robotjs": "git+https://github.com/toinane/robotjs.git",
     "sortablejs": "^1.7.0",
@@ -40,7 +41,8 @@
   "devDependencies": {
     "electron": "1.8.2",
     "electron-builder": "20.0.8",
-    "standard": "^11.0.0"
+    "standard": "^11.0.0",
+    "typescript": "^2.7.2"
   },
   "author": {
     "name": "Toinane",
@@ -48,6 +50,6 @@
     "url": "https://toinane.crea-th.at"
   },
   "bugs": "https://github.com/toinane/colorpicker/issues",
-  "homepage": "https://crea-th.at/p/colorpicker",
+  "homepage": "https://colorpicker.crea-th.at",
   "license": "GPL-3.0"
 }

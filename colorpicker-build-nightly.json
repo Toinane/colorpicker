@@ -11,24 +11,24 @@
   ],
   "mac": {
     "category": "public.app-category.graphics-design",
-    "icon": "build/icon-nightly.icns",
+    "icon": "assets/icon-nightly.icns",
     "type": "development"
   },
   "dmg": {
-    "icon": "build/VolumeIcon-nightly.icns",
-    "background": "build/background-nightly.png",
+    "icon": "assets/VolumeIcon-nightly.icns",
+    "background": "assets/background-nightly.png",
     "window": {
       "width": 540,
       "height": 380
     }
   },
   "linux": {
-    "icon": "./build",
+    "icon": "./assets",
     "synopsis": "Colorpicker App",
     "category": "Graphics"
   },
   "win": {
-    "icon": "build/icon-nightly.ico"
+    "icon": "assets/icon-nightly.ico"
   },
   "nsis": {
     "oneClick": false,
