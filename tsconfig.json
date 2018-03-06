@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+        "outDir": "built",
+        "rootDir": "src",
+        "moduleResolution": "node",
+        "module": "commonjs",
+        "target": "es2018",
+        "newLine": "LF",
+        "noImplicitAny": false,
+        "pretty": true,
+        "sourceMap": false,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "removeComments": false,
+        "suppressImplicitAnyIndexErrors": true,
+        "lib": [
+            "es2018",
+            "dom"
+        ]
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}
