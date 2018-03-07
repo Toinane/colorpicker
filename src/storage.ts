@@ -54,18 +54,11 @@ export default class Storage {
     }
   }
 
-  private getPlatform():platform {
-    switch (process.platform) {
-      case 'darwin': return platform.DARWIN
-      case 'win32': return platform.WINDOWS
-      case 'linux': return platform.LINUX
-      case 'freebsd': return platform.LINUX
-      case 'sunos': return platform.LINUX
-      default: return platform.DARWIN
-    }
+  public has(key:string, name:string = 'colorpicker') {
+    return settings.has(`cp.${name}.${key}`);
   }
 
-  private save(data:any, key:string, name:string = 'colorpicker'):void {
+  public set(data:any, key:string, name:string = 'colorpicker'):void {
     settings.set(`cp.${name}.${key}`, data);
   }
 
@@ -76,5 +69,15 @@ export default class Storage {
   public reset():void {
     settings.set('cp', this.defaultSettings);
   }
-  
-};
+
+  private getPlatform():platform {
+    switch (process.platform) {
+      case 'darwin': return platform.DARWIN
+      case 'win32': return platform.WINDOWS
+      case 'linux': return platform.LINUX
+      case 'freebsd': return platform.LINUX
+      case 'sunos': return platform.LINUX
+      default: return platform.DARWIN
+    }
+  }
+}
