@@ -4,21 +4,15 @@ import * as eventEmitter from 'events';
 import {app, Tray, Menu, NativeImage} from 'electron';
 
 import Storage from './storage';
-import * as Touchbar from './touchbar';
-import * as Browsers from './browsers';
-import * as Events from './events';
+import ColorpickerTouchBar from './touchbar';
+import Window from './windows';
 
-const dirname = __dirname;
-const event = new eventEmitter();
-const storage = new Storage();
-
-const touchbar = Touchbar(dirname, event);
-const browsers = Browsers(dirname, storage, {touchbar, event});
-const events = Events(storage, browsers, event);
-
-const {colorpicker, colorsbook, picker, settings} = browsers;
-
-abstract class ColorpickerApp {
+export abstract class ColorpickerApp {
+  private dirname:string;
+  private eventEmitter:eventEmitter.EventEmitter;
+  private storage:Storage;
+  private colorpickerTouchBar:ColorpickerTouchBar;
+  private window:Window;
 
   private tray:Tray;
   private menuTemplate:Array<object> = [
@@ -71,6 +65,16 @@ abstract class ColorpickerApp {
   ];
 
   constructor() {
+    this.dirname = __dirname;
+    this.eventEmitter = new eventEmitter();
+
+    this.storage = new Storage();
+    this.colorpickerTouchBar = new ColorpickerTouchBar(this.dirname, this.eventEmitter);
+    this.window = new Window(this.dirname, this.storage, {
+      touchBar: this.colorpickerTouchBar,
+      eventEmitter: this.eventEmitter
+    });
+
     if (process.platform === 'linux') {
       app.commandLine.appendSwitch('--enable-transparent-visuals')
       app.disableHardwareAcceleration()
@@ -83,7 +87,7 @@ abstract class ColorpickerApp {
     app.on('ready', () => {
       this.createTray();
       this.createMenu();
-      colorpicker.init();
+      this.window.colorpicker.init();
     });
 
     app.on('activate', () => colorpicker.init());
@@ -96,7 +100,7 @@ abstract class ColorpickerApp {
   }
 
   private createTray():Tray {
-    const image = NativeImage.createFromPath(`${dirname}/ressources/trayTemplate.png`);
+    const image = NativeImage.createFromPath(`${this.dirname}/ressources/trayTemplate.png`);
 
     if (this.tray) return this.tray;
     this.tray = new Tray(image);
@@ -109,4 +113,4 @@ abstract class ColorpickerApp {
     Menu.setApplicationMenu(Menu.buildFromTemplate(this.menuTemplate))
   }
 
-};
+}
