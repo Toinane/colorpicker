@@ -1,8 +1,21 @@
 'use strict'
 
-class Colorpicker extends Color {
+import Color from './color';
+
+
+export default class ColorpickerApp extends Color {
+  
+  timing;
+  history;
+  colorfullApp;
+  isShadingActive;
+  body;
+  hex_value;
+  rgbhtml;
+  isDark;
+  
   constructor (config) {
-    super()
+    super();
 
     this.timing
     this.history = config.history || []
@@ -30,28 +43,27 @@ class Colorpicker extends Color {
   }
 
   setNewRGBColor (rgb) {
-    this.setNewColor(this.getHexFromRGB(rgb))
+    this.setNewColor(this.convertRGBtoHex(rgb))
   }
 
   setNewAlphaColor (alpha) {
-    this.setAlpha(alpha)
-    this.setNewColor(this.hex)
+    this.setNewColor(this.hexadecimal)
   }
 
   setNegativeColor (rgb) {
     if (!rgb) rgb = this.rgb
-    const negative = this.getNegativeColor(rgb)
-    this.setNewColor(this.getHexFromRGB(negative))
+    const negative = this.getNegativeColor()
+    this.setNewColor(this.convertRGBtoHex(negative))
     return negative
   }
 
-  setNewColor (hex, dontSaveIt) {
+  setNewColor (hex, dontSaveIt = false) {
     if (!dontSaveIt) {
       clearTimeout(this.timing)
       this.timing = setTimeout(() => this.saveColor(hex), 300)
     }
-    this.setColorFromHex(hex)
-    this.isDark = this.isDarkColor(this.rgb)
+    this.setColorWithHex(hex)
+    this.isDark = this.isDarkColor()
 
     for (let i = 0, total = Object.keys(this.rgbhtml).length; i < total; i++) {
       if (total - 2 <= i) this.rgbhtml[Object.keys(this.rgbhtml)[i]].value = this.rgba[Math.floor(i / 3)] * 255
@@ -60,20 +72,20 @@ class Colorpicker extends Color {
         else this.rgbhtml[Object.keys(this.rgbhtml)[i]].value = this.rgba[Math.floor(i / 3)]
       }
     }
-    this.hex_value.value = this.hex
+    this.hex_value.value = this.hexadecimal
     this.body.classList.toggle('darkMode', this.isDark)
-    this.body.style.background = this.getCSSFromRGBA(this.rgba)
+    this.body.style.background = this.getRGBACSS()
     if(this.isShadingActive) this.changeShading()
 
     if (this.colorfullApp) {
       if (this.isDark) {
-        document.querySelector('#close').style.color = this.getHexFromRGB(this.getLightnessFromRGB(20, this.getRedComplementary()))
-        document.querySelector('#minimize').style.color = this.getHexFromRGB(this.getLightnessFromRGB(20, this.getGreenComplementary()))
-        document.querySelector('#maximize').style.color = this.getHexFromRGB(this.getLightnessFromRGB(20, this.getBlueComplementary()))
+        (document.querySelector('#close') as HTMLElement).style.color = this.convertRGBtoHex(this.getRGBwithLightness(20, false, this.getRedComplementary()))
+        (document.querySelector('#minimize') as HTMLElement).style.color = this.convertRGBtoHex(this.getRGBwithLightness(20, false, this.getGreenComplementary()))
+        (document.querySelector('#maximize') as HTMLElement).style.color = this.convertRGBtoHex(this.getRGBwithLightness(20, false, this.getBlueComplementary()))
       } else {
-        document.querySelector('#close').style.color = this.getHexFromRGB(this.getLightnessFromRGB(-20, this.getRedComplementary()))
-        document.querySelector('#minimize').style.color = this.getHexFromRGB(this.getLightnessFromRGB(-20, this.getGreenComplementary()))
-        document.querySelector('#maximize').style.color = this.getHexFromRGB(this.getLightnessFromRGB(-20, this.getBlueComplementary()))
+        (document.querySelector('#close') as HTMLElement).style.color = this.convertRGBtoHex(this.getRGBwithLightness(-20, false, this.getRedComplementary()))
+        (document.querySelector('#minimize') as HTMLElement).style.color = this.convertRGBtoHex(this.getRGBwithLightness(-20, false, this.getGreenComplementary()))
+        (document.querySelector('#maximize') as HTMLElement).style.color = this.convertRGBtoHex(this.getRGBwithLightness(-20, false, this.getBlueComplementary()))
       }
     }
   }
@@ -90,7 +102,7 @@ class Colorpicker extends Color {
     ipcRenderer.send('changeHistory', newHistory)
   }
 
-  copyHex () { clipboard.writeText(this.hex) }
+  copyHex () { clipboard.writeText(this.hexadecimal) }
 
   copyRGB () { clipboard.writeText(this.getCSSFromRGB(this.rgb)) }
 

@@ -5,13 +5,11 @@ import {BrowserWindow} from 'electron';
 export default class PreviewWindow {
   private dirname:string;
   private storage:Colorpicker.Storage;
-  private util = <any>{};
   private window:BrowserWindow;
 
-  constructor(dirname:string, storage:Colorpicker.Storage, util:object) {
+  constructor(dirname:string, storage:Colorpicker.Storage) {
     this.dirname = dirname;
     this.storage = storage;
-    this.util = util;
   }
 
   public showWindow(forceInit:boolean = false):void {
