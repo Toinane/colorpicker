@@ -38,7 +38,7 @@
     "win-mouse": "^1.1.2"
   },
   "devDependencies": {
-    "electron": "1.8.2",
+    "electron": "1.8.3",
     "electron-builder": "20.0.8",
     "standard": "^11.0.0"
   },
