@@ -5,21 +5,17 @@ import Color from './color';
 
 export default class ColorpickerApp extends Color {
   
-  timing;
-  history;
-  colorfullApp;
-  isShadingActive;
-  body;
-  hex_value;
-  rgbhtml;
-  isDark;
+  private history: string;
+  private isIconColorful: boolean;
+  private isShadingMenuOpen: boolean;
+  private isColorDark: boolean;
+  private htmlElement: object;
   
   constructor (config) {
     super();
 
-    this.timing
-    this.history = config.history || []
-    this.colorfullApp = config.colorfullApp
+    this.history = config.history || [];
+    this.isIconColorful = config.colorfullApp
     this.isShadingActive = false
 
     this.body = document.querySelector('body')
