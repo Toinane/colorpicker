@@ -1,7 +1,7 @@
 {
   "name": "Colorpicker",
   "productName": "Colorpicker",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Colorpicker is a little Electron app that can show colors with hex/rgb code, and generate shading for your color.",
   "main": "src/main.js",
   "scripts": {
@@ -27,20 +27,20 @@
     "crea-that"
   ],
   "dependencies": {
-    "electron-json-storage": "^4.0.2",
-    "request": "^2.83.0",
+    "electron-json-storage": "^4.1.0",
+    "request": "^2.85.0",
     "robotjs": "git+https://github.com/toinane/robotjs.git",
     "sortablejs": "^1.7.0",
-    "tippy.js": "^2.2.3"
+    "tippy.js": "^2.5.2"
   },
   "optionalDependencies": {
     "osx-mouse": "^1.2.1",
     "win-mouse": "^1.1.2"
   },
   "devDependencies": {
-    "electron": "1.8.2",
+    "electron": "1.8.4",
     "electron-builder": "20.0.8",
-    "standard": "^11.0.0"
+    "standard": "^11.0.1"
   },
   "author": {
     "name": "Toinane",
