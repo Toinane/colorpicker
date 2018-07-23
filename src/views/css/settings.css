@@ -127,11 +127,9 @@ header{
   }
   .toggle i:before{
     content: "\f204";
-    font-family: "FontAwesome";
   }
   .toggle.active i:before {
     content: "\f205";
-    font-family: "FontAwesome";
   }
 
 /* GENERAL TAB */
