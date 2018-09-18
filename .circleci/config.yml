@@ -14,7 +14,7 @@ jobs:
           paths:
             - ./node_modules
           key: dependency-cache-{{ checksum "package.json" }}
-      - run: 'sudo npm run release'
+      - run: 'npm run release'
   'node-9':
     docker:
       - image: circleci/node:8.0.0
