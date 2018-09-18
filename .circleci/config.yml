@@ -1,26 +1,55 @@
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
 version: 2
 jobs:
-  build:
+  'node-8':
     docker:
-      # documented at https://circleci.com/docs/2.0/circleci-images/
       - image: circleci/node:8.0.0
     working_directory: ~/repo
     steps:
       - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}'
-      - run:
-          name: yarn
-          command: 'sudo yarn global add node-gyp'
-      - run:
-          name: yarn rebuild
-          command: 'sudo yarn rebuild'
+      - run: 'npm i'
+      - run: 'npm run rebuild'
       - save_cache:
           paths:
             - ./node_modules
           key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-        # TODO: Make tests
-          name: run tests
-          command: 'echo done'
+      - run: 'npm run release'
+  'node-9':
+    docker:
+      - image: circleci/node:8.0.0
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}'
+      - run: 'npm i'
+      - run: 'npm run rebuild'
+      - save_cache:
+          paths:
+            - ./node_modules
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run: 'npm run release'
+  'node-10':
+    docker:
+      - image: circleci/node:8.0.0
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}'
+      - run: 'npm i'
+      - run: 'npm run rebuild'
+      - save_cache:
+          paths:
+            - ./node_modules
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run: 'npm run release'
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - 'node-8'
+      - 'node-9'
+      - 'node-10'
