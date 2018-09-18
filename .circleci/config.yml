@@ -8,14 +8,13 @@ jobs:
       - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}'
-      - run: 'sudo npm i -g node-gyp'
-      - run: 'npm i'
-      - run: 'npm run rebuild'
+      - run: 'sudo yarn global add node-gyp'
+      - run: 'sudo yarn rebuild'
       - save_cache:
           paths:
             - ./node_modules
           key: dependency-cache-{{ checksum "package.json" }}
-      - run: 'npm run release'
+      - run: 'sudo yarn release'
   'node-9':
     docker:
       - image: circleci/node:8.0.0
@@ -25,13 +24,13 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}'
       - run: 'sudo npm i -g node-gyp'
-      - run: 'npm i'
-      - run: 'npm run rebuild'
+      - run: 'sudo npm i'
+      - run: 'sudo npm run rebuild'
       - save_cache:
           paths:
             - ./node_modules
           key: dependency-cache-{{ checksum "package.json" }}
-      - run: 'npm run release'
+      - run: 'sudo npm run release'
   'node-10':
     docker:
       - image: circleci/node:8.0.0
