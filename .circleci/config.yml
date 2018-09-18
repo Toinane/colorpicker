@@ -2,7 +2,7 @@ version: 2
 jobs:
   'node-8':
     docker:
-      - image: circleci/node:8.0.0
+      - image: circleci/node:8.12-stretch-browsers-legacy
     working_directory: ~/repo
     steps:
       - checkout
