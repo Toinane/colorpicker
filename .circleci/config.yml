@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  'linux':
+  build:
     docker:
       - image: circleci/node:8.12-stretch-browsers-legacy
     working_directory: ~/repo
