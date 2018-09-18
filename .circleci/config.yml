@@ -1,26 +1,19 @@
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
 version: 2
 jobs:
   build:
     docker:
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      - image: circleci/node:8.0.0
+      - image: circleci/node:8.12-stretch-browsers-legacy
     working_directory: ~/repo
     steps:
       - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}'
-      - run:
-          name: yarn
-          command: 'sudo yarn global add node-gyp'
-      - run:
-          name: yarn rebuild
-          command: 'sudo yarn rebuild'
+      - run: 'sudo apt-get install python2.7 make gcc libxtst-dev libpng++-dev'
+      - run: 'sudo npm i -g node-gyp'
+      - run: 'npm i'
+      - run: 'npm run rebuild'
       - save_cache:
           paths:
             - ./node_modules
           key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-        # TODO: Make tests
-          name: run tests
-          command: 'echo done'
+      - run: 'npm run release-linux'
