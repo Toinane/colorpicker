@@ -23,8 +23,9 @@ jobs:
       - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}'
+      - run: 'sudo apt-get install python2.7 make gcc libxtst-dev libpng++-dev'
       - run: 'sudo npm i -g node-gyp'
-      - run: 'npm ci'
+      - run: 'npm i'
       - run: 'npm run rebuild'
       - save_cache:
           paths:
@@ -39,6 +40,7 @@ jobs:
       - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}'
+      - run: 'sudo apt-get install python2.7 make gcc libxtst-dev libpng++-dev'
       - run: 'sudo npm i -g node-gyp'
       - run: 'npm i'
       - run: 'npm run rebuild'
