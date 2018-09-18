@@ -8,7 +8,7 @@ jobs:
       - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}'
-      - run: 'sudo yarn global add node-gyp'
+      - run: 'sudo yarn global add node-gyp electron electron-builder'
       - run: 'sudo yarn rebuild'
       - save_cache:
           paths:
