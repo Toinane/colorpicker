@@ -8,13 +8,15 @@ jobs:
       - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}'
-      - run: 'sudo yarn global add node-gyp electron electron-builder'
-      - run: 'sudo yarn rebuild'
+      - run: 'sudo apt-get install python2.7 make gcc libxtst-dev libpng++-dev'
+      - run: 'sudo npm i -g node-gyp'
+      - run: 'npm i'
+      - run: 'npm run rebuild'
       - save_cache:
           paths:
             - ./node_modules
           key: dependency-cache-{{ checksum "package.json" }}
-      - run: 'sudo npm run release'
+      - run: 'npm run release'
   'node-9':
     docker:
       - image: circleci/node:9.0.0
@@ -54,5 +56,4 @@ workflows:
   version: 2
   build:
     jobs:
-      - 'node-9'
-      - 'node-10'
+      - 'node-8'
