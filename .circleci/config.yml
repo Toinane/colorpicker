@@ -8,7 +8,8 @@ jobs:
       - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}'
-      - run: 'sudo apt-get install python2.7 make gcc libxtst-dev libpng++-dev'
+      - run: 'sudo apt-get install python2.7 make gcc snap libxtst-dev libpng++-dev'
+      - run: 'sudo sudo snap install snapcraft --classic'
       - run: 'sudo npm i -g node-gyp'
       - run: 'npm i'
       - run: 'npm run rebuild'
