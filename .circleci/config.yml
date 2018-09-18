@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  'node-8':
+  linux:
     docker:
       - image: circleci/node:8.12-stretch-browsers-legacy
     working_directory: ~/repo
@@ -17,33 +17,15 @@ jobs:
             - ./node_modules
           key: dependency-cache-{{ checksum "package.json" }}
       - run: 'npm run release-linux'
-  'node-9':
-    docker:
-      - image: circleci/node:9.0.0
+  osx:
+    macos:
+      - xcode: '9.0'
     working_directory: ~/repo
     steps:
       - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}'
-      - run: 'sudo apt-get install python2.7 make gcc libxtst-dev libpng++-dev'
-      - run: 'sudo npm i -g node-gyp'
-      - run: 'npm i'
-      - run: 'npm run rebuild'
-      - save_cache:
-          paths:
-            - ./node_modules
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run: 'npm run release'
-  'node-10':
-    docker:
-      - image: circleci/node:10.0.0
-    working_directory: ~/repo
-    steps:
-      - checkout
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}'
-      - run: 'sudo apt-get install python2.7 make gcc libxtst-dev libpng++-dev'
-      - run: 'sudo npm i -g node-gyp'
+      - run: 'npm i -g node-gyp'
       - run: 'npm i'
       - run: 'npm run rebuild'
       - save_cache:
@@ -56,4 +38,5 @@ workflows:
   version: 2
   build:
     jobs:
-      - 'node-8'
+      - linux
+      - osx
