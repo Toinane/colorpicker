@@ -8,8 +8,7 @@ jobs:
       - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}'
-      - run: 'sudo apt-get install python2.7 make gcc snapd libxtst-dev libpng++-dev'
-      - run: 'sudo snap install snapcraft --classic'
+      - run: 'sudo apt-get install python2.7 make gcc libxtst-dev libpng++-dev'
       - run: 'sudo npm i -g node-gyp'
       - run: 'npm i'
       - run: 'npm run rebuild'
@@ -17,7 +16,7 @@ jobs:
           paths:
             - ./node_modules
           key: dependency-cache-{{ checksum "package.json" }}
-      - run: 'npm run release'
+      - run: 'npm run release-linux'
   'node-9':
     docker:
       - image: circleci/node:9.0.0
