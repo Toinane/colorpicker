@@ -23,7 +23,7 @@ jobs:
       - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}'
-      - run: 'sudo npm i -g node-gyp electron electron-builder'
+      - run: 'sudo npm i -g node-gyp'
       - run: 'npm ci'
       - run: 'npm run rebuild'
       - save_cache:
@@ -39,7 +39,7 @@ jobs:
       - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}'
-      - run: 'sudo npm i -g node-gyp electron electron-builder'
+      - run: 'sudo npm i -g node-gyp'
       - run: 'npm i'
       - run: 'npm run rebuild'
       - save_cache:
