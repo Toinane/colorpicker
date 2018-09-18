@@ -53,5 +53,3 @@ workflows:
   build:
     jobs:
       - 'node-8'
-      - 'node-9'
-      - 'node-10'
