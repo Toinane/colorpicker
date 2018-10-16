@@ -1,6 +1,6 @@
 'use strict'
 
-const {BrowserWindow} = require('electron')
+import {BrowserWindow} from 'electron'
 
 module.exports = (dirname, storage, util) => {
   const {touchbar} = util

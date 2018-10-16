@@ -1,7 +1,7 @@
 'use strict'
 
-const {ipcMain} = require('electron')
-const robot = require('robotjs')
+import {ipcMain} from 'electron'
+import * as robot from 'robotjs'
 
 let size, mouse, mouseEvent, color;
 
@@ -41,7 +41,7 @@ module.exports = (storage, browsers) => {
     })
 
     let pos = robot.getMousePos()
-    picker.getWindow().setPosition(parseInt(pos.x) - 50, parseInt(pos.y) - 50)
+    picker.getWindow().setPosition(pos.x - 50, pos.y - 50)
     picker.getWindow().webContents.send('updatePicker', robot.getPixelColor(pos.x, pos.y))
 
     ipcMain.on('closePicker', closePicker)

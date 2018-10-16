@@ -1,7 +1,7 @@
 'use strict'
 
-const {ipcMain, BrowserWindow, app, Notification, shell} = require('electron')
-const request = require('request')
+import {ipcMain, BrowserWindow, app, Notification, shell} from 'electron'
+import request from 'request'
 
 module.exports = (storage, browsers) => {
   const {colorpicker, picker, colorsbook} = browsers
@@ -72,6 +72,7 @@ module.exports = (storage, browsers) => {
       if (update.release <= app.getVersion()) return event.sender.send('update', '<i class="fa fa-check"></i> You\'re up to date :)!')
       else {
         let notification = new Notification({
+          body: '',
           title: 'New update available',
           subtitle: update.release + ' release is available!'
         })

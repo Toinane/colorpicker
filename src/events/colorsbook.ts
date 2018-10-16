@@ -1,6 +1,6 @@
 'use strict'
 
-const {ipcMain, BrowserWindow, app} = require('electron')
+import {ipcMain, BrowserWindow, app} from 'electron'
 
 module.exports = (storage, browsers) => {
   const {colorpicker, settings, colorsbook} = browsers
@@ -8,10 +8,11 @@ module.exports = (storage, browsers) => {
 
   ipcMain.on('init-colorsbook', event => {
     win = colorsbook.getWindow()
-    let config = {}
-    config.posButton = storage.get('buttonsPosition')
-    config.typeButton = storage.get('buttonsType')
-    config.colors = storage.get('colors', 'colorsbook')
+    let config = {
+      posButton: storage.get('buttonsPosition'),
+      typeButton: storage.get('buttonsType'),
+      colors: storage.get('colors', 'colorsbook')
+    };
 
     event.sender.send('init', config)
   })

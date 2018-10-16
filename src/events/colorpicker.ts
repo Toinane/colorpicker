@@ -1,6 +1,6 @@
 'use strict'
 
-const {ipcMain, BrowserWindow, app} = require('electron')
+import {ipcMain, BrowserWindow, app} from 'electron'
 
 module.exports = (storage, browsers, eventEmitter) => {
   const {colorpicker, settings, picker, colorsbook} = browsers
