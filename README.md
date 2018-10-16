@@ -1,15 +1,17 @@
-![](https://img.shields.io/github/downloads/toinane/colorpicker/total.svg?style=flat-square)
-![](https://img.shields.io/github/downloads/toinane/colorpicker/latest/total.svg?style=flat-square)
-![](https://img.shields.io/circleci/project/github/Toinane/colorpicker.svg?style=flat-square)
-![](https://img.shields.io/github/release/toinane/colorpicker.svg?style=flat-square)
-![](https://img.shields.io/github/release-date/Toinane/colorpicker.svg?style=flat-square)
-![](https://img.shields.io/david/toinane/colorpicker.svg?style=flat-square)
 <p align="center">
   <a href="https://crea-th.at/p/colorpicker">
     <img src="build/icon.png" width="256" height="256" alt="ColorPicker icon" />
   </a>
   <h1 align="center">Colorpicker</h1>
   <p align="center">A mininal but complete colorpicker desktop app</p>
+  <p align="center">
+    <img src="https://img.shields.io/github/downloads/toinane/colorpicker/total.svg?style=flat-square">
+    <img src="https://img.shields.io/github/downloads/toinane/colorpicker/latest/total.svg?style=flat-square">
+    <img src="https://img.shields.io/circleci/project/github/Toinane/colorpicker.svg?style=flat-square">
+    <img src="https://img.shields.io/github/release/toinane/colorpicker.svg?style=flat-square">
+    <img src="https://img.shields.io/github/release-date/Toinane/colorpicker.svg?style=flat-square">
+    <img src="https://img.shields.io/david/toinane/colorpicker.svg?style=flat-square">
+  </p>
 </p>
 
 Colorpicker is a desktop tool with *Electron* to get and save colors code quickly for *OSX*, *Windows* and *Linux*!
