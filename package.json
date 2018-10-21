@@ -1,5 +1,5 @@
 {
-  "name": "Colorpicker",
+  "name": "colorpicker",
   "productName": "Colorpicker",
   "version": "2.0.2",
   "description": "Colorpicker is a little Electron app that can show colors with hex/rgb code, and generate shading for your color.",
@@ -13,7 +13,7 @@
     "release-window": "build --publish=never --config colorpicker-build.json --win nsis, portable",
     "nightly": "build --publish=never --config colorpicker-build-nightly.json",
     "nightly-linux": "build --publish=never --config colorpicker-build-nightly.json --linux deb appImage",
-    "rebuild": "npm rebuild --runtime=electron --target=$(npx electron -v) --disturl=https://atom.io/download/electron --abi=$(npx electron --abi)"
+    "rebuild": "npm rebuild --runtime=electron --target=2.0.11 --disturl=https://atom.io/download/electron --abi=57"
   },
   "repository": "https://github.com/toinane/colorpicker",
   "keywords": [
@@ -38,7 +38,7 @@
     "win-mouse": "^1.2.0"
   },
   "devDependencies": {
-    "electron": "1.8.8",
+    "electron": "2.0.11",
     "electron-builder": "20.28.4",
     "standard": "^12.0.1"
   },
