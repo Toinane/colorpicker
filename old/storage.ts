@@ -24,6 +24,7 @@ export default class Storage {
       buttonsType: 'linux'
     }
   };
+
   private defaultSettings:object = {
     colorpicker: {
       tools: ['top', 'picker', 'tags', 'shade', 'opacity', 'settings'],

@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "outDir": "built",
+        "outDir": "dist",
         "rootDir": "src",
         "moduleResolution": "node",
         "module": "commonjs",
@@ -19,6 +19,7 @@
         ]
     },
     "exclude": [
+        "old",
         "node_modules"
     ]
 }
