@@ -1,4 +1,4 @@
-/node_modules
-/out
-/built
+node_modules
+out
+dist
 *.log
