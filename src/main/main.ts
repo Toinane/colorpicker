@@ -1,13 +1,12 @@
 require('source-map-support').install()
 
-import { BrowserWindow, app } from 'electron'
+import { app } from 'electron'
 
 import Storage from './storage'
 
 import ColorpickerView from './views/colorpickerView'
 
 export default class ColorpickerApp {
-
   private static dirname: string
   private static storage: Storage
   private static colorpickerView: ColorpickerView
@@ -20,7 +19,6 @@ export default class ColorpickerApp {
 
     this.colorpickerView = new ColorpickerView(this.dirname, this.storage)
   }
-
 }
 
 ColorpickerApp.init()
