@@ -7,8 +7,8 @@ import ColorpickerTouchbar from '../touchbar/colorpickerTouchbar'
 export default class ColorpickerView extends Window {
 
   protected windowParams: Object = {
-    frame: true,
-    autoHideMenuBar: false,
+    frame: false,
+    autoHideMenuBar: true,
     minWidth: 440,
     minHeight: 150,
     transparent: false,
