@@ -8,11 +8,11 @@ html, body{
 }
 
 body, p, h1, h2, input{
-   margin: 0;
-   font-family: 'Lato', sans-serif;
+  margin: 0;
+  font-family: 'Lato', sans-serif;
 }
 body{
- overflow: hidden;
+  overflow: hidden;
 }
 a{
   color: inherit;
@@ -92,17 +92,17 @@ header .shades aside, header .tints aside, header .naturals aside{
  * MAIN COLORPICKER CSS
  */
 .main{
-   position: absolute;
-   bottom: 0; left: 0;
-   padding-top: 15px;
-   padding-bottom: 3px;
-   padding-left: 10px;
-   width: 100%;
-   text-align: center;
-   display: flex;
-   align-items: flex-end;
-   overflow: hidden;
-   box-sizing: border-box;
+  position: absolute;
+  bottom: 0; left: 0;
+  padding-top: 15px;
+  padding-bottom: 3px;
+  padding-left: 10px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .sliders, .inputs{
@@ -121,40 +121,40 @@ header .shades aside, header .tints aside, header .naturals aside{
 }
 
 .red_bar, .green_bar, .blue_bar, .alpha_bar{
-   position: relative;
-   width: 220px;
-   height: 20px;
-   padding: 6px 0;
+  position: relative;
+  width: 220px;
+  height: 20px;
+  padding: 6px 0;
 }
 
 /* STYLING SLIDER */
 input[type=range]{
-   margin: 0;
-   padding: 3px 0;
-   -webkit-appearance: none;
-   outline: none;
-   background: none;
-   width: 100%;
-   box-sizing: border-box;
+  margin: 0;
+  padding: 3px 0;
+  -webkit-appearance: none;
+  outline: none;
+  background: none;
+  width: 100%;
+  box-sizing: border-box;
 }
 input[type=range]::-webkit-slider-thumb {
-   position: relative;
-   z-index: 100; bottom: 10px;
-   -webkit-appearance: none;
-   height: 22px; width: 22px;
-   border-radius: 50%;
-   background: #FFFFFF;
-   border-bottom: 2px solid #F3F3F3;
-   cursor: pointer;
+  position: relative;
+  z-index: 100; bottom: 10px;
+  -webkit-appearance: none;
+  height: 22px; width: 22px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border-bottom: 2px solid #F3F3F3;
+  cursor: pointer;
 }
 
 progress[value]::-webkit-progress-bar {
-   position: absolute;
-   width: 99%;
-   top: 5px; left: 1px;
-   background-color: rgba(255, 255, 255, 0.9);
-   border-radius: 6px;
-   height: 10px;
+  position: absolute;
+  width: 99%;
+  top: 5px; left: 1px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 6px;
+  height: 10px;
 }
 progress[value]::-webkit-progress-value {
   border-radius: 6px;
@@ -165,54 +165,51 @@ progress[value]::-webkit-progress-value {
 .blue_bar progress[value]::-webkit-progress-value { background: rgb(65, 165, 225); }
 .alpha_bar progress[value]::-webkit-progress-value { background: rgba(0, 0, 0, 0.5); }
 progress{
-   -webkit-appearance: none;
-   appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 /* INPUTS STYLE */
-.inputs{
+  .inputs input{
+    display: block;
+    margin-bottom: 8px;
+    margin-left: 10px;
+  }
 
-}
-   .inputs input{
-      display: block;
-      margin-bottom: 8px;
-      margin-left: 10px;
-   }
+  .inputs input[type=number]::-webkit-inner-spin-button,
+  .inputs input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
 
-   .inputs input[type=number]::-webkit-inner-spin-button,
-   .inputs input[type=number]::-webkit-outer-spin-button {
-       -webkit-appearance: none;
-       -moz-appearance: none;
-       appearance: none;
-       margin: 0;
-   }
+  .inputs input[type="number"], input[type="text"]{
+    width: 40px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.08);
+    color: rgba(0, 0, 0, 0.5);
+    border: none;
+    padding: 2px;
+    font-size: 1.05em;
+    font-weight: bold;
+    outline: none;
+    transition: 0.3s;
+  }
+  .darkMode .inputs input[type="number"], .darkMode input[type="text"], .darkMode .value p{
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.8);
+  }
 
-   .inputs input[type="number"], input[type="text"]{
-      width: 40px;
-      text-align: center;
-      background: rgba(0, 0, 0, 0.08);
-      color: rgba(0, 0, 0, 0.5);
-      border: none;
-      padding: 2px;
-      font-size: 1.05em;
-      font-weight: bold;
-      outline: none;
-      transition: 0.3s;
-   }
-   .darkMode .inputs input[type="number"], .darkMode input[type="text"], .darkMode .value p{
-      background: rgba(255, 255, 255, 0.08);
-      color: rgba(255, 255, 255, 0.8);
-   }
-
-   .value{
-      margin-bottom: 9px;
-      margin-left: 10px;
-      transition: opacity 0.4s;
-   }
-   .value input{
-      display: block;
-      width: 105px;
-   }
+  .value{
+    margin-bottom: 9px;
+    margin-left: 10px;
+    transition: opacity 0.4s;
+  }
+  .value input{
+    display: block;
+    width: 105px;
+  }
 
 #contextMenu{
   display: none;

@@ -8,8 +8,8 @@ html, body{
 }
 
 body, p, h1, h2, input{
-   margin: 0;
-   font-family: 'Lato', sans-serif;
+  margin: 0;
+  font-family: 'Lato', sans-serif;
 }
 
 a{

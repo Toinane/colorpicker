@@ -6,7 +6,7 @@
   "main": "dist/Main.js",
   "scripts": {
     "postinstall": "npm run rebuild",
-    "build": "webpack",
+    "build": "rm -rf dist && webpack",
     "start": "npm run build && electron dist/main.js",
     "pack": "build --dir",
     "release": "build --publish=never --config colorpicker-build.json",
@@ -14,7 +14,7 @@
     "release:window": "build --publish=never --config colorpicker-build.json --win nsis, portable",
     "nightly": "build --publish=never --config colorpicker-build-nightly.json",
     "nightly:linux": "build --publish=never --config colorpicker-build-nightly.json --linux deb appImage",
-    "rebuild": "npm rebuild --runtime=electron --target=2.0.11 --disturl=https://atom.io/download/electron --abi=57"
+    "rebuild": "npm rebuild --runtime=electron --target=3.0.6 --disturl=https://atom.io/download/electron --abi=64"
   },
   "repository": "https://github.com/toinane/colorpicker",
   "keywords": [
@@ -42,8 +42,10 @@
   "devDependencies": {
     "@types/electron-settings": "^3.1.1",
     "copy-webpack-plugin": "^4.5.4",
-    "electron": "2.0.11",
+    "electron": "3.0.6",
     "electron-builder": "20.28.4",
+    "html-minifier": "^3.5.21",
+    "imagemin-webpack-plugin": "^2.3.0",
     "source-map-support": "^0.5.9",
     "ts-loader": "^5.2.2",
     "tslint": "^5.11.0",
