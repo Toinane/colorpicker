@@ -1,7 +1,7 @@
 'use strict'
 
 import { EventEmitter } from 'events'
-import { TouchBar, NativeImage } from 'electron'
+import { TouchBar, nativeImage } from 'electron'
 
 const { TouchBarColorPicker, TouchBarButton } = TouchBar
 
@@ -9,8 +9,8 @@ export default class ColorpickerTouchbar {
   private eventEmitter: EventEmitter
   private touchBar: TouchBar
 
-  constructor (eventEmitter: EventEmitter) {
-    this.eventEmitter = eventEmitter
+  constructor () {
+    this.eventEmitter = new EventEmitter()
     this.touchBar = new TouchBar({ items: [] })
     this.init()
   }
@@ -20,15 +20,15 @@ export default class ColorpickerTouchbar {
       change: color => this.eventEmitter.emit('changeColor', color)
     })
     const eyedropper = new TouchBarButton({
-      icon: NativeImage.createFromPath(`${__dirname}/eyedropper-touchbar.png`),
+      icon: nativeImage.createFromPath(`${__dirname}/eyedropper-touchbar.png`),
       click: () => this.eventEmitter.emit('launchPicker')
     })
     const colorsbook = new TouchBarButton({
-      icon: NativeImage.createFromPath(`${__dirname}/colorsbook-touchbar.png`),
+      icon: nativeImage.createFromPath(`${__dirname}/colorsbook-touchbar.png`),
       click: () => this.eventEmitter.emit('launchColorsbook')
     })
     const settings = new TouchBarButton({
-      icon: NativeImage.createFromPath(`${__dirname}/settings-touchbar.png`),
+      icon: nativeImage.createFromPath(`${__dirname}/settings-touchbar.png`),
       click: () => this.eventEmitter.emit('showPreferences')
     })
 

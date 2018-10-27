@@ -6,8 +6,8 @@
   "main": "dist/Main.js",
   "scripts": {
     "postinstall": "npm run rebuild",
-    "build": "rm -rf dist && webpack",
-    "start": "npm run build && electron dist/main.js",
+    "compile": "rm -rf dist && webpack",
+    "start": "electron dist/main.js",
     "pack": "build --dir",
     "release": "build --publish=never --config colorpicker-build.json",
     "release:linux": "build --publish=never --config colorpicker-build.json --linux deb, apk, rpm, zip, appImage",
@@ -45,6 +45,7 @@
     "electron": "3.0.6",
     "electron-builder": "20.28.4",
     "html-minifier": "^3.5.21",
+    "imagemin-mozjpeg": "^7.0.0",
     "imagemin-webpack-plugin": "^2.3.0",
     "source-map-support": "^0.5.9",
     "ts-loader": "^5.2.2",

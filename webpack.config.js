@@ -1,9 +1,13 @@
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const minify = require('html-minifier').minify;
+const ImageminPlugin = require('imagemin-webpack-plugin').default;
+const imageminMozjpeg = require('imagemin-mozjpeg');
 
 const commonConfig = {
+  watch: true,
   mode: 'production',
+  devtool: "inline-source-map",
   output: {
     path: path.resolve(__dirname , 'dist'),
     filename: '[name].js'
@@ -59,7 +63,22 @@ module.exports = [
           to: '',
           flatten: true,
           transform: content => cssMinifier(content)
-        }], {})
+        }], {}),
+        new CopyWebpackPlugin([{
+          from: 'src/assets',
+          to: '',
+          flatten: true,
+        }], {}),
+        new ImageminPlugin({
+          test: /\.(jpe?g|png|gif|svg)$/i,
+          optipng: { optimizationLevel: 10 },
+          plugins: [
+            imageminMozjpeg({
+              quality: 40,
+              progressive: true
+            })
+          ]
+        })
       ]
     },
     commonConfig

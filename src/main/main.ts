@@ -99,11 +99,11 @@ export default class ColorpickerApp {
   private createTray (): Tray {
     if (this.tray) return this.tray
 
-    const image = NativeImage.createFromPath(`${__dirname}/trayTemplate.png`)
-
-    this.tray = new Tray(image)
+    this.tray = new Tray(`${__dirname}/tray-white.png`)
     this.tray.on('click', event => this.colorpickerView.createWindow())
 
     return this.tray
   }
 }
+
+const application = new ColorpickerApp()

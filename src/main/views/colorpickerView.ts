@@ -2,6 +2,7 @@ import { BrowserWindow, ipcMain } from 'electron'
 
 import Window from './window'
 import Storage from '../storage'
+import ColorpickerTouchbar from '../touchbar/colorpickerTouchbar'
 
 export default class ColorpickerView extends Window {
 
@@ -16,7 +17,16 @@ export default class ColorpickerView extends Window {
 
   constructor () {
     super('colorpicker')
+  }
 
+  public createWindow (): BrowserWindow {
+    const window = super.createWindow()
+    const touchbar = new ColorpickerTouchbar()
+
+    window.setTouchBar(touchbar.getTouchBar())
+    window.webContents.openDevTools()
+
+    return window
   }
 
   // private initWindowEvents (): void {

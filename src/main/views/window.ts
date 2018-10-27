@@ -19,7 +19,6 @@ export default class Window {
     if (this.window) return this.window
 
     this.window = new BrowserWindow(this.windowParams)
-    console.log(`file://${__dirname}/${this.view}.html`)
     this.window.loadURL(`file://${__dirname}/${this.view}.html`)
     this.window.on('closed', this.closeWindow)
 
