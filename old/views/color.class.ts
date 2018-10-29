@@ -1,8 +1,19 @@
 'use strict'
 
-const {ipcRenderer, remote, clipboard} = require('electron')
+const { ipcRenderer, remote, clipboard } = require('electron')
 
 class Color {
+
+  private alpha
+  private activeAlpha
+  private red
+  private green
+  private blue
+  private rgb
+  private rgba
+  private hex
+  private hsl
+
   constructor (r, g, b) {
     this.alpha = 1
     this.activeAlpha = false
@@ -25,7 +36,7 @@ class Color {
   }
 
   setColorFromRGB (rgb) {
-    this.setColor(rgb[0], rgb[1], rgb[2], 1)
+    this.setColor(rgb[0], rgb[1], rgb[2])
     return true
   }
 
@@ -41,22 +52,10 @@ class Color {
     return true
   }
 
-  getCSSFromRGB (rgb) {
-    return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`
-  }
-
-  getCSSFromRGBA (rgba) {
-    return `rgba(${rgba[0]}, ${rgba[1]}, ${rgba[2]}, ${rgba[3].toFixed(2)})`
-  }
-
-  getRGBAFromRGB (rgb) { return rgb.concat([this.alpha]) }
-
-  getRGBFromRGBA (rgba) { return [rgba[0], rgba[1], rgba[2]] }
-
   getHexFromRGB (rgb) {
     let hex = [Number(rgb[0]).toString(16), Number(rgb[1]).toString(16), Number(rgb[2]).toString(16)]
     for (let i = 0; i < 3; i++) {
-      if (hex[i] < 10 || hex[i].length === 1) hex[i] = '0' + hex[i]
+      if (parseInt(hex[i], 10) < 10 || hex[i].length === 1) hex[i] = '0' + hex[i]
     }
     return '#' + hex.join('').toUpperCase()
   }
@@ -79,7 +78,9 @@ class Color {
     let min = Math.min(r, g, b)
     let max = Math.max(r, g, b)
     let delta = max - min
-    let h, s, l
+    let h
+    let s
+    let l
 
     if (max === min) h = 0
     else if (r === max) h = (g - b) / delta
@@ -101,7 +102,11 @@ class Color {
     let h = hsl[0] / 360
     let s = hsl[1] / 100
     let l = hsl[2] / 100
-    let t1, t2, t3, rgb, val
+    let t1
+    let t2
+    let t3
+    let rgb
+    let val
 
     if (s === 0) {
       val = l * 255
@@ -206,7 +211,7 @@ class Color {
   }
 
   getNegativeColor (rgb) {
-    var negative = []
+    let negative = []
     for (let i = 0; i < 3; i++) {
       negative[i] = 255 - rgb[i]
     }
@@ -247,7 +252,7 @@ class Color {
   }
 
   getGrayscale (rgb) {
-    var gray = parseInt(rgb[0] * 0.3 + rgb[1] * 0.59 + rgb[2] * 0.11, 10)
+    let gray = parseInt(rgb[0] * 0.3 + rgb[1] * 0.59 + rgb[2] * 0.11, 10)
     if (gray < 0) gray = 0
     if (gray > 255) gray = 255
     return [gray, gray, gray]

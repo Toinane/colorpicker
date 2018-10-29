@@ -11,6 +11,8 @@ export default class ColorpickerView extends Window {
     autoHideMenuBar: true,
     minWidth: 440,
     minHeight: 150,
+    width: 440,
+    height: 150,
     transparent: false,
     icon: `${__dirname}/logo.png`
   }
