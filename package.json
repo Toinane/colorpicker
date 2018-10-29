@@ -14,7 +14,8 @@
     "release:window": "build --publish=never --config colorpicker-build.json --win nsis, portable",
     "nightly": "build --publish=never --config colorpicker-build-nightly.json",
     "nightly:linux": "build --publish=never --config colorpicker-build-nightly.json --linux deb appImage",
-    "rebuild": "npm rebuild --runtime=electron --target=3.0.6 --disturl=https://atom.io/download/electron --abi=64"
+    "rebuild": "npm rebuild --runtime=electron --target=3.0.6 --disturl=https://atom.io/download/electron --abi=64",
+    "test": "mocha -r ts-node/register tests/**/*.test.ts"
   },
   "repository": "https://github.com/toinane/colorpicker",
   "keywords": [
@@ -40,15 +41,20 @@
     "win-mouse": "^1.2.0"
   },
   "devDependencies": {
+    "@types/chai": "^4.1.7",
     "@types/electron-settings": "^3.1.1",
+    "@types/mocha": "^5.2.5",
+    "chai": "^4.2.0",
     "copy-webpack-plugin": "^4.5.4",
     "electron": "3.0.6",
     "electron-builder": "20.28.4",
     "html-minifier": "^3.5.21",
     "imagemin-mozjpeg": "^7.0.0",
     "imagemin-webpack-plugin": "^2.3.0",
+    "mocha": "^5.2.0",
     "source-map-support": "^0.5.9",
     "ts-loader": "^5.2.2",
+    "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "tslint-config-standard": "^8.0.1",
     "tslint-loader": "^3.5.4",
