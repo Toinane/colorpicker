@@ -8,28 +8,34 @@ interface RGB {
 export default class RGBSliders {
 
   private redSliderHTML: string = `
-    <div class="redSlider">
+    <div id="redSlider">
       <input type="range" min="0" max="255" value="0" />
       <progress min="0" max="255" value="0" />
     </div>
   `
   private greenSliderHTML: string = `
-    <div class="greenSlider">
+    <div id="greenSlider">
       <input type="range" min="0" max="255" value="0" />
       <progress min="0" max="255" value="0" />
     </div>
   `
   private blueSliderHTML: string = `
-    <div class="blueSlider">
+    <div id="blueSlider">
       <input type="range" min="0" max="255" value="0" />
       <progress min="0" max="255" value="0" />
     </div>
   `
+  private redSlider: HTMLDivElement | null = document.querySelector('#redSlider')
 
   public getSliders (): HTMLDivElement {
     const div = document.createElement('div')
     div.innerHTML = this.redSliderHTML + this.greenSliderHTML + this.blueSliderHTML
 
     return div
+  }
+
+  public initEvents (): void {
+    if (!this.redSlider) return
+
   }
 }
