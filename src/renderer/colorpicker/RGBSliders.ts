@@ -7,35 +7,46 @@ interface RGB {
 
 export default class RGBSliders {
 
-  private redSliderHTML: string = `
-    <div id="redSlider">
-      <input type="range" min="0" max="255" value="0" />
-      <progress min="0" max="255" value="0" />
-    </div>
+  private sliderHTML: string = `
+    <input type="range" min="0" max="255" value="0" />
+    <progress min="0" max="255" value="0" />
   `
-  private greenSliderHTML: string = `
-    <div id="greenSlider">
-      <input type="range" min="0" max="255" value="0" />
-      <progress min="0" max="255" value="0" />
-    </div>
-  `
-  private blueSliderHTML: string = `
-    <div id="blueSlider">
-      <input type="range" min="0" max="255" value="0" />
-      <progress min="0" max="255" value="0" />
-    </div>
-  `
-  private redSlider: HTMLDivElement | null = document.querySelector('#redSlider')
 
-  public getSliders (): HTMLDivElement {
-    const div = document.createElement('div')
-    div.innerHTML = this.redSliderHTML + this.greenSliderHTML + this.blueSliderHTML
+  private redSlider: HTMLDivElement
+  private greenSlider: HTMLDivElement
+  private blueSlider: HTMLDivElement
 
-    return div
+  constructor () {
+    const colors = ['red', 'green', 'blue']
+
+    const sliders = colors.map(color => {
+      const div = document.createElement('div')
+      div.id = color + 'Slider'
+      div.innerHTML = this.sliderHTML
+
+      return div
+    })
+
+    this.redSlider = sliders[0]
+    this.greenSlider = sliders[1]
+    this.blueSlider = sliders[2]
+
+    this.initEvents()
+  }
+
+  public getSliders (): DocumentFragment {
+    const fragment = document.createDocumentFragment()
+    fragment.appendChild(this.redSlider)
+    fragment.appendChild(this.greenSlider)
+    fragment.appendChild(this.blueSlider)
+
+    return fragment
   }
 
   public initEvents (): void {
-    if (!this.redSlider) return
+    this.redSlider.addEventListener('click', e => {
+      console.log(e)
+    })
 
   }
 }

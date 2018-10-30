@@ -105,7 +105,7 @@ header .shades aside, header .tints aside, header .naturals aside{
   box-sizing: border-box;
 }
 
-.sliders, .inputs{
+#sliders, .inputs{
   position: relative;
   bottom: -32px;
   transition: 0.5s;
@@ -116,11 +116,11 @@ header .shades aside, header .tints aside, header .naturals aside{
   transition: 0.5s;
   bottom: -10px;
 }
-.opacity .sliders, .opacity .alpha_bar, .opacity .inputs, .opacity #alpha_value{
+.opacity #sliders, .opacity .alpha_bar, .opacity .inputs, .opacity #alpha_value{
   bottom: 0.5px;
 }
 
-.red_bar, .green_bar, .blue_bar, .alpha_bar{
+#redSlider, #greenSlider, #blueSlider .alpha_bar{
   position: relative;
   width: 220px;
   height: 20px;
@@ -160,9 +160,9 @@ progress[value]::-webkit-progress-value {
   border-radius: 6px;
   height: 10px;
 }
-.red_bar progress[value]::-webkit-progress-value { background: rgb(255, 87, 57); }
-.green_bar progress[value]::-webkit-progress-value { background: rgb(105, 195, 59); }
-.blue_bar progress[value]::-webkit-progress-value { background: rgb(65, 165, 225); }
+#redSlider progress[value]::-webkit-progress-value { background: rgb(255, 87, 57); }
+#greenSlider progress[value]::-webkit-progress-value { background: rgb(105, 195, 59); }
+#blueSlider progress[value]::-webkit-progress-value { background: rgb(65, 165, 225); }
 .alpha_bar progress[value]::-webkit-progress-value { background: rgba(0, 0, 0, 0.5); }
 progress{
   -webkit-appearance: none;

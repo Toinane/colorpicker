@@ -1,6 +1,7 @@
 import { clipboard } from 'electron'
 
 import Color from './color'
+import RGBSliders from './RGBSliders'
 
 interface RGB {
   red: number // 0 - 255
@@ -22,9 +23,14 @@ type Hexadecimal = string
 
 export default class Colorpicker extends Color {
 
+  private RGBSliders: RGBSliders
+
   constructor () {
     super()
 
+    this.RGBSliders = new RGBSliders()
+
+    this.initColorpicker()
   }
 
   public getRGBCSS (): string {
@@ -45,6 +51,11 @@ export default class Colorpicker extends Color {
 
   public copyRGBA (): void {
     clipboard.writeText(this.getRGBACSS())
+  }
+
+  private initColorpicker (): void {
+    const sliders = document.querySelector('#sliders')
+    if (sliders) sliders.appendChild(this.RGBSliders.getSliders())
   }
 }
 
