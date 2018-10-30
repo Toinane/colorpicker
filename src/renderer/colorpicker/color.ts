@@ -35,7 +35,7 @@ export default class Color {
   protected hsl: HSL
   protected cmyk: CMYK
 
-  constructor () {
+  constructor (rgb?: RGB) {
     this.red = 0
     this.green = 0
     this.blue = 0
@@ -54,6 +54,8 @@ export default class Color {
 
     this.hsl = this.getHSLfromRGB(this.rgb)
     this.cmyk = this.getCMYKfromRGB(this.rgb)
+
+    if (rgb) this.updateColorFromRGB(rgb)
   }
 
   public updateColorFromRGB (rgb: RGB): Color {
@@ -97,6 +99,27 @@ export default class Color {
       yellow: Math.round(this.cmyk.yellow),
       key: Math.round(this.cmyk.key)
     }
+  }
+
+  public getNegativeColor (): Color {
+
+    return new Color({
+      red: 255 - this.red,
+      green: 255 - this.green,
+      blue: 255 - this.blue
+    })
+  }
+
+  public getGrayColor (): Color {
+    let gray = this.red * 0.3 + this.green * 0.59 + this.blue * 0.11
+    if (gray < 0) gray = 0
+    if (gray > 255) gray = 255
+
+    return new Color({
+      red: gray,
+      green: gray,
+      blue: gray
+    })
   }
 
   public isDark (limit: number = 128): boolean {
