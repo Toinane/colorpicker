@@ -46,6 +46,7 @@
     "@types/mocha": "^5.2.5",
     "chai": "^4.2.0",
     "copy-webpack-plugin": "^4.5.4",
+    "csso": "^3.5.1",
     "electron": "3.0.6",
     "electron-builder": "20.28.4",
     "html-minifier": "^3.5.21",
