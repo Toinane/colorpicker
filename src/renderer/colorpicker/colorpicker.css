@@ -27,7 +27,7 @@ a{
   opacity: 0.1;
 }
 
-.clean .inputs, .clean .value, .clean .sliders{
+.clean #inputs, .clean .value, .clean .sliders{
   opacity: 0;
 }
 
@@ -105,9 +105,12 @@ header .shades aside, header .tints aside, header .naturals aside{
   box-sizing: border-box;
 }
 
-#sliders, .inputs{
+#slidersBox {
+  display: flex;
+}
+
+#sliders, #inputs{
   position: relative;
-  bottom: -32px;
   transition: 0.5s;
 }
 
@@ -116,15 +119,19 @@ header .shades aside, header .tints aside, header .naturals aside{
   transition: 0.5s;
   bottom: -10px;
 }
-.opacity #sliders, .opacity .alpha_bar, .opacity .inputs, .opacity #alpha_value{
+.opacity #sliders, .opacity .alpha_bar, .opacity #inputs, .opacity #alpha_value{
   bottom: 0.5px;
 }
 
-#redSlider, #greenSlider, #blueSlider .alpha_bar{
+#redSlider, #greenSlider, #blueSlider, #alphaSlider{
   position: relative;
   width: 220px;
   height: 20px;
   padding: 6px 0;
+}
+
+#alphaBox {
+  display: none;
 }
 
 /* STYLING SLIDER */
@@ -163,28 +170,28 @@ progress[value]::-webkit-progress-value {
 #redSlider progress[value]::-webkit-progress-value { background: rgb(255, 87, 57); }
 #greenSlider progress[value]::-webkit-progress-value { background: rgb(105, 195, 59); }
 #blueSlider progress[value]::-webkit-progress-value { background: rgb(65, 165, 225); }
-.alpha_bar progress[value]::-webkit-progress-value { background: rgba(0, 0, 0, 0.5); }
+#alphaSlider progress[value]::-webkit-progress-value { background: rgba(0, 0, 0, 0.5); }
 progress{
   -webkit-appearance: none;
   appearance: none;
 }
 
 /* INPUTS STYLE */
-  .inputs input{
+  #inputs input{
     display: block;
     margin-bottom: 8px;
     margin-left: 10px;
   }
 
-  .inputs input[type=number]::-webkit-inner-spin-button,
-  .inputs input[type=number]::-webkit-outer-spin-button {
+  #inputs input[type=number]::-webkit-inner-spin-button,
+  #inputs input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     margin: 0;
   }
 
-  .inputs input[type="number"], input[type="text"]{
+  #inputs input[type="number"], input[type="text"]{
     width: 40px;
     text-align: center;
     background: rgba(0, 0, 0, 0.08);
@@ -196,7 +203,7 @@ progress{
     outline: none;
     transition: 0.3s;
   }
-  .darkMode .inputs input[type="number"], .darkMode input[type="text"], .darkMode .value p{
+  .darkMode #inputs input[type="number"], .darkMode input[type="text"], .darkMode .value p{
     background: rgba(255, 255, 255, 0.08);
     color: rgba(255, 255, 255, 0.8);
   }

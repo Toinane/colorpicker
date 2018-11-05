@@ -1,43 +1,36 @@
-interface SliderParams {
+interface InputParams {
   min?: number
   max: number
   defaultValue?: number
   name: string
 }
 
-export default class Slider {
+export default class Input {
   private name: string
   private input: HTMLInputElement
-  private progress: HTMLProgressElement
+  private value: number
   private minValue: number
   private maxValue: number
 
-  constructor (params: SliderParams) {
+  constructor (params: InputParams) {
     this.input = document.createElement('input')
-    this.progress = document.createElement('progress')
 
     this.name = params.name
+    this.value = params.defaultValue || 0
     this.minValue = params.min || 0
     this.maxValue = params.max
 
-    this.input.type = 'range'
+    this.input.type = 'number'
+    this.input.id = this.name + 'Value'
     this.input.min = params.min ? params.min.toString() : '0'
     this.input.max = params.max.toString()
     this.input.value = params.defaultValue ? params.defaultValue.toString() : '0'
-
-    this.progress.max = params.max
-    this.progress.value = params.defaultValue ? params.defaultValue : 0
   }
 
-  public createSlider (): HTMLDivElement {
-    const div: HTMLDivElement = document.createElement('div')
-
-    div.id = this.name + 'Slider'
-    div.append(this.input, this.progress)
-
+  public createInput (): HTMLInputElement {
     this.initEvent()
 
-    return div
+    return this.input
   }
 
   public getValue (): number {
@@ -45,29 +38,30 @@ export default class Slider {
     return this.formatValue(parseInt(this.input.value, 10))
   }
 
-  public updateSlider (value: number): void {
+  public updateInput (value: number): void {
     value = this.formatValue(value)
 
+    this.value = value
     this.input.value = value.toString()
-    this.progress.value = value
   }
 
   private formatValue (value: number): number {
     if (value < this.minValue) return 0
     if (value > this.maxValue) return this.maxValue
+    if (Number.isNaN(value)) return this.value
 
     return value
   }
 
   private initEvent (): void {
+
     document.addEventListener(this.name + 'Value', (event: any) => {
-      this.updateSlider(event.detail)
+      this.updateInput(event.detail)
     })
 
     this.input.oninput = () => {
       const value = this.getValue()
 
-      this.progress.value = value
       document.dispatchEvent(new CustomEvent(this.name + 'Value', { detail: value }))
     }
   }

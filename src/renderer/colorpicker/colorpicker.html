@@ -25,18 +25,17 @@
       <div class="shades"></div>
     </header>
     <section class="main">
-      <aside id="sliders">
-        <div class="alpha_bar">
+      <section id="slidersBox">
+        <aside id="sliders"></aside>
+        <aside id="inputs"></aside>
+      </section>
+      <section id="alphaBox">
+        <div id="alphaSlider">
           <input type="range" min="0" max="255" value="0" />
           <progress min="0" max="255" value="0" />
         </div>
-      </aside>
-      <aside class="inputs">
-        <input type="number" id="red_value" maxlength="3" />
-        <input type="number" id="green_value" maxlength="3" />
-        <input type="number" id="blue_value" maxlength="3" />
-        <input type="text" id="alpha_value" maxlength="4" />
-      </aside>
+        <input type="number" id="alpha_value" step="0.1" min="0" max="1" />
+      </section>
       <aside class="value">
         <input type="text" id="hex_value" maxlength="7"/>
       </aside>
