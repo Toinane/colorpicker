@@ -30,7 +30,7 @@ export default class Colorpicker extends Color {
   constructor () {
     super()
 
-    this.updateColorFromHEX('#a5decb') // TO DELETE (DEVELOPMENT USE)
+    this.updateColorFromHEX('#00ff8c') // TO DELETE (DEVELOPMENT USE)
 
     this.RGBSliders = new RGBSliders(this.rgb)
     this.HSLSliders = new HSLSliders(this.hsl)
@@ -42,6 +42,9 @@ export default class Colorpicker extends Color {
     document.body.style.setProperty('--red', this.red.toString())
     document.body.style.setProperty('--green', this.green.toString())
     document.body.style.setProperty('--blue', this.blue.toString())
+    document.body.style.setProperty('--hue', this.hsl.hue.toString())
+    document.body.style.setProperty('--saturation', this.hsl.saturation + '%')
+    document.body.style.setProperty('--lightness', this.hsl.lightness + '%')
 
     this.updateDarkMode()
   }

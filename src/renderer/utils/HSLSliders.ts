@@ -50,10 +50,6 @@ export default class HSLSliders {
 
     if (sliders) sliders.appendChild(this.getSliders())
     if (inputs) inputs.appendChild(this.getInputs())
-
-    this.changeHueBackground()
-
-    this.eventManager()
   }
 
   private getSliders (): DocumentFragment {
@@ -76,29 +72,5 @@ export default class HSLSliders {
     )
 
     return fragment
-  }
-
-  private changeHueBackground (): void {
-    const hue: number = this.hueInput.getValue()
-    const saturation: number = this.saturationInput.getValue()
-    const lightness: number = this.lightnessInput.getValue()
-
-    document.body.style.setProperty('--hue', hue.toString())
-    document.body.style.setProperty('--saturation', saturation + '%')
-    document.body.style.setProperty('--lightness', lightness + '%')
-  }
-
-  private eventManager (): void {
-    document.addEventListener('hueValue', (event: any) => {
-      this.changeHueBackground()
-    })
-
-    document.addEventListener('saturationValue', (event: any) => {
-      this.changeHueBackground()
-    })
-
-    document.addEventListener('lightnessValue', (event: any) => {
-      this.changeHueBackground()
-    })
   }
 }

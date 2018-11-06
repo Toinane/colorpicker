@@ -3,8 +3,8 @@
   --green: 0;
   --blue: 0;
   --hue: 0;
-  --saturation: 100%;
-  --lightness: 50%;
+  --saturation: 0%;
+  --lightness: 0%;
   --alpha: 1;
 }
 
@@ -184,15 +184,39 @@ a {
     }
 
     #hueSlider progress[value]::-webkit-progress-bar {
-      background: -webkit-linear-gradient(left, hsla(0, var(--saturation), var(--lightness), 1),hsla(10, var(--saturation), var(--lightness), 1),hsla(20, var(--saturation), var(--lightness), 1),hsla(30, var(--saturation), var(--lightness), 1),hsla(40, var(--saturation), var(--lightness), 1),hsla(50, var(--saturation), var(--lightness), 1),hsla(60, var(--saturation), var(--lightness), 1),hsla(70, var(--saturation), var(--lightness), 1),hsla(80, var(--saturation), var(--lightness), 1),hsla(90, var(--saturation), var(--lightness), 1),hsla(100, var(--saturation), var(--lightness), 1),hsla(110, var(--saturation), var(--lightness), 1),hsla(120, var(--saturation), var(--lightness), 1),hsla(130, var(--saturation), var(--lightness), 1),hsla(140, var(--saturation), var(--lightness), 1),hsla(150, var(--saturation), var(--lightness), 1),hsla(160, var(--saturation), var(--lightness), 1),hsla(170, var(--saturation), var(--lightness), 1),hsla(180, var(--saturation), var(--lightness), 1),hsla(190, var(--saturation), var(--lightness), 1),hsla(200, var(--saturation), var(--lightness), 1),hsla(210, var(--saturation), var(--lightness), 1),hsla(220, var(--saturation), var(--lightness), 1),hsla(230, var(--saturation), var(--lightness), 1),hsla(240, var(--saturation), var(--lightness), 1),hsla(250, var(--saturation), var(--lightness), 1),hsla(260, var(--saturation), var(--lightness), 1),hsla(270, var(--saturation), var(--lightness), 1),hsla(280, var(--saturation), var(--lightness), 1),hsla(290, var(--saturation), var(--lightness), 1),hsla(300, var(--saturation), var(--lightness), 1),hsla(310, var(--saturation), var(--lightness), 1),hsla(320, var(--saturation), var(--lightness), 1),hsla(330, var(--saturation), var(--lightness), 1),hsla(340, var(--saturation), var(--lightness), 1),hsla(350, var(--saturation), var(--lightness), 1),hsla(360, var(--saturation), var(--lightness), 1));
+      background: -webkit-linear-gradient(left,
+        hsla(0, var(--saturation), var(--lightness), 0.85),
+        hsla(60, var(--saturation), var(--lightness), 0.85),
+        hsla(120, var(--saturation), var(--lightness), 0.85),
+        hsla(180, var(--saturation), var(--lightness), 0.85),
+        hsla(240, var(--saturation), var(--lightness), 0.85),
+        hsla(300, var(--saturation), var(--lightness), 0.85),
+        hsla(360, var(--saturation), var(--lightness), 0.85)
+      ),
+      -webkit-linear-gradient(left, #727e88, #feffff, #8e9eab, #eef2f3, #727e88, #eef2f3, #727e88);
     }
 
     #saturationSlider progress[value]::-webkit-progress-bar {
-      background: -webkit-linear-gradient(left, hsla(var(--hue), 0%, var(--lightness), 1),hsla(var(--hue), 20%, var(--lightness), 1),hsla(var(--hue), 40%, var(--lightness), 1),hsla(var(--hue), 60%, var(--lightness), 1),hsla(var(--hue), 80%, var(--lightness), 1),hsla(var(--hue), 100%, var(--lightness), 1));
+      background: -webkit-linear-gradient(left,
+        hsla(var(--hue), 0%, var(--lightness), 0.85),
+        hsla(var(--hue), 20%, var(--lightness), 0.85),
+        hsla(var(--hue), 40%, var(--lightness), 0.85),
+        hsla(var(--hue), 60%, var(--lightness), 0.85),
+        hsla(var(--hue), 80%, var(--lightness), 0.85),
+        hsla(var(--hue), 100%, var(--lightness), 0.85)
+      ),
+      -webkit-linear-gradient(left, #feffff, #727e88);
     }
 
     #lightnessSlider progress[value]::-webkit-progress-bar {
-      background: -webkit-linear-gradient(left, hsla(var(--hue), var(--saturation), 0%, 1),hsla(var(--hue), var(--saturation), 20%, 1),hsla(var(--hue), var(--saturation), 40%, 1),hsla(var(--hue), var(--saturation), 60%, 1),hsla(var(--hue), var(--saturation), 80%, 1),hsla(var(--hue), var(--saturation), 100%, 1));
+      background: -webkit-linear-gradient(left,
+        hsla(var(--hue), var(--saturation), 0%, 1),
+        hsla(var(--hue), var(--saturation), 20%, 1),
+        hsla(var(--hue), var(--saturation), 40%, 1),
+        hsla(var(--hue), var(--saturation), 60%, 1),
+        hsla(var(--hue), var(--saturation), 80%, 1),
+        hsla(var(--hue), var(--saturation), 100%, 1)
+      );
     }
 
 /* INPUTS STYLE */

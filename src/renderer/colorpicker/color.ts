@@ -79,7 +79,15 @@ export default class Color {
   public updateColorFromHSL (hsl: HSL): Color {
     const rgb: RGB = this.getRGBfromHSL(hsl)
 
-    return this.updateColorFromRGB(rgb)
+    this.red = rgb.red
+    this.green = rgb.green
+    this.blue = rgb.blue
+    this.rgb = rgb
+    this.hex = this.getHEXfromRGB(this.rgb)
+    this.hsl = hsl
+    this.cmyk = this.getCMYKfromRGB(this.rgb)
+
+    return this
   }
 
   public getFormatedHSL (): HSL {
