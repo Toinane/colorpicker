@@ -1,0 +1,42 @@
+.dark #toolbar {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark #tools p {
+  color: rgba(255, 255, 255, 0.50);
+}
+
+.dark #tools p:hover {
+  color: rgba(255, 255, 255, 0.60);
+}
+
+.dark #tools p.active {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.dark progress[value]::-webkit-progress-bar {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.dark #inputs input[type="number"],
+.dark input[type="text"],
+.dark .value p {
+  background: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.dark #contextMenu {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* CLEAN OPTION */
+.clean .toolbar, .clean.dark .toolbar{
+  border-bottom: 1px solid rgba(0, 0, 0, 0);
+}
+.clean .toolbar p:not(#clean_button), .clean #app_buttons{
+  opacity: 0.1;
+}
+
+.clean #inputs, .clean .value, .clean .sliders{
+  opacity: 0;
+}

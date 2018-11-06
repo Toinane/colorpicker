@@ -5,26 +5,21 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" href="app-buttons.css" />
     <link rel="stylesheet" href="colorpicker.css" />
+    <link rel="stylesheet" href="darkmode.css" />
     <link rel="stylesheet" href="fontawesome-all.min.css" />
     <script defer src="colorpicker.js"></script>
-    <script defer src="colorpicker.events.js"></script>
-    <script defer src="util.class.js"></script>
   </head>
   <body>
-    <div class="toolbar">
-      <ul id="app_buttons">
-        <li id="close"><i></i></li>
-        <li id="minimize"><i></i></li>
-        <li id="maximize"><i></i></li>
-      </ul>
+    <header id="toolbar">
+      <ul id="appButtons"></ul>
       <ul id="tools"></ul>
-    </div>
-    <header>
+    </header>
+    <section id="shading">
       <div class="tints"></div>
       <div class="naturals"></div>
       <div class="shades"></div>
-    </header>
-    <section class="main">
+    </section>
+    <section id="main">
       <section id="slidersBox">
         <aside id="sliders"></aside>
         <aside id="inputs"></aside>
@@ -36,8 +31,8 @@
         </div>
         <input type="number" id="alpha_value" step="0.1" min="0" max="1" />
       </section>
-      <aside class="value">
-        <input type="text" id="hex_value" maxlength="7"/>
+      <aside id="hexBox">
+        <input type="text" id="hexInput" maxlength="7"/>
       </aside>
     </section>
   </body>

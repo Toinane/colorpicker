@@ -28,14 +28,20 @@ export default class Input {
   }
 
   public createInput (): HTMLInputElement {
-    this.initEvent()
+    this.initEvents()
+
+    return this.input
+  }
+
+  public getInput (): HTMLInputElement {
 
     return this.input
   }
 
   public getValue (): number {
+    const value = this.input.value || '0'
 
-    return this.formatValue(parseInt(this.input.value, 10))
+    return this.formatValue(parseInt(value, 10))
   }
 
   public updateInput (value: number): void {
@@ -53,7 +59,7 @@ export default class Input {
     return value
   }
 
-  private initEvent (): void {
+  private initEvents (): void {
 
     document.addEventListener(this.name + 'Value', (event: any) => {
       this.updateInput(event.detail)
@@ -63,6 +69,13 @@ export default class Input {
       const value = this.getValue()
 
       document.dispatchEvent(new CustomEvent(this.name + 'Value', { detail: value }))
+    }
+
+    this.input.onwheel = e => {
+      const value = this.getValue()
+
+      if (e.deltaY < 0) document.dispatchEvent(new CustomEvent(this.name + 'Value', { detail: value + 1 }))
+      else if (e.deltaY > 0) document.dispatchEvent(new CustomEvent(this.name + 'Value', { detail: value - 1 }))
     }
   }
 }

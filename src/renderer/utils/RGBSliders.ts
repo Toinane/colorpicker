@@ -16,18 +16,20 @@ export default class RGBSliders {
   private blueSlider: Slider
   private blueInput: Input
 
-  constructor () {
-    const colors = ['red', 'green', 'blue']
+  constructor (rgb: RGB) {
+    const colors = Object.keys(rgb)
     const maxValue = 255
 
     const sliders = colors.map(color => new Slider({
       max: maxValue,
-      name: color
+      name: color,
+      defaultValue: rgb[color]
     }))
 
     const inputs = colors.map(color => new Input({
       max: maxValue,
-      name: color
+      name: color,
+      defaultValue: rgb[color]
     }))
 
     this.redSlider = sliders[0]
@@ -38,7 +40,15 @@ export default class RGBSliders {
     this.blueInput = inputs[2]
   }
 
-  public getSliders (): DocumentFragment {
+  public init (): void {
+    const sliders = document.querySelector('#sliders')
+    const inputs = document.querySelector('#inputs')
+
+    if (sliders) sliders.appendChild(this.getSliders())
+    if (inputs) inputs.appendChild(this.getInputs())
+  }
+
+  private getSliders (): DocumentFragment {
     const fragment = document.createDocumentFragment()
     fragment.append(
       this.redSlider.createSlider(),
@@ -49,7 +59,7 @@ export default class RGBSliders {
     return fragment
   }
 
-  public getInputs (): DocumentFragment {
+  private getInputs (): DocumentFragment {
     const fragment = document.createDocumentFragment()
     fragment.append(
       this.redInput.createInput(),

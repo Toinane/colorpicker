@@ -1,6 +1,7 @@
-'use strict'
+import { ipcRenderer, clipboard } from 'electron'
 
-let cp, cm
+let cp
+let cm
 
 document.addEventListener('DOMContentLoaded', () => ipcRenderer.send('init-colorpicker'), false)
 
@@ -43,7 +44,6 @@ ipcRenderer.on('changeTools', (event, tools) => {
   initTools(tools)
   initToolsEvent()
 })
-
 
 function initTools (tools) {
   let html = ''
@@ -113,7 +113,7 @@ function applyColor () {
   let content = clipboard.readText()
   let colors = content.replace(/\n/g, ' ').match(regex)
   colors = [...new Set(colors)]
-  for(let color of colors) {
+  for (let color of colors) {
     if (color === colors[0]) cp.setNewColor(color)
     else ipcRenderer.send('openNewColor', colors)
   }
@@ -137,48 +137,12 @@ function initEvents () {
   })
 
   document.querySelector('.toolbar').addEventListener('dblclick', function(event) {
-    if (event.target !== this) return;
+    if (event.target !== this) return
     ipcRenderer.send(`maximize-colorpicker`)
   })
 
-  document.querySelector('.red_bar input').oninput = function () {
-    const red = this.value
-    cp.setNewRGBColor([red, cp.green, cp.blue])
-  }
-
-  document.querySelector('.green_bar input').oninput = function () {
-    const green = this.value
-    cp.setNewRGBColor([cp.red, green, cp.blue])
-  }
-
-  document.querySelector('.blue_bar input').oninput = function () {
-    const blue = this.value
-    cp.setNewRGBColor([cp.red, cp.green, blue])
-  }
-
   document.querySelector('.alpha_bar input').oninput = function () {
     cp.setNewAlphaColor(this.value / 255)
-  }
-
-  document.querySelector('#red_value').oninput = function () {
-    let red = this.value
-    if (red > 255) red = 255
-    if (red < 0) red = 0
-    cp.setNewRGBColor([red, cp.green, cp.blue])
-  }
-
-  document.querySelector('#green_value').oninput = function () {
-    let green = this.value
-    if (green > 255) green = 255
-    if (green < 0) green = 0
-    cp.setNewRGBColor([cp.red, green, cp.blue])
-  }
-
-  document.querySelector('#blue_value').oninput = function () {
-    let blue = this.value
-    if (blue > 255) blue = 255
-    if (blue < 0) blue = 0
-    cp.setNewRGBColor([cp.red, cp.green, blue])
   }
 
   document.querySelector('#alpha_value').oninput = function () {
@@ -195,29 +159,5 @@ function initEvents () {
     let hex = this.value.replace('#', '')
     if (hex.length !== 6) return
     cp.setNewColor(hex)
-  }
-
-  let els = document.querySelectorAll('#red_value, #green_value, #blue_value, #hex_value')
-  for (let el of els) {
-    el.onfocus = function () {
-      this.onkeydown = e => changeHex(e)
-      this.onwheel = e => changeHex(e)
-
-      function changeHex (e) {
-        if (e.keyCode === 38 || e.deltaY < 0) {
-          e.preventDefault()
-          let red = (cp.red >= 255) ? 255 : cp.red + 1
-          let green = (cp.green >= 255) ? 255 : cp.green + 1
-          let blue = (cp.blue >= 255) ? 255 : cp.blue + 1
-          return cp.setNewRGBColor([red, green, blue])
-        } else if (e.keyCode === 40 || e.deltaY > 0) {
-          e.preventDefault()
-          let red = (cp.red <= 0) ? 0 : cp.red - 1
-          let green = (cp.green <= 0) ? 0 : cp.green - 1
-          let blue = (cp.blue <= 0) ? 0 : cp.blue - 1
-          return cp.setNewRGBColor([red, green, blue])
-        }
-      }
-    }
   }
 }

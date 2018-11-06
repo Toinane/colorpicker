@@ -20,7 +20,7 @@ a{
 /**
  * TOOLBAR
  */
-.toolbar{
+#toolbar{
   margin: 3px;
   padding: 5px 5px 7px 5px;
   position: relative;
@@ -31,31 +31,28 @@ a{
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   transition: border-bottom 0.4s;
 }
-.darkMode .toolbar{
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
 
-.toolbar.setRight{
+#toolbar.setRight{
   flex-direction: row-reverse;
   justify-content: space-between;
 }
-  .toolbar ul{
+  #toolbar ul{
     margin: 0; padding: 0;
     margin-right: 15px;
     display: flex;
   }
 
-  .toolbar.setRight ul{
+  #toolbar.setRight ul{
     margin-right: 0;
   }
-  #app_buttons{
+  #appButtons{
     transition: opacity 0.4s;
   }
-  .toolbar.setRight #app_buttons{
+  #toolbar.setRight #appButtons{
     flex-direction: row-reverse;
   }
 
-    .toolbar li{
+    #toolbar li{
       -webkit-app-region: no-drag;
       cursor: pointer;
       transition: color 0.2s;
@@ -65,7 +62,7 @@ a{
       position: relative;
       top: 3px;
     }
-    .toolbar #app_buttons.darwin li{
+    #toolbar #appButtons.darwin li{
       margin: 0 4px 3px 4px;
     }
 

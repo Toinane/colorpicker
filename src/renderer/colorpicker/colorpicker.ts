@@ -1,7 +1,8 @@
 import { clipboard } from 'electron'
 
 import Color from './color'
-import RGBSliders from './RGBSliders'
+import RGBSliders from '../utils/RGBSliders'
+import HSLSliders from '../utils/HSLSliders'
 
 interface RGB {
   red: number // 0 - 255
@@ -24,19 +25,25 @@ type Hexadecimal = string
 export default class Colorpicker extends Color {
 
   private RGBSliders: RGBSliders
-  private body: HTMLBodyElement | null
+  private HSLSliders: HSLSliders
 
   constructor () {
     super()
 
-    this.body = document.querySelector('body')
-    this.RGBSliders = new RGBSliders()
+    this.updateColorFromHEX('#a5decb') // TO DELETE (DEVELOPMENT USE)
+
+    this.RGBSliders = new RGBSliders(this.rgb)
+    this.HSLSliders = new HSLSliders(this.hsl)
 
     this.initColorpicker()
   }
 
   public updateColor (): void {
-    if (this.body) this.body.style.background = this.getRGBACSS()
+    document.body.style.setProperty('--red', this.red.toString())
+    document.body.style.setProperty('--green', this.green.toString())
+    document.body.style.setProperty('--blue', this.blue.toString())
+
+    this.updateDarkMode()
   }
 
   public getRGBCSS (): string {
@@ -60,13 +67,16 @@ export default class Colorpicker extends Color {
   }
 
   private initColorpicker (): void {
-    const sliders = document.querySelector('#sliders')
-    const inputs = document.querySelector('#inputs')
 
-    if (sliders) sliders.appendChild(this.RGBSliders.getSliders())
-    if (inputs) inputs.appendChild(this.RGBSliders.getInputs())
+    this.HSLSliders.init()
 
     this.eventManager()
+    this.updateColor()
+  }
+
+  private updateDarkMode (): void {
+    if (this.isDark() && !document.body.classList.contains('dark')) document.body.classList.add('dark')
+    else if (!this.isDark() && document.body.classList.contains('dark')) document.body.classList.remove('dark')
   }
 
   private eventManager (): void {
@@ -95,6 +105,36 @@ export default class Colorpicker extends Color {
         red: this.red,
         green: this.green,
         blue: event.detail
+      })
+
+      this.updateColor()
+    })
+
+    document.addEventListener('hueValue', (event: any) => {
+      this.updateColorFromHSL({
+        hue: event.detail,
+        saturation: this.hsl.saturation,
+        lightness: this.hsl.lightness
+      })
+
+      this.updateColor()
+    })
+
+    document.addEventListener('saturationValue', (event: any) => {
+      this.updateColorFromHSL({
+        hue: this.hsl.hue,
+        saturation: event.detail,
+        lightness: this.hsl.lightness
+      })
+
+      this.updateColor()
+    })
+
+    document.addEventListener('lightnessValue', (event: any) => {
+      this.updateColorFromHSL({
+        hue: this.hsl.hue,
+        saturation: this.hsl.saturation,
+        lightness: event.detail
       })
 
       this.updateColor()

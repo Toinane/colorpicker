@@ -35,9 +35,14 @@ export default class Slider {
     div.id = this.name + 'Slider'
     div.append(this.input, this.progress)
 
-    this.initEvent()
+    this.initEvents()
 
     return div
+  }
+
+  public getSlider (): HTMLProgressElement {
+
+    return this.progress
   }
 
   public getValue (): number {
@@ -59,7 +64,7 @@ export default class Slider {
     return value
   }
 
-  private initEvent (): void {
+  private initEvents (): void {
     document.addEventListener(this.name + 'Value', (event: any) => {
       this.updateSlider(event.detail)
     })
@@ -67,8 +72,14 @@ export default class Slider {
     this.input.oninput = () => {
       const value = this.getValue()
 
-      this.progress.value = value
       document.dispatchEvent(new CustomEvent(this.name + 'Value', { detail: value }))
+    }
+
+    this.progress.onwheel = event => {
+      const value = this.getValue()
+
+      if (event.deltaY < 0) document.dispatchEvent(new CustomEvent(this.name + 'Value', { detail: value + 1 }))
+      else if (event.deltaY > 0) document.dispatchEvent(new CustomEvent(this.name + 'Value', { detail: value - 1 }))
     }
   }
 }
