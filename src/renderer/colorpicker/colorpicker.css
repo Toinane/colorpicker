@@ -198,11 +198,7 @@ a {
 
     #saturationSlider progress[value]::-webkit-progress-bar {
       background: -webkit-linear-gradient(left,
-        hsla(var(--hue), 0%, var(--lightness), 0.85),
-        hsla(var(--hue), 20%, var(--lightness), 0.85),
-        hsla(var(--hue), 40%, var(--lightness), 0.85),
-        hsla(var(--hue), 60%, var(--lightness), 0.85),
-        hsla(var(--hue), 80%, var(--lightness), 0.85),
+        hsla(150, 0%, var(--lightness), 0.85),
         hsla(var(--hue), 100%, var(--lightness), 0.85)
       ),
       -webkit-linear-gradient(left, #feffff, #727e88);
@@ -210,12 +206,9 @@ a {
 
     #lightnessSlider progress[value]::-webkit-progress-bar {
       background: -webkit-linear-gradient(left,
-        hsla(var(--hue), var(--saturation), 0%, 1),
-        hsla(var(--hue), var(--saturation), 20%, 1),
-        hsla(var(--hue), var(--saturation), 40%, 1),
-        hsla(var(--hue), var(--saturation), 60%, 1),
-        hsla(var(--hue), var(--saturation), 80%, 1),
-        hsla(var(--hue), var(--saturation), 100%, 1)
+        hsla(var(--hue), var(--saturation), 5%, 1),
+        hsla(var(--hue), var(--saturation), 50%, 1),
+        hsla(var(--hue), var(--saturation), 95%, 1)
       );
     }
 
