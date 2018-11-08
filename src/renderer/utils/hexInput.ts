@@ -1,4 +1,4 @@
-export default class Input {
+export default class HexInput {
   private input: HTMLInputElement
   private value: string
 
@@ -38,7 +38,7 @@ export default class Input {
   private formatValue (value: string): string {
     // TODO format hex
 
-    return value
+    return '#' + value
   }
 
   private initEvents (): void {

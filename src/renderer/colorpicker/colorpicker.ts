@@ -3,6 +3,7 @@ import { clipboard } from 'electron'
 import Color from './color'
 import RGBSliders from '../utils/RGBSliders'
 import HSLSliders from '../utils/HSLSliders'
+import HexInput from '../utils/hexInput'
 
 interface RGB {
   red: number // 0 - 255
@@ -26,6 +27,7 @@ export default class Colorpicker extends Color {
 
   private RGBSliders: RGBSliders
   private HSLSliders: HSLSliders
+  private HexInput: HexInput
 
   constructor () {
     super()
@@ -34,6 +36,7 @@ export default class Colorpicker extends Color {
 
     this.RGBSliders = new RGBSliders(this.rgb)
     this.HSLSliders = new HSLSliders(this.hsl)
+    this.HexInput = new HexInput(this.hex)
 
     this.initColorpicker()
   }
@@ -46,6 +49,7 @@ export default class Colorpicker extends Color {
     document.body.style.setProperty('--saturation', this.hsl.saturation + '%')
     document.body.style.setProperty('--lightness', this.hsl.lightness + '%')
 
+    this.HexInput.updateInput(this.hex)
     this.updateDarkMode()
   }
 
@@ -70,8 +74,10 @@ export default class Colorpicker extends Color {
   }
 
   private initColorpicker (): void {
+    const hexBox: HTMLDivElement | null = document.querySelector('#hexBox')
 
     this.HSLSliders.init()
+    if (hexBox) hexBox.appendChild(this.HexInput.createInput())
 
     this.eventManager()
     this.updateColor()
@@ -139,6 +145,12 @@ export default class Colorpicker extends Color {
         saturation: this.hsl.saturation,
         lightness: event.detail
       })
+
+      this.updateColor()
+    })
+
+    document.addEventListener('hexValue', (event: any) => {
+      this.updateColorFromHEX(event.detail)
 
       this.updateColor()
     })
