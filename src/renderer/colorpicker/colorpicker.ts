@@ -32,7 +32,7 @@ export default class Colorpicker extends Color {
   constructor () {
     super()
 
-    this.updateColorFromHEX('#00ff8c') // TO DELETE (DEVELOPMENT USE)
+    this.updateColorFromHEX('#49ccac') // TO DELETE (DEVELOPMENT USE)
 
     this.RGBSliders = new RGBSliders(this.rgb)
     this.HSLSliders = new HSLSliders(this.hsl)
@@ -76,7 +76,7 @@ export default class Colorpicker extends Color {
   private initColorpicker (): void {
     const hexBox: HTMLDivElement | null = document.querySelector('#hexBox')
 
-    this.HSLSliders.init()
+    this.RGBSliders.init()
     if (hexBox) hexBox.appendChild(this.HexInput.createInput())
 
     this.eventManager()
@@ -91,7 +91,7 @@ export default class Colorpicker extends Color {
   private eventManager (): void {
     document.addEventListener('redValue', (event: any) => {
       this.updateColorFromRGB({
-        red: event.detail,
+        red: parseInt(event.detail, 10),
         green: this.green,
         blue: this.blue
       })
@@ -102,7 +102,7 @@ export default class Colorpicker extends Color {
     document.addEventListener('greenValue', (event: any) => {
       this.updateColorFromRGB({
         red: this.red,
-        green: event.detail,
+        green: parseInt(event.detail, 10),
         blue: this.blue
       })
 
@@ -113,7 +113,7 @@ export default class Colorpicker extends Color {
       this.updateColorFromRGB({
         red: this.red,
         green: this.green,
-        blue: event.detail
+        blue: parseInt(event.detail, 10)
       })
 
       this.updateColor()
@@ -121,7 +121,7 @@ export default class Colorpicker extends Color {
 
     document.addEventListener('hueValue', (event: any) => {
       this.updateColorFromHSL({
-        hue: event.detail,
+        hue: parseInt(event.detail, 10),
         saturation: this.hsl.saturation,
         lightness: this.hsl.lightness
       })
@@ -132,7 +132,7 @@ export default class Colorpicker extends Color {
     document.addEventListener('saturationValue', (event: any) => {
       this.updateColorFromHSL({
         hue: this.hsl.hue,
-        saturation: event.detail,
+        saturation: parseInt(event.detail, 10),
         lightness: this.hsl.lightness
       })
 
@@ -143,7 +143,7 @@ export default class Colorpicker extends Color {
       this.updateColorFromHSL({
         hue: this.hsl.hue,
         saturation: this.hsl.saturation,
-        lightness: event.detail
+        lightness: parseInt(event.detail, 10)
       })
 
       this.updateColor()

@@ -13,7 +13,7 @@
         "strict": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "removeComments": false,
+        "removeComments": true,
         "suppressImplicitAnyIndexErrors": true,
         "lib": [
             "es2018",

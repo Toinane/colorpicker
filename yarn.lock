@@ -25,6 +25,11 @@
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.1.7.tgz#1b8e33b61a8c09cbe1f85133071baa0dbf9fa71a"
   integrity sha512-2Y8uPt0/jwjhQ6EiluT0XCri1Dbplr0ZxfFXUz+ye13gaqE8u5gL5ppao1JrUYr9cIip5S6MvQzBS7Kke7U9VA==
 
+"@types/dom-inputevent@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@types/dom-inputevent/-/dom-inputevent-1.0.3.tgz#7831e0628a98a04bbac450c95220ded6e04a1f84"
+  integrity sha512-xuBw5JB6s3JGRv1w4O1Gz5Ryr7Y3GJbEHtrGNpuQAkrw3YR3IYEYbDPTaCPWf33tcXoeRwSYbkaHt4zE6xe14w==
+
 "@types/electron-settings@^3.1.1":
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/@types/electron-settings/-/electron-settings-3.1.1.tgz#e3f8246ee1a8fc66b08203792d09589df355c776"
