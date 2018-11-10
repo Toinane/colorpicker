@@ -32,7 +32,7 @@ interface CMYK {
 type Hexadecimal = string
 
 class ColorTest extends Color {
-  constructor () { super() }
+  constructor (rgb?: RGB) { super(rgb) }
   getRGBfromHEX (hex: Hexadecimal): RGB { return super.getRGBfromHEX(hex) }
   getHEXfromRGB (rgb: RGB): Hexadecimal { return super.getHEXfromRGB(rgb) }
   getRGBfromHSL (hsl: HSL): RGB { return super.getRGBfromHSL(hsl) }
@@ -59,20 +59,19 @@ describe('Basics Color Class', () => {
     const color = new ColorTest()
     const black = colors[0]
 
-    expect(color.getRed()).to.equal(black.rgb.red)
-    expect(color.getGreen()).to.equal(black.rgb.green)
-    expect(color.getBlue()).to.equal(black.rgb.blue)
-    expect(color.getAlpha()).to.equal(black.alpha)
+    expect(color.getRed()).to.be.a('number').and.to.equal(black.rgb.red)
+    expect(color.getGreen()).to.be.a('number').and.to.equal(black.rgb.green)
+    expect(color.getBlue()).to.be.a('number').and.to.equal(black.rgb.blue)
+    expect(color.getAlpha()).to.be.a('number').and.to.equal(black.alpha)
     expect(color.getHEX()).to.be.a('string').and.to.equal(black.hex)
-    expect(color.getRGB()).to.be.an('object')
-    expect(color.getRGB()).to.deep.equal(black.rgb)
-    expect(color.getHSL()).to.deep.equal(black.hsl)
-    expect(color.getCMYK()).to.deep.equal(black.cmyk)
+    expect(color.getRGB()).to.be.an('object').and.to.deep.equal(black.rgb)
+    expect(color.getHSL()).to.be.an('object').and.to.deep.equal(black.hsl)
+    expect(color.getCMYK()).to.be.an('object').and.to.deep.equal(black.cmyk)
   })
 })
 
 describe('Basics Colors Formats', () => {
-  colors.map(co => {
+  colors.forEach(co => {
     const hslFormated = {
       hue: Math.round(co.hsl.hue),
       saturation: Math.round(co.hsl.saturation),
@@ -85,20 +84,19 @@ describe('Basics Colors Formats', () => {
       key: Math.round(co.cmyk.key)
     }
 
-    const color = new ColorTest()
-    color.updateColorFromRGB(co.rgb)
+    const color = new ColorTest(co.rgb)
 
     it(`Should get ${co.name} in good formats`, () => {
-      expect(color.getRed()).to.equal(co.rgb.red)
-      expect(color.getGreen()).to.equal(co.rgb.green)
-      expect(color.getBlue()).to.equal(co.rgb.blue)
-      expect(color.getAlpha()).to.equal(co.alpha)
-      expect(color.getHEX()).to.equal(co.hex)
-      expect(color.getRGB()).to.deep.equal(co.rgb)
-      expect(color.getHSL()).to.deep.equal(co.hsl)
-      expect(color.getCMYK()).to.deep.equal(co.cmyk)
-      expect(color.getFormatedHSL()).to.deep.equal(hslFormated)
-      expect(color.getFormatedCMYK()).to.deep.equal(cmykFormated)
+      expect(color.getRed()).to.be.a('number').and.to.equal(co.rgb.red)
+      expect(color.getGreen()).to.be.a('number').and.to.equal(co.rgb.green)
+      expect(color.getBlue()).to.be.a('number').and.to.equal(co.rgb.blue)
+      expect(color.getAlpha()).to.be.a('number').and.to.equal(co.alpha)
+      expect(color.getHEX()).to.be.a('string').and.to.equal(co.hex)
+      expect(color.getRGB()).to.be.an('object').and.to.deep.equal(co.rgb)
+      expect(color.getHSL()).to.be.an('object').and.to.deep.equal(co.hsl)
+      expect(color.getCMYK()).to.be.an('object').and.to.deep.equal(co.cmyk)
+      expect(color.getFormatedHSL()).to.be.an('object').and.to.deep.equal(hslFormated)
+      expect(color.getFormatedCMYK()).to.be.an('object').and.to.deep.equal(cmykFormated)
     })
   })
 })

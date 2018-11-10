@@ -15,77 +15,231 @@ interface HSL {
 }
 
 interface CMYK {
-  cyan: number
-  magenta: number
-  yellow: number
-  key: number
+  cyan: number // 0 - 100
+  magenta: number // 0 - 100
+  yellow: number // 0 - 100
+  key: number // 0 - 100
 }
 
 type Hexadecimal = string
 
 export default class Color {
-  protected red: number
-  protected green: number
-  protected blue: number
-  protected alpha: number
+  protected red: number = 0
+  protected green: number = 0
+  protected blue: number = 0
+  protected hue: number = 0
+  protected saturation: number = 0
+  protected lightness: number = 0
+  protected cyan: number = 0
+  protected magenta: number = 0
+  protected yellow: number = 0
+  protected key: number = 100
+  protected alpha: number = 1
 
-  protected hex: Hexadecimal
+  protected hex: Hexadecimal = '000000'
   protected rgb: RGB
   protected rgba: RGBA
   protected hsl: HSL
   protected cmyk: CMYK
 
   constructor (rgb?: RGB) {
-    this.red = 0
-    this.green = 0
-    this.blue = 0
-    this.alpha = 1
-
-    this.hex = '000000'
     this.rgb = {
       red: this.red,
       green: this.green,
       blue: this.blue
     }
+
     this.rgba = {
       alpha: this.alpha,
       ...this.rgb
     }
 
-    this.hsl = this.getHSLfromRGB(this.rgb)
-    this.cmyk = this.getCMYKfromRGB(this.rgb)
+    this.hsl = {
+      hue: this.hue,
+      saturation: this.saturation,
+      lightness: this.lightness
+    }
+
+    this.cmyk = {
+      cyan: this.cyan,
+      magenta: this.magenta,
+      yellow: this.yellow,
+      key: this.key
+    }
 
     if (rgb) this.updateColorFromRGB(rgb)
   }
 
-  public updateColorFromRGB (rgb: RGB): Color {
+  public updateColor (rgb: RGB): Color {
     this.red = rgb.red
     this.green = rgb.green
     this.blue = rgb.blue
     this.rgb = rgb
-    this.hex = this.getHEXfromRGB(this.rgb)
-    this.hsl = this.getHSLfromRGB(this.rgb)
-    this.cmyk = this.getCMYKfromRGB(this.rgb)
+    this.hex = this.getHEXfromRGB(rgb)
+    this.hsl = this.getHSLfromRGB(rgb)
+    this.hue = this.hsl.hue
+    this.saturation = this.hsl.saturation
+    this.lightness = this.hsl.lightness
+    this.cmyk = this.getCMYKfromRGB(rgb)
+    this.cyan = this.cmyk.cyan
+    this.magenta = this.cmyk.magenta
+    this.yellow = this.cmyk.yellow
+    this.key = this.cmyk.key
 
     return this
   }
 
-  public updateColorFromHEX (hex: Hexadecimal): Color {
+  public updateColorFromRed (red: number): Color {
+
+    return this.updateColor({
+      red: red,
+      green: this.green,
+      blue: this.blue
+    })
+  }
+
+  public updateColorFromGreen (green: number): Color {
+
+    return this.updateColor({
+      red: this.red,
+      green: green,
+      blue: this.blue
+    })
+  }
+
+  public updateColorFromBlue (blue: number): Color {
+
+    return this.updateColor({
+      red: this.red,
+      green: this.green,
+      blue: blue
+    })
+  }
+
+  public updateColorFromRGB (rgb: RGB): Color {
+
+    return this.updateColor(rgb)
+  }
+
+  public updateColorFromHex (hex: Hexadecimal): Color {
     const rgb: RGB = this.getRGBfromHEX(hex)
 
-    return this.updateColorFromRGB(rgb)
+    return this.updateColor(rgb)
   }
 
   public updateColorFromHSL (hsl: HSL): Color {
     const rgb: RGB = this.getRGBfromHSL(hsl)
-
-    this.red = rgb.red
-    this.green = rgb.green
-    this.blue = rgb.blue
-    this.rgb = rgb
-    this.hex = this.getHEXfromRGB(this.rgb)
+    this.updateColor(rgb)
     this.hsl = hsl
-    this.cmyk = this.getCMYKfromRGB(this.rgb)
+    this.hue = hsl.hue
+    this.saturation = hsl.saturation
+    this.lightness = hsl.lightness
+
+    return this
+  }
+
+  public updateColorFromHue (hue: number): Color {
+    const hsl = {
+      hue: hue,
+      saturation: this.saturation,
+      lightness: this.lightness
+    }
+    const rgb: RGB = this.getRGBfromHSL(hsl)
+
+    this.updateColor(rgb)
+    this.hsl = hsl
+    this.hue = hsl.hue
+    this.saturation = hsl.saturation
+    this.lightness = hsl.lightness
+
+    return this
+  }
+
+  public updateColorFromSaturation (saturation: number): Color {
+    const hsl = {
+      hue: this.hue,
+      saturation: saturation,
+      lightness: this.lightness
+    }
+    const rgb: RGB = this.getRGBfromHSL(hsl)
+
+    this.updateColor(rgb)
+    this.hsl = hsl
+    this.hue = hsl.hue
+    this.saturation = hsl.saturation
+    this.lightness = hsl.lightness
+
+    return this
+  }
+
+  public updateColorFromLightness (lightness: number): Color {
+    const hsl = {
+      hue: this.hue,
+      saturation: this.saturation,
+      lightness: lightness
+    }
+    const rgb: RGB = this.getRGBfromHSL(hsl)
+
+    this.updateColor(rgb)
+    this.hsl = hsl
+    this.hue = hsl.hue
+    this.saturation = hsl.saturation
+    this.lightness = hsl.lightness
+
+    return this
+  }
+
+  public updateColorFromCMYK (cmyk: CMYK): Color {
+    const rgb: RGB = this.getRGBfromCMYK(cmyk)
+
+    return this.updateColor(rgb)
+  }
+
+  public updateColorFromCyan (cyan: number): Color {
+    const rgb: RGB = this.getRGBfromCMYK({
+      cyan: cyan,
+      magenta: this.magenta,
+      yellow: this.yellow,
+      key: this.key
+    })
+
+    return this.updateColor(rgb)
+  }
+
+  public updateColorFromMagenta (magenta: number): Color {
+    const rgb: RGB = this.getRGBfromCMYK({
+      cyan: this.cyan,
+      magenta: magenta,
+      yellow: this.yellow,
+      key: this.key
+    })
+
+    return this.updateColor(rgb)
+  }
+
+  public updateColorFromYellow (yellow: number): Color {
+    const rgb: RGB = this.getRGBfromCMYK({
+      cyan: this.cyan,
+      magenta: this.magenta,
+      yellow: yellow,
+      key: this.key
+    })
+
+    return this.updateColor(rgb)
+  }
+
+  public updateColorFromKey (key: number): Color {
+    const rgb: RGB = this.getRGBfromCMYK({
+      cyan: this.cyan,
+      magenta: this.magenta,
+      yellow: this.yellow,
+      key: key
+    })
+
+    return this.updateColor(rgb)
+  }
+
+  public getColor (): Color {
 
     return this
   }

@@ -61,21 +61,41 @@ export default class Input {
 
   private initEvents (): void {
 
-    document.addEventListener(this.name + 'Value', (event: any) => {
-      this.updateInput(event.detail)
+    document.addEventListener('color', (event: any) => {
+      this.updateInput(event.detail[this.name])
     })
 
     this.input.oninput = () => {
       const value = this.getValue()
+      const name = this.name.charAt(0).toUpperCase() + this.name.slice(1)
 
-      document.dispatchEvent(new CustomEvent(this.name + 'Value', { detail: value }))
+      document.dispatchEvent(new CustomEvent('change', {
+        detail: {
+          name: name,
+          value: value
+        }
+      }))
     }
 
-    this.input.onwheel = e => {
+    this.input.onwheel = event => {
       const value = this.getValue()
+      const name = this.name.charAt(0).toUpperCase() + this.name.slice(1)
 
-      if (e.deltaY < 0) document.dispatchEvent(new CustomEvent(this.name + 'Value', { detail: value + 1 }))
-      else if (e.deltaY > 0) document.dispatchEvent(new CustomEvent(this.name + 'Value', { detail: value - 1 }))
+      if (event.deltaY < 0) {
+        document.dispatchEvent(new CustomEvent('change', {
+          detail: {
+            name: name,
+            value: value + 1
+          }
+        }))
+      } else if (event.deltaY > 0) {
+        document.dispatchEvent(new CustomEvent('change', {
+          detail: {
+            name: name,
+            value: value - 1
+          }
+        }))
+      }
     }
   }
 }

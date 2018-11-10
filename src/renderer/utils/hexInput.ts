@@ -98,8 +98,8 @@ export default class HexInput {
 
   private initEvents (): void {
 
-    document.addEventListener('hexValue', (event: any) => {
-      this.updateInput(event.detail)
+    document.addEventListener('color', (event: any) => {
+      this.updateInput(event.detail.hex)
     })
 
     this.input.oninput = (event) => {
@@ -113,7 +113,12 @@ export default class HexInput {
 
       console.log('send final value:', value)
 
-      document.dispatchEvent(new CustomEvent('hexValue', { detail: value }))
+      document.dispatchEvent(new CustomEvent('change', {
+        detail: {
+          name: 'Hex',
+          value: value
+        }
+      }))
     }
 
     this.input.onwheel = e => {

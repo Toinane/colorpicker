@@ -32,7 +32,7 @@ export default class Colorpicker extends Color {
   constructor () {
     super()
 
-    this.updateColorFromHEX('#49ccac') // TO DELETE (DEVELOPMENT USE)
+    this.updateColorFromHex('#49ccac') // TO DELETE (DEVELOPMENT USE)
 
     this.RGBSliders = new RGBSliders(this.rgb)
     this.HSLSliders = new HSLSliders(this.hsl)
@@ -41,7 +41,7 @@ export default class Colorpicker extends Color {
     this.initColorpicker()
   }
 
-  public updateColor (): void {
+  public changeColor (): void {
     document.body.style.setProperty('--red', this.red.toString())
     document.body.style.setProperty('--green', this.green.toString())
     document.body.style.setProperty('--blue', this.blue.toString())
@@ -49,7 +49,8 @@ export default class Colorpicker extends Color {
     document.body.style.setProperty('--saturation', this.hsl.saturation + '%')
     document.body.style.setProperty('--lightness', this.hsl.lightness + '%')
 
-    this.HexInput.updateInput(this.hex)
+    document.dispatchEvent(new CustomEvent('color', { detail: this.getColor() }))
+
     this.updateDarkMode()
   }
 
@@ -80,7 +81,7 @@ export default class Colorpicker extends Color {
     if (hexBox) hexBox.appendChild(this.HexInput.createInput())
 
     this.eventManager()
-    this.updateColor()
+    this.changeColor()
   }
 
   private updateDarkMode (): void {
@@ -89,70 +90,10 @@ export default class Colorpicker extends Color {
   }
 
   private eventManager (): void {
-    document.addEventListener('redValue', (event: any) => {
-      this.updateColorFromRGB({
-        red: parseInt(event.detail, 10),
-        green: this.green,
-        blue: this.blue
-      })
-
-      this.updateColor()
-    })
-
-    document.addEventListener('greenValue', (event: any) => {
-      this.updateColorFromRGB({
-        red: this.red,
-        green: parseInt(event.detail, 10),
-        blue: this.blue
-      })
-
-      this.updateColor()
-    })
-
-    document.addEventListener('blueValue', (event: any) => {
-      this.updateColorFromRGB({
-        red: this.red,
-        green: this.green,
-        blue: parseInt(event.detail, 10)
-      })
-
-      this.updateColor()
-    })
-
-    document.addEventListener('hueValue', (event: any) => {
-      this.updateColorFromHSL({
-        hue: parseInt(event.detail, 10),
-        saturation: this.hsl.saturation,
-        lightness: this.hsl.lightness
-      })
-
-      this.updateColor()
-    })
-
-    document.addEventListener('saturationValue', (event: any) => {
-      this.updateColorFromHSL({
-        hue: this.hsl.hue,
-        saturation: parseInt(event.detail, 10),
-        lightness: this.hsl.lightness
-      })
-
-      this.updateColor()
-    })
-
-    document.addEventListener('lightnessValue', (event: any) => {
-      this.updateColorFromHSL({
-        hue: this.hsl.hue,
-        saturation: this.hsl.saturation,
-        lightness: parseInt(event.detail, 10)
-      })
-
-      this.updateColor()
-    })
-
-    document.addEventListener('hexValue', (event: any) => {
-      this.updateColorFromHEX(event.detail)
-
-      this.updateColor()
+    document.addEventListener('change', (event: any) => {
+      if (!event.detail) return
+      this['updateColorFrom' + event.detail.name](event.detail.value)
+      this.changeColor()
     })
   }
 }
