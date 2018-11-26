@@ -34,7 +34,7 @@
     "request": "^2.88.0",
     "robotjs": "git+https://github.com/toinane/robotjs.git",
     "sortablejs": "^1.7.0",
-    "tippy.js": "^3.0.6"
+    "tippy.js": "^3.2.0"
   },
   "optionalDependencies": {
     "osx-mouse": "^1.3.1",
@@ -45,22 +45,22 @@
     "@types/electron-settings": "^3.1.1",
     "@types/mocha": "^5.2.5",
     "chai": "^4.2.0",
-    "copy-webpack-plugin": "^4.5.4",
+    "copy-webpack-plugin": "^4.6.0",
     "csso": "^3.5.1",
-    "electron": "3.0.6",
-    "electron-builder": "20.28.4",
+    "electron": "3.0.10",
+    "electron-builder": "20.36.2",
     "html-minifier": "^3.5.21",
-    "imagemin-mozjpeg": "^7.0.0",
+    "imagemin-mozjpeg": "^8.0.0",
     "imagemin-webpack-plugin": "^2.3.0",
     "mocha": "^5.2.0",
     "source-map-support": "^0.5.9",
-    "ts-loader": "^5.2.2",
+    "ts-loader": "^5.3.0",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "tslint-config-standard": "^8.0.1",
     "tslint-loader": "^3.5.4",
-    "typescript": "^3.1.3",
-    "webpack": "^4.22.0",
+    "typescript": "^3.1.6",
+    "webpack": "^4.26.1",
     "webpack-cli": "^3.1.2"
   },
   "author": {
