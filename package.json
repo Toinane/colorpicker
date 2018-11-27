@@ -3,7 +3,7 @@
   "productName": "Colorpicker",
   "version": "3.0.0",
   "description": "Colorpicker is a little Electron app that can show colors with hex/rgb code, and generate shading for your color.",
-  "main": "dist/Main.js",
+  "main": "dist/main.js",
   "scripts": {
     "postinstall": "npm run rebuild",
     "compile": "rm -rf dist && webpack",
@@ -14,7 +14,7 @@
     "release:window": "build --publish=never --config colorpicker-build.json --win nsis, portable",
     "nightly": "build --publish=never --config colorpicker-build-nightly.json",
     "nightly:linux": "build --publish=never --config colorpicker-build-nightly.json --linux deb appImage",
-    "rebuild": "npm rebuild --runtime=electron --target=3.0.6 --disturl=https://atom.io/download/electron --abi=64",
+    "rebuild": "npm rebuild --runtime=electron --target=4.0.0-beta.7 --disturl=https://atom.io/download/electron --abi=64",
     "test": "mocha -r ts-node/register tests/**/*.test.ts"
   },
   "repository": "https://github.com/toinane/colorpicker",
@@ -47,7 +47,7 @@
     "chai": "^4.2.0",
     "copy-webpack-plugin": "^4.6.0",
     "csso": "^3.5.1",
-    "electron": "3.0.10",
+    "electron": "4.0.0-beta.7",
     "electron-builder": "20.36.2",
     "html-minifier": "^3.5.21",
     "imagemin-mozjpeg": "^8.0.0",

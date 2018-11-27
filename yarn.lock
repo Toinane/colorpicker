@@ -2125,10 +2125,10 @@ electron-settings@^3.2.0:
     clone "^2.1.1"
     jsonfile "^4.0.0"
 
-electron@3.0.10:
-  version "3.0.10"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-3.0.10.tgz#7d412856e8cf0d3041a612a32dd09e2af2d50f50"
-  integrity sha512-I39IeQP3NOlbjKzTDK8uK2JdiHDfhV5SruCS2Gttkn2MaKCY+yIzQ6Wr4DyBXLeTEkL1sbZxbqQVhCavAliv5w==
+electron@4.0.0-beta.7:
+  version "4.0.0-beta.7"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-4.0.0-beta.7.tgz#d54f3fb19910da593408ba6b4320d2bdf5c039da"
+  integrity sha512-770Hzxq10nQrzq39uVmvHLNKpPY3TCNrk+IYGDQTNWqmkreXZX6+9iflMMo+xdg1ZHysrTj1QQZvsjjBY176pg==
   dependencies:
     "@types/node" "^8.0.24"
     electron-download "^4.1.0"

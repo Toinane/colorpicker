@@ -12,7 +12,10 @@
   "mac": {
     "category": "public.app-category.graphics-design",
     "icon": "assets/icon-nightly.icns",
-    "type": "development"
+    "type": "development",
+    "extendInfo": {
+      "NSRequiresAquaSystemAppearance": "false"
+    }
   },
   "dmg": {
     "icon": "assets/VolumeIcon-nightly.icns",
