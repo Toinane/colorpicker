@@ -1,11 +1,11 @@
-import { ipcMain } from 'electron'
+import { ipcMain, BrowserWindowConstructorOptions } from 'electron'
 
 import Window from './window'
 import Storage from '../storage'
 
 export default class SettingsView extends Window {
 
-  protected windowParams: Object = {
+  protected windowParams: BrowserWindowConstructorOptions = {
     width: 700,
     height: 500,
     minWidth: 460,

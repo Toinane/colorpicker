@@ -1,4 +1,4 @@
-import { BrowserWindow, ipcMain } from 'electron'
+import { BrowserWindow, ipcMain, BrowserWindowConstructorOptions } from 'electron'
 
 import Window from './window'
 import Storage from '../storage'
@@ -6,7 +6,7 @@ import ColorpickerTouchbar from '../touchbar/colorpickerTouchbar'
 
 export default class ColorpickerView extends Window {
 
-  protected windowParams: Object = {
+  protected windowParams: BrowserWindowConstructorOptions = {
     frame: false,
     autoHideMenuBar: true,
     minWidth: 440,

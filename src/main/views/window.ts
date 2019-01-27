@@ -1,11 +1,11 @@
-import { BrowserWindow } from 'electron'
+import { BrowserWindow, BrowserWindowConstructorOptions } from 'electron'
 
 export default class Window {
   protected window?: BrowserWindow
 
   protected view: string
 
-  protected windowParams: Object = {
+  protected windowParams: BrowserWindowConstructorOptions = {
     minWidth: 440,
     minHeight: 150,
     icon: `${__dirname}/logo.png`
