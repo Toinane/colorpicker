@@ -1,11 +1,11 @@
-import { ipcMain } from 'electron'
+import { ipcMain, BrowserWindowConstructorOptions } from 'electron'
 
 import Window from './window'
 import Storage from '../storage'
 
 export default class PickerView extends Window {
 
-  protected windowParams: Object = {
+  protected windowParams: BrowserWindowConstructorOptions = {
     frame: false,
     autoHideMenuBar: true,
     width: 100,
