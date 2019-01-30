@@ -16,4 +16,4 @@ jobs:
           paths:
             - ./node_modules
           key: dependency-cache-{{ checksum "package.json" }}
-      - run: 'npm run release-linux'
+      - run: 'npm run release:linux'
