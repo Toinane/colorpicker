@@ -1,53 +1,255 @@
 # Changelog
-All releases changes will be documented in this file.
 
----
-# 2.0.0 - 2018-02-24
+<a name="next"></a>
+## next
 
-## Added
-- Add Picker feature
-- Add Colorsbook feature
-- Add Opacity feature
-- Add Focus mode feature
-- Add settings
-- Linux release available
+### Miscellaneous
 
-## Changed
-- Refactoring application
-- Improve interface
-- New icons
-- Change fonts
-- Change Shading system
+-  feat(colorpicker): reduce a lot of listener [[a2de487](https://github.com/toinane/colorpicker/commit/a2de48740262606947e5f0e5b4be8bc725620478)]
+-  add rgb sliders [[4513ce0](https://github.com/toinane/colorpicker/commit/4513ce0d460bf39b04463a56b7046a4ac968b477)]
+-  fixup! add sliders class [[76952be](https://github.com/toinane/colorpicker/commit/76952be04123f11ff690b203b066a9ffc2b205d1)]
+-  add sliders class [[6543bb4](https://github.com/toinane/colorpicker/commit/6543bb433a6af84e9754edaba9c360007ce04448)]
+-  add somes tests [[cf27c6a](https://github.com/toinane/colorpicker/commit/cf27c6abd7ed8e289ee11aed9688ace08cf562c0)]
+-  remove dist folder [[b204cd8](https://github.com/toinane/colorpicker/commit/b204cd8fc1283411d2a138febc29002015fb9f92)]
+-  reduce svg logo size &amp; add nightly svg logo [[e55dbec](https://github.com/toinane/colorpicker/commit/e55dbecfe4f6decff5e558b7ca17c1d19d04a2c4)]
+-  init color class [[e899c4a](https://github.com/toinane/colorpicker/commit/e899c4a99fe4f0cfd70463f491eb9bb515c62c3f)]
+-  update somes files [[517bc74](https://github.com/toinane/colorpicker/commit/517bc74b1e0461795614633031298c017397e0cf)]
+-  update webpack [[930378f](https://github.com/toinane/colorpicker/commit/930378f4b9cefdf11aaa315abae89e13e00e1421)]
+-  update to typescript [[c01c71c](https://github.com/toinane/colorpicker/commit/c01c71c0955d30a31009e12d1192a165c62ca558)]
+-  update webpack css minifier [[1172b29](https://github.com/toinane/colorpicker/commit/1172b29cf2abf99c53286c2c77925fe7fb2aee10)]
+-  update window [[8bdc19f](https://github.com/toinane/colorpicker/commit/8bdc19f623b8428b84850a0c46e1a79c8881b3e1)]
+-  feat(sliders): create slider component [[5b1cb82](https://github.com/toinane/colorpicker/commit/5b1cb82f6aafe38107de92edd1d8605e611a3ff1)]
+-  init typescript colorpicker project [[9b1ff11](https://github.com/toinane/colorpicker/commit/9b1ff1148513350edc4d277bea2f88141ccd83b6)]
+-  feat(colorpicker): add events of sliders &amp; inputs [[971c231](https://github.com/toinane/colorpicker/commit/971c231a54c9f7e35e8c40cddb8931bdba6bdf43)]
+-  init typescript [[befe6ed](https://github.com/toinane/colorpicker/commit/befe6edc63203f59cc516ef43e1c39739b441438)]
+-  feat(colorpicker): add HSL sliders &amp; inputs [[f892794](https://github.com/toinane/colorpicker/commit/f892794dfec092fc5109daa40d5020b766f9ae84)]
+-  feat(colorpicker): update typescript [[143eb32](https://github.com/toinane/colorpicker/commit/143eb32c9c55b0885f0ba2e0db62a9d166f4d470)]
+-  feat(hsl): show gradient gray sliders [[32f9bb9](https://github.com/toinane/colorpicker/commit/32f9bb9643e5dba1a6f2d1d778584f1408d14d37)]
+-  feat(colorpicker): update to Typescript [[8e1c8b3](https://github.com/toinane/colorpicker/commit/8e1c8b34bdeab4614811aa378d1728bbe3f5cafa)]
+-  feat(hex): init hex input [[9acfee6](https://github.com/toinane/colorpicker/commit/9acfee6d2d161b60b39d491be2e7f0ee39eac56c)]
+-  update electron [[ddd6d3c](https://github.com/toinane/colorpicker/commit/ddd6d3c65599e0a320585a8199106fb41464a1a5)]
+-  feat(hex): add hex input [[205ab62](https://github.com/toinane/colorpicker/commit/205ab627366880e0e7c710541c290d0eb2955588)]
+-  Fix the readme ([#34](https://github.com/toinane/colorpicker/issues/34)) [[9766b20](https://github.com/toinane/colorpicker/commit/9766b209950aad7dbafb69bc8726793ca9a755ad)]
+-  feat(hex): add some input restrictions [[dff5908](https://github.com/toinane/colorpicker/commit/dff5908cccf5a11272820aa4b445d695a82b5423)]
+-  Deploy ci ([#32](https://github.com/toinane/colorpicker/issues/32)) [[bc1271b](https://github.com/toinane/colorpicker/commit/bc1271b823ce85378bb57296ff669266e43724fb)]
+-  update color class [[1965726](https://github.com/toinane/colorpicker/commit/19657266f46969e7f1340309ae17e53750cee85d)]
 
-## Fixed
-- Fix shortcuts on OSX
 
----
-# 1.2.2
+<a name="2.0.2"></a>
+## 2.0.2 (2018-09-18)
 
-## Fixed
-- Fix close/unshow/extend buttons on OSX
-- Fix shortcuts CMD+C & CMD+V on OSX
+### Miscellaneous
 
----
-# 1.2.1
+-  fix building &amp; update dependencies &#x3D;&gt; release 2.0.2 [[9ada5ef](https://github.com/toinane/colorpicker/commit/9ada5efebbb8ac24a03e5e23df3e26f57ee08bc8)]
+-  Merge pull request [#29](https://github.com/toinane/colorpicker/issues/29) from andrei-agulescu/master [[7483993](https://github.com/toinane/colorpicker/commit/74839938209c4535a54610db1e0d206f3bfbee09)]
+-  fix for issue [#28](https://github.com/toinane/colorpicker/issues/28) [[be1b438](https://github.com/toinane/colorpicker/commit/be1b438a7bbfd56ecdda03c89b06a0a12cead746)]
 
-## Fixed
-- Fix HD main icon
-- Fix a window problem on OSX
 
----
-# 1.2.0
+<a name="2.0.1"></a>
+## 2.0.1 (2018-04-16)
 
-## Added
-- Created an Electron App for Colorpicker
+### Miscellaneous
 
----
-# 1.0.0
+-  Merge pull request [#27](https://github.com/toinane/colorpicker/issues/27) from Toinane/fix-picker [[3973d22](https://github.com/toinane/colorpicker/commit/3973d22fc59fdb39b17bacc2a78e00470d976865)]
+-  fix picker multiscreens [[e639bd0](https://github.com/toinane/colorpicker/commit/e639bd0be044c8a536a590274ed890f36308b62d)]
+-  Merge pull request [#21](https://github.com/toinane/colorpicker/issues/21) from Toinane/update-electron [[92d788e](https://github.com/toinane/colorpicker/commit/92d788e2575efb0294e8e2f77539e16f8a6a7414)]
+-  Update Electron to 1.8.3 [[b3ff556](https://github.com/toinane/colorpicker/commit/b3ff556146c1ca60fb132393f0babb9747a71180)]
+-  Merge branch &#x27;master&#x27; into fix-picker [[3e2b549](https://github.com/toinane/colorpicker/commit/3e2b54983ba3a58f0c0716d40240147ad9515f71)]
+-  Update README.md [[6dad8ff](https://github.com/toinane/colorpicker/commit/6dad8ff6a5cc2cb7ec590ccecf8ec9f14aef7b44)]
+-  Update and rename Changelog.md to CHANGELOG.md [[8a2e56a](https://github.com/toinane/colorpicker/commit/8a2e56ac77862c1c53050ab40324b02962d5cc5c)]
+-  Update README.md [[33efae0](https://github.com/toinane/colorpicker/commit/33efae04ae1e5d2db7ab3b648ccd252b1fae304a)]
+-  Update README.md [[a88aedf](https://github.com/toinane/colorpicker/commit/a88aedfd575d891d5565609d94ff07f8821c3e08)]
+-  Update README.md [[5f7be43](https://github.com/toinane/colorpicker/commit/5f7be43e2c6f62228bbf5d0c219206826b6f929d)]
+-  Update README.md [[de8d124](https://github.com/toinane/colorpicker/commit/de8d1241dda3ea7f3fd9c63f22880509e2f92323)]
 
-## Added
-- Add Three sliders with inputs for RGB color
-- Add input for hexadecimal color
-- Add Random button
 
-*This version was the first release of Colorpicker.*
+<a name="2.0.0"></a>
+## 2.0.0 (2018-02-22)
+
+### Miscellaneous
+
+-  feat(build): add snap [[73d3581](https://github.com/toinane/colorpicker/commit/73d3581256f67c666c255ffcb7bfbcfc0da3c6c0)]
+-  feat(settings): change design for toolset [[5864b4a](https://github.com/toinane/colorpicker/commit/5864b4ab33300d8f108785dcd24470546aa8c5e5)]
+-  feat(settings): add design for toolset [[70e1cff](https://github.com/toinane/colorpicker/commit/70e1cff52847a949dd011a7a64b7b3ed4bc57fd3)]
+-  feat(colorpicker): change css for icons app [[9fbd565](https://github.com/toinane/colorpicker/commit/9fbd56518cc6af5aef83a9ee26c844bb68e0d652)]
+-  feat(colorpicker): add clean focus vue [[281e626](https://github.com/toinane/colorpicker/commit/281e6267b2cd1466359c37021a1a51419b589e14)]
+-  feat(settings): init sortable system [[a332fe8](https://github.com/toinane/colorpicker/commit/a332fe8d494e05be8b3accc25ddf488f5a2aaa2c)]
+-  feat(settings): can change icons type [[2264605](https://github.com/toinane/colorpicker/commit/2264605c23a7c0ee23f3fd193e40c3f05eb245c8)]
+-  feat(settings): can change in realtime the position [[71c33a2](https://github.com/toinane/colorpicker/commit/71c33a247b9eb94fb4534b8357aa293bf98c47be)]
+-  feat(settings): set default value in settings [[bd92e11](https://github.com/toinane/colorpicker/commit/bd92e11e4c8a4dc4f8e582f662ef04b06129c64d)]
+-  feat(settings): init settings [[fcafe4d](https://github.com/toinane/colorpicker/commit/fcafe4d208cf85d64c6643ddfbce141d2bb98018)]
+-  feat(settings): new icons [[712abf3](https://github.com/toinane/colorpicker/commit/712abf385495916c27b451f69a42e4a0df8edeba)]
+-  feat(settings): can change tools [[d1ddb49](https://github.com/toinane/colorpicker/commit/d1ddb4968fac71d8512f140441b95b6774e2266a)]
+-  feat(picker): finalize picker [[490e1a8](https://github.com/toinane/colorpicker/commit/490e1a80e3f3b724b88727ec83ff42d2a867d16e)]
+-  style(picker): change to new design [[b1261f9](https://github.com/toinane/colorpicker/commit/b1261f95b4dd7fc34482cfb28ea6a22b747a65b5)]
+-  fix(picker): rebase to my solution [[e3c3a94](https://github.com/toinane/colorpicker/commit/e3c3a949c11cf54b72fd57ed73e528cbd6a10e7c)]
+-  feat(colorpicker): can get colors from clipboard [[b278d78](https://github.com/toinane/colorpicker/commit/b278d78221d18284bf7c6e43dece1318fdab5270)]
+-  feat(picker): use native module [[e3fa09f](https://github.com/toinane/colorpicker/commit/e3fa09fda2e36810c53cef423d85f92257259c3f)]
+-  feat(colorsbook): init [[a442267](https://github.com/toinane/colorpicker/commit/a442267caafdce0eb324b7bdf093551f5efed6fd)]
+-  test(picker): set picker in test [[661df9f](https://github.com/toinane/colorpicker/commit/661df9f906870d45424307bbc3735f7a7e770e2a)]
+-  style(license): update license [[742588e](https://github.com/toinane/colorpicker/commit/742588e0180bd3697e9f58fbb5d38864b2f6ac0e)]
+-  feat(picker): first test picker [[f182e40](https://github.com/toinane/colorpicker/commit/f182e40d85eafb9ae8c95e13a812f6574a54d102)]
+-  feat(picker): new system [[c2caa89](https://github.com/toinane/colorpicker/commit/c2caa89348b139e593b553c90674bf4fd1c7687b)]
+-  feat(picker): can show pixels colors [[b9b212a](https://github.com/toinane/colorpicker/commit/b9b212aefd397ef15a5fc4356fa4a949a6569894)]
+-  style(package): styling [[3459cc3](https://github.com/toinane/colorpicker/commit/3459cc33f612c6603e05cb653e0035beb80da35c)]
+-  feat(settings): add icons [[a7eb620](https://github.com/toinane/colorpicker/commit/a7eb6200c7c0efee942e51f4df31810eae17f2f3)]
+-  Merge pull request [#12](https://github.com/toinane/colorpicker/issues/12) from Toinane/new-picker [[f30c43a](https://github.com/toinane/colorpicker/commit/f30c43a56ad1ea8ad79e656883e0faf45652ab25)]
+-  feat(settings): add elements [[6160ec9](https://github.com/toinane/colorpicker/commit/6160ec90f2bc38a6eb8c2d9903cffde3c2bd5435)]
+-  feat(picker): can change zoom level [[d0e80ce](https://github.com/toinane/colorpicker/commit/d0e80cefac2ca63fa233da2e6138655fc524ca49)]
+-  feat(settings): init settings [[6d7c8cf](https://github.com/toinane/colorpicker/commit/6d7c8cfeb5b5ad3f3e948424ab92e2137d6f17e3)]
+-  feat(settings): can change zoom level of picker [[8dd6916](https://github.com/toinane/colorpicker/commit/8dd6916e3bf6288269e0a09bd8cbf9bb62ad0401)]
+-  feat(colorpicker): update os icons [[3c9eaaf](https://github.com/toinane/colorpicker/commit/3c9eaaf62beb57fd48f99689a9cb71363f35dc77)]
+-  feat(colorsbook): update icon app event [[7a05cbb](https://github.com/toinane/colorpicker/commit/7a05cbba0ce1f4e4ffaef3e6012c7aa10a7a895b)]
+-  feat(clipboard): copy code color to clipboard [[8357ce6](https://github.com/toinane/colorpicker/commit/8357ce6af1bb2b6dbf086a75f11b2f86d24da162)]
+-  feat(about): update about [[f8721e1](https://github.com/toinane/colorpicker/commit/f8721e106e6d103075089a35a4f2385875d94b03)]
+-  feat(Menu): get menucontext &amp; shortcuts works [[61c2ecb](https://github.com/toinane/colorpicker/commit/61c2ecbe0293f63c39f7fe8721d2b0df86f6c683)]
+-  feat(colorsbook): can add colors/categories with json [[9a17c08](https://github.com/toinane/colorpicker/commit/9a17c08cee9d2c6d0ac28c32882ac504cb1e0d12)]
+-  feat(project): update event systeme [[56fe3e3](https://github.com/toinane/colorpicker/commit/56fe3e318263b69d8ad0070093aea60716a89a15)]
+-  feat(shading): change position [[39efb85](https://github.com/toinane/colorpicker/commit/39efb856c26a2b70647fb93f70061ef6bc3b7871)]
+-  fix(update): get release info from server [[4b4cf57](https://github.com/toinane/colorpicker/commit/4b4cf575fc76072ee81618aad20cb9534e4f530f)]
+-  feat(picker): show in real time color of picker in colorpicker [[e895311](https://github.com/toinane/colorpicker/commit/e8953112acc4a2a6742ea162861124e85aef86e2)]
+-  fix(app): fix size &amp;&amp; frame in osx [[64e45d6](https://github.com/toinane/colorpicker/commit/64e45d658824ea0657bf1ba49a64a956af4b2d98)]
+-  style(picker): some styling [[4d4d62c](https://github.com/toinane/colorpicker/commit/4d4d62cb28009a19b43fba88eb8cf24896835967)]
+-  feat(about): update about [[40c6b7e](https://github.com/toinane/colorpicker/commit/40c6b7e80098ff154ab203b103d321eaf2d6f405)]
+-  Merge pull request [#14](https://github.com/toinane/colorpicker/issues/14) from Toinane/featuring-picker [[c36ad66](https://github.com/toinane/colorpicker/commit/c36ad66ac0b8f5b1fc007297a48dfcd8688c7fff)]
+-  feat(settings): change icon location [[88e6c36](https://github.com/toinane/colorpicker/commit/88e6c36e0e6c69bbe65cf6ed83104944ebc716aa)]
+-  fix(picker): set old color when quit picker [[3abff9f](https://github.com/toinane/colorpicker/commit/3abff9f9f5e85b695301df65ef8658b284fda529)]
+-  style(code styling): make code styling with standard [[225f3c6](https://github.com/toinane/colorpicker/commit/225f3c666fed8a88c4f4d3275bce829025190ba4)]
+-  style(icons): update icons [[e8d4c22](https://github.com/toinane/colorpicker/commit/e8d4c226056ea02ccce19761dd0711d5d322acde)]
+-  feat(shortcut): replace shortcut to menu [[d9d32a6](https://github.com/toinane/colorpicker/commit/d9d32a68e2db966b572bfe852e35afa76c118d56)]
+-  feat(touchbar): first test with touchbar [[8b2cabd](https://github.com/toinane/colorpicker/commit/8b2cabd66f496ca44c0b65a08af79abd61e836b8)]
+-  feat(shortcut): local shortcut test [[c3ebbfd](https://github.com/toinane/colorpicker/commit/c3ebbfd3a1986f7839fc63f55cdbce228edeab26)]
+-  feat(touchbar): add colorpicker [[de0d4f6](https://github.com/toinane/colorpicker/commit/de0d4f684699cd390d0dfd784f7b2a464d487fd5)]
+-  feat(contextmenu): add new menu [[2aa4dcb](https://github.com/toinane/colorpicker/commit/2aa4dcbceee5a3a87013459bc550cb9b9d14bbe7)]
+-  feat(touchbar): add 1color [[93fced6](https://github.com/toinane/colorpicker/commit/93fced6528894fa892c81f9083043c56ae3a2b4f)]
+-  feat(contextualMenu): save intern menu [[99fb9a6](https://github.com/toinane/colorpicker/commit/99fb9a6b0ce598c50cd479726f73954d79634a11)]
+-  feat(touchbar): add colorpicker work [[66af594](https://github.com/toinane/colorpicker/commit/66af594bcb9b29f5d37d475d373efffd0fd122bf)]
+-  feat(contextualMenu): add the new contexteMenu first try [[89581f6](https://github.com/toinane/colorpicker/commit/89581f69d67c6c05e9bda6594e54ca49e78537b5)]
+-  fix(colorpicker): fix some issues [[463f6e8](https://github.com/toinane/colorpicker/commit/463f6e8981924232e7a41109621453ca0b32fd90)]
+-  feat(css): add darkMode and fix opacity input [[e32efe6](https://github.com/toinane/colorpicker/commit/e32efe6930274385f5d808098239cec1ecb951cf)]
+-  fix(toolbar): fix dblclick [[c6e67f0](https://github.com/toinane/colorpicker/commit/c6e67f0bf2f5b916e8d4d1754be0b3f3a6a342ff)]
+-  test(circleci): test new config [[5fd7b22](https://github.com/toinane/colorpicker/commit/5fd7b228c7db80a64eb6ae4a86e2a2b306a3abd2)]
+-  fix(windows): close all windows [[b285333](https://github.com/toinane/colorpicker/commit/b285333a27111365600e11506c1aaad5c4bd39a8)]
+-  test(circleci): test new config [[d3ae05d](https://github.com/toinane/colorpicker/commit/d3ae05db53d9ba42f17d1be767c21e67b57a5cee)]
+-  style(description): change clipboard colors description [[9df9b1f](https://github.com/toinane/colorpicker/commit/9df9b1fa83142e47352cb1b472cfe428b2880f77)]
+-  test(circleci): test new config [[a6c5718](https://github.com/toinane/colorpicker/commit/a6c57185f6e234c5a9fabe00a66690108b7a2e6a)]
+-  update electron &amp; test fix picker [[a95d1af](https://github.com/toinane/colorpicker/commit/a95d1af461de6d9b9d135964779b0a68984ad675)]
+-  test(circleci): test new config [[e5c8793](https://github.com/toinane/colorpicker/commit/e5c87933bbe0be93bbe68a674bb509a17a14af17)]
+-  dev(picker): more stable [[bf29c1f](https://github.com/toinane/colorpicker/commit/bf29c1f5a360e7ddfc6c97743cfb73be06474ee2)]
+-  test(circleci): test new config [[46ef86d](https://github.com/toinane/colorpicker/commit/46ef86df225ef5c665770ac525b5940f2b498f19)]
+-  refacto(shading): test to fix lack of memory [[e23bb78](https://github.com/toinane/colorpicker/commit/e23bb78109cf01e4e8aaee717e1cdcee516c1b2a)]
+-  test(circleci): test new config [[dfe4d84](https://github.com/toinane/colorpicker/commit/dfe4d84fc4d29c20ecf214d55148a42db39e837d)]
+-  refacto(picker): get picker more stable &amp; reactive [[50939e4](https://github.com/toinane/colorpicker/commit/50939e473cadaa90a727f72b736a8cdc35267e16)]
+-  test(circleci): test new config [[40372df](https://github.com/toinane/colorpicker/commit/40372df86f6b15d59b3c5f44b77881b433fe4f42)]
+-  feat(colorfull): change switch colorfull mode [[5e02da9](https://github.com/toinane/colorpicker/commit/5e02da923a6b91a64ca6e691374579fb8023989e)]
+-  test(circleci): test new config [[a5814d9](https://github.com/toinane/colorpicker/commit/a5814d9ed80d634c77b3d2879f7f91afa90f488f)]
+-  feat(build): update config build [[d44f291](https://github.com/toinane/colorpicker/commit/d44f291163812b92bd6ad6e2fca4547aac1e3bab)]
+-  test(circleci): test new config [[3afe6ab](https://github.com/toinane/colorpicker/commit/3afe6abcb5779dfdfbe7ac147f800de07a1462f0)]
+-  feat(history): start history [[684e66c](https://github.com/toinane/colorpicker/commit/684e66cf33df02538a86473f68e88167c7b2d657)]
+-  test(circleci): test new config [[ad41edb](https://github.com/toinane/colorpicker/commit/ad41edb32126ccf5023e83e699fbfddf94ede12b)]
+-  fix(colorpicker): fix version &amp; save color [[349277a](https://github.com/toinane/colorpicker/commit/349277a0d17eafd7f5278ec2cece472196063c88)]
+-  test(circleci): test new config [[445e137](https://github.com/toinane/colorpicker/commit/445e13784f469a5c7fcc3dd9a9a20b018f18c3cb)]
+-  Merge pull request [#15](https://github.com/toinane/colorpicker/issues/15) from Toinane/module-picker [[c2f5506](https://github.com/toinane/colorpicker/commit/c2f5506afac91911cb789f8808fb6691f3c629a6)]
+-  feat(shading): force new size with opacity [[5663992](https://github.com/toinane/colorpicker/commit/5663992415bf5dd6677c54440da1d1f7f0d0cca8)]
+-  feat(colorpicker): add history [[95f5741](https://github.com/toinane/colorpicker/commit/95f5741b7027837bb48b394a83f5f1c106fb916a)]
+-  feat(shading): add new awesome shade of colors :D [[a2e833a](https://github.com/toinane/colorpicker/commit/a2e833a74e47f83c65475e1feabaad29f7392f2f)]
+-  feat(touchbar): add shortcut [[ecb1b34](https://github.com/toinane/colorpicker/commit/ecb1b343818dce5447693c1028f1b200230fea18)]
+-  feat(window): change size of the window for opacity [[d781b38](https://github.com/toinane/colorpicker/commit/d781b38eb585c23e05ec15a5b338d44793676eeb)]
+-  style(project): standardize [[b3498ca](https://github.com/toinane/colorpicker/commit/b3498caeaebeb6cdac38f10d8d6751ebacf33862)]
+-  feat(opacity): add animations [[2d6320e](https://github.com/toinane/colorpicker/commit/2d6320e9ddfedb7a39660493ba7b26c0722ead96)]
+-  style(scrollbar): styling scrollbar [[40a379c](https://github.com/toinane/colorpicker/commit/40a379c8f3ed1e44868b30bd859b6a3b66d72d30)]
+-  feat(colorpicker): add opacity and somes fix [[93e565f](https://github.com/toinane/colorpicker/commit/93e565f01c67bad1ba973582d512d4b7fd435b6b)]
+-  feat(settings): add reset button [[13ad084](https://github.com/toinane/colorpicker/commit/13ad084855d4b396e36ad804b103f0528a0f414b)]
+-  feat(build): add full installer windows [[46b01a2](https://github.com/toinane/colorpicker/commit/46b01a2b8601afa43147bd9c09b13bcc963263d4)]
+-  style(readme): update readme [[4f13d6c](https://github.com/toinane/colorpicker/commit/4f13d6ce9fcd4ee8d83944af2114608bc45486a2)]
+-  fix(build): fix build error on windows [[603060a](https://github.com/toinane/colorpicker/commit/603060a27dbe867a2e4a3e1fed29fecd7d8bdcde)]
+-  style(readme): update readme [[56ef055](https://github.com/toinane/colorpicker/commit/56ef0557f5ef0dfe86ab7b54f608185647607cf1)]
+-  fix(button): fix unmaximize and fix icon on windows [[d7b5e72](https://github.com/toinane/colorpicker/commit/d7b5e721947ce8f918d272c7987b41e02f6b2271)]
+-  feat(icons): update icons [[979f690](https://github.com/toinane/colorpicker/commit/979f690ea38b5d4fe2e1fe0e19e1f1a7e5c8b8e6)]
+-  feat(app buttons): can change pos and style of app buttons, and save last color [[1efac96](https://github.com/toinane/colorpicker/commit/1efac9622ef346122662fae8945c11c594f55bd9)]
+-  fix(build): revert value [[3a907dc](https://github.com/toinane/colorpicker/commit/3a907dc1ba7bfa9fad03fc73fd635afda3d5c016)]
+-  feat(toolbar): add new icons and add colorpicker events [[cda11aa](https://github.com/toinane/colorpicker/commit/cda11aaddca7469a9add64dd87ad558230f9e1be)]
+-  feat(settings): add tooltip [[02b985b](https://github.com/toinane/colorpicker/commit/02b985b2b6a19a4ce1115d171d27eba42db1a55e)]
+-  feat(setalwaysontop): set this on main process [[94810aa](https://github.com/toinane/colorpicker/commit/94810aa08220d5e747f22ab3d7026d7f33687bd3)]
+-  update config electron [[620da45](https://github.com/toinane/colorpicker/commit/620da45c44f6c7a9da91a64a454a0a677a15ffe6)]
+-  refacto(colorpicker.class): refactoring renderer js [[05338bb](https://github.com/toinane/colorpicker/commit/05338bb63ff20d03b992713a0765944ea9cdef13)]
+-  update readme [[564a1a7](https://github.com/toinane/colorpicker/commit/564a1a7d2c840c3cf6fa7aad88ff2542c06a6a06)]
+-  refacto(Color.class): refacto all Color Class [[f2fe709](https://github.com/toinane/colorpicker/commit/f2fe709612200e179679b8a87de678f3031d847f)]
+-  Merge pull request [#16](https://github.com/toinane/colorpicker/issues/16) from Toinane/update-readme [[9ca2fd3](https://github.com/toinane/colorpicker/commit/9ca2fd3664fc3144141fc320087e410902fc5520)]
+-  fix(events): change var name [[7742331](https://github.com/toinane/colorpicker/commit/77423317a4ef145455b2364e49aa9f1349d9f3f5)]
+-  Merge branch &#x27;master&#x27; into refactoring [[a905e7c](https://github.com/toinane/colorpicker/commit/a905e7cf490a3b2eea7e653474b74cf9eaf9be2a)]
+-  feat(events): add events with ipc [[fe998f9](https://github.com/toinane/colorpicker/commit/fe998f94dc200268d53ed13f0ef7b6a4d65b19f9)]
+-  feat(colorsbook): can show in colorpicker [[9d474cc](https://github.com/toinane/colorpicker/commit/9d474cc0b0a1a003425328fbd6bacd6581780f6e)]
+-  fix(linux): fix timing saving too short in linux [[108abd1](https://github.com/toinane/colorpicker/commit/108abd1d27b0e7ea71ad781f47553a5d92a1822e)]
+-  update(package): update electron [[e25e505](https://github.com/toinane/colorpicker/commit/e25e5054b3102d658dcd6f5e9b53020c29bd8bba)]
+-  feat(storage): save position [[70d2c15](https://github.com/toinane/colorpicker/commit/70d2c157640d8dcba73175e9d405830de4081c1b)]
+-  feat(FA): update fontawesome to v5 [[277dc6e](https://github.com/toinane/colorpicker/commit/277dc6e01b7ed4309e5a8acb2c3bf7c6213919a4)]
+-  feat(browsers): refacto &amp; add it in menu [[7347d55](https://github.com/toinane/colorpicker/commit/7347d558a17af81479a4175b61d24dea14609349)]
+-  update electron [[62e975b](https://github.com/toinane/colorpicker/commit/62e975bebc8e1e3a92f0884a15c380f9f3d2bf44)]
+-  refacto(storage): new storage system [[8eaffeb](https://github.com/toinane/colorpicker/commit/8eaffeb61fcc8970ae6ea931767fdd9bf950c8c9)]
+-  feat(project): update build native dependencies [[a776225](https://github.com/toinane/colorpicker/commit/a7762255ff5bc5a58fe3c73edc7f34023ae37e1c)]
+-  refacto(storage): use other module for storage [[5287b2f](https://github.com/toinane/colorpicker/commit/5287b2f0f8f5396e1ebbd5bcaa0a67437dbd40f3)]
+-  feat(picker): update robotjs [[3bfaf44](https://github.com/toinane/colorpicker/commit/3bfaf44b7096d4e219cb001ad23742b4fdddc125)]
+-  config for linux [[cb276ef](https://github.com/toinane/colorpicker/commit/cb276ef723f900c57ab762e9cfcf01634adfb122)]
+-  refacto(project): remove nmprc [[4307fb7](https://github.com/toinane/colorpicker/commit/4307fb7c9a3d4e19b05ccd39855cfc4a8e28f46f)]
+-  feat(all): add tray, add nightly, implement beta of settings [[a839460](https://github.com/toinane/colorpicker/commit/a839460c074e2ba5c4a2744f7e3c71f0771b122a)]
+-  feat(colorsbook): can add category [[5fd88e4](https://github.com/toinane/colorpicker/commit/5fd88e48f252104a788a02257d864463b9a8bfd0)]
+-  fix(circleci): change to npm [[c3a263c](https://github.com/toinane/colorpicker/commit/c3a263c1702af761f7fff5c9455df70e3004cd2b)]
+-  feat(colorsbook): can save color now [[0784c16](https://github.com/toinane/colorpicker/commit/0784c162b3a51525e669e736668d293e7c8c02fb)]
+-  refacto(colorpicker): new folders, add browsers like picker who can pick color from mouse [[dac2abb](https://github.com/toinane/colorpicker/commit/dac2abb893bf8da4dfb3473d157ae2745cb4bb55)]
+-  fix(colorsbook): can only save hex color [[4b6c0e3](https://github.com/toinane/colorpicker/commit/4b6c0e39784aa20625959917583027e44d5a3d15)]
+-  fix circleci for the moment [[73a7ef6](https://github.com/toinane/colorpicker/commit/73a7ef61b549cf96a4a88ee13ea117a8e60dd504)]
+-  fix(colorsbook): can&#x27;t show color in colorpicker [[f5eb6b1](https://github.com/toinane/colorpicker/commit/f5eb6b11e5eda1d144593b896551700d245a381f)]
+-  add circleci to project [[e6f9943](https://github.com/toinane/colorpicker/commit/e6f99431c31b05d7df3e234ef6a6ef9f7a0f68a1)]
+-  feat(settings): prepare import/export [[6807a76](https://github.com/toinane/colorpicker/commit/6807a76b7bcbf5416a5be6645da593c027a8ab99)]
+-  set up folder platform [[e2b8f85](https://github.com/toinane/colorpicker/commit/e2b8f8515f5e820530cd3cd0fe4db08680793d75)]
+-  feat(settings): add update part [[df93a80](https://github.com/toinane/colorpicker/commit/df93a809494770f3791ad91b8b6255e671c0ff51)]
+-  fix app launch since folders moved [[8d3ccee](https://github.com/toinane/colorpicker/commit/8d3cceead87c379245ad5e2f75baa0c1aa1e789d)]
+-  fix(update): compare with actual version [[267d056](https://github.com/toinane/colorpicker/commit/267d056cad05abd8addd14878a8415994e884c90)]
+-  refactoring: move folders [[71983cb](https://github.com/toinane/colorpicker/commit/71983cb5f808ebed14d10ee365c82a8f1007c127)]
+-  feat(colorpicker): prepare release [[d2140f0](https://github.com/toinane/colorpicker/commit/d2140f0e3a602797d9b26ced09f0f3f6d1af6bf4)]
+-  refactoring build settings [[a7c2e57](https://github.com/toinane/colorpicker/commit/a7c2e5775b082ac9a95c2f440c42a926b7f96320)]
+-  fix(circle): change to yarn [[3a0d248](https://github.com/toinane/colorpicker/commit/3a0d248470b3c8b4d70494ed9f792fb44b6ff662)]
+-  Merge pull request [#1](https://github.com/toinane/colorpicker/issues/1) from Toinane/dev [[3b6098d](https://github.com/toinane/colorpicker/commit/3b6098d1f26b498e62036c1c20739c9e72191ff4)]
+-  feat(colorpicker): update readme [[9ef3588](https://github.com/toinane/colorpicker/commit/9ef3588dd37281a40a1b238edb434a69a997a162)]
+-  some refacto [[1cf0052](https://github.com/toinane/colorpicker/commit/1cf005236ebdd819c2865a68d0af94c2719e277d)]
+-  fix(readme): add issue link [[894beb1](https://github.com/toinane/colorpicker/commit/894beb108edde7ddfce81cbc5a55b8aa8a1c9f69)]
+-  Create CODEOWNERS [[9201ffb](https://github.com/toinane/colorpicker/commit/9201ffb6ecf4434c927d7896a4bad54f53e6cb2f)]
+-  Merge pull request [#2](https://github.com/toinane/colorpicker/issues/2) from Toinane/refactoring [[8a8f44f](https://github.com/toinane/colorpicker/commit/8a8f44ffdef2c11692118027c6196199bee0ae48)]
+-  add isDarkColor function [[afef151](https://github.com/toinane/colorpicker/commit/afef151e05bf37ad46ffc11a8ad4648bde1ec82c)]
+-  feat(icons): change color when blured [[3fdc371](https://github.com/toinane/colorpicker/commit/3fdc371c38c3683e5a70f21da0816a11fe388959)]
+
+
+<a name="1.2.2"></a>
+## 1.2.2 (2017-03-08)
+
+### Miscellaneous
+
+-  fix osx buttons and cmd+c/cmd+v inputs [[cb868c4](https://github.com/toinane/colorpicker/commit/cb868c49ca8370dc38d1c545eb428ce4bf69cdd4)]
+-  delete travis and update main.js [[a3d56a4](https://github.com/toinane/colorpicker/commit/a3d56a4677b4437e153e9aff99fc57cfc203c382)]
+-  add travis config [[398845b](https://github.com/toinane/colorpicker/commit/398845b06dd4ac3b6d2a3a59e2b2044d4f4a3e23)]
+-  add travis config [[4220a4a](https://github.com/toinane/colorpicker/commit/4220a4a80527ee6c6002ad15484b82c47f1dac2f)]
+-  Merge branch &#x27;master&#x27; of https://github.com/Toinane/colorpicker [[4ec0624](https://github.com/toinane/colorpicker/commit/4ec062486a71a6fb633e87fd50f09f3fa0d000e8)]
+-  ajout de liens pour une pipette et début de test [[1b5adab](https://github.com/toinane/colorpicker/commit/1b5adab75670d76ce0b19dd30a678ec0bf5ac506)]
+-  change logo file to svg [[4c4cad9](https://github.com/toinane/colorpicker/commit/4c4cad9c7601e31c22eea5b69beadd5cfc9a9e1b)]
+
+
+<a name="1.2.1"></a>
+## 1.2.1 (2017-02-02)
+
+### Miscellaneous
+
+-  update win for &#x27;activate&#x27; event [[ee29c36](https://github.com/toinane/colorpicker/commit/ee29c36b19231283d27e91f3616ddc0f09c94c3c)]
+-  change logo and add build code [[8883a6e](https://github.com/toinane/colorpicker/commit/8883a6e8907aaf184cfe7d26aaf9aacf170acd2f)]
+-  add second color to compare [[5e5b667](https://github.com/toinane/colorpicker/commit/5e5b667a5755efb91d6a71fe2dc803dfc50246e7)]
+-  ajout d&#x27;une tâche dans le menu windows [[b22597a](https://github.com/toinane/colorpicker/commit/b22597a9e3053c93127cc9a07dcbfd83f0f135d7)]
+-  Add more icons, support new box [[cea212f](https://github.com/toinane/colorpicker/commit/cea212f147a95cfdaef49999f08db9562a9e2883)]
+-  Update README.md [[f049636](https://github.com/toinane/colorpicker/commit/f04963637d84d1524764b3d8d3eb385ca8e86082)]
+-  Ajout de la toolbar whited [[8f4c428](https://github.com/toinane/colorpicker/commit/8f4c4283896ea58ef92f857633718783e48b2574)]
+-  add shade support [[91e8e8e](https://github.com/toinane/colorpicker/commit/91e8e8e76aba6140f00c60bd961fdeb8c4907407)]
+-  Version 0.1.6 [[7a09ab9](https://github.com/toinane/colorpicker/commit/7a09ab90b781e796b9d0f2b88e09e19fa8a892f6)]
+-  minimal project [[f825a9e](https://github.com/toinane/colorpicker/commit/f825a9ece7ca39e4621ca1a6faedaebae000c78e)]
+-  Initial commit [[2ace153](https://github.com/toinane/colorpicker/commit/2ace153f5162ea3f81e9deefdb894852de59ec99)]
+-  more support and fancy design [[fb2133b](https://github.com/toinane/colorpicker/commit/fb2133b5d0fe493b2d66b09e4eeaf820e5d81a59)]
+
+
