@@ -77,7 +77,7 @@ export default class Colorpicker extends Color {
   private initColorpicker (): void {
     const hexBox: HTMLDivElement | null = document.querySelector('#hexBox')
 
-    this.RGBSliders.init()
+    this.HSLSliders.init()
     if (hexBox) hexBox.appendChild(this.HexInput.createInput())
 
     this.eventManager()
