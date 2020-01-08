@@ -7,10 +7,7 @@ module.exports = (dirname, storage) => {
 
     let init = () => {
         if (win === null || win === undefined) {
-            // TODO: Make it compatible with Linux.
-            if (process.platform === 'darwin' || process.platform === 'win32') {
-                createWindow();
-            }
+            createWindow();
         }
     };
 

@@ -9,8 +9,8 @@
         "standard": "standard",
         "pack": "electron-builder --dir",
         "release": "electron-builder --publish=never --config colorpicker-build.json",
-        "release-linux": "electron-builder --publish=never --config colorpicker-build.json --linux appImage",
-        "release-window": "electron-builder --publish=never --config colorpicker-build.json --win nsis, portable",
+        "release-linux": "electron-builder --publish=never --config colorpicker-build.json --linux deb appImage",
+        "release-window": "electron-builder --publish=never --config colorpicker-build.json --win nsis portable",
         "nightly": "electron-builder --publish=never --config colorpicker-build-nightly.json",
         "nightly-linux": "electron-builder --publish=never --config colorpicker-build-nightly.json --linux deb appImage",
         "rebuild": "npm rebuild --runtime=electron --target=7.1.7 --disturl=https://atom.io/download/electron --abi=75"
@@ -35,7 +35,8 @@
     },
     "optionalDependencies": {
         "osx-mouse": "git+https://github.com/Toinane/osx-mouse",
-        "win-mouse": "git+https://github.com/Toinane/win-mouse"
+        "win-mouse": "git+https://github.com/Toinane/win-mouse",
+        "iohook": "^0.6.2"
     },
     "devDependencies": {
         "electron": "7.1.7",
@@ -49,5 +50,17 @@
     },
     "bugs": "https://github.com/toinane/colorpicker/issues",
     "homepage": "https://crea-th.at/p/colorpicker",
-    "license": "GPL-3.0"
+    "license": "GPL-3.0",
+    "iohook": {
+        "targets": [
+          "electron-75"
+        ],
+        "platforms": [
+          "linux"
+        ],
+        "arches": [
+          "x64",
+          "ia32"
+        ]
+      }
 }

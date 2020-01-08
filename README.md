@@ -38,7 +38,6 @@ Colorpicker's menu come with a lot of cool features :
 With Pin, you can bring Colorpicker to the foreground. This makes it convenient to work quickly with different applications at the same time.
 
 ## Picker
-#### Note: This feature isn't available for Linux. See [#18](https://github.com/Toinane/colorpicker/issues/18)
 ![Picker gif](https://github.com/Toinane/colorpicker-website/blob/master/gifs/picker.gif?raw=true)
 
 The Picker allows you to quickly retrieve a color anywhere on the screen. Whether it's on your browser, Photoshop, or whatever.
