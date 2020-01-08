@@ -29,13 +29,13 @@
     "dependencies": {
         "electron-json-storage": "^4.1.8",
         "request": "^2.88.0",
-        "robotjs": "git+ssh://git@github.com:Toinane/robotjs.git",
+        "robotjs": "git+https://github.com/Toinane/robotjs",
         "sortablejs": "^1.10.2",
         "tippy.js": "^5.1.3"
     },
     "optionalDependencies": {
-        "osx-mouse": "git+ssh://git@github.com:Toinane/osx-mouse.git",
-        "win-mouse": "^1.3.0"
+        "osx-mouse": "git+https://github.com/Toinane/osx-mouse",
+        "win-mouse": "git+https://github.com/Toinane/win-mouse"
     },
     "devDependencies": {
         "electron": "7.1.7",

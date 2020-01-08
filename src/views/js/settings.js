@@ -1,6 +1,6 @@
 'use strict'
 
-const {ipcRenderer, shell, dialog} = require('electron')
+const {ipcRenderer, shell} = require('electron')
 let Sortable = require('sortablejs')
 let tippy = require('tippy.js')
 
@@ -58,7 +58,7 @@ document.querySelector('#picker-realtime').addEventListener('click', function ()
 
 /* TAB COLORSBOOK */
 ipcRenderer.on('export', (event, colorsbook) => {
-  document.querySelector('#export').href = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(colorsbook, null, 2))}`;
+  //document.querySelector('#export').href = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(colorsbook, null, 2))}`;
 })
 
 /* GLOBAL */
@@ -114,12 +114,12 @@ function initTools(selectedTools) {
   document.querySelector('#allTools').innerHTML = htmlAll;
   document.querySelector('#selectedTools').innerHTML = htmlSelected;
 
-  tippy('.tools', {
-    delay: 200,
-    distance: 15,
-    theme: 'transparent',
-    size: 'small'
-  })
+  // tippy('.tools', {
+  //   delay: 200,
+  //   distance: 15,
+  //   theme: 'transparent',
+  //   size: 'small'
+  // })
 }
 
 function updateTools(event) {
@@ -141,6 +141,6 @@ ipcRenderer.on('update', (event, message) => {
   }
 })
 
-document.querySelector('h1').addEventListener('click', () => {
-  shell.openExternal('https://colorpicker.crea-th.at')
-})
+// document.querySelector('h1').addEventListener('click', () => {
+//   shell.openExternal('https://colorpicker.crea-th.at')
+// })
