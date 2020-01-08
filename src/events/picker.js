@@ -58,7 +58,7 @@ module.exports = (storage, browsers) => {
 
     ipcMain.on('pickerRequested', event => {
         let realtime = storage.get('realtime', 'picker');
-        if (process.platform !== 'darwin' || process.platform !== 'win32') return linuxSupport();
+        if (process.platform !== 'darwin' && process.platform !== 'win32') return linuxSupport();
         if (process.platform === 'darwin') mouseEvent = require('osx-mouse')();
         if (process.platform === 'win32') mouseEvent = require('win-mouse')();
         color = storage.get('lastColor');

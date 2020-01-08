@@ -53,14 +53,14 @@
     "license": "GPL-3.0",
     "iohook": {
         "targets": [
-          "electron-75"
+            "electron-75"
         ],
         "platforms": [
-          "linux"
+            "linux"
         ],
         "arches": [
-          "x64",
-          "ia32"
+            "x64",
+            "ia32"
         ]
-      }
+    }
 }
