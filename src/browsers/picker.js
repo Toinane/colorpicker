@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const { BrowserWindow } = require('electron');
+const { BrowserWindow, nativeImage } = require("electron");
 
 module.exports = (dirname, storage) => {
     let win;
@@ -22,14 +22,14 @@ module.exports = (dirname, storage) => {
             resizable: false,
             focusable: true,
             hasShadow: false,
-            icon: `${dirname}/build/icon.png`,
+            icon: nativeImage.createFromPath(`${dirname}/build/icon.png`),
             webPreferences: {
                 nodeIntegration: true
             }
         });
 
         win.loadURL(`file://${dirname}/views/picker.html`);
-        win.on('closed', () => {
+        win.on("closed", () => {
             win = undefined;
         });
     };

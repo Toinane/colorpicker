@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const { BrowserWindow } = require('electron');
+const { BrowserWindow, nativeImage } = require("electron");
 
 module.exports = (dirname, storage) => {
     let win;
@@ -25,7 +25,7 @@ module.exports = (dirname, storage) => {
             height: 400,
             minHeight: 285,
             minWidth: 360,
-            icon: `${dirname}/build/icon.png`,
+            icon: nativeImage.createFromPath(`${dirname}/build/icon.png`),
             webPreferences: {
                 nodeIntegration: true
             }
@@ -33,12 +33,12 @@ module.exports = (dirname, storage) => {
 
         win.loadURL(`file://${dirname}/views/colorsbook.html`);
 
-        win.on('closed', () => {
+        win.on("closed", () => {
             win = undefined;
         });
 
-        win.on('focus', event => win.webContents.send('hasLooseFocus', false));
-        win.on('blur', event => win.webContents.send('hasLooseFocus', true));
+        win.on("focus", event => win.webContents.send("hasLooseFocus", false));
+        win.on("blur", event => win.webContents.send("hasLooseFocus", true));
     };
 
     let getWindow = () => win;
