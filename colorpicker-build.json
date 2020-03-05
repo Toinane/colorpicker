@@ -24,7 +24,8 @@
     "linux": {
         "icon": "./build",
         "synopsis": "Colorpicker App",
-        "category": "Graphics"
+        "category": "Graphics",
+        "executableName": "colorpicker-app"
     },
     "snap": {
         "plugs": ["default", "desktop"]

@@ -8,6 +8,7 @@
         "start": "npx electron src/main.js",
         "standard": "standard",
         "pack": "electron-builder --dir",
+        "publish": "snapcraft push --release=stable out/*.snap",
         "release": "electron-builder --publish=never --config colorpicker-build.json",
         "release-linux": "electron-builder --publish=never --config colorpicker-build.json --linux deb appImage",
         "release-window": "electron-builder --publish=never --config colorpicker-build.json --win nsis portable",
