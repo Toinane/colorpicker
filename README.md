@@ -20,7 +20,7 @@
 Colorpicker is a desktop tool with _Electron_ to get and save colors code quickly for _OSX_, _Windows_ and _Linux_!
 
 <p align="center">
-    <img src="https://github.com/Toinane/colorpicker-website/blob/master/gifs/colorpicker.gif?raw=true"
+    <img src=".github/screenshots/colorpicker.png"
         alt="ColorPicker App" />
 </p>
 
@@ -38,59 +38,75 @@ Colorpicker's menu come with a lot of cool features :
 
 ## Pin
 
-![Pin gif](https://github.com/Toinane/colorpicker-website/blob/master/gifs/pin.gif?raw=true)
+![Pin screenshot](.github/screenshots/pin.png)
 
 With Pin, you can bring Colorpicker to the foreground. This makes it convenient to work quickly with different
 applications at the same time.
 
+---
+
 ## Picker
 
-![Picker gif](https://github.com/Toinane/colorpicker-website/blob/master/gifs/picker.gif?raw=true)
+![Picker screenshot](.github/screenshots/picker.png)
 
 The Picker allows you to quickly retrieve a color anywhere on the screen. Whether it's on your browser, Photoshop, or
 whatever.
 
+---
+
 ## Colorsbook
 
-![Colorsbook gif](https://github.com/Toinane/colorpicker-website/blob/master/gifs/colorsbook.gif?raw=true)
+![Colorsbook screenshot](.github/screenshots/colorsbook.png)
 
 Colorsbook is a full-fledged application. It allows you to store your colors, categorize them, and easily retrieve them.
 It is destined to mature over time.
 **Cool tip:** you can save color from colorpicker with `CMD+S` or `CTRL+S`!
 
+---
+
 ## Shading
 
-![Shading gif](https://github.com/Toinane/colorpicker-website/blob/master/gifs/shades.gif?raw=true)
+![Tint screenshot](.github/screenshots/tint.png)
 
 With the shades, you can find the perfect color you need. You have a chromatic bar, a natural color bar and a shadow
 bar.
 
-## Opacity
+---
 
-![Opacity gif](https://github.com/Toinane/colorpicker-website/blob/master/gifs/opacity.gif?raw=true)
+## Opacity [WIP]
+
+![Opacity gif](.github/screenshots/opacity.png)
 
 This feature is a bit special. It allows you to render the application transparent. This can be useful to see the
 appearance of a transparent color.
 
+---
+
 ## Focus Mode
 
-![Focus screenshot](https://github.com/Toinane/colorpicker-website/blob/master/gifs/focus.png?raw=true)
+![Focus screenshot](.github/screenshots/focus.png)
 
 Need to compare a color or clean up the interface? This feature is for you, this will hide the sliders and make the menu
 more transparent.
 
-## Magic Color
+---
+
+## Magic Color [WIP]
 
 This functionality is still under development. Currently, it allows you to display the first color that is in your
 clipboard. This works with hexadecimal and RGB codes
+
+---
 
 ## Random
 
 A traditional feature, it allows you to display a color randomly.
 
+---
+
 ## Settings
 
-![Settings gif](https://github.com/Toinane/colorpicker-website/blob/master/gifs/settings.gif?raw=true)
+![Settings screenshot](.github/screenshots/settings.png)
 
 The settings menu allows you to customize your Colorpicker, I let you discover it yourself :)!
 
@@ -103,7 +119,7 @@ The settings menu allows you to customize your Colorpicker, I let you discover i
 
 You can [buy me a coffee here](https://toinane.itch.io/colorpicker)! Thank you!
 
-#### **Happy Design !**
+#### **_Happy Design !_**
 
 # Developers
 
