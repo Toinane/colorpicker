@@ -1,0 +1,24 @@
+name: CI
+
+on: pull_request
+
+jobs:
+  release:
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Install Nodejs & Yarn
+        uses: actions/setup-node@v1.1.0
+        with:
+          node-version: 12
+          
+      - name: Build Colorpicker
+        uses: samuelmeuli/action-electron-builder@v1
+        with:
+          github_token: ${{ secrets.github_token }}
