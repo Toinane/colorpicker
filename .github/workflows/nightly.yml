@@ -8,17 +8,24 @@ jobs:
     
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [ubuntu-latest] #[macos-latest, ubuntu-latest, windows-latest]
 
     steps:
       - uses: actions/checkout@v2
       
-      - name: Install Nodejs & Yarn
+      - name: Use Nodejs 12
         uses: actions/setup-node@v1.1.0
         with:
           node-version: 12
           
+      - name: Install OS packages
+        run: sudo apt-get install python2.7 make gcc libxtst-dev libpng++-dev && sudo npm i -g node-gyp
+      
+      - name: Install Colorpicker packages
+        run: npm i
+      
+      - name: Build C++ packages
+        run: npm run rebuild
+      
       - name: Build Colorpicker
-        uses: samuelmeuli/action-electron-builder@v1
-        with:
-          github_token: ${{ secrets.github_token }}
+        run: npm run release-linux
