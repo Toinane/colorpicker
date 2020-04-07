@@ -1,0 +1,40 @@
+name: colorpicker-app
+version: '2.0.0'
+summary: A little description for the app.
+description: |
+ You know what? This app is amazing! It does all the things
+ for you. Some say it keeps you young, maybe even happy.
+
+grade: stable
+confinement: strict
+base: core18
+
+parts:
+  colorpicker-app:
+    plugin: dump
+    source: .
+    stage-packages:
+      - fcitx-frontend-gtk3
+      - gvfs-libs
+      - libasound2
+      - libgconf-2-4
+      - libglib2.0-bin
+      - libgtk-3-0
+      - libnotify4
+      - libnspr4
+      - libnss3
+      - libpcre3
+      - libpulse0
+      - libxss1
+      - libxtst6
+      - zlib1g
+      - libxkbcommon-x11-0
+
+apps:
+  colorpicker-app:
+    command: electron-launch $SNAP/usr/share/colorpicker-app/bin/colorpicker-app
+    common-id: colorpicker-app.desktop
+    # Correct the TMPDIR path for Chromium Framework/Electron to ensure
+    # libappindicator has readable resources.
+    environment:
+      TMPDIR: $XDG_RUNTIME_DIR

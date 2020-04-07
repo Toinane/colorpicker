@@ -28,7 +28,15 @@
         "executableName": "colorpicker-app"
     },
     "snap": {
-        "plugs": ["default", "desktop"]
+        "confinement": "classic",
+        "plugs": ["default", "libxkbcommon-x11-0"],
+        "buildPackages" : [
+            "python2.7", "make", "gcc", "libxtst-dev", "libpng++-dev", "libxkbcommon-x11-dev"
+        ],
+        "stagePackages": [
+            "default",
+            "libxkbcommon-x11-0"
+        ]
     },
     "win": {
         "icon": "build/icon.ico"
