@@ -1,0 +1,91 @@
+name: colorpicker-app
+version: '2.0.4'
+base: core18
+summary: A mininal but complete Colorpicker desktop app
+description: |
+  Colorpicker is a desktop tool with Electron to get and save colors code quickly for OSX, Windows and Linux!
+
+  Colorpicker's menu come with a lot of cool features :
+
+  - Pin : pin Colorpicker to the foreground;
+  - Picker: open an eyedropper who can pick a color from your desktop;
+  - Colorsbook: open Colorsbook, a color manager;
+  - Shading: show three bar of shading — hue bar, natural bar and lightness bar;
+  - Opacity: toggle Opacity range;
+  - Clean Vue: unshow menu, ranges and inputs;
+  - Magic color: show colors from the clipboard;
+  - Random: show a random color;
+  - Settings: open the preferences panel.
+
+grade: stable
+confinement: strict
+
+apps:
+  colorpicker-app:
+    extensions: [gnome-3-28]
+    command: opt/Colorpicker/colorpicker-app --no-sandbox
+    desktop: usr/share/applications/colorpicker-app.desktop
+    autostart: colorpicker-app.desktop
+    plugs: 
+      - desktop
+      - desktop-legacy
+      - home
+      - opengl
+      - x11
+      - unity7
+      - wayland
+      - browser-support
+      - network
+      - gsettings
+      - pulseaudio
+    environment:
+      TMPDIR: $XDG_RUNTIME_DIR
+      GSETTINGS_SCHEMA_DIR: $SNAP/usr/share/glib-2.0/schemas
+      XDG_CURRENT_DESKTOP: Unity
+      DISABLE_WAYLAND: 1
+
+parts:
+  libxkbcommon-x11-0:
+    plugin: nil
+    stage-packages:
+      - libxkbcommon-x11-0
+    prime:
+      - usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libxkbcommon*.so*
+      - usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libxkbcommon-x11*.so*
+
+  colorpicker-app:
+    after: [libxkbcommon-x11-0]
+    plugin: dump
+    source: ./out/colorpicker_2.0.3_amd64.deb
+    source-type: deb
+    override-build: |
+      snapcraftctl build
+      sed -i 's|Icon=colorpicker-app|Icon=/usr/share/icons/hicolor/256x256/apps/colorpicker-app.png|' ${SNAPCRAFT_PART_INSTALL}/usr/share/applications/colorpicker-app.desktop
+    prime:
+      - -opt/Colorpicker/chrome-sandbox
+    stage-packages: 
+      - libasound2
+      - libgconf2-4
+      - libnotify4
+      - libnspr4
+      - libnss3
+      - libpcre3
+      - libpulse0
+      - libxss1
+      - libxtst6
+      - libpng++-dev
+      - libx11-dev
+      - libxtst-dev
+      - libxt-dev
+      - libx11-xcb-dev
+      - libxkbcommon-dev
+      - libxkbcommon-x11-dev
+
+  cleanup:
+    after: [colorpicker-app]
+    plugin: nil
+    build-snaps: [ gnome-3-28-1804 ]
+    override-prime: |
+      set -eux
+      cd /snap/gnome-3-28-1804/current
+      find . -type f,l -exec rm -f $SNAPCRAFT_PRIME/{} \;

@@ -27,9 +27,6 @@
         "category": "Graphics",
         "executableName": "colorpicker-app"
     },
-    "snap": {
-        "plugs": ["default", "desktop"]
-    },
     "win": {
         "icon": "build/icon-nightly.ico"
     },

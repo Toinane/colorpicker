@@ -1,20 +1,21 @@
 {
     "name": "colorpicker",
-    "productName": "Colorpicker",
-    "version": "2.0.3",
+    "productName": "colorpicker",
+    "version": "2.0.4",
     "description": "Colorpicker is a little Electron app that can show colors with hex/rgb code, and generate shading for your color.",
     "main": "src/main.js",
     "scripts": {
         "start": "npx electron src/main.js",
         "standard": "standard",
         "pack": "electron-builder --dir",
-        "publish": "snapcraft push --release=stable out/*.snap",
+        "publish": "snapcraft push --release=stable *.snap",
         "release": "electron-builder --publish=never --config colorpicker-build.json",
         "release-linux": "electron-builder --publish=never --config colorpicker-build.json --linux deb appImage",
+        "release-snap": "snapcraft snap",
         "release-window": "electron-builder --publish=never --config colorpicker-build.json --win nsis portable",
         "nightly": "electron-builder --publish=never --config colorpicker-build-nightly.json",
         "nightly-linux": "electron-builder --publish=never --config colorpicker-build-nightly.json --linux deb appImage",
-        "rebuild": "npm rebuild --runtime=electron --target=7.1.7 --disturl=https://atom.io/download/electron --abi=75"
+        "rebuild": "npm rebuild --runtime=electron --target=8.2.1 --disturl=https://atom.io/download/electron --abi=76"
     },
     "repository": "https://github.com/toinane/colorpicker",
     "keywords": [
@@ -32,7 +33,7 @@
         "request": "^2.88.2",
         "robotjs": "git+https://github.com/Toinane/robotjs",
         "sortablejs": "^1.10.2",
-        "tippy.js": "^6.0.3"
+        "tippy.js": "^6.1.1"
     },
     "optionalDependencies": {
         "osx-mouse": "git+https://github.com/Toinane/osx-mouse",
@@ -40,9 +41,9 @@
         "iohook": "^0.6.5"
     },
     "devDependencies": {
-        "electron": "7.1.7",
+        "electron": "8.2.1",
         "electron-builder": "22.4.1",
-        "standard": "^14.3.1"
+        "standard": "14.3.3"
     },
     "author": {
         "name": "Toinane",
@@ -54,7 +55,7 @@
     "license": "GPL-3.0",
     "iohook": {
         "targets": [
-            "electron-75"
+            "electron-76"
         ],
         "platforms": [
             "linux"
