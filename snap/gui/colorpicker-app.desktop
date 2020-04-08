@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Colorpicker
+Exec=colorpicker-app --no-sandbox %U
+Terminal=false
+Type=Application
+Icon=${SNAP}/usr/share/icons/hicolor/256x256/apps/colorpicker-app.png
+StartupWMClass=Colorpicker
+Comment=Colorpicker
+MimeType=x-scheme-handler/colorpicker;
+Categories=Graphics;Utility;

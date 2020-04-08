@@ -9,6 +9,9 @@ const touchbar = require('./touchbar')(__dirname, eventEmitter)
 const browsers = require('./browsers')(__dirname, storage, {touchbar, eventEmitter})
 const {colorpicker, colorsbook, picker, settings} = browsers
 
+// @TODO remove when electron@9.0.0
+app.allowRendererProcessReuse = true
+
 require('./events')(storage, browsers, eventEmitter)
 
 if (process.platform === 'linux') {

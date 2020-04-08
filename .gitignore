@@ -1,5 +1,7 @@
-/node_modules
-/out
-/parts
-/stage
-.snapcraft
+node_modules/
+out/
+parts/
+stage/
+prime/
+snap/.snapcraft
+*.snap
