@@ -1,0 +1,31 @@
+name: CI
+
+on: pull_request
+
+jobs:
+  release:
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      matrix:
+        os: [ubuntu-latest] #[macos-latest, ubuntu-latest, windows-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Use Nodejs 12
+        uses: actions/setup-node@v1.1.0
+        with:
+          node-version: 12
+          
+      - name: Install OS packages
+        run: sudo apt-get install python2.7 make gcc libxtst-dev libpng++-dev && sudo npm i -g node-gyp
+      
+      - name: Install Colorpicker packages
+        run: npm i
+      
+      - name: Build C++ packages
+        run: npm run rebuild
+      
+      - name: Build Colorpicker
+        run: npm run release-linux
