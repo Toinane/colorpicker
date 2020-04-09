@@ -1,9 +1,14 @@
-name: CI
+name: Building Stable App
 
-on: pull_request
+on: 
+  pull_request:
+    branches:
+      - master
+    types: [closed] 
 
 jobs:
   release:
+    if: github.event.pull_request.merged == true
     runs-on: ${{ matrix.os }}
     
     strategy:

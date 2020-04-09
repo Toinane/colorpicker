@@ -5,3 +5,4 @@ stage/
 prime/
 snap/.snapcraft
 *.snap
+*.log
