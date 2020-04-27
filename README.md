@@ -17,6 +17,8 @@
     </p>
 </p>
 
+### Want to help to translate this app? go on [Crowdin](https://crowdin.com/project/colorpicker)! Your help is welcome :)
+
 Colorpicker is a desktop tool with _Electron_ to get and save colors code quickly for _OSX_, _Windows_ and _Linux_!
 
 <p align="center">
