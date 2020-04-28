@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="https://crea-th.at/p/colorpicker">
+    <a href="https://colorpicker.fr">
         <img src="build/icon.png" width="256" height="256" alt="ColorPicker icon" />
     </a>
     <h1 align="center">Colorpicker</h1>
@@ -114,7 +114,7 @@ The settings menu allows you to customize your Colorpicker, I let you discover i
 
 # Download
 
--   You can download the [latest release on the website!](https://colorpicker.crea-th.at)
+-   You can download the [latest release on the website!](https://colorpicker.fr)
 -   Or [on GitHub releases here.](https://github.com/Toinane/colorpicker/releases)
 
 ## Want to support me?
