@@ -5,12 +5,11 @@
     <h1 align="center">Colorpicker</h1>
     <p align="center">A mininal but complete colorpicker desktop app</p>
     <p align="center">
-        <img src="https://img.shields.io/github/downloads/toinane/colorpicker/total.svg?style=flat-square">
-        <img src="https://img.shields.io/github/downloads/toinane/colorpicker/latest/total.svg?style=flat-square">
-        <img src="https://img.shields.io/circleci/project/github/Toinane/colorpicker.svg?style=flat-square">
-        <img src="https://img.shields.io/github/release/toinane/colorpicker.svg?style=flat-square">
-        <img src="https://img.shields.io/github/release-date/Toinane/colorpicker.svg?style=flat-square">
-        <img src="https://img.shields.io/david/toinane/colorpicker.svg?style=flat-square">
+        <img src="https://badgen.net/github/release/toinane/colorpicker/stable" />
+        <img src="https://img.shields.io/github/downloads/toinane/colorpicker/total.svg">
+        <img src="https://img.shields.io/github/downloads/toinane/colorpicker/latest/total.svg">
+        <img src="https://img.shields.io/github/release-date/Toinane/colorpicker.svg">
+        <img src="https://badgen.net/david/dep/toinane/colorpicker">
         <a href="https://snapcraft.io/colorpicker-app">
             <img alt="colorpicker-app" src="https://snapcraft.io/colorpicker-app/badge.svg" />
         </a>
