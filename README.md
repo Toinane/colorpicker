@@ -13,6 +13,9 @@
         <a href="https://snapcraft.io/colorpicker-app">
             <img alt="colorpicker-app" src="https://snapcraft.io/colorpicker-app/badge.svg" />
         </a>
+        <a href="https://crowdin.com/project/colorpicker">
+            <img src="https://badges.crowdin.net/colorpicker/localized.svg">
+        </a>
     </p>
 </p>
 
