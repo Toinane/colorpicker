@@ -1,25 +1,25 @@
-const path = require("path");
+const path = require('path')
 
 module.exports = {
     resolve: {
-        extensions: [".tsx", ".ts", ".js"],
+        extensions: ['.tsx', '.ts', '.js'],
     },
-    devtool: "source-map",
-    entry: "./src/main.ts",
-    target: "electron-main",
+    devtool: 'source-map',
+    entry: './src/main.ts',
+    target: 'electron-main',
     module: {
         rules: [
             {
                 test: /\.(js|ts|tsx)$/,
                 exclude: /node_modules/,
                 use: {
-                    loader: "ts-loader",
+                    loader: 'ts-loader',
                 },
             },
         ],
     },
     output: {
-        path: path.resolve(__dirname, "../dist"),
-        filename: "[name].js",
+        path: path.resolve(__dirname, '../dist'),
+        filename: '[name].js',
     },
-};
+}

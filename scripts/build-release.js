@@ -8,14 +8,14 @@ builder
             copyright: 'Copyright © 2016 - 2020 Toinane',
             artifactName: '${productName}-${version}-${platform}.${ext}',
             files: ['dist/**/*'],
-            compression: "maximum",
+            compression: 'maximum',
             buildDependenciesFromSource: true,
             directories: {
                 buildResources: 'assets',
-                output: 'release'
+                output: 'release',
             },
             mac: {
-                category: "public.app-category.graphics-design",
+                category: 'public.app-category.graphics-design',
                 target: ['dmg'],
                 icon: 'icon.icns',
                 extendInfo: {
@@ -37,7 +37,7 @@ builder
                                 'public.aseprite',
                                 'public.hex',
                                 'public.col',
-                                'public.ai'
+                                'public.ai',
                             ],
                             LSHandlerRank: 'Default',
                         },
@@ -45,18 +45,17 @@ builder
                     darkModeSupport: true,
                     //NSRequiresAquaSystemAppearance: false,
                     entitlements: 'config/entitlements.plist',
-                    entitlementsInherit: 'config/entitlements.plist'
-                }
+                    entitlementsInherit: 'config/entitlements.plist',
+                },
             },
             dmg: {
                 icon: 'dmg-installer.icns',
                 background: 'dmg-background.png',
                 window: {
                     width: 540,
-                    height: 380
+                    height: 380,
                 },
                 // update window size & design: https://www.electron.build/configuration/dmg
-
             },
             afterSign: 'scripts/notarize.js',
             linux: {
@@ -67,9 +66,9 @@ builder
                     Name: 'Colorpicker Nightly',
                     Type: 'Application',
                     Icon: 'nightly/icon.png',
-                    Categories: 'Graphics;Utility'
+                    Categories: 'Graphics;Utility',
                 },
-                mimeTypes: ['cpk', 'gpl', 'aco', 'ase', 'pal', 'afpalette', 'aseprite', 'hex', 'col', 'ai']
+                mimeTypes: ['cpk', 'gpl', 'aco', 'ase', 'pal', 'afpalette', 'aseprite', 'hex', 'col', 'ai'],
             },
             win: {
                 icon: 'icon.ico',
@@ -78,9 +77,9 @@ builder
                 fileAssociations: [
                     {
                         ext: ['cpk', 'gpl', 'aco', 'ase', 'pal', 'afpalette', 'aseprite', 'hex', 'col', 'ai'],
-                        description: 'Palette files'
-                    }
-                ]
+                        description: 'Palette files',
+                    },
+                ],
             },
             nsis: {
                 oneClick: false,
@@ -91,8 +90,8 @@ builder
                 installerIcon: 'nsis-installer-oldschool.ico',
                 artifactName: '${productName}-${version}-${platform}-installer.${ext}',
                 installerHeader: 'installerHeader.bmp',
-                installerSidebar: 'installerSidebar.bmp'
-            }
-        }
+                installerSidebar: 'installerSidebar.bmp',
+            },
+        },
     })
-    .catch(err => console.error(err))
+    .catch((err) => console.error(err))
