@@ -2,13 +2,14 @@
     "compilerOptions": {
         "outDir": "./dist",
         "module": "commonjs",
-        "target": "es6",
+        "target": "ES2020",
         "sourceMap": true,
         "strict": true,
         "allowJs": true,
         "noImplicitAny": true,
         "esModuleInterop": true,
         "jsx": "react",
+        "jsxFactory": "h",
         "moduleResolution": "node",
         "baseUrl": ".",
         "lib": ["es6", "dom"]

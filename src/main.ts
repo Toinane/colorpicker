@@ -1,6 +1,4 @@
 import { app, BrowserWindow } from 'electron'
-import * as path from 'path'
-import * as url from 'url'
 
 let mainWindow: BrowserWindow | null
 
@@ -13,17 +11,7 @@ function createWindow() {
         },
     })
 
-    if (process.env.NODE_ENV === 'development') {
-        mainWindow.loadURL(`http://localhost:4000`)
-    } else {
-        mainWindow.loadURL(
-            url.format({
-                pathname: path.join(__dirname, './dist/index.html'),
-                protocol: 'file:',
-                slashes: true,
-            })
-        )
-    }
+    mainWindow.loadFile('./dist/index.html')
 
     mainWindow.on('closed', () => {
         mainWindow = null

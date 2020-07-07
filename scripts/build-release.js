@@ -17,7 +17,7 @@ builder
             mac: {
                 category: 'public.app-category.graphics-design',
                 target: ['dmg'],
-                icon: 'icon.icns',
+                icon: 'release/icon.icns',
                 extendInfo: {
                     CFBundleName: 'Colorpicker',
                     CFBundleDisplayName: 'Colorpicker',
@@ -49,8 +49,8 @@ builder
                 },
             },
             dmg: {
-                icon: 'dmg-installer.icns',
-                background: 'dmg-background.png',
+                icon: 'release/dmg-installer.icns',
+                background: 'release/dmg-background.png',
                 window: {
                     width: 540,
                     height: 380,
@@ -59,19 +59,20 @@ builder
             },
             afterSign: 'scripts/notarize.js',
             linux: {
+                icon: 'release/',
                 synopsis: 'Colorpicker App',
                 category: 'Graphics',
                 executableName: 'colorpicker-app',
                 desktop: {
-                    Name: 'Colorpicker Nightly',
+                    Name: 'Colorpicker',
                     Type: 'Application',
-                    Icon: 'nightly/icon.png',
+                    Icon: 'release/icon.png',
                     Categories: 'Graphics;Utility',
                 },
                 mimeTypes: ['cpk', 'gpl', 'aco', 'ase', 'pal', 'afpalette', 'aseprite', 'hex', 'col', 'ai'],
             },
             win: {
-                icon: 'icon.ico',
+                icon: 'release/icon.ico',
                 target: ['nsis', 'msi'],
                 publisherName: 'Toinane',
                 fileAssociations: [
@@ -87,10 +88,10 @@ builder
                 createDesktopShortcut: true,
                 createStartMenuShortcut: true,
                 allowToChangeInstallationDirectory: true,
-                installerIcon: 'nsis-installer-oldschool.ico',
+                installerIcon: 'release/nsis-installer-oldschool.ico',
                 artifactName: '${productName}-${version}-${platform}-installer.${ext}',
-                installerHeader: 'installerHeader.bmp',
-                installerSidebar: 'installerSidebar.bmp',
+                installerHeader: 'release/installerHeader.bmp',
+                installerSidebar: 'release/installerSidebar.bmp',
             },
         },
     })

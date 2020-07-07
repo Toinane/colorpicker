@@ -1,15 +1,11 @@
-import React from 'react'
-import ReactDom from 'react-dom'
-
-const mainElement = document.createElement('div')
-document.body.appendChild(mainElement)
+import { Fragment, h, render } from 'preact'
 
 const App = () => {
     return (
-        <React.Fragment>
-            <h1>Hello World</h1>
-        </React.Fragment>
+        <Fragment>
+            <h1>Colorpicker</h1>
+        </Fragment>
     )
 }
 
-ReactDom.render(<App />, mainElement)
+render(<App />, document.body)

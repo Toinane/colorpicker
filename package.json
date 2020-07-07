@@ -102,37 +102,38 @@
     "homepage": "https://colorpicker.fr",
     "license": "CECILL-2.1",
     "scripts": {
-        "dev:electron": "webpack --config ./scripts/webpack.electron.config.js --mode development && electron ./dist/main.js",
-        "dev:react": "webpack-dev-server --config ./scripts/webpack.react.config.js --mode development",
-        "build": "rm -rf ./dist && webpack --config ./scripts/webpack.electron.config.js --mode production",
-        "release": "node scripts/build-release.js",
-        "nightly": "node scripts/build-nightly.js"
+        "clean": "rm -rf dist release",
+        "watch": "yarn predev --watch",
+        "predev": "yarn clean && webpack --env.dev --config ./scripts/webpack.config.js",
+        "prestart": "yarn clean && webpack --env.prod --config ./scripts/webpack.config.js",
+        "dev": "concurrently \"webpack --env.dev --config ./scripts/webpack.config.js --watch\" \"electron .\"",
+        "start": "concurrently \"webpack --env.prod --config ./scripts/webpack.config.js --watch\" \"electron .\"",
+        "nightly": " yarn prestart && node scripts/build-nightly.js",
+        "release": "yarn prestart && node scripts/build-release.js"
     },
     "dependencies": {
         "i18next": "^19.5.4",
-        "react": "^16.13.1",
-        "react-dom": "^16.13.1"
+        "preact": "^10.4.5"
     },
     "devDependencies": {
-        "@types/react": "^16.9.41",
-        "@types/react-dom": "^16.9.8",
-        "@typescript-eslint/eslint-plugin": "^3.5.0",
-        "@typescript-eslint/parser": "^3.5.0",
+        "@typescript-eslint/eslint-plugin": "^3.6.0",
+        "@typescript-eslint/parser": "^3.6.0",
+        "concurrently": "^5.2.0",
         "css-loader": "^3.6.0",
-        "electron": "^9.0.5",
+        "electron": "^9.1.0",
         "electron-builder": "^22.7.0",
+        "electron-notarize": "^1.0.0",
         "eslint": "^7.4.0",
-        "eslint-plugin-react": "^7.20.3",
+        "eslint-config-preact": "^1.1.1",
         "html-webpack-plugin": "^4.3.0",
         "prettier": "^2.0.5",
-        "source-map-loader": "^1.0.1",
         "style-loader": "^1.2.1",
-        "svg-url-loader": "^6.0.0",
+        "terser-webpack-plugin": "^3.0.6",
         "ts-loader": "^7.0.5",
         "typescript": "^3.9.6",
+        "url-loader": "^4.1.0",
         "webpack": "^4.43.0",
-        "webpack-cli": "^3.3.12",
-        "webpack-dev-server": "^3.11.0"
+        "webpack-cli": "^3.3.12"
     }
 }
 >>>>>>> :fire: first step of rewriting Colorpicker

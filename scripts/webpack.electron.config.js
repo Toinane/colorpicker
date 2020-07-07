@@ -4,7 +4,7 @@ module.exports = {
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
     },
-    devtool: 'source-map',
+    devtool: false,
     entry: './src/main.ts',
     target: 'electron-main',
     module: {
