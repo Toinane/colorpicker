@@ -19,6 +19,8 @@
     </p>
 </p>
 
+# Survey for the next update of Colorpicker! Please take time to complete it! [English survey](https://forms.gle/KdT66D95Bms1dky38) - [French survey](https://forms.gle/Sc8nfzP5JofB2Avq7)
+
 ### Want to help to translate this app? go on [Crowdin](https://crowdin.com/project/colorpicker)! Your help is welcome :)
 
 Colorpicker is a desktop tool with _Electron_ to get and save colors code quickly for _OSX_, _Windows_ and _Linux_!
