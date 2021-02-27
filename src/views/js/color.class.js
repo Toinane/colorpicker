@@ -367,3 +367,5 @@ class Color {
     return this.getRGBFromHSV([h, s, v])
   }
 }
+
+module.exports = Color;

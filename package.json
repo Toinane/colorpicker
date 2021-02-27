@@ -7,6 +7,7 @@
     "scripts": {
         "start": "npx electron src/main.js",
         "standard": "standard",
+        "test": "mocha",
         "pack": "electron-builder --dir",
         "publish": "snapcraft push --release=stable *.snap",
         "release": "electron-builder --publish=never --config colorpicker-build.json",
@@ -29,7 +30,9 @@
         "crea-that"
     ],
     "dependencies": {
+        "chai": "^4.3.0",
         "electron-json-storage": "^4.1.8",
+        "mocha": "^8.3.0",
         "request": "^2.88.2",
         "robotjs": "git+https://github.com/Toinane/robotjs",
         "sortablejs": "^1.10.2",
