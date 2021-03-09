@@ -9,6 +9,8 @@ class Color {
     this.setColor(r, g, b)
   }
 
+  // input type: const
+  // return type: boolean
   setColor (r, g, b) {
     this.red = parseInt(r, 10)
     this.green = parseInt(g, 10)
@@ -20,27 +22,35 @@ class Color {
     return true
   }
 
+  // Sets alpha channel - opacity of the color
   setAlpha (alpha) {
     this.alpha = alpha
   }
 
+  // input type: array
+  // return type: boolean
   setColorFromRGB (rgb) {
     this.setColor(rgb[0], rgb[1], rgb[2], 1)
     return true
   }
 
+  // input type: hex R G B integers
+  // return type: boolean
   setColorFromHex (hex) {
     const rgb = this.getRGBFromHex(hex)
     this.setColorFromRGB(rgb)
     return true
   }
 
+  // input type: hsl(hue, saturation, and lightness)
+  // return type: boolean
   setColorFromHSL (hsl) {
     const rgb = this.getRGBFromHSL(hsl)
     this.setColorFromRGB(rgb)
     return true
   }
 
+  // input type: rgb array
   getCSSFromRGB (rgb) {
     return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`
   }
@@ -53,6 +63,8 @@ class Color {
 
   getRGBFromRGBA (rgba) { return [rgba[0], rgba[1], rgba[2]] }
 
+  // input type: rgb array
+  // return type hex R G B integers
   getHexFromRGB (rgb) {
     let hex = [Number(rgb[0]).toString(16), Number(rgb[1]).toString(16), Number(rgb[2]).toString(16)]
     for (let i = 0; i < 3; i++) {
@@ -61,6 +73,8 @@ class Color {
     return '#' + hex.join('').toUpperCase()
   }
 
+  // input type: hex R G B integers
+  // return type: rgb array
   getRGBFromHex (hex) {
     hex = hex.replace(/^#/, '')
     if (hex.length === 3) hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2]
@@ -68,10 +82,14 @@ class Color {
     return [num >> 16, num >> 8 & 255, num & 255]
   }
 
+  // input type: hex R G B integers
+  // return type: rgba numbers
   getRGBAFromHex (hex) {
     return this.getRGBFromHex(hex).concat([this.alpha])
   }
 
+  // input type: rgb array
+  // return type: hsl(hue, saturation, and lightness)
   getHSLFromRGB (rgb) {
     const r = rgb[0] / 255
     const g = rgb[1] / 255
@@ -97,6 +115,8 @@ class Color {
     return [Math.round(h), Math.round(s * 100), Math.round(l * 100)]
   }
 
+  // input type: hsl(hue, saturation, and lightness)
+  // return type: rgb array
   getRGBFromHSL (hsl) {
     let h = hsl[0] / 360
     let s = hsl[1] / 100
@@ -127,16 +147,22 @@ class Color {
     return rgb
   }
 
+  // input type: hex R G B integers
+  // return type: hsl(hue, saturation, and lightness)
   getHSLFromHex (hex) {
     const rgb = this.getRGBFromHex(hex)
     return this.getHSLFromRGB(rgb)
   }
 
+  // input type: hsl(hue, saturation, and lightness)
+  // return type: hex R G B integers
   getHexFromHSL (hsl) {
     const rgb = this.getRGBFromHSL(hsl)
     return this.getHexFromRGB(rgb)
   }
 
+  // input type: HSV (hue, saturation, value)
+  // return type: void
   getRGBFromHSV (hsv) {
     const h = hsv[0] / 60
     const s = hsv[1] / 100
@@ -162,6 +188,8 @@ class Color {
     else if (hi === 5) return [v, p, q]
   }
 
+  // input type: rgb array
+  // return type HSV array
   getHSVFromRGB (rgb) {
     const r = rgb[0]
     const g = rgb[1]
@@ -183,6 +211,8 @@ class Color {
     return [Math.round(h), Math.round(s), Math.round(v)]
   }
 
+  // input type: rgb array
+  // return type: rgb array
   isDarkColor (rgb) {
     if (rgb) {
       return Math.round((
@@ -198,6 +228,8 @@ class Color {
     ) <= 140
   }
 
+  // input type: rgb array
+  // return type: negative color array
   setNegativeColor (rgb) {
     if (!rgb) rgb = this.rgb
     const negative = this.getNegativeColor(rgb)
@@ -205,6 +237,8 @@ class Color {
     return negative
   }
 
+  // input type: rgb array
+  // return type: negative color array
   getNegativeColor (rgb) {
     var negative = []
     for (let i = 0; i < 3; i++) {
@@ -213,39 +247,55 @@ class Color {
     return negative
   }
 
+  // input type: rgb array
+  // return type: void
   setRedComplementary (rgb) {
     this.setColorFromRGB(this.getRedComplementary(rgb))
   }
 
+  // input type: rgb array
+  // return type: rgb array
   getRedComplementary (rgb) {
     if (!rgb) rgb = this.rgb
     return [rgb[0], rgb[2], rgb[1]]
   }
 
+  // input type: rgb array
+  // return type: void
   setGreenComplementary (rgb) {
     this.setColorFromRGB(this.getGreenComplementary(rgb))
   }
 
+  // input type: rgb array
+  // return type: rgb array
   getGreenComplementary (rgb) {
     if (!rgb) rgb = this.rgb
     return [rgb[2], rgb[1], rgb[0]]
   }
 
+  // input type: rgb array
+  // return type: void
   setBlueComplementary (rgb) {
     this.setColorFromRGB(this.getBlueComplementary(rgb))
   }
 
+  // input type: rgb array
+  // return type: rgb array
   getBlueComplementary (rgb) {
     if (!rgb) rgb = this.rgb
     return [rgb[1], rgb[0], rgb[2]]
   }
 
+  // input type: rgb array
+  // return type: constant grat
   setGrayscale (rgb) {
     const gray = this.getGrayscale(rgb)
     this.setColorFromRGB(gray)
     return gray
   }
 
+  // input type: rgb array
+  // return type: gray scale array
   getGrayscale (rgb) {
     var gray = parseInt(rgb[0] * 0.3 + rgb[1] * 0.59 + rgb[2] * 0.11, 10)
     if (gray < 0) gray = 0
@@ -253,12 +303,16 @@ class Color {
     return [gray, gray, gray]
   }
 
+  // input type: light, hsl(hue, saturation, and lightness)
+  // return type: rgb array
   setLightnessFromHSL (light, hsl) {
     const rgb = this.getLightnessFromHSL(light, hsl)
     this.setColorFromRGB(rgb)
     return rgb
   }
 
+   // input type: light, hsl(hue, saturation, and lightness)
+  // return type: rgb array
   getLightnessFromHSL (light, hsl) {
     hsl = [hsl[0], hsl[1], (hsl[2] + light)]
     let rgb = this.getRGBFromHSL(hsl)
@@ -269,34 +323,46 @@ class Color {
     return rgb
   }
 
+   // input type: light, rgb array
+  // return type: rgb array
   setLightnessFromRGB (light, rgb) {
     rgb = this.getLightnessFromRGB(light, rgb)
     this.setColorFromRGB(rgb)
     return rgb
   }
 
+  // input type: light, rgb array
+  // return type: rgb array
   getLightnessFromRGB (light, rgb) {
     let hsl = this.getHSLFromRGB(rgb)
     return this.getLightnessFromHSL(light, hsl)
   }
 
+  // input type: light, hex R G B integers
+  // return type: hex R G B integers
   setLightnessFromHex (light, hex) {
     hex = this.getLightnessFromHex(light, hex)
     this.setColorFromHex(hex)
     return hex
   }
 
+  // input type: light, hex R G B integers
+  // return type: hex R G B integers
   getLightnessFromHex (light, hex) {
     let hsl = this.getHSLFromHex(hex)
     return this.getHexFromRGB(this.getLightnessFromHSL(light, hsl))
   }
 
+  // input type: (int) degree, hsl(hue, saturation, and lightness)
+  // return type: hsl(hue, saturation, and lightness)
   setChangeHueFromHSL (degrees, hsl) {
     hsl = this.getChangeHueFromHSL(degrees, hsl)
     this.setColorFromHSL(hsl)
     return hsl
   }
 
+  // input type: (int) degree, hsl(hue, saturation, and lightness)
+  // return type: rgb array
   getChangeHueFromHSL (degrees, hsl) {
     hsl[0] += degrees
     if (hsl[0] > 360) hsl[0] -= 360
@@ -304,12 +370,16 @@ class Color {
     return this.getRGBFromHSL(hsl)
   }
 
+  // input type: (int) degrees, rgb array
+  // return type: rgb array
   setChangeHueFromRGB (degrees, rgb) {
     rgb = this.getChangeHueFromRGB(degrees, rgb)
     this.setColorFromRGB(rgb)
     return rgb
   }
 
+  // input type: (int) degrees, rgb array
+  // return type: rgb array
   getChangeHueFromRGB (degrees, rgb) {
     const hsl = this.getHSLFromRGB(rgb)
     hsl[0] += degrees
@@ -318,12 +388,16 @@ class Color {
     return this.getRGBFromHSL(hsl)
   }
 
+  // input type: (int) degrees, hex R G B integers
+  // return type: hex R G B integers
   setChangeHueFromHex (degrees, hex) {
     hex = this.getChangeHueFromHex(degrees, hex)
     this.setColorFromHex(hex)
     return hex
   }
 
+  // input type: (int) degrees, hex R G B integers
+  // return type: hex R G B integers
   getChangeHueFromHex (degrees, hex) {
     const hsl = this.getHSLFromHex(hex)
     hsl[0] += degrees
@@ -332,6 +406,8 @@ class Color {
     return this.getHexFromHSL(hsl)
   }
 
+  // input type: (int)percet, rgb array
+  // return type: rgb array
   getNaturalFromRGB (percent, rgb) {
     let hsv = this.getHSVFromRGB(rgb)
     let h = hsv[0]
