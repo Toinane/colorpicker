@@ -1,7 +1,7 @@
 import { BrowserWindow, ipcMain, BrowserWindowConstructorOptions } from 'electron'
 
 import Window from './window'
-import Storage from '../storage'
+// import Storage from '../storage'
 import ColorpickerTouchbar from '../touchbar/colorpickerTouchbar'
 
 export default class ColorpickerView extends Window {
@@ -17,11 +17,11 @@ export default class ColorpickerView extends Window {
     icon: `${__dirname}/logo.png`
   }
 
-  constructor () {
+  constructor() {
     super('colorpicker')
   }
 
-  public createWindow (): BrowserWindow {
+  public createWindow(): BrowserWindow {
     const window = super.createWindow()
     const touchbar = new ColorpickerTouchbar()
 
@@ -125,7 +125,7 @@ export default class ColorpickerView extends Window {
   //   // this.eventEmitter.on('showPreferences', event => settings.init())
   // }
 
-  protected closeWindow (): void {
+  protected closeWindow(): void {
     if (this.window) this.window = undefined
     let totalWindows = BrowserWindow.getAllWindows()
     for (let window of totalWindows) window.close()
