@@ -1,11 +1,13 @@
+require('dotenv/config')
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const TerserWebpackPlugin = require('terser-webpack-plugin')
 
-const isDev = (env) => env.dev === true
+const appEnv = process.env.APP_ENVIRONNEMENT || 'development'
+const isDevEnv = appEnv === 'development'
 
-const main = (env) => ({
-    mode: isDev(env) ? 'development' : 'production',
+const main = {
+    mode: appEnv,
     target: 'electron-main',
     resolve: {
         extensions: ['.js', '.ts', '.json'],
@@ -27,11 +29,11 @@ const main = (env) => ({
     optimization: {
         minimizer: [new TerserWebpackPlugin()],
     },
-    devtool: isDev(env) ? 'inline-source-map' : false,
-})
+    devtool: isDevEnv ? 'inline-source-map' : false,
+}
 
-const preload = (env) => ({
-    mode: isDev(env) ? 'development' : 'production',
+const preload = {
+    mode: appEnv,
     target: 'electron-preload',
     resolve: {
         extensions: ['.js', '.ts', '.json'],
@@ -53,13 +55,12 @@ const preload = (env) => ({
     optimization: {
         minimizer: [new TerserWebpackPlugin()],
     },
-    devtool: isDev(env) ? 'inline-source-map' : false,
-})
+    devtool: isDevEnv ? 'inline-source-map' : false,
+}
 
-const renderer = (env) => ({
-    mode: isDev(env) ? 'development' : 'production',
+const renderer = {
+    mode: appEnv,
     target: 'web',
-    watch: true,
     resolve: {
         extensions: ['.js', '.ts', '.jsx', '.tsx', '.json'],
     },
@@ -98,7 +99,7 @@ const renderer = (env) => ({
     performance: {
         hints: false,
     },
-    devtool: isDev(env) ? 'inline-source-map' : false,
-})
+    devtool: isDevEnv ? 'inline-source-map' : false,
+}
 
 module.exports = [main, renderer]
