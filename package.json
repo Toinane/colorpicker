@@ -111,9 +111,11 @@
     "dependencies": {
         "dotenv": "^8.2.0",
         "i18next": "^19.9.2",
-        "preact": "^10.5.13"
+        "preact": "^10.5.13",
+        "styled-components": "^5.2.1"
     },
     "devDependencies": {
+        "@types/styled-components": "^5.1.9",
         "@typescript-eslint/eslint-plugin": "^4.18.0",
         "@typescript-eslint/parser": "^4.18.0",
         "concurrently": "^6.0.0",

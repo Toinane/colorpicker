@@ -63,6 +63,11 @@ const renderer = {
     target: 'web',
     resolve: {
         extensions: ['.js', '.ts', '.jsx', '.tsx', '.json'],
+        alias: {
+            react: 'preact/compat',
+            'react-dom/test-utils': 'preact/test-utils',
+            'react-dom': 'preact/compat'
+        }
     },
     entry: {
         renderer: './src/renderer/app.tsx',
