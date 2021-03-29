@@ -92,7 +92,7 @@
         "linux"
     ],
     "engines": {
-        "node": ">=15"
+        "node": ">=14"
     },
     "author": {
         "name": "Toinane",
