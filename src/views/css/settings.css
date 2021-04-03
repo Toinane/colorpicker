@@ -1,3 +1,7 @@
+/*
+This file focuses on the appearance of the tools in settings. As well as movement on the screen
+ ie, scrolling and viewing a panel
+*/
 body, *{
   margin: 0;
   font-family: 'Lato', sans-serif;
