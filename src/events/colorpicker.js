@@ -1,5 +1,6 @@
 'use strict'
-
+/*using electron to set constants of ipcMain(event Emmiter), BrowserWindow(creates window without 
+chrome, and app(native application)*/
 const {ipcMain, BrowserWindow, app} = require('electron')
 
 module.exports = (storage, browsers, eventEmitter) => {
@@ -10,6 +11,7 @@ module.exports = (storage, browsers, eventEmitter) => {
     win.webContents.send('changeColor', color)
   })
 
+//setting inital configured values
   ipcMain.on('init-colorpicker', event => {
     win = colorpicker.getWindow()
     let config = {
@@ -24,21 +26,25 @@ module.exports = (storage, browsers, eventEmitter) => {
     event.sender.send('init', config)
   })
 
+//changing the last color set
   ipcMain.on('changeLastColor', (event, color) => {
     storage.add({'lastColor': color})
   })
 
+//save colour to colorsbook extension
   ipcMain.on('saveColor', (event, color) => {
     let colorsbook = storage.get('colors', 'colorsbook')
     colorsbook[Object.getOwnPropertyNames(colorsbook)[Object.values(colorsbook).length - 1]].push(color)
     storage.add({colors: colorsbook}, 'colorsbook')
   })
 
+//update history when a change occurs
   ipcMain.on('changeHistory', (event, array) => {
     storage.add({'history': array})
     eventEmitter.emit('updateHistory', array)
   })
 
+//set opacity when event is called
   ipcMain.on('opacityActive', (event, bool) => {
     opacity = bool
     let size = win.getSize()
@@ -50,6 +56,7 @@ module.exports = (storage, browsers, eventEmitter) => {
     else win.setMinimumSize(440, 255)
   })
 
+//set shading when event is called
   ipcMain.on('shadingActive', (event, bool) => {
     shading = bool
     let size = win.getSize()
@@ -61,11 +68,14 @@ module.exports = (storage, browsers, eventEmitter) => {
     else win.setMinimumSize(440, 255)
   })
 
+//minimze application when event is called
   ipcMain.on('minimize-colorpicker', event => win.minimize())
   ipcMain.on('maximize-colorpicker', event => {
     if (win.isMaximized()) return win.unmaximize()
     else return win.maximize()
   })
+
+  //associating events with functions
   ipcMain.on('close-colorpicker', event => win.close())
   ipcMain.on('setOnTop', (event, bool) => win.setAlwaysOnTop(bool))
   ipcMain.on('launchPicker', event => picker.init())

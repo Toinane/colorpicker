@@ -1,5 +1,5 @@
 'use strict'
-
+//specify how each js class require the electron exports
 module.exports = (storage, browsers, eventEmitter) => ({
   colorpicker: require('./colorpicker')(storage, browsers, eventEmitter),
   colorsbook: require('./colorsbook')(storage, browsers, eventEmitter),
