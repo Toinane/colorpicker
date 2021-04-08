@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const { BrowserWindow } = require('electron');
+const { BrowserWindow, nativeImage } = require("electron");
 
 module.exports = (dirname, storage) => {
     let win;
@@ -28,16 +28,16 @@ module.exports = (dirname, storage) => {
             minWidth: 460,
             minHeight: 340,
             fullscreenable: false,
-            icon: `${dirname}/build/icon.png`,
+            icon: nativeImage.createFromPath(`${dirname}/build/icon.png`),
             webPreferences: {
-                nodeIntegration: true
-            }
+                nodeIntegration: true,
+            },
         };
 
         win = new BrowserWindow(options);
         win.loadURL(`file://${dirname}/views/settings.html`);
 
-        win.on('closed', () => {
+        win.on("closed", () => {
             win = undefined;
         });
     };
@@ -46,6 +46,6 @@ module.exports = (dirname, storage) => {
 
     return {
         init: init,
-        getWindow: getWindow
+        getWindow: getWindow,
     };
 };

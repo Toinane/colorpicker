@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const { BrowserWindow } = require('electron');
+const { BrowserWindow, nativeImage } = require("electron");
 
 module.exports = (dirname, storage, util) => {
     const { touchbar } = util;
@@ -12,7 +12,7 @@ module.exports = (dirname, storage, util) => {
      * @return {void} [new Colorpicker]
      */
     let init = (force, color) => {
-        const size = storage.get('size');
+        const size = storage.get("size");
         if (win === null || win === undefined || force)
             createWindow(size.width, size.height);
         else win.show();
@@ -25,7 +25,7 @@ module.exports = (dirname, storage, util) => {
      * @return {void}
      */
     let createWindow = (width, height) => {
-        const pos = storage.get('pos');
+        const pos = storage.get("pos");
         let options = {
             frame: false,
             autoHideMenuBar: true,
@@ -34,10 +34,10 @@ module.exports = (dirname, storage, util) => {
             minWidth: 440,
             minHeight: 150,
             transparent: true,
-            icon: `${dirname}/build/icon.png`,
+            icon: nativeImage.createFromPath(`${dirname}/build/icon.png`),
             webPreferences: {
-                nodeIntegration: true
-            }
+                nodeIntegration: true,
+            },
         };
         if (pos) {
             options.x = pos.x;
@@ -49,7 +49,7 @@ module.exports = (dirname, storage, util) => {
 
         if (touchbar) win.setTouchBar(touchbar);
 
-        win.on('closed', () => {
+        win.on("closed", () => {
             win = undefined;
             let totalWin = BrowserWindow.getAllWindows();
             for (let wins of totalWin) wins.close();
@@ -63,25 +63,27 @@ module.exports = (dirname, storage, util) => {
      * @param  {BrowserWindow} win [current window]
      * @return {void}
      */
-    let windowEvents = win => {
+    let windowEvents = (win) => {
         let timing;
 
-        win.on('focus', event => win.webContents.send('hasLooseFocus', false));
-        win.on('blur', event => win.webContents.send('hasLooseFocus', true));
+        win.on("focus", (event) =>
+            win.webContents.send("hasLooseFocus", false)
+        );
+        win.on("blur", (event) => win.webContents.send("hasLooseFocus", true));
 
-        win.on('resize', event => {
+        win.on("resize", (event) => {
             const size = win.getBounds();
             clearTimeout(timing);
             timing = setTimeout(
                 () =>
                     storage.add({
-                        size: { width: size.width, height: size.height }
+                        size: { width: size.width, height: size.height },
                     }),
                 300
             );
         });
 
-        win.on('move', event => {
+        win.on("move", (event) => {
             const pos = win.getBounds();
             clearTimeout(timing);
             timing = setTimeout(
@@ -95,6 +97,6 @@ module.exports = (dirname, storage, util) => {
 
     return {
         init: init,
-        getWindow: getWindow
+        getWindow: getWindow,
     };
 };

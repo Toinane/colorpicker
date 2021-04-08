@@ -1,58 +1,58 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Colorpicker</title>
-		<meta charset="utf-8" />
-		<link rel="stylesheet" href="css/app-buttons.css" />
-		<link rel="stylesheet" href="css/colorpicker.css" />
-		<link rel="stylesheet" href="css/fontawesome-all.min.css" />
-		<script defer src="js/color.class.js"></script>
-		<script defer src="js/colorpicker.class.js"></script>
-		<script defer src="js/colorpicker.events.js"></script>
-		<script defer src="js/util.class.js"></script>
-	</head>
-	<body>
-		<div class="toolbar">
-			<ul id="app_buttons">
-				<li id="close"><i></i></li>
-				<li id="minimize"><i></i></li>
-				<li id="maximize"><i></i></li>
-			</ul>
-			<ul id="tools"></ul>
-		</div>
-		<header>
-      <div class="tints"></div>
-			<div class="naturals"></div>
-      <div class="shades"></div>
-		</header>
-		<section class="main">
-			<aside class="sliders">
-				<div class="red_bar">
-					<input type="range" min="0" max="255" value="0" />
-					<progress min="0" max="255" value="0" />
-				</div>
-				<div class="green_bar">
-					<input type="range" min="0" max="255" value="0" />
-					<progress min="0" max="255" value="0" />
-				</div>
-				<div class="blue_bar">
-					<input type="range" min="0" max="255" value="0" />
-					<progress min="0" max="255" value="0" />
-				</div>
-				<div class="alpha_bar">
-					<input type="range" min="0" max="255" value="0" />
-					<progress min="0" max="255" value="0" />
-				</div>
-			</aside>
-			<aside class="inputs">
-				<input type="number" id="red_value" maxlength="3" />
-				<input type="number" id="green_value" maxlength="3" />
-				<input type="number" id="blue_value" maxlength="3" />
-				<input type="text" id="alpha_value" maxlength="4" />
-			</aside>
-			<aside class="value">
-				<input type="text" id="hex_value" maxlength="7"/>
-			</aside>
-		</section>
-   </body>
+    <head>
+        <title>Colorpicker</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="css/app-buttons.css" />
+        <link rel="stylesheet" href="css/colorpicker.css" />
+        <link rel="stylesheet" href="css/fontawesome-all.min.css" />
+        <script defer src="js/color.class.js"></script>
+        <script defer src="js/colorpicker.class.js"></script>
+        <script defer src="js/colorpicker.events.js"></script>
+        <script defer src="js/util.class.js"></script>
+    </head>
+    <body>
+        <div class="toolbar">
+            <ul id="app_buttons">
+                <li id="close"><i></i></li>
+                <li id="minimize"><i></i></li>
+                <li id="maximize"><i></i></li>
+            </ul>
+            <ul id="tools"></ul>
+        </div>
+        <header>
+            <div class="tints"></div>
+            <div class="naturals"></div>
+            <div class="shades"></div>
+        </header>
+        <section class="main">
+            <aside class="sliders">
+                <div class="red_bar">
+                    <input type="range" min="0" max="255" value="0" />
+                    <progress min="0" max="255" value="0" />
+                </div>
+                <div class="green_bar">
+                    <input type="range" min="0" max="255" value="0" />
+                    <progress min="0" max="255" value="0" />
+                </div>
+                <div class="blue_bar">
+                    <input type="range" min="0" max="255" value="0" />
+                    <progress min="0" max="255" value="0" />
+                </div>
+                <div class="alpha_bar">
+                    <input type="range" min="0" max="255" value="0" />
+                    <progress min="0" max="255" value="0" />
+                </div>
+            </aside>
+            <aside class="inputs">
+                <input type="number" id="red_value" maxlength="3" />
+                <input type="number" id="green_value" maxlength="3" />
+                <input type="number" id="blue_value" maxlength="3" />
+                <input type="text" id="alpha_value" maxlength="4" />
+            </aside>
+            <aside class="value">
+                <input type="text" id="hex_value" maxlength="7" />
+            </aside>
+        </section>
+    </body>
 </html>

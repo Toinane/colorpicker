@@ -1,7 +1,7 @@
 {
     "name": "colorpicker",
     "productName": "colorpicker",
-    "version": "2.0.4",
+    "version": "2.0.5",
     "description": "Colorpicker is a little Electron app that can show colors with hex/rgb code, and generate shading for your color.",
     "main": "src/main.js",
     "scripts": {
@@ -15,7 +15,7 @@
         "release-window": "electron-builder --publish=never --config colorpicker-build.json --win nsis portable",
         "nightly": "electron-builder --publish=never --config colorpicker-build-nightly.json",
         "nightly-linux": "electron-builder --publish=never --config colorpicker-build-nightly.json --linux deb appImage",
-        "rebuild": "npm rebuild --runtime=electron --target=8.2.1 --disturl=https://atom.io/download/electron --abi=76"
+        "rebuild": "npm rebuild --runtime=electron --target=9.4.4 --disturl=https://atom.io/download/electron --abi=80"
     },
     "repository": "https://github.com/toinane/colorpicker",
     "keywords": [
@@ -29,22 +29,22 @@
         "crea-that"
     ],
     "dependencies": {
-        "electron-json-storage": "^4.1.8",
+        "electron-json-storage": "^4.4.0",
         "request": "^2.88.2",
         "robotjs": "git+https://github.com/Toinane/robotjs",
-        "sortablejs": "^1.10.2",
-        "tippy.js": "^6.1.1"
+        "sortablejs": "^1.13.0",
+        "tippy.js": "^6.3.1"
     },
     "optionalDependencies": {
+        "iohook": "^0.9.0",
         "osx-mouse": "git+https://github.com/Toinane/osx-mouse",
-        "win-mouse": "git+https://github.com/Toinane/win-mouse",
-        "iohook": "^0.6.5"
+        "win-mouse": "git+https://github.com/Toinane/win-mouse"
     },
     "devDependencies": {
-        "electron": "8.5.2",
-        "electron-builder": "22.4.1",
+        "electron": "9.4.4",
+        "electron-builder": "22.10.5",
         "minimist": "^1.2.5",
-        "standard": "14.3.3"
+        "standard": "16.0.3"
     },
     "author": {
         "name": "Toinane",
@@ -56,7 +56,7 @@
     "license": "GPL-3.0",
     "iohook": {
         "targets": [
-            "electron-76"
+            "electron-80"
         ],
         "platforms": [
             "linux"
