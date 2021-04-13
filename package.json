@@ -15,7 +15,7 @@
         "release-window": "electron-builder --publish=never --config colorpicker-build.json --win nsis portable",
         "nightly": "electron-builder --publish=never --config colorpicker-build-nightly.json",
         "nightly-linux": "electron-builder --publish=never --config colorpicker-build-nightly.json --linux deb appImage",
-        "rebuild": "npm rebuild --runtime=electron --target=9.4.4 --disturl=https://atom.io/download/electron --abi=80"
+        "rebuild": "npm rebuild --runtime=electron --target=9.4.4 --disturl=https://electronjs.org/headers --abi=80"
     },
     "repository": "https://github.com/toinane/colorpicker",
     "keywords": [
