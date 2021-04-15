@@ -18,6 +18,14 @@
         "paths": {
             "react": ["node_modules/preact/compat/"],
             "react-dom": ["node_modules/preact/compat/"]
-        }
+        },
+        "plugins": [
+            {
+                "transform": "typescript-plugin-styled-components",
+                "type": "config",
+                "minify": true,
+                "ssr": true
+            }
+        ]
     }
 }

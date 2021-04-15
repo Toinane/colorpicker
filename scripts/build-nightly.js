@@ -18,7 +18,7 @@ builder
                 category: 'public.app-category.graphics-design',
                 target: ['dmg'],
                 type: 'development',
-                icon: 'nightly/icon.icns',
+                icon: 'assets/nightly/icon.icns',
                 extendInfo: {
                     CFBundleName: 'Colorpicker',
                     CFBundleDisplayName: 'Colorpicker',
@@ -48,28 +48,28 @@ builder
                 },
             },
             dmg: {
-                icon: 'nightly/dmg-installer.icns',
-                background: 'nightly/dmg-background.png',
+                icon: 'assets/nightly/dmg-installer.icns',
+                background: 'assets/nightly/dmg-background.png',
                 window: {
                     width: 540,
                     height: 380,
                 },
             },
             linux: {
-                icon: 'nightly/',
+                icon: 'assets/nightly/',
                 synopsis: 'Colorpicker Nightly App',
                 category: 'Graphics',
                 executableName: 'colorpicker-app',
                 desktop: {
                     Name: 'Colorpicker Nightly',
                     Type: 'Application',
-                    Icon: 'nightly/icon.png',
+                    Icon: 'assets/nightly/icon.png',
                     Categories: 'Graphics;Utility',
                 },
                 mimeTypes: ['cpk', 'gpl', 'aco', 'ase', 'pal', 'afpalette', 'aseprite', 'hex', 'col', 'ai'],
             },
             win: {
-                icon: 'nightly/icon.ico',
+                icon: 'assets/nightly/icon.ico',
                 target: ['nsis', 'msi'],
                 publisherName: 'Toinane',
                 fileAssociations: [
@@ -78,6 +78,9 @@ builder
                         description: 'Palette files',
                     },
                 ],
+                certificateFile: '.win_certificate.p12',
+                certificatePassword: process.env.WIN_CERTIFICATE_PWD,
+                verifyUpdateCodeSignature: false,
             },
             nsis: {
                 oneClick: false,
@@ -85,10 +88,10 @@ builder
                 createDesktopShortcut: true,
                 createStartMenuShortcut: true,
                 allowToChangeInstallationDirectory: true,
-                installerIcon: 'nightly/nsis-installer-oldschool.ico',
+                installerIcon: 'assets/nightly/nsis-installer-oldschool.ico',
                 artifactName: '${productName}-${version}-${platform}-installer.${ext}',
-                installerHeader: 'nightly/installerHeader.bmp',
-                installerSidebar: 'nightly/installerSidebar.bmp',
+                installerHeader: 'assets/nightly/installerHeader.bmp',
+                installerSidebar: 'assets/nightly/installerSidebar.bmp',
             },
         },
     })

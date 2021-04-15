@@ -17,7 +17,7 @@ builder
             mac: {
                 category: 'public.app-category.graphics-design',
                 target: ['dmg'],
-                icon: 'release/icon.icns',
+                icon: 'assets/release/icon.icns',
                 extendInfo: {
                     CFBundleName: 'Colorpicker',
                     CFBundleDisplayName: 'Colorpicker',
@@ -49,30 +49,30 @@ builder
                 },
             },
             dmg: {
-                icon: 'release/dmg-installer.icns',
-                background: 'release/dmg-background.png',
+                icon: 'assets/release/dmg-installer.icns',
+                background: 'assets/release/dmg-background.png',
                 window: {
                     width: 540,
                     height: 380,
                 },
                 // update window size & design: https://www.electron.build/configuration/dmg
             },
-            afterSign: 'scripts/notarize.js',
+            //afterSign: 'scripts/notarize.js',
             linux: {
-                icon: 'release/',
+                icon: 'assets/release/',
                 synopsis: 'Colorpicker App',
                 category: 'Graphics',
                 executableName: 'colorpicker-app',
                 desktop: {
                     Name: 'Colorpicker',
                     Type: 'Application',
-                    Icon: 'release/icon.png',
+                    Icon: 'assets/release/icon.png',
                     Categories: 'Graphics;Utility',
                 },
                 mimeTypes: ['cpk', 'gpl', 'aco', 'ase', 'pal', 'afpalette', 'aseprite', 'hex', 'col', 'ai'],
             },
             win: {
-                icon: 'release/icon.ico',
+                icon: 'assets/release/icon.ico',
                 target: ['nsis', 'msi'],
                 publisherName: 'Toinane',
                 fileAssociations: [
@@ -88,10 +88,10 @@ builder
                 createDesktopShortcut: true,
                 createStartMenuShortcut: true,
                 allowToChangeInstallationDirectory: true,
-                installerIcon: 'release/nsis-installer-oldschool.ico',
+                installerIcon: 'assets/release/nsis-installer-oldschool.ico',
                 artifactName: '${productName}-${version}-${platform}-installer.${ext}',
-                installerHeader: 'release/installerHeader.bmp',
-                installerSidebar: 'release/installerSidebar.bmp',
+                installerHeader: 'assets/release/installerHeader.bmp',
+                installerSidebar: 'assets/release/installerSidebar.bmp',
             },
         },
     })

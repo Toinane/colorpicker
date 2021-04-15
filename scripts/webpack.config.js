@@ -2,9 +2,11 @@ require('dotenv/config')
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const TerserWebpackPlugin = require('terser-webpack-plugin')
+const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default
 
 const appEnv = process.env.APP_ENVIRONNEMENT || 'development'
 const isDevEnv = appEnv === 'development'
+const styledComponentsTransformer = createStyledComponentsTransformer()
 
 const main = {
     mode: appEnv,
@@ -66,8 +68,8 @@ const renderer = {
         alias: {
             react: 'preact/compat',
             'react-dom/test-utils': 'preact/test-utils',
-            'react-dom': 'preact/compat'
-        }
+            'react-dom': 'preact/compat',
+        },
     },
     entry: {
         renderer: './src/renderer/app.tsx',
@@ -82,6 +84,10 @@ const renderer = {
                 test: /\.tsx?$/,
                 exclude: /node_modules/,
                 loader: 'ts-loader',
+                options: {
+                    compiler: 'ttypescript',
+                    getCustomTransformers: () => ({ before: [styledComponentsTransformer] }),
+                },
             },
             {
                 test: /\.css$/,

@@ -3,4 +3,5 @@
 /release
 
 *.log
+*.p12
 .env
