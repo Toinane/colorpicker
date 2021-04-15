@@ -1,3 +1,4 @@
+require('dotenv/config')
 const builder = require('electron-builder')
 
 builder
@@ -81,6 +82,9 @@ builder
                         description: 'Palette files',
                     },
                 ],
+                certificateFile: 'win_certificate.p12',
+                certificatePassword: process.env.WIN_CERTIFICATE_PWD,
+                verifyUpdateCodeSignature: false,
             },
             nsis: {
                 oneClick: false,
