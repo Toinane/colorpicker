@@ -105,8 +105,7 @@
         "clean": "rm -rf dist release",
         "prestart": "webpack --config ./scripts/webpack.config.js",
         "start": "concurrently -n \"WEBPACK,ELECTRON\" -c \"bgGreen,bgBlue\" \"webpack -w --config ./scripts/webpack.config.js\" \"electron .\"",
-        "nightly": " yarn prestart && node scripts/build-nightly.js",
-        "release": "yarn prestart && node scripts/build-release.js"
+        "release": "yarn prestart && node scripts/build-app.js"
     },
     "dependencies": {
         "dotenv": "^8.2.0",

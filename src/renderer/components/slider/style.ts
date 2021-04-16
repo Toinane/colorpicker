@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const SliderContainer = styled.div`
+export const SliderContainer = styled.section`
     position: relative;
     display: flex;
     justify-content: center;
