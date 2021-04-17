@@ -8,7 +8,7 @@ const productName = isRelease ? 'Colorpicker' : 'Colorpicker Nightly'
 builder
     .build({
         config: {
-            appId: isRelease ? 'fr.toinane.colorpicker' : 'fr.toinane.colorpicker-nightly',
+            appId: isRelease ? 'fr.toinane.colorpicker' : 'fr.toinane.colorpicker.nightly',
             productName: productName,
             copyright: 'Copyright © 2016 - 2021 Toinane',
             artifactName: '${productName}-${version}${arch}.${ext}',
@@ -24,16 +24,16 @@ builder
             mac: {
                 target: ['dmg'],
                 category: 'public.app-category.graphics-design',
-                icon: `assets/${versionType}/icon.icns`,
+                icon: `assets/${versionType}/icon_osx_bigsur.icns`,
                 entitlements: 'assets/config/entitlements.mac.plist',
                 entitlementsInherit: 'assets/config/entitlements.mac.plist',
                 darkModeSupport: true,
                 type: 'development',
                 extendInfo: {
                     //NSRequiresAquaSystemAppearance: false
-                    CFBundleName: 'Colorpicker',
-                    CFBundleDisplayName: 'Colorpicker',
-                    CFBundleExecutable: 'Colorpicker',
+                    CFBundleName: productName,
+                    CFBundleDisplayName: productName,
+                    CFBundleExecutable: productName,
                     CFBundlePackageType: 'APPL',
                     CFBundleDocumentTypes: [
                         {
@@ -61,8 +61,21 @@ builder
                 icon: `assets/${versionType}/dmg_installer.icns`,
                 window: {
                     width: 540,
-                    height: 310,
+                    height: 330,
                 },
+                contents: [
+                    {
+                        type: 'link',
+                        path: '/Applications',
+                        x: 390,
+                        y: 150,
+                    },
+                    {
+                        type: 'file',
+                        x: 150,
+                        y: 150,
+                    },
+                ],
             },
             win: {
                 target: ['nsis', 'msi'],
