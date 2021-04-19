@@ -36,7 +36,7 @@ jobs:
               run: mkdir artifacts
 
             - name: move Linux build artifacts
-              run: mv release/*.deb release/*.AppImage release/*.tar.gz ./artifacts
+              run: mv release/*.deb release/*.AppImage release/*.freebsd release/*.tar.gz ./artifacts
               if: matrix.os == 'ubuntu-latest'
 
             - name: move Macos build artifacts
@@ -44,7 +44,7 @@ jobs:
               if: matrix.os == 'macos-latest'
 
             - name: move Windows build artifacts
-              run: move release/*.exe ./release/*.msi ./artifacts
+              run: move release/*.exe ./release/*.msi -Destination ./artifacts
               if: matrix.os == 'windows-latest'
 
             - name: test to remove
