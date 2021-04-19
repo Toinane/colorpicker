@@ -21,7 +21,7 @@ jobs:
 
             - name: apt-get update on Ubuntu
               run: sudo apt-get update
-              if: startsWith(matrix.os, 'ubuntu')
+              if: matrix.os == 'ubuntu-latest'
 
             - name: install dependencies
               run: yarn install --frozen-lockfile
@@ -36,8 +36,12 @@ jobs:
               run: ls ./release
 
             - name: Cleanup artifacts
-              run: |
-                  npx rimraf "dist_electron/!(*.exe|*.msi|*.deb|*.rpm|*.AppImage|*.dmg|*.snap)"
+              run: shopt -s extglob && rm -rf release/!(*.exe|*.msi|*.deb|*.rpm|*.AppImage|*.dmg|*.snap)
+              if: matrix.os != 'windows-latest'
+
+            - name: Cleanup Windows artifacts
+              run: for /f %F in ('dir /b /a-d ^| findstr /vile ".tiff .jpg"') do del "%F"
+              if: matrix.os == 'windows-latest'
 
             - name: Upload artifacts
               uses: actions/upload-artifact@v2
