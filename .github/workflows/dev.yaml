@@ -44,7 +44,7 @@ jobs:
               if: matrix.os == 'macos-latest'
 
             - name: move Windows build artifacts
-              run: move release/*.exe ./release/*.msi -Destination ./artifacts
+              run: move release\*.exe, release\*.msi -Destination artifacts
               if: matrix.os == 'windows-latest'
 
             - name: test to remove
