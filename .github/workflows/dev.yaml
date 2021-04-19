@@ -26,8 +26,8 @@ jobs:
             - name: install dependencies
               run: yarn install --frozen-lockfile
 
-            - name: install rimraf
-              run: yarn install rimraf
+            - name: add rimraf dependency
+              run: yarn add rimraf
 
             - name: build Colorpicker Nightly
               run: npm run release
