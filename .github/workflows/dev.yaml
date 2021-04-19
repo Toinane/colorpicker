@@ -26,29 +26,28 @@ jobs:
             - name: install dependencies
               run: yarn install --frozen-lockfile
 
-            - name: add rimraf dependency
-              run: yarn add rimraf
-
             - name: build Colorpicker Nightly
               run: npm run release
 
             - name: test to remove
               run: ls ./release
 
-            - name: Cleanup artifacts
-              run: |
-                  npx rimraf "dist_electron/!(*.exe|*.msi|*.deb|*.rpm|*.AppImage|*.dmg|*.snap)"
+            - name: create artifacts folder
+              run: mkdir artifacts
+
+            - name: move build artifacts
+              run: cd release && mv *.deb *.rpm *.AppImage *.dmg ../artifacts && cd ../
               if: matrix.os != 'windows-latest'
 
-            - name: Cleanup Windows artifacts
-              run: for /f %F in ('dir release /b /a-d ^| findstr /vile ".exe .msi"') do del "%F"
+            - name: move Windows build artifacts
+              run: move ./release/*.exe ./release/*.msi ./artifacts
               if: matrix.os == 'windows-latest'
 
             - name: test to remove
-              run: ls ./release
+              run: ls ./artifacts
 
             - name: Upload artifacts
               uses: actions/upload-artifact@v2
               with:
                   name: ${{ matrix.os }}
-                  path: release
+                  path: artifacts
