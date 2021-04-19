@@ -36,12 +36,16 @@ jobs:
               run: ls ./release
 
             - name: Cleanup artifacts
-              run: shopt -s extglob && rm -rf release/!(*.exe|*.msi|*.deb|*.rpm|*.AppImage|*.dmg|*.snap)
+              run: |
+                  npx rimraf "dist_electron/!(*.exe|*.msi|*.deb|*.rpm|*.AppImage|*.dmg|*.snap)"
               if: matrix.os != 'windows-latest'
 
             - name: Cleanup Windows artifacts
-              run: for /f %F in ('dir /b /a-d ^| findstr /vile ".exe .msi"') do del "%F"
+              run: for /f %F in ('dir release /b /a-d ^| findstr /vile ".exe .msi"') do del "%F"
               if: matrix.os == 'windows-latest'
+
+            - name: test to remove
+              run: ls ./release
 
             - name: Upload artifacts
               uses: actions/upload-artifact@v2
