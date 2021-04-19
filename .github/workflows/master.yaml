@@ -1,36 +1,56 @@
-name: Building Stable App
+name: Building Colorpicker Nightly App
 
 on:
     pull_request:
         branches:
-            - master
+            - dev
         types: [closed]
 
 jobs:
-    release:
+    build:
         if: github.event.pull_request.merged == true
         runs-on: ${{ matrix.os }}
 
         strategy:
             matrix:
-                os: [ubuntu-latest] #[macos-latest, ubuntu-latest, windows-latest]
+                os: [ubuntu-latest, macos-latest, windows-latest]
 
         steps:
             - uses: actions/checkout@v2
-
-            - name: Use Nodejs 12
-              uses: actions/setup-node@v1.1.0
+            - uses: actions/setup-node@v2
               with:
-                  node-version: 12
+                  node-version: 15
 
-            - name: Install OS packages
-              run: sudo apt-get install python2.7 make gcc libxtst-dev libpng++-dev && sudo npm i -g node-gyp
+            - name: apt-get update on Ubuntu
+              run: sudo apt-get update
+              if: matrix.os == 'ubuntu-latest'
 
-            - name: Install Colorpicker packages
-              run: npm i
+            - name: install dependencies
+              run: yarn install --frozen-lockfile
 
-            - name: Build C++ packages
-              run: npm run rebuild
+            - name: build Colorpicker Nightly
+              run: npm run release
+              env:
+                  APP_ENVIRONNEMENT: production
+                  BUILD_RELEASE: true
 
-            - name: Build Colorpicker
-              run: npm run release-linux
+            - name: create artifacts folder
+              run: mkdir artifacts
+
+            - name: move Linux build artifacts
+              run: mv release/*.deb release/*.AppImage release/*.freebsd release/*.tar.gz ./artifacts
+              if: matrix.os == 'ubuntu-latest'
+
+            - name: move Macos build artifacts
+              run: mv release/*.dmg ./artifacts
+              if: matrix.os == 'macos-latest'
+
+            - name: move Windows build artifacts
+              run: move release\*.exe, release\*.msi -Destination artifacts
+              if: matrix.os == 'windows-latest'
+
+            - name: Upload artifacts
+              uses: actions/upload-artifact@v2
+              with:
+                  name: ${{ matrix.os }}
+                  path: artifacts
