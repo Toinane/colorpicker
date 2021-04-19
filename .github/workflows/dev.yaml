@@ -33,7 +33,7 @@ jobs:
               run: npm run release
 
             - name: test to remove
-              run: ls -la
+              run: ls ./release
 
             - name: Cleanup artifacts
               run: |
