@@ -4,9 +4,11 @@ on:
     pull_request:
         branches:
             - dev
+        types: [closed]
 
 jobs:
     build:
+        if: github.event.pull_request.merged == true
         runs-on: ${{ matrix.os }}
 
         strategy:
@@ -28,9 +30,8 @@ jobs:
 
             - name: build Colorpicker Nightly
               run: npm run release
-
-            - name: test to remove
-              run: ls ./release
+              env:
+                  APP_ENVIRONNEMENT: production
 
             - name: create artifacts folder
               run: mkdir artifacts
@@ -46,9 +47,6 @@ jobs:
             - name: move Windows build artifacts
               run: move release\*.exe, release\*.msi -Destination artifacts
               if: matrix.os == 'windows-latest'
-
-            - name: test to remove
-              run: ls ./artifacts
 
             - name: Upload artifacts
               uses: actions/upload-artifact@v2
