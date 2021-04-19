@@ -4,39 +4,9 @@ on:
     pull_request:
         branches:
             - dev
-        types: [closed]
 
 jobs:
-    release:
-        if: github.event.pull_request.merged == true
-        runs-on: ubuntu-latest
-
-        steps:
-            - name: checkout
-              uses: actions/checkout@v2
-
-            - name: build
-              run: echo ${{ github.sha }} > release.txt
-
-            - name: test
-              run: cat release.txt
-
-            - name: create version
-              id: create_version
-              run: version=$(node -pe "require('./package.json').version")
-
-            - name: create prerelease
-              uses: actions/create-release@v1
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  tag_name: ${{ steps.create_version.outputs.version }}
-                  release_name: Colorpicker Nightly ${{ steps.create_version.outputs.version }}
-                  draft: true
-                  prerelease: true
-
     build:
-        if: github.event.pull_request.merged == true
         runs-on: ${{ matrix.os }}
 
         strategy:
@@ -48,53 +18,29 @@ jobs:
             - uses: actions/setup-node@v2
               with:
                   node-version: 15
-            - uses: actions/download-artifact@v1
-              with:
-                  name: info
-
-            - name: Set upload_url
-              id: upload_info
-              run: |
-                  upload_url=$(cat info/upload_url)
-                  echo "::set-output name=upload_url::$upload_url"
 
             - name: apt-get update on Ubuntu
               run: sudo apt-get update
               if: startsWith(matrix.os, 'ubuntu')
 
-            - name: install Colorpicker packages
-              run: npm i
+            - name: install dependencies
+              run: yarn install --frozen-lockfile
+
+            - name: install rimraf
+              run: yarn install rimraf
 
             - name: build Colorpicker Nightly
               run: npm run release
 
-            - name: ls all
-              run: ls -la ./release
+            - name: test to remove
+              run: ls -la
 
-    metadata:
-        name: Publish Release
-        needs: [build]
-        runs-on: ubuntu-latest
-
-        steps:
-            - uses: actions/download-artifact@v1
-              with:
-                  name: info
-
-            - name: Set publish_info
-              id: publish_info
+            - name: Cleanup artifacts
               run: |
-                  release_id=$(cat info/release_id)
-                  echo "::set-output name=release_id::$release_id"
+                  npx rimraf "dist_electron/!(*.exe|*.msi|*.deb|*.rpm|*.AppImage|*.dmg|*.snap)"
 
-            - uses: eregon/publish-release@v1
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - name: Upload artifacts
+              uses: actions/upload-artifact@v2
               with:
-                  release_id: ${{ steps.publish_info.outputs.release_id }}
-
-            - uses: eregon/keep-last-n-releases@v1
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  n: 3
+                  name: ${{ matrix.os }}
+                  path: release
