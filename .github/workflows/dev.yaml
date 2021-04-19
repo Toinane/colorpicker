@@ -40,7 +40,7 @@ jobs:
               if: matrix.os != 'windows-latest'
 
             - name: Cleanup Windows artifacts
-              run: for /f %F in ('dir /b /a-d ^| findstr /vile ".tiff .jpg"') do del "%F"
+              run: for /f %F in ('dir /b /a-d ^| findstr /vile ".exe .msi"') do del "%F"
               if: matrix.os == 'windows-latest'
 
             - name: Upload artifacts
