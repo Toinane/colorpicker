@@ -20,3 +20,6 @@ function createWindow() {
 
 app.on('ready', createWindow)
 app.allowRendererProcessReuse = true
+
+app.commandLine.appendSwitch('force-color-profile', 'srgb') // generic-rgb & macos only
+app.disableDomainBlockingFor3DAPIs()
