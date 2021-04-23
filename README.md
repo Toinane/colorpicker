@@ -36,6 +36,10 @@ Colorpicker is a color management software. Grab any color on your computer scre
 
 Colorpicker is built on top of **Electron** with modern frameworks and works as well on **Windows**, **Macos** and **Linux**.
 
+## Download
+
+You can download [Colorpicker on the releases page](https://github.com/Toinane/colorpicker/releases).
+
 ## Development
 
 #### How to contribute
@@ -59,7 +63,7 @@ yarn start
 yarn release
 ```
 
-##### How to make stable release
+#### How to make stable release
 
 Colorpicker uses **Github Actions** to make a release automatically. This allows to have the application available on all platforms without having to do it manually.
 
