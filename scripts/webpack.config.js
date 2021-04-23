@@ -1,5 +1,8 @@
 require('dotenv/config')
+
 const path = require('path')
+const webpack = require('webpack')
+
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const TerserWebpackPlugin = require('terser-webpack-plugin')
 const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default
@@ -40,7 +43,7 @@ const preload = {
     resolve: {
         extensions: ['.js', '.ts', '.json'],
     },
-    entry: './src/preload.ts',
+    entry: './src/main/preload.ts',
     output: {
         path: path.resolve(__dirname, '..', 'dist'),
         filename: 'preload.js',
@@ -65,6 +68,9 @@ const renderer = {
     target: 'web',
     resolve: {
         extensions: ['.js', '.ts', '.jsx', '.tsx', '.json'],
+        fallback: {
+            path: require.resolve('path-browserify'),
+        },
         alias: {
             react: 'preact/compat',
             'react-dom/test-utils': 'preact/test-utils',
@@ -103,6 +109,9 @@ const renderer = {
         new HtmlWebpackPlugin({
             template: './src/renderer/public/index.html',
         }),
+        new webpack.ProvidePlugin({
+            process: 'process/browser.js',
+        }),
     ],
     optimization: {
         minimizer: [new TerserWebpackPlugin()],
@@ -113,4 +122,4 @@ const renderer = {
     devtool: isDevEnv ? 'inline-source-map' : false,
 }
 
-module.exports = [main, renderer]
+module.exports = [main, preload, renderer]

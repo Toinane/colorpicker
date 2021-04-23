@@ -1,5 +1,7 @@
 import { app, BrowserWindow } from 'electron'
 
+import i18n from './common/localization/i18n.main'
+
 let mainWindow: BrowserWindow | null
 
 function createWindow() {
@@ -8,6 +10,7 @@ function createWindow() {
         height: 600,
         webPreferences: {
             nodeIntegration: true,
+            preload: './dist/preload.js',
         },
     })
 
