@@ -78,7 +78,7 @@ builder
                 ],
             },
             win: {
-                target: ['nsis', 'msi'],
+                target: ['nsis'],
                 icon: `assets/${versionType}/icon.ico`,
                 publisherName: 'Crea-THAT',
                 verifyUpdateCodeSignature: false,

@@ -1,4 +1,4 @@
-name: Building Colorpicker Nightly App
+name: Colorpicker Nightly
 
 on:
     pull_request:

@@ -2,7 +2,7 @@
     "name": "colorpicker",
     "productName": "colorpicker",
     "version": "3.0.0",
-    "description": "A mininal but complete colorpicker desktop app",
+    "description": "Modern and powerful color management software",
     "main": "dist/main.js",
     "repository": "git@github.com:Toinane/new-colorpicker.git",
     "keywords": [
