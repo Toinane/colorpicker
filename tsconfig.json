@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist",
+        "module": "commonjs",
+        "target": "ES2020",
+        "sourceMap": true,
+        "strict": true,
+        "allowJs": true,
+        "noImplicitAny": true,
+        "esModuleInterop": true,
+        "jsx": "react",
+        "jsxFactory": "h",
+        "moduleResolution": "node",
+        "baseUrl": ".",
+        "lib": ["es6", "dom"],
+        "skipLibCheck": true,
+        "allowSyntheticDefaultImports": true,
+        "paths": {
+            "react": ["node_modules/preact/compat/"],
+            "react-dom": ["node_modules/preact/compat/"]
+        },
+        "plugins": [
+            {
+                "transform": "typescript-plugin-styled-components",
+                "type": "config",
+                "minify": true,
+                "ssr": true
+            }
+        ]
+    }
+}
