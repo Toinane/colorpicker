@@ -41,7 +41,7 @@
         "win-mouse": "git+https://github.com/Toinane/win-mouse"
     },
     "devDependencies": {
-        "electron": "9.4.4",
+        "electron": "11.5.0",
         "electron-builder": "22.10.5",
         "minimist": "^1.2.5",
         "standard": "16.0.3"
