@@ -43,7 +43,7 @@
     "devDependencies": {
         "electron": "9.4.4",
         "electron-builder": "22.10.5",
-        "minimist": "^1.2.5",
+        "minimist": "^1.2.6",
         "standard": "16.0.3"
     },
     "author": {
