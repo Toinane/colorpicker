@@ -1,0 +1,29 @@
+name: Run tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: apt-get update on Ubuntu
+        run: sudo apt-get update
+        if: matrix.os == 'ubuntu-latest'
+
+      - name: install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Linting
+        run: yarn lint
+
+      - name: Run tests
+        run: yarn test
