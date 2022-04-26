@@ -4,10 +4,15 @@ let mainWindow: BrowserWindow | null;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 500,
+    width: 500,
+    height: 250,
+    minWidth: 400,
+    minHeight: 250,
+    titleBarStyle: 'hidden',
+    show: false,
     webPreferences: {
-      nodeIntegration: true,
+      preload: './dist/main_preload.js',
+      sandbox: true,
     },
   });
 
@@ -16,6 +21,11 @@ function createWindow() {
   } else {
     mainWindow.loadFile('./dist/index.html');
   }
+
+  mainWindow.on('ready-to-show', () => {
+    mainWindow?.show();
+    mainWindow?.webContents.openDevTools();
+  });
 
   mainWindow.on('closed', () => {
     mainWindow = null;
@@ -26,3 +36,4 @@ app.on('ready', createWindow);
 
 app.commandLine.appendSwitch('force-color-profile', 'srgb'); // generic-rgb & macos only
 app.disableDomainBlockingFor3DAPIs();
+app.disableHardwareAcceleration();

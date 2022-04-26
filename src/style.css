@@ -1,0 +1,38 @@
+/* Reset CSS */
+
+*:where(:not(iframe, canvas, img, svg, video):not(svg *, symbol *)) {
+  all: unset;
+  display: revert;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+a,
+button {
+  cursor: revert;
+}
+
+ol,
+ul,
+menu {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+}
+
+/* Global Style */
+
+:root {
+  --colopicker-main-color: black;
+}
+
+body {
+  background: var(--colopicker-main-color);
+  user-select: none;
+}

@@ -1,0 +1,76 @@
+.windowBar {
+  display: flex;
+  justify-content: space-between;
+  height: 36px;
+  width: 100%;
+  background: #2d2d3a;
+  -webkit-app-region: drag;
+  flex-direction: row-reverse;
+}
+
+.windowButtons {
+  -webkit-app-region: no-drag;
+  display: flex;
+  cursor: initial;
+}
+
+.windowButtons div {
+  position: relative;
+  width: 40px;
+  height: 100%;
+  transition: 0.3s background;
+}
+
+.windowButtons div:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transition: 0.1s background;
+}
+
+.minimize::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 38%;
+  width: 10px;
+  border-bottom: 1px solid white;
+}
+
+.maximize::before {
+  content: '';
+  position: absolute;
+  top: 37%;
+  left: 37%;
+  width: 10px;
+  height: 10px;
+  border: 1px solid white;
+  border-radius: 2px;
+}
+
+.close::before,
+.close::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 32%;
+  width: 13px;
+  height: 1px;
+  transform: rotate(45deg);
+  background: white;
+}
+
+.close::after {
+  transform: rotate(-45deg);
+}
+
+.windowButtons .close:hover {
+  background: #e81123;
+}
+
+.windowButtons .close:active {
+  background: #f1707a;
+  transition: 0s background;
+}
+.close:active::after,
+.close:active::before {
+  background: black;
+}

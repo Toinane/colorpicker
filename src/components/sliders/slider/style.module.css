@@ -3,6 +3,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 24px;
+  width: 50%;
 }
 
 .input {
@@ -29,18 +31,18 @@
 .progress {
   -webkit-appearance: none;
   position: absolute;
-  width: 97%;
+  width: 99%;
   height: 10px;
 }
 
 .progress::-webkit-progress-bar {
   background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 6px;
+  border-radius: 100px;
 }
 
 .progress::-webkit-progress-value {
   background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 6px;
+  border-radius: 100px;
 }
 
 .red::-webkit-progress-value {
