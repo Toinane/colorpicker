@@ -57,13 +57,13 @@ yarn
 - Launch Colorpicker in development mode
 
 ```shell
-yarn start
+yarn dev
 ```
 
 - Make a Nightly build
 
 ```
-yarn release
+yarn release:nightly
 ```
 
 #### How to make stable release
