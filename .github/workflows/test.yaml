@@ -22,9 +22,19 @@ jobs:
 
       - name: install dependencies
         run: yarn install --frozen-lockfile
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
 
-      - name: Linting
+      - name: install playwright
+        run: yarn playwright install --with-deps chromium
+
+      - name: linting
         run: yarn lint
 
-      - name: Run tests
+      - name: run tests on linux
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- yarn test
+        if: matrix.os == 'ubuntu-latest'
+
+      - name: run tests
         run: yarn test
+        if: matrix.os != 'ubuntu-latest'
