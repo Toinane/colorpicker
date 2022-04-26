@@ -1,8 +1,6 @@
-
-  CeCILL FREE SOFTWARE LICENSE AGREEMENT
+CeCILL FREE SOFTWARE LICENSE AGREEMENT
 
 Version 2.1 dated 2013-06-21
-
 
     Notice
 
@@ -10,15 +8,15 @@ This Agreement is a Free Software license agreement that is the result
 of discussions between its authors in order to ensure compliance with
 the two main principles guiding its drafting:
 
-  * firstly, compliance with the principles governing the distribution
-    of Free Software: access to source code, broad rights granted to users,
-  * secondly, the election of a governing law, French law, with which it
-    is conformant, both as regards the law of torts and intellectual
-    property law, and the protection that it offers to both authors and
-    holders of the economic rights over software.
+- firstly, compliance with the principles governing the distribution
+  of Free Software: access to source code, broad rights granted to users,
+- secondly, the election of a governing law, French law, with which it
+  is conformant, both as regards the law of torts and intellectual
+  property law, and the protection that it offers to both authors and
+  holders of the economic rights over software.
 
-The authors of the CeCILL (for Ce[a] C[nrs] I[nria] L[ogiciel] L[ibre]) 
-license are: 
+The authors of the CeCILL (for Ce[a] C[nrs] I[nria] L[ogiciel] L[ibre])
+license are:
 
 Commissariat à l'énergie atomique et aux énergies alternatives - CEA, a
 public scientific, technical and industrial research establishment,
@@ -33,7 +31,6 @@ Institut National de Recherche en Informatique et en Automatique -
 Inria, a public scientific and technological establishment, having its
 principal place of business at Domaine de Voluceau, Rocquencourt, BP
 105, 78153 Le Chesnay cedex, France.
-
 
     Preamble
 
@@ -66,9 +63,8 @@ This Agreement may apply to any or all software for which the holder of
 the economic rights decides to submit the use thereof to its provisions.
 
 Frequently asked questions can be found on the official website of the
-CeCILL licenses family (http://www.cecill.info/index.en.html) for any 
+CeCILL licenses family (http://www.cecill.info/index.en.html) for any
 necessary clarification.
-
 
     Article 1 - DEFINITIONS
 
@@ -133,7 +129,6 @@ Parties: mean both the Licensee and the Licensor.
 
 These expressions may be used both in singular and plural form.
 
-
     Article 2 - PURPOSE
 
 The purpose of the Agreement is the grant by the Licensor to the
@@ -141,17 +136,16 @@ Licensee of a non-exclusive, transferable and worldwide license for the
 Software as set forth in Article 5 <#scope> hereinafter for the whole
 term of the protection granted by the rights over said Software.
 
-
     Article 3 - ACCEPTANCE
 
 3.1 The Licensee shall be deemed as having accepted the terms and
 conditions of this Agreement upon the occurrence of the first of the
 following events:
 
-  * (i) loading the Software by any or all means, notably, by
-    downloading from a remote server, or by loading from a physical medium;
-  * (ii) the first time the Licensee exercises any of the rights granted
-    hereunder.
+- (i) loading the Software by any or all means, notably, by
+  downloading from a remote server, or by loading from a physical medium;
+- (ii) the first time the Licensee exercises any of the rights granted
+  hereunder.
 
 3.2 One copy of the Agreement, containing a notice relating to the
 characteristics of the Software, to the limited warranty, and to the
@@ -159,7 +153,6 @@ fact that its use is restricted to experienced users has been provided
 to the Licensee prior to its acceptance as set forth in Article 3.1
 <#accepting> hereinabove, and the Licensee hereby acknowledges that it
 has read and understood it.
-
 
     Article 4 - EFFECTIVE DATE AND TERM
 
@@ -169,12 +162,10 @@ has read and understood it.
 The Agreement shall become effective on the date when it is accepted by
 the Licensee as set forth in Article 3.1 <#accepting>.
 
-
       4.2 TERM
 
 The Agreement shall remain in force for the entire legal term of
 protection of the economic rights over the Software.
-
 
     Article 5 - SCOPE OF RIGHTS GRANTED
 
@@ -190,28 +181,26 @@ modifying the Software. If these patents are transferred, the Licensor
 undertakes to have the transferees subscribe to the obligations set
 forth in this paragraph.
 
-
       5.1 RIGHT OF USE
 
 The Licensee is authorized to use the Software, without any limitation
 as to its fields of application, with it being hereinafter specified
 that this comprises:
 
- 1. permanent or temporary reproduction of all or part of the Software
+1.  permanent or temporary reproduction of all or part of the Software
     by any or all means and in any or all form.
 
- 2. loading, displaying, running, or storing the Software on any or all
+2.  loading, displaying, running, or storing the Software on any or all
     medium.
 
- 3. entitlement to observe, study or test its operation so as to
+3.  entitlement to observe, study or test its operation so as to
     determine the ideas and principles behind any or all constituent
     elements of said Software. This shall apply when the Licensee
     carries out any or all loading, displaying, running, transmission or
     storage operation as regards the Software, that it is entitled to
     carry out hereunder.
 
-
-      5.2 ENTITLEMENT TO MAKE CONTRIBUTIONS
+    5.2 ENTITLEMENT TO MAKE CONTRIBUTIONS
 
 The right to make Contributions includes the right to translate, adapt,
 arrange, or make any or all modifications to the Software, and the right
@@ -220,7 +209,6 @@ to reproduce the resulting software.
 The Licensee is authorized to make any or all Contributions to the
 Software provided that it includes an explicit notice that it is the
 author of said Contribution and indicates the date of the creation thereof.
-
 
       5.3 RIGHT OF DISTRIBUTION
 
@@ -234,16 +222,15 @@ The Licensee is further authorized to distribute copies of the modified
 or unmodified Software to third parties according to the terms and
 conditions set forth hereinafter.
 
-
         5.3.1 DISTRIBUTION OF SOFTWARE WITHOUT MODIFICATION
 
 The Licensee is authorized to distribute true copies of the Software in
 Source Code or Object Code form, provided that said distribution
 complies with all the provisions of the Agreement and is accompanied by:
 
- 1. a copy of the Agreement,
+1.  a copy of the Agreement,
 
- 2. a notice relating to the limitation of both the Licensor's warranty
+2.  a notice relating to the limitation of both the Licensor's warranty
     and liability as set forth in Articles 8 and 9,
 
 and that, in the event that only the Object Code of the Software is
@@ -252,7 +239,6 @@ Code of the Software for a period of at least three years from the
 distribution of the Software, it being understood that the additional
 acquisition cost of the Source Code shall not exceed the cost of the
 data transfer.
-
 
         5.3.2 DISTRIBUTION OF MODIFIED SOFTWARE
 
@@ -264,27 +250,25 @@ The Licensee is authorized to distribute the Modified Software, in
 source code or object code form, provided that said distribution
 complies with all the provisions of the Agreement and is accompanied by:
 
- 1. a copy of the Agreement,
+1.  a copy of the Agreement,
 
- 2. a notice relating to the limitation of both the Licensor's warranty
+2.  a notice relating to the limitation of both the Licensor's warranty
     and liability as set forth in Articles 8 and 9,
 
 and, in the event that only the object code of the Modified Software is
 redistributed,
 
- 3. a note stating the conditions of effective access to the full source
+3.  a note stating the conditions of effective access to the full source
     code of the Modified Software for a period of at least three years
     from the distribution of the Modified Software, it being understood
     that the additional acquisition cost of the source code shall not
     exceed the cost of the data transfer.
-
 
         5.3.3 DISTRIBUTION OF EXTERNAL MODULES
 
 When the Licensee has developed an External Module, the terms and
 conditions of this Agreement do not apply to said External Module, that
 may be distributed under a separate license agreement.
-
 
         5.3.4 COMPATIBILITY WITH OTHER LICENSES
 
@@ -297,7 +281,6 @@ The Licensee can include the Modified or unmodified Software in a code
 that is subject to the provisions of one of the versions of the GNU GPL,
 GNU Affero GPL and/or EUPL and distribute that entire code under the
 terms of the same version of the GNU GPL, GNU Affero GPL and/or EUPL.
-
 
     Article 6 - INTELLECTUAL PROPERTY
 
@@ -313,13 +296,11 @@ distribution of said Initial Software.
 The Holder undertakes that the Initial Software will remain ruled at
 least by this Agreement, for the duration set forth in Article 4.2 <#term>.
 
-
       6.2 OVER THE CONTRIBUTIONS
 
 The Licensee who develops a Contribution is the owner of the
 intellectual property rights over this Contribution as defined by
 applicable law.
-
 
       6.3 OVER THE EXTERNAL MODULES
 
@@ -328,15 +309,14 @@ intellectual property rights over this External Module as defined by
 applicable law and is free to choose the type of agreement that shall
 govern its distribution.
 
-
       6.4 JOINT PROVISIONS
 
 The Licensee expressly undertakes:
 
- 1. not to remove, or modify, in any manner, the intellectual property
+1.  not to remove, or modify, in any manner, the intellectual property
     notices attached to the Software;
 
- 2. to reproduce said notices, in an identical manner, in the copies of
+2.  to reproduce said notices, in an identical manner, in the copies of
     the Software modified or not.
 
 The Licensee undertakes not to directly or indirectly infringe the
@@ -344,7 +324,6 @@ intellectual property rights on the Software of the Holder and/or
 Contributors, and to take, where applicable, vis-à-vis its staff, any
 and all measures required to ensure respect of said intellectual
 property rights of the Holder and/or Contributors.
-
 
     Article 7 - RELATED SERVICES
 
@@ -365,7 +344,6 @@ warranty, and the financial terms and conditions of its application,
 shall be subject of a separate instrument executed between the Licensor
 and the Licensee.
 
-
     Article 8 - LIABILITY
 
 8.1 Subject to the provisions of Article 8.2, the Licensee shall be
@@ -385,7 +363,6 @@ opportunity cost, any disturbance to business activities) or any or all
 legal proceedings instituted against the Licensee by a third party,
 shall constitute consequential loss and shall not provide entitlement to
 any or all compensation from the Licensor.
-
 
     Article 9 - WARRANTY
 
@@ -433,7 +410,6 @@ name of the Software. No warranty is given as regards the existence of
 prior rights over the name of the Software or as regards the existence
 of a trademark.
 
-
     Article 10 - TERMINATION
 
 10.1 In the event of a breach by the Licensee of its obligations
@@ -446,7 +422,6 @@ authorized to use, modify or distribute the Software. However, any
 licenses that it may have granted prior to termination of the Agreement
 shall remain valid subject to their having been granted in compliance
 with the terms and conditions hereof.
-
 
     Article 11 - MISCELLANEOUS
 
@@ -482,12 +457,10 @@ text. All other provisions shall remain effective. Similarly, invalidity
 of a provision of the Agreement, for any reason whatsoever, shall not
 cause the Agreement as a whole to be invalid.
 
-
       11.5 LANGUAGE
 
 The Agreement is drafted in both French and English and both versions
 are deemed authentic.
-
 
     Article 12 - NEW VERSIONS OF THE AGREEMENT
 
@@ -505,7 +478,6 @@ only be subsequently distributed under the same version of the Agreement
 or a subsequent version, subject to the provisions of Article 5.3.4
 <#compatibility>.
 
-
     Article 13 - GOVERNING LAW AND JURISDICTION
 
 13.1 The Agreement is governed by French law. The Parties agree to
@@ -517,7 +489,6 @@ occurrence, and unless emergency proceedings are necessary, the
 disagreements or disputes shall be referred to the Paris Courts having
 jurisdiction, by the more diligent Party.
 
-
     COPYRIGHT
 
-Copyright Toinane <toinane@crea-that.fr> 2016 - 2020
+Copyright Toinane <toinane@crea-that.fr> 2016 - 2022

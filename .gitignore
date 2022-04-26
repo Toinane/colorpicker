@@ -1,6 +1,7 @@
 /node_modules
 /dist
 /release
+.vscode
 
 *.log
 *.p12
