@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://colorpicker.fr">
-    <img src="assets/release/icon_osx.png" width="256" height="256" alt="ColorPicker icon" />
+    <img src="config/release/icon_osx.png" width="256" height="256" alt="ColorPicker icon" />
   </a>
   <h1 align="center">Colorpicker</h1>
   <p align="center">Modern and powerful color management software</p>
