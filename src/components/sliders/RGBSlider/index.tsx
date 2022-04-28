@@ -3,6 +3,8 @@ import { useEffect, useState } from 'preact/hooks';
 
 import Slider from '../slider';
 
+import style from './style.module.css';
+
 const RGBSlider: FunctionComponent = (): JSX.Element => {
   const [red, setRed] = useState(0);
   const [green, setGreen] = useState(0);
@@ -31,7 +33,7 @@ const RGBSlider: FunctionComponent = (): JSX.Element => {
   };
 
   return (
-    <section>
+    <section className={style.section}>
       <Slider type="red" min={0} max={255} value={0} onUpdate={changeVal} />
       <Slider type="green" min={0} max={255} value={0} onUpdate={changeVal} />
       <Slider type="blue" min={0} max={255} value={0} onUpdate={changeVal} />

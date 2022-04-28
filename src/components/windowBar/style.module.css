@@ -1,11 +1,24 @@
+:root {
+  --window-icon-main-color: black;
+  --window-button-hover: rgba(0, 0, 0, 0.2);
+  --window-button-active: rgba(0, 0, 0, 0.3);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --window-icon-main-color: white;
+    --window-button-hover: rgba(255, 255, 255, 0.2);
+    --window-button-active: rgba(255, 255, 255, 0.3);
+  }
+}
+
 .windowBar {
   display: flex;
   justify-content: space-between;
-  height: 36px;
+  height: 34px;
   width: 100%;
-  background: #2d2d3a;
   -webkit-app-region: drag;
-  flex-direction: row-reverse;
+  box-shadow: inset 0px -1px 7px 0px rgb(50 50 50 / 6%);
 }
 
 .windowButtons {
@@ -22,8 +35,31 @@
 }
 
 .windowButtons div:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--window-button-hover);
   transition: 0.1s background;
+}
+
+.windowButtons div:hover:active {
+  background: var(--window-button-active);
+  transition: 0s background;
+}
+
+.menu::before,
+.menu::after {
+  content: '';
+  position: absolute;
+  bottom: 45%;
+  left: 32%;
+  width: 8px;
+  height: 1px;
+  transform: rotate(45deg);
+  background: var(--window-icon-main-color);
+}
+
+.menu::after {
+  left: unset;
+  right: 32%;
+  transform: rotate(-45deg);
 }
 
 .minimize::before {
@@ -32,18 +68,41 @@
   top: 50%;
   left: 38%;
   width: 10px;
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid var(--window-icon-main-color);
 }
 
-.maximize::before {
+.maximize:not(.active)::before {
   content: '';
   position: absolute;
   top: 37%;
   left: 37%;
   width: 10px;
   height: 10px;
-  border: 1px solid white;
+  border: 1px solid var(--window-icon-main-color);
   border-radius: 2px;
+}
+
+.unmaximize::before {
+  content: '';
+  position: absolute;
+  top: 41%;
+  left: 37%;
+  width: 9px;
+  height: 9px;
+  border: 1px solid var(--window-icon-main-color);
+  border-radius: 1px;
+}
+
+.unmaximize::after {
+  content: '';
+  position: absolute;
+  top: 35%;
+  left: 44%;
+  width: 8px;
+  height: 8px;
+  border-top: 1px solid var(--window-icon-main-color);
+  border-right: 1px solid var(--window-icon-main-color);
+  border-radius: 0 3px 0 0;
 }
 
 .close::before,
@@ -55,7 +114,7 @@
   width: 13px;
   height: 1px;
   transform: rotate(45deg);
-  background: white;
+  background: var(--window-icon-main-color);
 }
 
 .close::after {
@@ -66,9 +125,8 @@
   background: #e81123;
 }
 
-.windowButtons .close:active {
+.windowButtons .close:hover:active {
   background: #f1707a;
-  transition: 0s background;
 }
 .close:active::after,
 .close:active::before {

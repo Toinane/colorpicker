@@ -1,0 +1,8 @@
+.section {
+  width: 60%;
+  margin: 15px;
+}
+
+.section section {
+  margin-top: 5px;
+}

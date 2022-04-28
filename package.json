@@ -32,6 +32,7 @@
   "homepage": "https://colorpicker.fr",
   "license": "CECILL-2.1",
   "scripts": {
+    "postinstall": "yarn electron-rebuild",
     "clean": "rm -rf dist release",
     "dev:front": "webpack serve --config-name front --mode development --config ./config/webpack.config.js",
     "dev:back": "webpack --config-name back --mode development --config ./config/webpack.config.js",
@@ -44,6 +45,7 @@
     "test": "yarn build && playwright test"
   },
   "dependencies": {
+    "colorjs.io": "^0.0.5",
     "i18next": "^21.6.16",
     "preact": "^10.5.13"
   },
@@ -58,6 +60,7 @@
     "electron": "^18.1.0",
     "electron-builder": "^23.0.3",
     "electron-notarize": "^1.0.0",
+    "electron-rebuild": "^3.2.7",
     "eslint": "^8.14.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^17.0.0",

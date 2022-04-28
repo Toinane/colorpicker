@@ -1,0 +1,7 @@
+.colorBackground {
+  /* position: absolute; */
+  width: 100%;
+  height: 40vh;
+  /* height: calc(100vh - 34px); */
+  background: var(--colopicker-main-color);
+}

@@ -4,11 +4,11 @@ let mainWindow: BrowserWindow | null;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 500,
+    width: 400,
     height: 250,
     minWidth: 400,
-    minHeight: 250,
-    titleBarStyle: 'hidden',
+    minHeight: 150,
+    frame: false,
     show: false,
     webPreferences: {
       preload: './dist/main_preload.js',

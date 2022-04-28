@@ -30,9 +30,21 @@ img {
 
 :root {
   --colopicker-main-color: black;
+  --colorpicker-background-color: white;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --colorpicker-background-color: #2d2d3a;
+  }
+}
+
+html,
+body {
+  height: 100vh;
 }
 
 body {
-  background: var(--colopicker-main-color);
   user-select: none;
+  background: var(--colorpicker-background-color);
 }

@@ -46,6 +46,10 @@ module.exports = (_, config) => {
       ],
     },
     devtool: isDevelopment ? 'inline-source-map' : false,
+    externalsType: 'node-commonjs',
+    externals: {
+      // 'electron-acrylic-window': 'electron-acrylic-window',
+    },
   };
 
   const preload = {
