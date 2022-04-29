@@ -42,7 +42,7 @@
 
 @media (prefers-color-scheme: dark) {
   .progress::-webkit-progress-bar {
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.4);
   }
 }
 

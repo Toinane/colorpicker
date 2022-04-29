@@ -16,6 +16,9 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
+      "@stores/*": ["./src/stores/*"],
+      "@components/*": ["./src/components/*"],
+      "@windows/*": ["./src/windows/*"],
       "react": ["node_modules/preact/compat/"],
       "react-dom": ["node_modules/preact/compat/"]
     }

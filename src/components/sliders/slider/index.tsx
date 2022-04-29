@@ -1,31 +1,25 @@
 import { FunctionComponent, JSX } from 'preact';
-import { useEffect, useState } from 'preact/hooks';
+import { RecoilState, useRecoilState } from 'recoil';
 
 import style from './style.module.css';
 
 type SliderProps = {
   min?: number;
   max?: number;
-  value?: number;
   type: string;
-  onUpdate: (currentValue: number, type: string) => void;
+  state: RecoilState<number>;
 };
 
 const Slider: FunctionComponent<SliderProps> = ({
   min = 0,
   max = 255,
-  value = 0,
   type,
-  onUpdate,
+  state,
 }): JSX.Element => {
-  const [currentValue, setValue] = useState(value);
-
-  useEffect(() => {
-    onUpdate(currentValue, type);
-  }, [currentValue, onUpdate, type]);
+  const [color, setColor] = useRecoilState(state);
 
   const changeValue = (event: Event) => {
-    setValue(event.target instanceof HTMLInputElement ? Number(event.target.value) : 0);
+    setColor(event.target instanceof HTMLInputElement ? Number(event.target.value) : 0);
   };
 
   return (
@@ -35,14 +29,14 @@ const Slider: FunctionComponent<SliderProps> = ({
         type="range"
         min={min}
         max={max}
-        value={currentValue}
+        value={color}
         onInput={changeValue}
       />
       <progress
         className={[style.progress, style[type]].join(' ')}
         min={min}
         max={max}
-        value={currentValue}
+        value={color}
       />
     </section>
   );

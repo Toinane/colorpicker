@@ -9,7 +9,8 @@
     "plugin:@typescript-eslint/recommended",
     "airbnb-base",
     "airbnb-typescript/base",
-    "plugin:jsx-a11y/recommended"
+    "plugin:jsx-a11y/recommended",
+    "react-hooks"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -24,7 +25,14 @@
   "ignorePatterns": ["dist", "scripts", "config"],
   "rules": {
     "linebreak-style": "off",
-    "import/extensions": "off"
+    "import/extensions": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": [
+      "warn",
+      {
+        "additionalHooks": "(useRecoilCallback|useRecoilTransaction_UNSTABLE)"
+      }
+    ]
   },
   "settings": {
     "import/core-modules": ["electron"]

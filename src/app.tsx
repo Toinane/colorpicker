@@ -1,17 +1,37 @@
-import { Fragment, render } from 'preact';
+import { render } from 'preact';
+import { useEffect, useState } from 'preact/hooks';
+import { Router, Route, BaseLocationHook } from 'wouter-preact';
+import { RecoilRoot } from 'recoil';
 
-import WindowBar from './components/windowBar';
-import ColorBackground from './components/colorBackground';
-import RGBSlider from './components/sliders/RGBSlider';
+import Colorpicker from '@windows/Colorpicker';
 
-import './style.css';
+import './style.global.css';
+
+const currentLocation = () => {
+  return window.location.hash.replace(/^#/, '') || '/';
+};
+
+const navigate = (to: string) => (window.location.hash = to);
+
+const useHashLocation: BaseLocationHook = () => {
+  const [loc, setLoc] = useState(currentLocation());
+
+  useEffect(() => {
+    const handler = () => setLoc(currentLocation());
+
+    window.addEventListener('hashchange', handler);
+    return () => window.removeEventListener('hashchange', handler);
+  }, []);
+
+  return [loc, navigate];
+};
 
 const App = () => (
-  <Fragment>
-    <WindowBar />
-    <ColorBackground />
-    <RGBSlider />
-  </Fragment>
+  <RecoilRoot>
+    <Router hook={useHashLocation}>
+      <Route path="/" component={Colorpicker} />
+    </Router>
+  </RecoilRoot>
 );
 
 render(<App />, document.body);

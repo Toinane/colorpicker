@@ -32,6 +32,9 @@
   width: 40px;
   height: 100%;
   transition: 0.3s background;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .windowButtons div:hover {
@@ -60,6 +63,18 @@
   left: unset;
   right: 32%;
   transform: rotate(-45deg);
+}
+
+.windowButtons div svg {
+  height: 45%;
+}
+
+.windowButtons .lock:hover {
+  background: rgba(57, 152, 146, 0.4);
+}
+
+.windowButtons .lock:hover:active {
+  background: rgba(57, 152, 146, 0.6);
 }
 
 .minimize::before {

@@ -92,6 +92,9 @@ module.exports = (_, config) => {
     resolve: {
       extensions: ['.js', '.ts', '.jsx', '.tsx', '.json'],
       alias: {
+        '@stores': path.resolve(__dirname, '..', 'src/stores'),
+        '@components': path.resolve(__dirname, '..', 'src/components'),
+        '@windows': path.resolve(__dirname, '..', 'src/windows'),
         react: 'preact/compat',
         'react-dom/test-utils': 'preact/test-utils',
         'react-dom': 'preact/compat',
@@ -158,5 +161,5 @@ module.exports = (_, config) => {
     };
   }
 
-  return [electron, preload, preact];
+  return [preact, preload, electron];
 };
