@@ -1,7 +1,7 @@
 import { app } from 'electron';
 
 export default {
-  dev: process.env.NODE_ENV === 'development' || !app.isPackaged,
+  dev: process.env.NODE_ENV === 'development' && !app.isPackaged,
   window: process.platform === 'win32',
   macos: process.platform === 'darwin',
   linux: !['win32', 'darwin'].includes(process.platform),

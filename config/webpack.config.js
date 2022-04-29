@@ -57,7 +57,7 @@ module.exports = (_, config) => {
     mode: APP_MODE,
     target: 'electron-main',
     entry: {
-      main_preload: './electron/preload/main.ts',
+      colorpicker_preload: './electron/preload/colorpicker.ts',
     },
     output: {
       path: path.resolve(__dirname, '..', 'dist'),
@@ -140,7 +140,7 @@ module.exports = (_, config) => {
   };
 
   if (isDevelopment) {
-    electron.entry.main_preload = './electron/preload/main.ts';
+    electron.entry.colorpicker_preload = './electron/preload/colorpicker.ts';
     electron.plugins.push(new ElectronReloadPlugin());
     electron.watch = true;
     electron.watchOptions = {

@@ -1,46 +1,34 @@
 import { BrowserWindow, ipcMain, nativeTheme } from 'electron';
-import { resolve } from 'path';
 
-import is from '../services/is';
+import Window from '../utils/windowManager';
 
-function ipcHandle(win: BrowserWindow) {
-  ipcMain.handle('window:minimize', () => win.minimize());
-  ipcMain.handle('window:maximize', () => win.maximize());
-  ipcMain.handle('window:maximize:toggle', () =>
-    win.isMaximized() ? win.unmaximize() : win.maximize(),
-  );
-  ipcMain.handle('window:unmaximize', () => win.unmaximize());
-  ipcMain.handle('window:close', () => win.close());
-}
+class ColorpickerWindow extends Window {
+  constructor() {
+    super('colorpicker');
 
-export default function createWindow() {
-  const win: BrowserWindow = new BrowserWindow({
-    width: 400,
-    height: 250,
-    minWidth: 400,
-    minHeight: 150,
-    frame: false,
-    show: false,
-    webPreferences: {
-      preload: resolve(__dirname, '..', 'dist/main_preload.js'),
-      sandbox: true,
-    },
-  });
+    this.props = {
+      width: 400,
+      height: 250,
+      minWidth: 400,
+      minHeight: 150,
+      titleBarStyle: 'hidden',
+    };
 
-  if (is.dev) {
-    win.loadURL('http://localhost:3030');
-  } else {
-    win.loadFile('./dist/index.html');
+    nativeTheme.themeSource = 'light';
   }
 
-  win.on('ready-to-show', () => {
-    win?.show();
-    win?.webContents.openDevTools();
-  });
+  eventsHandle() {
+    if (!(this.window instanceof BrowserWindow)) return;
+    const win = this.window;
 
-  win.on('closed', () => {});
-
-  nativeTheme.themeSource = 'light';
-
-  ipcHandle(win);
+    ipcMain.handle('window:minimize', () => win.minimize());
+    ipcMain.handle('window:maximize', () => win.maximize());
+    ipcMain.handle('window:maximize:toggle', () =>
+      win.isMaximized() ? win.unmaximize() : win.maximize(),
+    );
+    ipcMain.handle('window:unmaximize', () => win.unmaximize());
+    ipcMain.handle('window:close', () => win.close());
+  }
 }
+
+export default new ColorpickerWindow();

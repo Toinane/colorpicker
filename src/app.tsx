@@ -20,6 +20,7 @@ const useHashLocation: BaseLocationHook = () => {
     const handler = () => setLoc(currentLocation());
 
     window.addEventListener('hashchange', handler);
+
     return () => window.removeEventListener('hashchange', handler);
   }, []);
 

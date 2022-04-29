@@ -36,13 +36,13 @@
 }
 
 .progress::-webkit-progress-bar {
-  background-color: rgba(230, 230, 230, 0.9);
+  background-color: rgba(0, 0, 0, 0.15);
   border-radius: 100px;
 }
 
 @media (prefers-color-scheme: dark) {
   .progress::-webkit-progress-bar {
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.8);
   }
 }
 
