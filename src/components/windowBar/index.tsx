@@ -33,12 +33,36 @@ const WindowBar: FunctionComponent = (): JSX.Element => {
       <AppIcons />
       <section className={style.windowButtons}>
         <div className={style.menu} />
-        <div className={lock ? style.lock : style.unlock} onClick={() => setLock(!lock)}>
+        <div
+          className={lock ? style.lock : style.unlock}
+          role="button"
+          tabIndex={-1}
+          onClick={() => setLock(!lock)}
+          onKeyUp={() => setLock(!lock)}
+        >
           {LockIcon}
         </div>
-        <div className={style.minimize} />
-        <div className={style.maximize} />
-        <div className={style.close} />
+        <div
+          className={style.minimize}
+          role="button"
+          tabIndex={-1}
+          onClick={window.api.window.minimize}
+          onKeyUp={window.api.window.minimize}
+        />
+        <div
+          className={style.maximize}
+          role="button"
+          tabIndex={-1}
+          onClick={window.api.window.maximize.toggle}
+          onKeyUp={window.api.window.maximize.toggle}
+        />
+        <div
+          className={style.close}
+          role="button"
+          tabIndex={-1}
+          onClick={window.api.window.close}
+          onKeyUp={window.api.window.close}
+        />
       </section>
     </section>
   );

@@ -7,11 +7,11 @@ import Colorpicker from '@windows/Colorpicker';
 
 import './style.global.css';
 
-const currentLocation = () => {
-  return window.location.hash.replace(/^#/, '') || '/';
-};
+const currentLocation = () => window.location.hash.replace(/^#/, '') || '/';
 
-const navigate = (to: string) => (window.location.hash = to);
+const navigate = (to: string) => {
+  window.location.hash = to;
+};
 
 const useHashLocation: BaseLocationHook = () => {
   const [loc, setLoc] = useState(currentLocation());

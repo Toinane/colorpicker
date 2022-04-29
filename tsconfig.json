@@ -16,6 +16,7 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
+      "@types/*": ["./types/*"],
       "@stores/*": ["./src/stores/*"],
       "@components/*": ["./src/components/*"],
       "@windows/*": ["./src/windows/*"],
