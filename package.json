@@ -46,7 +46,6 @@
   },
   "dependencies": {
     "colorjs.io": "^0.0.5",
-    "electron-light-storage": "^1.2.0",
     "i18next": "^21.6.16",
     "preact": "^10.5.13",
     "recoil": "^0.7.2",

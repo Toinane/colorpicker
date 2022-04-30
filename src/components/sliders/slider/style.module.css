@@ -23,8 +23,8 @@
   height: 22px;
   width: 22px;
   border-radius: 50%;
-  background: #ffffff;
-  border-bottom: 2px solid #f3f3f3;
+  background: linear-gradient(150deg, #ffffff 54%, #ececec 97%);
+  box-shadow: 0 0px 2px 1px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }
 
@@ -33,34 +33,34 @@
   position: absolute;
   width: 99%;
   height: 10px;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .progress::-webkit-progress-bar {
-  background-color: rgba(0, 0, 0, 0.15);
-  border-radius: 100px;
+  background: linear-gradient(rgba(0, 0, 0, 0.16) 40%, rgba(0, 0, 0, 0.14) 100%);
 }
 
 @media (prefers-color-scheme: dark) {
   .progress::-webkit-progress-bar {
-    background-color: rgba(0, 0, 0, 0.8);
+    background: linear-gradient(rgba(0, 0, 0, 0.84) 40%, rgba(0, 0, 0, 0.8) 100%);
   }
 }
 
 .progress::-webkit-progress-value {
   background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 100px;
 }
 
 .red::-webkit-progress-value {
-  background-color: rgb(255, 87, 57);
+  background: linear-gradient(180deg, #ff5739 50%, #ec4b2f 100%);
 }
 
 .green::-webkit-progress-value {
-  background-color: rgb(105, 195, 59);
+  background: linear-gradient(180deg, #69c33b 50%, #5eb931 100%);
 }
 
 .blue::-webkit-progress-value {
-  background-color: rgb(65, 165, 225);
+  background: linear-gradient(180deg, #41a5e1 50%, #3699d6 100%);
 }
 
 .hue::-webkit-progress-bar {

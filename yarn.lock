@@ -3144,11 +3144,6 @@ electron-builder@^23.0.3:
     update-notifier "^5.1.0"
     yargs "^17.0.1"
 
-electron-light-storage@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/electron-light-storage/-/electron-light-storage-1.2.0.tgz#b7221fe6091853fe3c76e8a570fc95f477b302c1"
-  integrity sha512-1y4Wgf0iVv/qZSL3hwLpViUDZ2e0FOthvVbcjy4JytQX5uR8JNhGyVePZ9SB51m677GkwlASORQX4ZVbR8qnRA==
-
 electron-notarize@^1.0.0:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/electron-notarize/-/electron-notarize-1.2.1.tgz#347c18eca8e29dddadadee511b870c13d4008baf"

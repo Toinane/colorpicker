@@ -92,7 +92,7 @@ module.exports = (_, config) => {
     resolve: {
       extensions: ['.js', '.ts', '.jsx', '.tsx', '.json'],
       alias: {
-        '@types': path.resolve(__dirname, '..', 'types'),
+        '@type': path.resolve(__dirname, '..', 'types'),
         '@stores': path.resolve(__dirname, '..', 'src/stores'),
         '@components': path.resolve(__dirname, '..', 'src/components'),
         '@windows': path.resolve(__dirname, '..', 'src/windows'),

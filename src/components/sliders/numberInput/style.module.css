@@ -1,6 +1,6 @@
 .input {
   width: 42px;
-  background: rgba(0, 0, 0, 0.1);
+  background: linear-gradient(160deg, rgba(0, 0, 0, 0.15) 20%, rgba(0, 0, 0, 0.1) 50%);
   color: rgba(0, 0, 0, 0.7);
   font-family: 'Ubuntu', sans-serif;
   text-align: center;
@@ -13,7 +13,7 @@
 
 @media (prefers-color-scheme: dark) {
   .input {
-    background: rgba(0, 0, 0, 0.4);
+    background: linear-gradient(160deg, rgba(0, 0, 0, 0.45) 20%, rgba(0, 0, 0, 0.4) 50%);
     color: rgba(255, 255, 255, 0.9);
   }
 }

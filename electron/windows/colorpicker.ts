@@ -1,10 +1,27 @@
 import { BrowserWindow, ipcMain, nativeTheme } from 'electron';
 
+import { IColorpickerSettings } from '@type/settings';
+
 import Window from '../utils/windowManager';
+import Storage from '../utils/storage';
 
 class ColorpickerWindow extends Window {
+  storage: Storage<IColorpickerSettings>;
+
   constructor() {
     super('colorpicker');
+
+    this.storage = new Storage<IColorpickerSettings>('colorpicker', {
+      color: {
+        currentColor: 'lch(67.7125006386685% 34.1781173014796 215.792136442741)',
+        history: [],
+      },
+      settings: {
+        sendCrashReport: true,
+        theme: 'system',
+        tools: ['picker', 'swatch', 'tint', 'contrast'],
+      },
+    });
 
     this.props = {
       width: 400,
