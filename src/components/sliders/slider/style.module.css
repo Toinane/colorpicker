@@ -16,6 +16,10 @@
   box-sizing: border-box;
 }
 
+.input:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0px 0px 3px var(--user-selection);
+}
+
 .input::-webkit-slider-thumb {
   position: relative;
   z-index: 100;
@@ -43,7 +47,7 @@
 
 @media (prefers-color-scheme: dark) {
   .progress::-webkit-progress-bar {
-    background: linear-gradient(rgba(0, 0, 0, 0.84) 40%, rgba(0, 0, 0, 0.8) 100%);
+    background: linear-gradient(rgba(0, 0, 0, 0.5) 40%, rgba(0, 0, 0, 0.45) 100%);
   }
 }
 

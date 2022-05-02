@@ -1,3 +1,5 @@
+import { IColorpickerSettings } from './settings';
+
 export type PreloadAPI = {
   window: {
     minimize: () => void;
@@ -7,6 +9,11 @@ export type PreloadAPI = {
       unmaximize: () => void;
     };
     close: () => void;
+  };
+  colorpicker: {
+    store: {
+      get: () => Promise<IColorpickerSettings>;
+    };
   };
 };
 

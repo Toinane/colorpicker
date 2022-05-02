@@ -31,11 +31,13 @@ img {
 :root {
   --colopicker-main-color: black;
   --colorpicker-background-color: white;
+  --user-selection: rgba(104, 222, 238, 0.7);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --colorpicker-background-color: #2d2d3a;
+    --user-selection: rgba(0, 155, 175, 0.7);
   }
 }
 

@@ -2,6 +2,7 @@
   --window-icon-main-color: black;
   --window-button-hover: rgba(0, 0, 0, 0.2);
   --window-button-active: rgba(0, 0, 0, 0.3);
+  --window-shadow: inset 0px -1px 7px 0px rgb(50 50 50 / 6%), inset 0px -1px 0 rgb(250 250 250);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -9,6 +10,7 @@
     --window-icon-main-color: white;
     --window-button-hover: rgba(255, 255, 255, 0.2);
     --window-button-active: rgba(255, 255, 255, 0.3);
+    --window-shadow: inset 0px -2px 7px 0px rgb(16 16 16 / 22%), inset 0px -1px 0 rgb(44 44 44);
   }
 }
 
@@ -18,7 +20,7 @@
   height: 34px;
   width: 100%;
   -webkit-app-region: drag;
-  box-shadow: inset 0px -1px 7px 0px rgb(50 50 50 / 6%);
+  box-shadow: var(--window-shadow);
 }
 
 .windowButtons {

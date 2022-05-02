@@ -11,6 +11,10 @@
   outline: none;
 }
 
+.input::selection {
+  background: var(--user-selection);
+}
+
 @media (prefers-color-scheme: dark) {
   .input {
     background: linear-gradient(160deg, rgba(0, 0, 0, 0.45) 20%, rgba(0, 0, 0, 0.4) 50%);

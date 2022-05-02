@@ -10,4 +10,9 @@ contextBridge.exposeInMainWorld('api', {
     },
     close: () => ipcRenderer.invoke('window:close'),
   },
+  colorpicker: {
+    store: {
+      get: () => ipcRenderer.invoke('colorpicker:store:get'),
+    },
+  },
 });
