@@ -1,10 +1,6 @@
 import { atom, selector } from 'recoil';
 
-type Color = {
-  red: number;
-  green: number;
-  blue: number;
-};
+import Color from 'colorjs.io';
 
 export const redState = atom<number>({
   key: 'red',
@@ -23,9 +19,5 @@ export const blueState = atom<number>({
 
 export const colorState = selector<Color>({
   key: 'color',
-  get: ({ get }) => ({
-    red: get(redState),
-    green: get(greenState),
-    blue: get(blueState),
-  }),
+  get: ({ get }) => new Color('srgb', [get(redState), get(greenState), get(blueState)]),
 });
