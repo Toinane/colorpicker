@@ -10,7 +10,7 @@ const ColorBackground: FunctionComponent = (): JSX.Element => {
   const color = useRecoilValue(colorState);
 
   useEffect(() => {
-    const [red, green, blue] = color.getCoords({});
+    const [red, green, blue] = color;
 
     document.documentElement.style.setProperty(
       '--colopicker-main-color',

@@ -24,9 +24,20 @@
   "plugins": ["@typescript-eslint", "jsx-a11y", "react-hooks"],
   "ignorePatterns": ["dist", "scripts", "config"],
   "rules": {
-    "linebreak-style": "off",
-    "import/extensions": "off",
-    "react-hooks/rules-of-hooks": "error",
+    "no-async-promise-executor": 2,
+    "no-await-in-loop": 2,
+    "no-promise-executor-return": 2,
+    "require-atomic-updates": 2,
+    "max-nested-callbacks": ["error", 3],
+    "no-return-await": 2,
+    "prefer-promise-reject-errors": 2,
+    "linebreak-style": 0,
+    "import/extensions": 0,
+    "@typescript-eslint/await-thenable": 2,
+    "@typescript-eslint/no-floating-promises": 2,
+    "@typescript-eslint/no-misused-promises": 2,
+    "@typescript-eslint/promise-function-async": 2,
+    "react-hooks/rules-of-hooks": 2,
     "react-hooks/exhaustive-deps": [
       "warn",
       {
