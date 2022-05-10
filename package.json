@@ -39,7 +39,7 @@
     "dev": "concurrently -k -n \"WEBPACK,ELECTRON\" -c \"bgGreen,bgBlue\" \"yarn dev:front\" \"yarn dev:back\"",
     "build": "yarn clean && webpack --mode production --config ./config/webpack.config.js",
     "start": "yarn build && electron .",
-    "release:nightly": "yarn build && node scripts/build-app.js ",
+    "release:nightly": "yarn build && node scripts/build-app.js",
     "release:stable": "yarn build && cross-env BUILD_RELEASE=true node scripts/build-app.js",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "test": "yarn build && playwright test"

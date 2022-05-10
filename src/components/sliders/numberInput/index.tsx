@@ -1,6 +1,8 @@
 import { FunctionComponent, JSX } from 'preact';
 import { RecoilState, useRecoilState } from 'recoil';
 
+import { round } from 'culori';
+
 import style from './style.module.css';
 
 type NumberInputProps = {
@@ -22,8 +24,8 @@ const NumberInput: FunctionComponent<NumberInputProps> = ({
 
   const verifyNumber = (currentNumber: number): number => {
     if (currentNumber < min) return min;
-    if (currentNumber > max) return max;
-    return currentNumber;
+    if (currentNumber > max) return max / 255;
+    return currentNumber / 255;
   };
 
   const onInput = (event: Event) => {
@@ -44,8 +46,8 @@ const NumberInput: FunctionComponent<NumberInputProps> = ({
   };
 
   const onKeyboard = (event: KeyboardEventInit) => {
-    if (event.code === 'ArrowUp') setNumber(verifyNumber(number + step));
-    if (event.code === 'ArrowDown') setNumber(verifyNumber(number - step));
+    if (event.code === 'ArrowUp') setNumber(verifyNumber(number * 255 + step));
+    if (event.code === 'ArrowDown') setNumber(verifyNumber(number * 255 - step));
   };
 
   return (
@@ -56,7 +58,7 @@ const NumberInput: FunctionComponent<NumberInputProps> = ({
       max={max}
       maxLength={maxLength}
       step={step}
-      value={number}
+      value={round(1)(number * 255)}
       onInput={onInput}
       onKeyDown={onKeyboard}
     />

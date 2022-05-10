@@ -1,5 +1,6 @@
 import { FunctionComponent, JSX } from 'preact';
 import { RecoilState, useRecoilState } from 'recoil';
+import { round } from 'culori';
 
 import style from './style.module.css';
 
@@ -19,7 +20,7 @@ const Slider: FunctionComponent<SliderProps> = ({
   const [color, setColor] = useRecoilState(state);
 
   const changeValue = (event: Event) => {
-    setColor(event.target instanceof HTMLInputElement ? Number(event.target.value) : 0);
+    setColor(event.target instanceof HTMLInputElement ? Number(event.target.value) / 255 : 0);
   };
 
   return (
@@ -29,14 +30,14 @@ const Slider: FunctionComponent<SliderProps> = ({
         type="range"
         min={min}
         max={max}
-        value={color}
+        value={round(1)(color * 255)}
         onInput={changeValue}
       />
       <progress
         className={[style.progress, style[type]].join(' ')}
         min={min}
         max={max}
-        value={color}
+        value={round(1)(color * 255)}
       />
     </section>
   );

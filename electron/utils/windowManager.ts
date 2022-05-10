@@ -2,10 +2,10 @@ import path from 'path';
 import { BrowserWindow, BrowserWindowConstructorOptions, nativeTheme, screen } from 'electron';
 
 import { IWindowSettings } from '@type/settings';
+import debounce from '@common/debounce';
 
 import is from './is';
 import Storage from './storage';
-import debounce from './debounce';
 
 export default class Window<T extends IWindowSettings> {
   name: string;
@@ -39,26 +39,28 @@ export default class Window<T extends IWindowSettings> {
     if (this.store.storage.theme) nativeTheme.themeSource = this.store.storage.theme;
   }
 
-  initWindow(): BrowserWindow {
+  async initWindow(): Promise<BrowserWindow> {
     this.window = new BrowserWindow({
       ...this.defaultProps,
       ...this.props,
     });
 
     if (is.dev) {
-      this.window.loadURL('http://localhost:3030');
+      await this.window.loadURL('http://localhost:3030');
     } else {
-      this.window.loadFile('./dist/index.html');
+      await this.window.loadFile('./dist/index.html');
     }
 
     this.window.on('ready-to-show', () => this.showWindow());
     this.window.on('closed', () => this.closeWindow());
     this.window.on(
       'resize',
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       debounce(() => this.updateWindowSizePos()),
     );
     this.window.on(
       'move',
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       debounce(() => this.updateWindowSizePos()),
     );
 
@@ -84,7 +86,7 @@ export default class Window<T extends IWindowSettings> {
     return true;
   }
 
-  getWindow(): BrowserWindow {
+  async getWindow(): Promise<BrowserWindow> {
     if (this.window instanceof BrowserWindow) return this.window;
     return this.initWindow();
   }

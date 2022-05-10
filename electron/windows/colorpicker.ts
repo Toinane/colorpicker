@@ -10,7 +10,7 @@ class ColorpickerWindow extends Window<IColorpickerSettings> {
 
   constructor() {
     super('colorpicker', {
-      currentColor: 'lch(67.7125006386685% 34.1781173014796 215.792136442741)',
+      currentColor: 'rgb(60 140 190)',
       history: [],
       sendCrashReport: true,
       theme: 'system',
@@ -29,6 +29,11 @@ class ColorpickerWindow extends Window<IColorpickerSettings> {
 
   eventsHandle() {
     ipcMain.handle('colorpicker:store:get', () => this.store.storage);
+
+    ipcMain.handle('colorpicker:store:update', (_, updatedStore: Partial<IColorpickerSettings>) => {
+      console.log(updatedStore);
+      this.store.set(updatedStore);
+    });
   }
 }
 

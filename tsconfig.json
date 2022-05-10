@@ -17,6 +17,7 @@
     "baseUrl": ".",
     "paths": {
       "@type/*": ["./types/*"],
+      "@common/*": ["./electron/common/*"],
       "@stores/*": ["./src/stores/*"],
       "@components/*": ["./src/components/*"],
       "@windows/*": ["./src/windows/*"],

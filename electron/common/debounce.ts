@@ -4,7 +4,7 @@ export default function debounce<T extends unknown[], U>(
 ) {
   let timer: NodeJS.Timeout;
 
-  return (...args: T): Promise<U> => {
+  return async (...args: T): Promise<U> => {
     clearTimeout(timer);
     return new Promise((resolve) => {
       timer = setTimeout(() => resolve(callback(...args)), wait);

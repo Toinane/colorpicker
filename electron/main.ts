@@ -31,8 +31,9 @@ const handleMainEvents = () => {
   });
 };
 
-app.on('ready', () => {
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
+app.on('ready', async () => {
   handleMainEvents();
   const cpWin = new ColorpickerWindow();
-  cpWin.initWindow();
+  await cpWin.initWindow();
 });

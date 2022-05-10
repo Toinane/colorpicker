@@ -1,10 +1,15 @@
 import { FunctionComponent, JSX } from 'preact';
+import { useRecoilValue } from 'recoil';
 import { formatHex } from 'culori';
+
+import { colorState } from '@stores/color';
 
 import style from './style.module.css';
 
 const HexInput: FunctionComponent = (): JSX.Element => {
-  const hex = formatHex({ mode: 'rgb', r: r / 255, g: g / 255, b: b / 255 })?.toUpperCase();
+  const [r, g, b] = useRecoilValue(colorState);
+
+  const hex = formatHex({ mode: 'rgb', r, g, b })?.toUpperCase();
 
   const onInput = (event: Event) => {
     if (!(event.target instanceof HTMLInputElement)) return;

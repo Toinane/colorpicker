@@ -14,7 +14,7 @@ const ColorBackground: FunctionComponent = (): JSX.Element => {
 
     document.documentElement.style.setProperty(
       '--colopicker-main-color',
-      `rgb(${red},${green},${blue})`,
+      `rgb(${red * 255},${green * 255},${blue * 255})`,
     );
   }, [color]);
 

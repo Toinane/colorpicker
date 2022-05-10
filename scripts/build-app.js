@@ -29,7 +29,7 @@ builder
         entitlements: 'config/entitlements.mac.plist',
         entitlementsInherit: 'config/entitlements.mac.plist',
         darkModeSupport: true,
-        type: 'development',
+        type: isRelease ? 'distribution' : 'development',
         extendInfo: {
           // NSRequiresAquaSystemAppearance: false
           CFBundleName: productName,

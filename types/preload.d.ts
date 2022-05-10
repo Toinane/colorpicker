@@ -13,6 +13,7 @@ export type PreloadAPI = {
   colorpicker: {
     store: {
       get: () => Promise<IColorpickerSettings>;
+      update: (updatedStore: Partial<IColorpickerSettings>) => void;
     };
   };
 };

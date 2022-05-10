@@ -1,18 +1,22 @@
 import { contextBridge, ipcRenderer } from 'electron';
 
+import { IColorpickerSettings } from '@type/settings';
+
 contextBridge.exposeInMainWorld('api', {
   window: {
-    minimize: () => ipcRenderer.invoke('window:minimize'),
+    minimize: async () => ipcRenderer.invoke('window:minimize'),
     maximize: {
-      maximize: () => ipcRenderer.invoke('window:maximize'),
-      toggle: () => ipcRenderer.invoke('window:maximize:toggle'),
-      unmaximize: () => ipcRenderer.invoke('window:unmaximize'),
+      maximize: async () => ipcRenderer.invoke('window:maximize'),
+      toggle: async () => ipcRenderer.invoke('window:maximize:toggle'),
+      unmaximize: async () => ipcRenderer.invoke('window:unmaximize'),
     },
-    close: () => ipcRenderer.invoke('window:close'),
+    close: async () => ipcRenderer.invoke('window:close'),
   },
   colorpicker: {
     store: {
-      get: () => ipcRenderer.invoke('colorpicker:store:get'),
+      get: async () => ipcRenderer.invoke('colorpicker:store:get'),
+      update: async (updatedStore: Partial<IColorpickerSettings>) =>
+        ipcRenderer.invoke('colorpicker:store:update', updatedStore),
     },
   },
 });

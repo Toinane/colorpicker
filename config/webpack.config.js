@@ -18,6 +18,10 @@ module.exports = (_, config) => {
     target: 'electron-main',
     resolve: {
       extensions: ['.js', '.ts', '.json'],
+      alias: {
+        '@type': path.resolve(__dirname, '..', 'types'),
+        '@common': path.resolve(__dirname, '..', 'electron', 'common'),
+      },
     },
     entry: {
       main: './electron/main.ts',
@@ -93,9 +97,10 @@ module.exports = (_, config) => {
       extensions: ['.js', '.ts', '.jsx', '.tsx', '.json'],
       alias: {
         '@type': path.resolve(__dirname, '..', 'types'),
-        '@stores': path.resolve(__dirname, '..', 'src/stores'),
-        '@components': path.resolve(__dirname, '..', 'src/components'),
-        '@windows': path.resolve(__dirname, '..', 'src/windows'),
+        '@common': path.resolve(__dirname, '..', 'electron', 'common'),
+        '@stores': path.resolve(__dirname, '..', 'src', 'stores'),
+        '@components': path.resolve(__dirname, '..', 'src', 'components'),
+        '@windows': path.resolve(__dirname, '..', 'src', 'windows'),
         react: 'preact/compat',
         'react-dom/test-utils': 'preact/test-utils',
         'react-dom': 'preact/compat',
