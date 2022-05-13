@@ -1,4 +1,7 @@
+import { Event } from 'electron';
 import { IColorpickerSettings } from './settings';
+
+export type IpcRendererCallback<T> = (event: Event, value: T) => void;
 
 export type PreloadAPI = {
   window: {
@@ -9,6 +12,7 @@ export type PreloadAPI = {
       unmaximize: () => void;
     };
     close: () => void;
+    handleBlur: (callback: IpcRendererCallback<boolean>) => void;
   };
   colorpicker: {
     store: {

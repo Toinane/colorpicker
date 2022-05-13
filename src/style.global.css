@@ -50,3 +50,9 @@ body {
   user-select: none;
   background: var(--colorpicker-background-color);
 }
+
+body.bordered {
+  border: 2px solid var(--colopicker-main-color);
+  border-radius: 9px;
+  overflow: hidden;
+}

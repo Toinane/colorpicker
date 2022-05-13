@@ -1,6 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron';
 
 import { IColorpickerSettings } from '@type/settings';
+import { IpcRendererCallback } from '@type/preload';
 
 contextBridge.exposeInMainWorld('api', {
   window: {
@@ -11,6 +12,7 @@ contextBridge.exposeInMainWorld('api', {
       unmaximize: async () => ipcRenderer.invoke('window:unmaximize'),
     },
     close: async () => ipcRenderer.invoke('window:close'),
+    handleBlur: (cb: IpcRendererCallback<boolean>) => ipcRenderer.on('window:blur', cb),
   },
   colorpicker: {
     store: {

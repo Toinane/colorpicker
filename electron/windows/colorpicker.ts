@@ -4,6 +4,7 @@ import { IColorpickerSettings } from '@type/settings';
 
 import Window from '../utils/windowManager';
 import Storage from '../utils/storage';
+import is from '../utils/is';
 
 class ColorpickerWindow extends Window<IColorpickerSettings> {
   declare store: Storage<IColorpickerSettings>;
@@ -24,10 +25,12 @@ class ColorpickerWindow extends Window<IColorpickerSettings> {
     this.props = {
       minWidth: 400 / scaleFactor,
       minHeight: 150 / scaleFactor,
+      alwaysOnTop: is.dev,
     };
   }
 
   eventsHandle() {
+    super.eventsHandle();
     ipcMain.handle('colorpicker:store:get', () => this.store.storage);
 
     ipcMain.handle('colorpicker:store:update', (_, updatedStore: Partial<IColorpickerSettings>) => {

@@ -51,19 +51,6 @@ export default class Window<T extends IWindowSettings> {
       await this.window.loadFile('./dist/index.html');
     }
 
-    this.window.on('ready-to-show', () => this.showWindow());
-    this.window.on('closed', () => this.closeWindow());
-    this.window.on(
-      'resize',
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      debounce(() => this.updateWindowSizePos()),
-    );
-    this.window.on(
-      'move',
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      debounce(() => this.updateWindowSizePos()),
-    );
-
     this.eventsHandle();
 
     return this.window;
@@ -91,8 +78,25 @@ export default class Window<T extends IWindowSettings> {
     return this.initWindow();
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  eventsHandle(): void {}
+  eventsHandle(): void {
+    if (!this.window) return;
+
+    this.window.on('ready-to-show', () => this.showWindow());
+    this.window.on('closed', () => this.closeWindow());
+    this.window.on(
+      'resize',
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      debounce(() => this.updateWindowSizePos()),
+    );
+    this.window.on(
+      'move',
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      debounce(() => this.updateWindowSizePos()),
+    );
+
+    this.window.on('blur', () => this.window?.webContents.send('window:blur', true));
+    this.window.on('focus', () => this.window?.webContents.send('window:blur', false));
+  }
 
   private updateWindowSizePos(): void {
     if (!(this.window instanceof BrowserWindow)) return;

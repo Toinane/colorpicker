@@ -44,7 +44,7 @@
   transition: 0.1s background;
 }
 
-.windowButtons div:hover:active {
+body .windowButtons div:hover:active {
   background: var(--window-button-active);
   transition: 0s background;
 }
