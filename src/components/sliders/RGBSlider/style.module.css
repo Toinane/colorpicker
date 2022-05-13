@@ -1,0 +1,18 @@
+.RGBSlider {
+  width: 70%;
+  margin: 15px;
+}
+
+.slider {
+  display: flex;
+  margin: 6px 0;
+  gap: 15px;
+}
+
+@media screen and (max-height: 245px) {
+  .RGBSlider {
+    position: absolute;
+    bottom: -7px;
+    left: 0;
+  }
+}

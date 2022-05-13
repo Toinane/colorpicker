@@ -1,0 +1,100 @@
+.section {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 24px;
+  width: 100%;
+}
+
+.input {
+  margin: 0;
+  appearance: none;
+  outline: none;
+  background: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0px 0px 3px var(--user-selection);
+}
+
+.input::-webkit-slider-thumb {
+  position: relative;
+  z-index: 100;
+  appearance: none;
+  height: 22px;
+  width: 22px;
+  border-radius: 50%;
+  background: linear-gradient(150deg, #ffffff 54%, #ececec 97%);
+  box-shadow: 0 0px 2px 1px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.progress {
+  -webkit-appearance: none;
+  position: absolute;
+  width: 99%;
+  height: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress::-webkit-progress-bar {
+  background: linear-gradient(rgba(0, 0, 0, 0.16) 40%, rgba(0, 0, 0, 0.14) 100%);
+}
+
+@media (prefers-color-scheme: dark) {
+  .progress::-webkit-progress-bar {
+    background: linear-gradient(rgba(0, 0, 0, 0.5) 40%, rgba(0, 0, 0, 0.45) 100%);
+  }
+}
+
+.progress::-webkit-progress-value {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.red::-webkit-progress-value {
+  background: linear-gradient(180deg, #ff5739 50%, #ec4b2f 100%);
+}
+
+.green::-webkit-progress-value {
+  background: linear-gradient(180deg, #69c33b 50%, #5eb931 100%);
+}
+
+.blue::-webkit-progress-value {
+  background: linear-gradient(180deg, #41a5e1 50%, #3699d6 100%);
+}
+
+.hue::-webkit-progress-bar {
+  background: -webkit-linear-gradient(
+      left,
+      hsla(0, var(--saturation), var(--lightness), 0.85),
+      hsla(60, var(--saturation), var(--lightness), 0.85),
+      hsla(120, var(--saturation), var(--lightness), 0.85),
+      hsla(180, var(--saturation), var(--lightness), 0.85),
+      hsla(240, var(--saturation), var(--lightness), 0.85),
+      hsla(300, var(--saturation), var(--lightness), 0.85),
+      hsla(360, var(--saturation), var(--lightness), 0.85)
+    ),
+    -webkit-linear-gradient(left, #727e88, #feffff, #8e9eab, #eef2f3, #727e88, #eef2f3, #727e88);
+}
+
+.saturation::-webkit-progress-bar {
+  background: -webkit-linear-gradient(
+      left,
+      hsla(150, 0%, var(--lightness), 0.85),
+      hsla(var(--hue), 100%, var(--lightness), 0.85)
+    ),
+    -webkit-linear-gradient(left, #feffff, #727e88);
+}
+
+.lightness::-webkit-progress-bar {
+  background: -webkit-linear-gradient(
+    left,
+    hsla(var(--hue), var(--saturation), 5%, 1),
+    hsla(var(--hue), var(--saturation), 50%, 1),
+    hsla(var(--hue), var(--saturation), 95%, 1)
+  );
+}

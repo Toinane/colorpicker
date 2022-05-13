@@ -1,0 +1,12 @@
+.colorBackground {
+  width: 100%;
+  height: 40vh;
+  background: var(--colopicker-main-color);
+}
+
+@media screen and (max-height: 245px) {
+  .colorBackground {
+    position: absolute;
+    height: calc(100vh - 34px);
+  }
+}

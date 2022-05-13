@@ -1,0 +1,55 @@
+name: Colorpicker Nightly
+
+on:
+  pull_request:
+    branches:
+      - dev
+    types: [closed]
+
+jobs:
+  build:
+    if: github.event.pull_request.merged == true
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: apt-get update on Ubuntu
+        run: sudo apt-get update
+        if: matrix.os == 'ubuntu-latest'
+
+      - name: install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: build Colorpicker Nightly
+        run: npm run release
+        env:
+          APP_ENVIRONNEMENT: production
+
+      - name: create artifacts folder
+        run: mkdir artifacts
+
+      - name: move Linux build artifacts
+        run: mv release/*.deb release/*.AppImage release/*.freebsd release/*.tar.gz ./artifacts
+        if: matrix.os == 'ubuntu-latest'
+
+      - name: move Macos build artifacts
+        run: mv release/*.dmg ./artifacts
+        if: matrix.os == 'macos-latest'
+
+      - name: move Windows build artifacts
+        run: move release\*.exe, release\*.msi -Destination artifacts
+        if: matrix.os == 'windows-latest'
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.os }}
+          path: artifacts

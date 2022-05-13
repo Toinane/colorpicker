@@ -1,0 +1,40 @@
+name: Run tests
+
+on: [pull_request]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: apt-get update on Ubuntu
+        run: sudo apt-get update
+        if: matrix.os == 'ubuntu-latest'
+
+      - name: install dependencies
+        run: yarn install --frozen-lockfile
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+
+      - name: install playwright
+        run: yarn playwright install --with-deps chromium
+
+      - name: linting
+        run: yarn lint
+
+      - name: run tests on linux
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- yarn test
+        if: matrix.os == 'ubuntu-latest'
+
+      - name: run tests
+        run: yarn test
+        if: matrix.os != 'ubuntu-latest'

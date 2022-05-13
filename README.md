@@ -1,161 +1,73 @@
 <p align="center">
-    <a href="https://colorpicker.fr">
-        <img src="build/icon.png" width="256" height="256" alt="ColorPicker icon" />
+  <a href="https://colorpicker.fr">
+    <img src="config/release/icon_osx.png" width="256" height="256" alt="ColorPicker icon" />
+  </a>
+  <h1 align="center">Colorpicker</h1>
+  <p align="center">Modern and powerful color management software</p>
+  <p align="center">
+    <img src="https://badgen.net/github/release/toinane/colorpicker/stable" />
+    <img src="https://img.shields.io/github/downloads/toinane/colorpicker/total.svg">
+    <img src="https://img.shields.io/github/downloads/toinane/colorpicker/latest/total.svg">
+    <img src="https://img.shields.io/github/release-date/Toinane/colorpicker.svg">
+    <img src="https://github.com/Toinane/colorpicker/actions/workflows/dev.yaml/badge.svg">
+    <a href="https://snapcraft.io/colorpicker-app">
+      <img alt="colorpicker-app" src="https://snapcraft.io/colorpicker-app/badge.svg" />
     </a>
-    <h1 align="center">Colorpicker</h1>
-    <p align="center">A mininal but complete colorpicker desktop app</p>
-    <p align="center">
-        <img src="https://badgen.net/github/release/toinane/colorpicker/stable" />
-        <img src="https://img.shields.io/github/downloads/toinane/colorpicker/total.svg">
-        <img src="https://img.shields.io/github/downloads/toinane/colorpicker/latest/total.svg">
-        <img src="https://img.shields.io/github/release-date/Toinane/colorpicker.svg">
-        <img src="https://badgen.net/david/dep/toinane/colorpicker">
-        <a href="https://snapcraft.io/colorpicker-app">
-            <img alt="colorpicker-app" src="https://snapcraft.io/colorpicker-app/badge.svg" />
-        </a>
-        <a href="https://crowdin.com/project/colorpicker">
-            <img src="https://badges.crowdin.net/colorpicker/localized.svg">
-        </a>
-    </p>
+    <a href="https://crowdin.com/project/colorpicker">
+      <img src="https://badges.crowdin.net/colorpicker/localized.svg">
+    </a>
+  </p>
 </p>
 
-# Survey for the next update of Colorpicker! Please take time to complete it! [English survey](https://forms.gle/KdT66D95Bms1dky38) - [French survey](https://forms.gle/Sc8nfzP5JofB2Avq7)
+---
 
-### Want to help to translate this app? go on [Crowdin](https://crowdin.com/project/colorpicker)! Your help is welcome :)
-
-Colorpicker is a desktop tool with _Electron_ to get and save colors code quickly for _OSX_, _Windows_ and _Linux_!
-
+<h4 align="center">
+  Want to help with the localization of Colorpicker?
+</h4>
 <p align="center">
-    <img src=".github/screenshots/colorpicker.png"
-        alt="ColorPicker App" />
+  Please connect to <a href="https://crowdin.com/project/colorpicker" target="_blank">Crowdin and join the project</a>, your contribution is highly appreciated! 👍
 </p>
 
-Colorpicker's menu come with a lot of cool features :
-
--   [Pin](#pin): pin Colorpicker to the foreground;
--   [Picker](#picker): open an eyedropper who can pick a color from your desktop;
--   [Colorsbook](#colorsbook): open Colorsbook, a color manager;
--   [Shading](#shading): show three bar of shading — hue bar, natural bar and lightness bar;
--   [Opacity](#opacity): toggle Opacity range;
--   [Clean Vue](#clean-vue): unshow menu, ranges and inputs;
--   [Magic color](#magic-color): show colors from the clipboard;
--   [Random](#random): show a random color;
--   [Settings](#settings): open the preferences panel.
-
-## Pin
-
-![Pin screenshot](.github/screenshots/pin.png)
-
-With Pin, you can bring Colorpicker to the foreground. This makes it convenient to work quickly with different
-applications at the same time.
-
 ---
 
-## Picker
+## About Colorpicker
 
-![Picker screenshot](.github/screenshots/picker.png)
+Colorpicker is a color management software. Grab any color on your computer screen, easily adjust it to your convenience and save it in personalized color categories.
 
-The Picker allows you to quickly retrieve a color anywhere on the screen. Whether it's on your browser, Photoshop, or
-whatever.
+Colorpicker is built on top of **Electron** with modern frameworks and works as well on **Windows**, **Macos** and **Linux**.
 
----
+## Download
 
-## Colorsbook
+You can download [Colorpicker on the releases page](https://github.com/Toinane/colorpicker/releases).
 
-![Colorsbook screenshot](.github/screenshots/colorsbook.png)
+## Development
 
-Colorsbook is a full-fledged application. It allows you to store your colors, categorize them, and easily retrieve them.
-It is destined to mature over time.
-**Cool tip:** you can save color from colorpicker with `CMD+S` or `CTRL+S`!
+#### How to contribute
 
----
+Colorpicker use **Preact** to make front development easier with components. **Typescript** is also used to be more consistent and get less side effects.
 
-## Shading
+You should use a Code Editor compatible with _Prettier_ and _ESLint_ plugins like **VS Code**.
 
-![Tint screenshot](.github/screenshots/tint.png)
-
-With the shades, you can find the perfect color you need. You have a chromatic bar, a natural color bar and a shadow
-bar.
-
----
-
-## Opacity [WIP]
-
-![Opacity gif](.github/screenshots/opacity.png)
-
-This feature is a bit special. It allows you to render the application transparent. This can be useful to see the
-appearance of a transparent color.
-
----
-
-## Focus Mode
-
-![Focus screenshot](.github/screenshots/focus.png)
-
-Need to compare a color or clean up the interface? This feature is for you, this will hide the sliders and make the menu
-more transparent.
-
----
-
-## Magic Color [WIP]
-
-This functionality is still under development. Currently, it allows you to display the first color that is in your
-clipboard. This works with hexadecimal and RGB codes
-
----
-
-## Random
-
-A traditional feature, it allows you to display a color randomly.
-
----
-
-## Settings
-
-![Settings screenshot](.github/screenshots/settings.png)
-
-The settings menu allows you to customize your Colorpicker, I let you discover it yourself :)!
-
-# Download
-
--   You can download the [latest release on the website!](https://colorpicker.fr)
--   Or [on GitHub releases here.](https://github.com/Toinane/colorpicker/releases)
-
-## Want to support me?
-
-You can [buy me a coffee here](https://toinane.itch.io/colorpicker)! Thank you!
-
-#### **_Happy Design !_**
-
-# Developers
-
-### Changelog
-
-See [changelog here](changelog.md).
-
-### How to compile
-
--   Install dependencies:
+- Install dependencies
 
 ```shell
 yarn
 ```
 
--   To build C/C++ modules to the correct Electron version, use:
+- Launch Colorpicker in development mode
 
 ```shell
-yarn rebuild
+yarn dev
 ```
 
--   To build a new version:
+- Make a Nightly build
 
-```shell
-# You can build nightly & release only for your current OS.
-# i.e. you can't build a OSX version if you use a Windows
-
-# build a nightly version
-yarn nightly
-
-# build a release version
-yarn release
 ```
+yarn release:nightly
+```
+
+#### How to make stable release
+
+Colorpicker uses **Github Actions** to make a release automatically. This allows to have the application available on all platforms without having to do it manually.
+
+A **Nightly** version is automatically created at each PR merge on `dev` branch and a **Stable** version is automatically created at each PR merge on `master` branch.

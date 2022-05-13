@@ -1,0 +1,58 @@
+/* Reset CSS */
+
+*:where(:not(iframe, canvas, img, svg, video):not(svg *, symbol *)) {
+  all: unset;
+  display: revert;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+a,
+button {
+  cursor: revert;
+}
+
+ol,
+ul,
+menu {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+}
+
+/* Global Style */
+
+:root {
+  --colopicker-main-color: black;
+  --colorpicker-background-color: white;
+  --user-selection: rgba(104, 222, 238, 0.7);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --colorpicker-background-color: #2d2d3a;
+    --user-selection: rgba(0, 155, 175, 0.7);
+  }
+}
+
+html,
+body {
+  height: 100vh;
+}
+
+body {
+  user-select: none;
+  background: var(--colorpicker-background-color);
+}
+
+body.bordered {
+  border: 2px solid var(--colopicker-main-color);
+  border-radius: 9px;
+  overflow: hidden;
+}

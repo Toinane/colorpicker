@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "module": "CommonJS",
+    "target": "es2022",
+    "lib": ["esnext", "dom"],
+    "sourceMap": true,
+    "allowJs": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "@type/*": ["./types/*"],
+      "@common/*": ["./electron/common/*"],
+      "@stores/*": ["./src/stores/*"],
+      "@components/*": ["./src/components/*"],
+      "@windows/*": ["./src/windows/*"],
+      "react": ["node_modules/preact/compat/"],
+      "react-dom": ["node_modules/preact/compat/"]
+    }
+  }
+}

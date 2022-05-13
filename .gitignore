@@ -1,7 +1,8 @@
-node_modules/
-out/
-parts/
-stage/
-prime/
-snap/.snapcraft
-*.snap
+/node_modules
+/dist
+/release
+.vscode
+
+*.log
+*.p12
+.env

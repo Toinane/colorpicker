@@ -1,0 +1,151 @@
+:root {
+  --window-icon-main-color: black;
+  --window-button-hover: rgba(0, 0, 0, 0.2);
+  --window-button-active: rgba(0, 0, 0, 0.3);
+  --window-shadow: inset 0px -1px 7px 0px rgb(50 50 50 / 6%), inset 0px -1px 0 rgb(250 250 250);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --window-icon-main-color: white;
+    --window-button-hover: rgba(255, 255, 255, 0.2);
+    --window-button-active: rgba(255, 255, 255, 0.3);
+    --window-shadow: inset 0px -2px 7px 0px rgb(16 16 16 / 22%), inset 0px -1px 0 rgb(44 44 44);
+  }
+}
+
+.windowBar {
+  display: flex;
+  justify-content: space-between;
+  height: 34px;
+  width: 100%;
+  -webkit-app-region: drag;
+  box-shadow: var(--window-shadow);
+}
+
+.windowButtons {
+  -webkit-app-region: no-drag;
+  display: flex;
+  cursor: initial;
+}
+
+.windowButtons div {
+  position: relative;
+  width: 40px;
+  height: 100%;
+  transition: 0.3s background;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.windowButtons div:hover {
+  background: var(--window-button-hover);
+  transition: 0.1s background;
+}
+
+body .windowButtons div:hover:active {
+  background: var(--window-button-active);
+  transition: 0s background;
+}
+
+.menu::before,
+.menu::after {
+  content: '';
+  position: absolute;
+  bottom: 45%;
+  left: 32%;
+  width: 8px;
+  height: 1px;
+  transform: rotate(45deg);
+  background: var(--window-icon-main-color);
+}
+
+.menu::after {
+  left: unset;
+  right: 32%;
+  transform: rotate(-45deg);
+}
+
+.windowButtons div svg {
+  height: 45%;
+}
+
+.windowButtons .lock:hover {
+  background: rgba(57, 152, 146, 0.4);
+}
+
+.windowButtons .lock:hover:active {
+  background: rgba(57, 152, 146, 0.6);
+}
+
+.minimize::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 38%;
+  width: 10px;
+  border-bottom: 1px solid var(--window-icon-main-color);
+}
+
+.maximize:not(.active)::before {
+  content: '';
+  position: absolute;
+  top: 37%;
+  left: 37%;
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--window-icon-main-color);
+  border-radius: 2px;
+}
+
+.unmaximize::before {
+  content: '';
+  position: absolute;
+  top: 41%;
+  left: 37%;
+  width: 9px;
+  height: 9px;
+  border: 1px solid var(--window-icon-main-color);
+  border-radius: 1px;
+}
+
+.unmaximize::after {
+  content: '';
+  position: absolute;
+  top: 35%;
+  left: 44%;
+  width: 8px;
+  height: 8px;
+  border-top: 1px solid var(--window-icon-main-color);
+  border-right: 1px solid var(--window-icon-main-color);
+  border-radius: 0 3px 0 0;
+}
+
+.close::before,
+.close::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 32%;
+  width: 13px;
+  height: 1px;
+  transform: rotate(45deg);
+  background: var(--window-icon-main-color);
+}
+
+.close::after {
+  transform: rotate(-45deg);
+}
+
+.windowButtons .close:hover {
+  background: #e81123;
+}
+
+.windowButtons .close:hover:active {
+  background: #f1707a;
+}
+.close:active::after,
+.close:active::before {
+  background: black;
+}
