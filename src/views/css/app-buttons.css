@@ -1,11 +1,11 @@
 @font-face {
-    font-family: "Lato";
-    src: url("fonts/Lato-Regular.ttf");
+  font-family: "Lato";
+  src: url("fonts/Lato-Regular.ttf");
 }
 
 html,
 body {
-    height: 100%;
+  height: 100%;
 }
 
 body,
@@ -13,198 +13,307 @@ p,
 h1,
 h2,
 input {
-    margin: 0;
-    font-family: "Lato", sans-serif;
+  margin: 0;
+  font-family: "Lato", sans-serif;
 }
 
 a {
-    color: inherit;
-    text-decoration: none;
+  color: inherit;
+  text-decoration: none;
 }
 
 /**
  * TOOLBAR
  */
 .toolbar {
-    margin: 3px;
-    padding: 5px 5px 7px 5px;
-    position: relative;
-    display: flex;
-    z-index: 10000;
-    box-sizing: border-box;
-    -webkit-app-region: drag;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    transition: border-bottom 0.4s;
+  position: relative;
+  display: flex;
+  z-index: 10000;
+  box-sizing: border-box;
+  -webkit-app-region: drag;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  min-height: 32px;
+  transition: border-bottom 0.4s;
 }
 .darkMode .toolbar {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .toolbar.setRight {
-    flex-direction: row-reverse;
-    justify-content: space-between;
+  flex-direction: row-reverse;
+  justify-content: space-between;
 }
 .toolbar ul {
-    margin: 0;
-    padding: 0;
-    margin-right: 15px;
-    display: flex;
+  margin: 0;
+  padding: 0;
+  margin-right: 15px;
+  display: flex;
 }
 
 .toolbar.setRight ul {
-    margin-right: 0;
+  margin-right: 0;
 }
 #app_buttons {
-    transition: opacity 0.4s;
+  transition: opacity 0.4s;
 }
 .toolbar.setRight #app_buttons {
-    flex-direction: row-reverse;
+  flex-direction: row-reverse;
 }
 
 .toolbar li {
-    -webkit-app-region: no-drag;
-    cursor: pointer;
-    transition: color 0.2s;
-    list-style: none;
-    margin: 0 5px 0 5px;
-    font-size: 0.9em;
-    position: relative;
-    top: 3px;
+  -webkit-app-region: no-drag;
+  cursor: pointer;
+  transition: color 0.2s;
+  list-style: none;
+  margin: 0 10px 0 10px;
+  font-size: 0.9em;
+  position: relative;
+  top: 10px;
 }
 .toolbar #app_buttons.darwin li {
-    margin: 0 4px 3px 4px;
+  margin: 0 4px 3px 4px;
 }
 
-.blured .darwin #minimize,
-.blured .darwin #maximize,
-.blured .darwin #close {
-    color: #dddddd;
+.blured .darwin #minimize::before,
+.blured .darwin #maximize::before,
+.blured .darwin #close::before {
+  background: #dddddd;
 }
 
-/* Minimize Button */
-/* Minimize position for Windows & Linux */
-#app_buttons.windows #minimize,
-#app_buttons.linux #minimize {
-    order: 3;
+#app_buttons.darwin {
+  margin: 0 5px;
 }
+
 #minimize {
-    color: rgba(0, 0, 0, 0.35);
+  color: rgba(0, 0, 0, 0.35);
 }
 .blured #minimize {
-    color: rgba(0, 0, 0, 0.2);
+  color: rgba(0, 0, 0, 0.2);
 }
-.darwin #minimize {
-    color: #febf3c;
+.darwin #minimize::before {
+  background: #febf3c;
 }
-.windows #minimize {
-    font-size: 0.9em;
-    position: relative;
-    top: 1px;
-}
+
 .linux #minimize {
-    font-size: 0.6em;
-    position: relative;
-    padding: 4px 1px;
+  font-size: 0.6em;
+  position: relative;
+  padding: 4px 1px;
 }
 
 #minimize:hover {
-    color: #feb219;
-}
-.windows #minimize:hover,
-.linux #minimize:hover {
-    color: rgba(0, 0, 0, 0.5);
+  color: #feb219;
 }
 
-.darkMode .windows #minimize,
+.linux #minimize:hover {
+  color: rgba(0, 0, 0, 0.5);
+}
+
 .darkMode .linux #minimize {
-    color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.4);
 }
-.blured .darkMode .windows #minimize,
+
 .blured .darkMode .linux #minimize {
-    color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.2);
 }
-.darkMode .windows #minimize:hover,
+
 .darkMode .linux #minimize:hover {
-    color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 /* Maximize button */
 #maximize {
-    color: rgba(0, 0, 0, 0.35);
+  color: rgba(0, 0, 0, 0.35);
 }
 .blured #maximize {
-    color: rgba(0, 0, 0, 0.2);
+  color: rgba(0, 0, 0, 0.2);
 }
-.darwin #maximize {
-    color: #35cc48;
+.darwin #maximize::before {
+  background: #35cc48;
 }
-.windows #maximize {
-    font-size: 0.9em;
-    position: relative;
-    top: 2px;
-}
+
 .linux #maximize {
-    transform: rotate(45deg);
-    font-size: 0.7em;
-    padding: 3px;
+  transform: rotate(45deg);
+  font-size: 0.7em;
+  padding: 3px;
 }
 
 #maximize:hover {
-    color: #32c544;
-}
-.windows #maximize:hover,
-.linux #maximize:hover {
-    color: rgba(0, 0, 0, 0.5);
+  color: #32c544;
 }
 
-.darkMode .windows #maximize,
-.darkMode .linux #maximize {
-    color: rgba(255, 255, 255, 0.4);
+.linux #maximize:hover {
+  color: rgba(0, 0, 0, 0.5);
 }
-.blured .darkMode .windows #maximize,
+
+.darkMode .linux #maximize {
+  color: rgba(255, 255, 255, 0.4);
+}
+
 .blured .darkMode .linux #maximize {
-    color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.2);
 }
 .darkMode .windows #maximize:hover,
 .darkMode .linux #maximize:hover {
-    color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 /* Close button */
 #close {
-    color: rgba(0, 0, 0, 0.35);
+  color: rgba(0, 0, 0, 0.35);
 }
 .blured #close,
 .blured .linux #close {
-    color: rgba(0, 0, 0, 0.2);
+  color: rgba(0, 0, 0, 0.2);
 }
-.darwin #close {
-    color: #fc635c;
+.darwin #close::before {
+  background: #fc635c;
 }
 .linux #close {
-    font-size: 1.1em;
-    color: #cf555e;
+  font-size: 1.1em;
+  color: #cf555e;
 }
 
 #close:hover {
-    color: #fc4b43;
+  color: #fc4b43;
 }
 .linux #close:hover,
 .blured .linux #close:hover,
 .blured .darkMode .linux #close:hover {
-    color: #da767d;
-}
-.windows #close:hover {
-    color: rgba(0, 0, 0, 0.5);
+  color: #da767d;
 }
 
-.darkMode .windows #close {
-    color: rgba(255, 255, 255, 0.4);
-}
-.blured .darkMode .windows #close,
 .blured .darkMode .linux #close {
-    color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.2);
 }
-.darkMode .windows #close:hover {
-    color: rgba(255, 255, 255, 0.6);
+
+:root {
+  --window-icon-main-color: black;
+  --window-button-hover: rgba(0, 0, 0, 0.2);
+  --window-button-active: rgba(0, 0, 0, 0.3);
+  --window-shadow: inset 0px -1px 7px 0px rgb(50 50 50 / 6%),
+    inset 0px -1px 0 rgb(250 250 250);
+}
+
+:root .darkMode {
+  --window-icon-main-color: white;
+  --window-button-hover: rgba(255, 255, 255, 0.2);
+  --window-button-active: rgba(255, 255, 255, 0.3);
+  --window-shadow: inset 0px -2px 7px 0px rgb(16 16 16 / 22%),
+    inset 0px -1px 0 rgb(44 44 44);
+}
+
+#app_buttons div {
+  -webkit-app-region: no-drag;
+  position: relative;
+  width: 40px;
+  height: 100%;
+  transition: 0.3s background;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#app_buttons.darwin div {
+  width: 25px;
+  cursor: pointer;
+}
+
+#app_buttons.windows div:hover {
+  background: var(--window-button-hover);
+  transition: 0.1s background;
+}
+
+#app_buttons.darwin div::before {
+  content: "";
+  position: absolute;
+  top: 34%;
+  left: 25%;
+  width: 13px;
+  height: 13px;
+  border-radius: 10px;
+}
+
+.windows #maximize {
+  order: 1;
+}
+.windows #minimize {
+  order: 2;
+}
+
+.darwin #maximize {
+  order: 2;
+}
+.darwin #minimize {
+  order: 1;
+}
+
+.windows #minimize::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 38%;
+  width: 10px;
+  border-bottom: 1px solid var(--window-icon-main-color);
+}
+
+.windows #maximize:not(.active)::before {
+  content: "";
+  position: absolute;
+  top: 37%;
+  left: 37%;
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--window-icon-main-color);
+  border-radius: 2px;
+}
+
+.windows #unmaximize::before {
+  content: "";
+  position: absolute;
+  top: 41%;
+  left: 37%;
+  width: 9px;
+  height: 9px;
+  border: 1px solid var(--window-icon-main-color);
+  border-radius: 1px;
+}
+
+.windows #unmaximize::after {
+  content: "";
+  position: absolute;
+  top: 35%;
+  left: 44%;
+  width: 8px;
+  height: 8px;
+  border-top: 1px solid var(--window-icon-main-color);
+  border-right: 1px solid var(--window-icon-main-color);
+  border-radius: 0 3px 0 0;
+}
+
+.windows #close::before,
+.windows #close::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 32%;
+  width: 13px;
+  height: 1px;
+  transform: rotate(45deg);
+  background: var(--window-icon-main-color);
+}
+
+.windows #close::after {
+  transform: rotate(-45deg);
+}
+
+#app_buttons.windows #close:hover {
+  background: #e81123;
+}
+
+#app_buttons.windows #close:hover:active {
+  background: #f1707a;
+}
+.windows #close:active::after,
+.windows #close:active::before {
+  background: black;
 }
