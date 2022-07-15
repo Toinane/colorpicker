@@ -1,7 +1,7 @@
 name: colorpicker-app
 version: '2.0.4'
 base: core18
-summary: A mininal but complete Colorpicker desktop app
+summary: A minimal but complete Colorpicker desktop app
 description: |
   Colorpicker is a desktop tool with Electron to get and save colors code quickly for OSX, Windows and Linux!
 

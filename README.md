@@ -3,7 +3,7 @@
         <img src="build/icon.png" width="256" height="256" alt="ColorPicker icon" />
     </a>
     <h1 align="center">Colorpicker</h1>
-    <p align="center">A mininal but complete colorpicker desktop app</p>
+    <p align="center">A minimal but complete colorpicker desktop app</p>
     <p align="center">
         <img src="https://badgen.net/github/release/toinane/colorpicker/stable" />
         <img src="https://img.shields.io/github/downloads/toinane/colorpicker/total.svg">
