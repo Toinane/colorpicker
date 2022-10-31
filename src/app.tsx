@@ -27,10 +27,10 @@ const useHashLocation: BaseLocationHook = () => {
   return [loc, navigate];
 };
 
-window.api.window.handleBlur((event, isBlur) => {
-  if (isBlur) document.body.classList.add('blur');
-  else document.body.classList.remove('blur');
-});
+// window.api.window.handleBlur((event, isBlur) => {
+//   if (isBlur) document.body.classList.add('blur');
+//   else document.body.classList.remove('blur');
+// });
 
 const App = () => (
   <RecoilRoot>

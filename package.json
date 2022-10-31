@@ -36,7 +36,8 @@
     "clean": "rm -rf dist release",
     "dev:front": "webpack serve --config-name front --mode development --config ./config/webpack.config.js",
     "dev:back": "webpack --config-name back --mode development --config ./config/webpack.config.js",
-    "dev": "concurrently -k -n \"WEBPACK,ELECTRON\" -c \"bgGreen,bgBlue\" \"yarn dev:front\" \"yarn dev:back\"",
+    "tauri:back": "tauri dev",
+    "dev": "concurrently -k -n \"WEBPACK,ELECTRON\" -c \"bgGreen,bgBlue\" \"yarn dev:front\" \"yarn tauri:back\"",
     "build": "yarn clean && webpack --mode production --config ./config/webpack.config.js",
     "start": "yarn build && electron .",
     "release:nightly": "yarn build && node scripts/build-app.js",
@@ -45,6 +46,7 @@
     "test": "yarn build && playwright test"
   },
   "dependencies": {
+    "@tauri-apps/api": "^1.0.0-rc.5",
     "culori": "git+https://github.com/Toinane/culori.git#d02dd95",
     "i18next": "^21.6.16",
     "preact": "^10.7.1",
@@ -53,6 +55,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.21.1",
+    "@tauri-apps/cli": "^1.0.0-rc.10",
     "@typescript-eslint/eslint-plugin": "^5.22.0",
     "@typescript-eslint/parser": "^5.22.0",
     "concurrently": "^7.1.0",

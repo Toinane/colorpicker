@@ -46,22 +46,22 @@ const WindowBar: FunctionComponent = (): JSX.Element => {
           className={style.minimize}
           role="button"
           tabIndex={-1}
-          onClick={window.api.window.minimize}
-          onKeyUp={window.api.window.minimize}
+          // onClick={window.api.window.minimize}
+          // onKeyUp={window.api.window.minimize}
         />
         <div
           className={style.maximize}
           role="button"
           tabIndex={-1}
-          onClick={window.api.window.maximize.toggle}
-          onKeyUp={window.api.window.maximize.toggle}
+          // onClick={window.api.window.maximize.toggle}
+          // onKeyUp={window.api.window.maximize.toggle}
         />
         <div
           className={style.close}
           role="button"
           tabIndex={-1}
-          onClick={window.api.window.close}
-          onKeyUp={window.api.window.close}
+          // onClick={window.api.window.close}
+          // onKeyUp={window.api.window.close}
         />
       </section>
     </section>
