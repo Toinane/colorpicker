@@ -26,7 +26,7 @@ jobs:
       - name: Package Colorpicker
         run: npm run release
       - name: Publish artifacts
-        uses: actions/upload-artifacts@v3
+        uses: actions/upload-artifact@v3
         with:
           name: Colorpicker-${{ runner.os }}-artifacts
           path: out
