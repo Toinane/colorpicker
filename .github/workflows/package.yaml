@@ -1,0 +1,32 @@
+name: Package Colorpicker
+
+on:
+  workflow_dispatch:
+    
+jobs:
+  package:
+    name: Package Colorpicker
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+    
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Install Linux deps
+        if: ${{ runner.os == 'Linux' }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install libxtst-dev libpng++-dev
+      - name: Install deps
+        run: npm install
+      - name: Package Colorpicker
+        run: npm run release
+      - name: Publish artifacts
+        uses: actions/upload-artifacts@v3
+        with:
+          name: Colorpicker-${{ runner.os }}-artifacts
+          path: out
