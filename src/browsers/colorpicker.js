@@ -13,9 +13,10 @@ module.exports = (dirname, storage, util) => {
    */
   let init = (force, color) => {
     const size = storage.get("size");
-    if (win === null || win === undefined || force)
+    if (win === null || win === undefined || force) {
       createWindow(size.width, size.height);
-    else win.show();
+    }
+    else { win.show(); }
   };
 
   /**
@@ -28,14 +29,13 @@ module.exports = (dirname, storage, util) => {
     const pos = storage.get("pos");
     let options = {
       frame: false,
-      autoHideMenuBar: true,
       width: width,
       height: height,
       minWidth: 440,
       minHeight: 150,
-      transparent: true,
       icon: nativeImage.createFromPath(`${dirname}/build/icon.png`),
       webPreferences: {
+        devTools: true,
         preload: `${dirname}/preload.js`,
       },
     };
@@ -47,12 +47,12 @@ module.exports = (dirname, storage, util) => {
     win = new BrowserWindow(options);
     win.loadURL(`file://${dirname}/views/colorpicker.html`);
 
-    if (touchbar) win.setTouchBar(touchbar);
+    if (touchbar) { win.setTouchBar(touchbar); }
 
     win.on("closed", () => {
       win = undefined;
       let totalWin = BrowserWindow.getAllWindows();
-      for (let wins of totalWin) wins.close();
+      for (let wins of totalWin) { wins.close(); }
     });
 
     windowEvents(win);

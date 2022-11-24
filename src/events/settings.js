@@ -87,19 +87,21 @@ module.exports = (storage, browsers) => {
     let message =
       '<i class="fa fa-ban"></i> Can\'t connect to server, check manually <a href="https://github.com/Toinane/colorpicker/releases">here</a>';
     request(options, (err, res, body) => {
-      if (err) return event.sender.send("update", message);
+      if (err) { return event.sender.send("update", message); }
       let update = JSON.parse(body);
-      if (update === undefined || update === null)
+      if (update === undefined || update === null) {
         return event.sender.send("update", message);
-      if (semver.lt(update.release, app.getVersion()))
+      }
+      if (semver.lt(update.release, app.getVersion())) {
         return event.sender.send(
           "update",
           '<i class="fa fa-check"></i> You\'re up to date!'
         );
+      }
       else {
         let notification = new Notification({
           title: "New update available",
-          subtitle: update.release + " release is available!",
+          subtitle: `${update.release} release is available!`,
         });
         notification.show();
         notification.on("click", () => {

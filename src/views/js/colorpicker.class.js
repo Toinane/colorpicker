@@ -39,7 +39,7 @@ class Colorpicker extends Color {
   }
 
   setNegativeColor(rgb) {
-    if (!rgb) rgb = this.rgb;
+    if (!rgb) { rgb = this.rgb; }
     const negative = this.getNegativeColor(rgb);
     this.setNewColor(this.getHexFromRGB(negative));
     return negative;
@@ -54,22 +54,25 @@ class Colorpicker extends Color {
     this.isDark = this.isDarkColor(this.rgb);
 
     for (let i = 0, total = Object.keys(this.rgbhtml).length; i < total; i++) {
-      if (total - 2 <= i)
+      if (total - 2 <= i) {
         this.rgbhtml[Object.keys(this.rgbhtml)[i]].value =
           this.rgba[Math.floor(i / 3)] * 255;
+      }
       else {
-        if (i === 9 && this.rgba[3].toString().length > 4)
+        if (i === 9 && this.rgba[3].toString().length > 4) {
           this.rgbhtml[Object.keys(this.rgbhtml)[i]].value =
             this.rgba[Math.floor(i / 3)].toFixed(2);
-        else
+        }
+        else {
           this.rgbhtml[Object.keys(this.rgbhtml)[i]].value =
             this.rgba[Math.floor(i / 3)];
+        }
       }
     }
     this.hex_value.value = this.hex;
     this.body.classList.toggle("darkMode", this.isDark);
     this.body.style.background = this.getCSSFromRGBA(this.rgba);
-    if (this.isShadingActive) this.changeShading();
+    if (this.isShadingActive) { this.changeShading(); }
 
     if (this.colorfullApp) {
       if (this.isDark) {
@@ -99,8 +102,8 @@ class Colorpicker extends Color {
   saveColor(hex) {
     let newHistory = [];
     for (let i = 0; i < 9; i++) {
-      if (i === 0) newHistory[i] = hex;
-      if (this.history.length > i) newHistory[i + 1] = this.history[i];
+      if (i === 0) { newHistory[i] = hex; }
+      if (this.history.length > i) { newHistory[i + 1] = this.history[i]; }
     }
     this.history = newHistory;
 
@@ -118,28 +121,6 @@ class Colorpicker extends Color {
 
   copyRGBA() {
     window.api.send("clipboard", this.getCSSFromRGBA(this.rgba));
-  }
-
-  toggleOpacity() {
-    this.activeAlpha = document
-      .querySelector("#opacity_button")
-      .classList.toggle("active");
-    document
-      .querySelector(".main")
-      .classList.toggle("opacity", this.activeAlpha);
-    if (!this.activeAlpha) {
-      let restore = () => {
-        if (this.alpha >= 1) {
-          this.alpha = 1;
-          return;
-        }
-        this.alpha = Math.round((this.alpha + 0.01) * 100) / 100;
-        this.setNewColor(this.hex);
-        setTimeout(restore, 5);
-      };
-      restore();
-    }
-    return this.activeAlpha;
   }
 
   changeShading() {
@@ -160,7 +141,7 @@ class Colorpicker extends Color {
       let hex = this.getLightnessFromHex(light, this.hex);
       html += `<aside id="shade${shades}" data-color="${hex}" style="background: ${hex}"></aside>`;
       light += 2;
-      if (total === shades) document.querySelector(".shades").innerHTML = html;
+      if (total === shades) { document.querySelector(".shades").innerHTML = html; }
     }
 
     for (
@@ -171,7 +152,7 @@ class Colorpicker extends Color {
       let hex = this.getChangeHueFromHex(degrees, this.hex);
       html += `<aside id="tint${tints}" data-color="${hex}" style="background: ${hex}"></aside>`;
       degrees += 10;
-      if (total === tints) document.querySelector(".tints").innerHTML = html;
+      if (total === tints) { document.querySelector(".tints").innerHTML = html; }
     }
 
     for (
@@ -182,8 +163,9 @@ class Colorpicker extends Color {
       let hex = this.getHexFromRGB(this.getNaturalFromRGB(percent, this.rgb));
       html += `<aside id="natural${naturals}" data-color="${hex}" style="background: ${hex}"></aside>`;
       percent += 8;
-      if (total === naturals)
+      if (total === naturals) {
         document.querySelector(".naturals").innerHTML = html;
+      }
     }
 
     shading = document.querySelectorAll(

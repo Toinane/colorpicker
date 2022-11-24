@@ -146,12 +146,6 @@ header .naturals aside {
   transition: 0.5s;
   bottom: -10px;
 }
-.opacity .sliders,
-.opacity .alpha_bar,
-.opacity .inputs,
-.opacity #alpha_value {
-  bottom: 0.5px;
-}
 
 .red_bar,
 .green_bar,

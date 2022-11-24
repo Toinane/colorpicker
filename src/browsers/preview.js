@@ -11,8 +11,8 @@ module.exports = (dirname, storage) => {
    * @return {void} [new Colorpicker]
    */
   let init = () => {
-    if (win === null || win === undefined) createWindow();
-    else win.show();
+    if (win === null || win === undefined) { createWindow(); }
+    else { win.show(); }
   };
 
   /**

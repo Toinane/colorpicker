@@ -1,6 +1,15 @@
 # Changelog
 All releases changes will be documented in this file.
 
+# 2.2.0 - 2022-11-24
+
+## Changed
+- Updated dependencies
+- Remove Opacity feature as it's really buggy sometimes
+
+## Fixed
+- Fix issues with picker on bigger resolution
+
 ---
 # 2.0.0 - 2018-02-24
 

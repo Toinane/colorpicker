@@ -4,7 +4,8 @@ const { ipcMain, clipboard, Menu } = require("electron");
 
 module.exports = (storage, browsers, eventEmitter) => {
   const { colorpicker, settings, picker, colorsbook } = browsers;
-  let win, opacity, shading;
+  let win;
+  let shading;
 
   eventEmitter.on("changeColor", (color) => {
     console.log(color);
@@ -33,7 +34,7 @@ module.exports = (storage, browsers, eventEmitter) => {
     let colorsbook = storage.get("colors", "colorsbook");
     colorsbook[
       Object.getOwnPropertyNames(colorsbook)[
-        Object.values(colorsbook).length - 1
+      Object.values(colorsbook).length - 1
       ]
     ].push(color);
     storage.add({ colors: colorsbook }, "colorsbook");
@@ -51,7 +52,7 @@ module.exports = (storage, browsers, eventEmitter) => {
   ipcMain.on("openMenu", (event, type) => {
     let menu;
     switch (type) {
-      case "colorpickerMenu":
+      case "colorpickerMenu": {
         menu = Menu.buildFromTemplate([
           {
             label: "Pin to Foreground",
@@ -90,11 +91,6 @@ module.exports = (storage, browsers, eventEmitter) => {
             accelerator: "CmdOrCtrl+T",
             click: () => event.sender.send("shortShading"),
           },
-          {
-            label: "Toggle Opacity",
-            accelerator: "CmdOrCtrl+O",
-            click: () => event.sender.send("shortOpacity"),
-          },
           { type: "separator" },
           {
             label: "Set Random Color",
@@ -115,47 +111,36 @@ module.exports = (storage, browsers, eventEmitter) => {
         ]);
         menu.popup(this.window);
         break;
-      case "colorMenu":
+      }
+      case "colorMenu": {
         menu = Menu.buildFromTemplate([
           { label: "Delete", click: () => event.sender.send("deleteColor") },
         ]);
         menu.popup(this.window);
         break;
-      case "categoryMenu":
+      }
+      case "categoryMenu": {
         menu = Menu.buildFromTemplate([
           { label: "Delete", click: () => event.sender.send("deleteCategory") },
         ]);
         menu.popup(this.window);
         break;
+      }
     }
-  });
-
-  ipcMain.on("opacityActive", (event, bool) => {
-    opacity = bool;
-    let size = win.getSize();
-    if (!opacity && shading) return win.setMinimumSize(440, 220);
-    if (!opacity) return win.setMinimumSize(440, 150);
-    if (size[1] < 180 && !shading) win.setSize(size[0], 180, true);
-    if (size[1] < 255 && shading) win.setSize(size[0], 255, true);
-    if (!shading) win.setMinimumSize(440, 180);
-    else win.setMinimumSize(440, 255);
   });
 
   ipcMain.on("shadingActive", (event, bool) => {
     shading = bool;
     let size = win.getSize();
-    if (!shading && !opacity) return win.setMinimumSize(440, 150);
-    if (!shading && opacity) return win.setMinimumSize(440, 180);
-    if (size[1] < 220 && !opacity) win.setSize(size[0], 220, true);
-    if (size[1] < 255 && opacity) win.setSize(size[0], 255, true);
-    if (!opacity) win.setMinimumSize(440, 220);
-    else win.setMinimumSize(440, 255);
+    if (shading && size[1] < 220) { win.setSize(size[0], 220, true); }
+    if (shading) { return win.setMinimumSize(440, 220); }
+    if (!shading) { return win.setMinimumSize(440, 150); }
   });
 
   ipcMain.on("minimize-colorpicker", (event) => win.minimize());
   ipcMain.on("maximize-colorpicker", (event) => {
-    if (win.isMaximized()) return win.unmaximize();
-    else return win.maximize();
+    if (win.isMaximized()) { return win.unmaximize(); }
+    else { return win.maximize(); }
   });
   ipcMain.on("close-colorpicker", (event) => win.close());
   ipcMain.on("setOnTop", (event, bool) => win.setAlwaysOnTop(bool));

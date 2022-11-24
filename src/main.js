@@ -19,22 +19,25 @@ app.allowRendererProcessReuse = true;
 require("./events")(storage, browsers, eventEmitter);
 
 if (process.platform === "linux") {
-  app.commandLine.appendSwitch("enable-transparent-visuals");
   app.disableHardwareAcceleration();
 }
 
 let tray;
 
 let createTray = () => {
-  if (tray) return;
-  if (process.platform === "darwin")
+  if (tray) { return; }
+  if (process.platform === "darwin") {
     tray = new Tray(`${__dirname}/ressources/tray-black@3x.png`);
-  if (process.platform === "win32")
+  }
+  if (process.platform === "win32") {
     tray = new Tray(`${__dirname}/ressources/tray-black@3x.png`); // color here
-  if (process.platform === "linux")
+  }
+  if (process.platform === "linux") {
     tray = new Tray(`${__dirname}/ressources/tray-white@3x.png`);
-  if (process.platform === "darwin")
+  }
+  if (process.platform === "darwin") {
     tray.setPressedImage(`${__dirname}/ressources/tray-white@3x.png`);
+  }
   tray.on("click", (event) => colorpicker.init());
 };
 
@@ -154,11 +157,6 @@ let setMenu = () => {
           label: "Toggle Shading",
           accelerator: "CmdOrCtrl+T",
           click: () => colorpicker.getWindow().webContents.send("shortShading"),
-        },
-        {
-          label: "Toggle Opacity",
-          accelerator: "CmdOrCtrl+O",
-          click: () => colorpicker.getWindow().webContents.send("shortOpacity"),
         },
         {
           label: "Set Random Color",

@@ -9,8 +9,8 @@ module.exports = (dirname, storage) => {
    * @return {void} [new Colorsbook]
    */
   let init = () => {
-    if (win === null || win === undefined) createWindow();
-    else win.show();
+    if (win === null || win === undefined) { createWindow(); }
+    else { win.show(); }
   };
 
   /**

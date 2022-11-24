@@ -3,7 +3,9 @@
 const electronStorage = require("electron-json-storage");
 const { dialog } = require("electron");
 
-let storage, template, defaultStorage;
+let storage;
+let template;
+let defaultStorage;
 
 /**
  * [init - init storage]
@@ -12,8 +14,8 @@ let storage, template, defaultStorage;
 let init = () =>
   new Promise((resolve, reject) =>
     electronStorage.has("colorpicker", (err, exist) => {
-      if (err) throw err;
-      if (exist) resolve(fetch());
+      if (err) { throw err; }
+      if (exist) { resolve(fetch()); }
       else {
         storage = defaultStorage;
         resolve(save());
@@ -35,19 +37,22 @@ let fetch = () =>
       }
       storage = defaultStorage;
       for (let key in defaultStorage.colorpicker) {
-        if (!data.colorpicker) return;
-        if (!data.colorpicker.hasOwnProperty(key))
+        if (!data.colorpicker) { return; }
+        if (!data.colorpicker.hasOwnProperty(key)) {
           data.colorpicker[key] = defaultStorage.colorpicker[key];
+        }
       }
       for (let key in defaultStorage.picker) {
-        if (!data.picker) return;
-        if (!data.picker.hasOwnProperty(key))
+        if (!data.picker) { return; }
+        if (!data.picker.hasOwnProperty(key)) {
           data.picker[key] = defaultStorage.picker[key];
+        }
       }
       for (let key in defaultStorage.colorsbook) {
-        if (!data.colorsbook) return;
-        if (!data.colorsbook.hasOwnProperty(key))
+        if (!data.colorsbook) { return; }
+        if (!data.colorsbook.hasOwnProperty(key)) {
           data.colorsbook[key] = defaultStorage.colorsbook[key];
+        }
       }
       storage = data;
       resolve(true);
@@ -61,7 +66,7 @@ let fetch = () =>
  * @return {string|Object}  [settings string or object]
  */
 let get = (el, name) => {
-  if (!name) name = "colorpicker";
+  if (!name) { name = "colorpicker"; }
   return storage[name][el] !== null || storage[name][el] !== undefined
     ? storage[name][el]
     : {};
@@ -74,7 +79,7 @@ let get = (el, name) => {
  */
 let add = (payload, name) =>
   new Promise((resolve, reject) => {
-    if (!name) name = "colorpicker";
+    if (!name) { name = "colorpicker"; }
     Object.assign(storage[name], payload);
     resolve(save());
   });
@@ -86,7 +91,7 @@ let add = (payload, name) =>
 let save = () =>
   new Promise((resolve, reject) => {
     electronStorage.set("colorpicker", storage, (err, data) => {
-      if (err) throw err;
+      if (err) { throw err; }
       resolve(true);
     });
   });
@@ -146,7 +151,7 @@ template = {
  */
 defaultStorage = {
   colorpicker: {
-    tools: ["top", "picker", "tags", "shade", "opacity", "settings"],
+    tools: ["top", "picker", "tags", "shade", "settings"],
     size: { width: 440, height: 150 },
     buttonsPosition: template[platform()].buttonsPosition,
     buttonsType: template[platform()].buttonsType,

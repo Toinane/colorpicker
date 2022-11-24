@@ -253,7 +253,7 @@ a {
   top: 50%;
   left: 38%;
   width: 10px;
-  border-bottom: 1px solid var(--window-icon-main-color);
+  border-bottom: 1.2px solid var(--window-icon-main-color);
 }
 
 .windows #maximize:not(.active)::before {
@@ -261,9 +261,9 @@ a {
   position: absolute;
   top: 37%;
   left: 37%;
-  width: 10px;
-  height: 10px;
-  border: 1px solid var(--window-icon-main-color);
+  width: 9px;
+  height: 9px;
+  border: 1.2px solid var(--window-icon-main-color);
   border-radius: 2px;
 }
 

@@ -1,7 +1,7 @@
 "use strict";
 
 class ContextMenu {
-  constructor() {}
+  constructor() { }
 
   openMenu(type) {
     window.api.send("openMenu", type);
@@ -9,30 +9,31 @@ class ContextMenu {
 
   initButtonsType(type, name) {
     const appButtons = document.querySelector("#app_buttons");
-    const minimize = document.querySelector("#minimize");
-    const maximize = document.querySelector("#maximize");
-    const close = document.querySelector("#close");
     switch (type) {
-      case "windows":
+      case "windows": {
         appButtons.classList = "windows";
         appButtons.innerHTML =
           '<div id="minimize"></div><div id="maximize"></div><div id="close"></div>';
         break;
-      case "linux":
+      }
+      case "linux": {
         appButtons.classList = "windows";
         appButtons.innerHTML =
           '<div id="minimize"></div><div id="maximize"></div><div id="close"></div>';
         break;
+      }
       default:
         appButtons.classList = "darwin";
         appButtons.innerHTML =
           '<div id="minimize"></div><div id="maximize"></div><div id="close"></div>';
     }
 
-    document.querySelector("#close").onclick = () =>
+    document.querySelector("#close").onclick = () => {
       window.api.send(`close-${name}`);
-    document.querySelector("#minimize").onclick = () =>
+    }
+    document.querySelector("#minimize").onclick = () => {
       window.api.send(`minimize-${name}`);
+    }
     document.querySelector("#maximize").onclick = function () {
       window.api.send(`maximize-${name}`);
     };

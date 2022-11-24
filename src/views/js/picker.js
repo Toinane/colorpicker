@@ -1,6 +1,6 @@
 document.querySelector(
   "#picker"
-).style.border = `10px solid rgba(200, 200, 200, 0.3)`;
+).style.border = "10px solid rgba(200, 200, 200, 0.3)";
 
 document.addEventListener(
   "DOMContentLoaded",
@@ -10,7 +10,7 @@ document.addEventListener(
 document.addEventListener(
   "keydown",
   (event) => {
-    if (event.key === "Escape") window.api.send("closePicker");
+    if (event.key === "Escape") { window.api.send("closePicker"); }
   },
   false
 );

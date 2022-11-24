@@ -2,10 +2,10 @@
 
 let cm;
 
-let colorsbook = {},
-  categoryActive,
-  categoryFocused,
-  colorFocused;
+let colorsbook = {};
+let categoryActive;
+let categoryFocused;
+let colorFocused;
 
 document.addEventListener(
   "DOMContentLoaded",
@@ -16,8 +16,9 @@ document.addEventListener(
 window.api.on("init", (event, config) => {
   cm = new ContextMenu();
   colorsbook = config.colors;
-  if (config.posButton === "right")
+  if (config.posButton === "right") {
     document.querySelector(".toolbar").classList.add("setRight");
+  }
   cm.initButtonsType(config.typeButton, "colorsbook");
   initColorsbook(colorsbook, 0);
   initEvents();
@@ -30,9 +31,10 @@ window.api.on("changeTypeIcons", (event, type) =>
   cm.initButtonsType(type, "colorsbook")
 );
 window.api.on("changePosition", (event, position) => {
-  if (position === "right")
+  if (position === "right") {
     document.querySelector(".toolbar").classList.add("setRight");
-  else document.querySelector(".toolbar").classList.remove("setRight");
+  }
+  else { document.querySelector(".toolbar").classList.remove("setRight"); }
 });
 
 window.api.on("deleteColor", () => deleteColor());
@@ -45,8 +47,9 @@ function initColorsbook(colorsbook, activeAt) {
       categoryActive = category;
       initColors(colorsbook[category]);
       categories += `<li title="${category}" class="active" style="background: ${colorsbook[category][0]}">${category}</li>`;
-    } else
+    } else {
       categories += `<li title="${category}" style="background: ${colorsbook[category][0]}">${category}</li>`;
+    }
   }
   categories += '<li id="new-categorie"><i class="fa fa-plus"></i></li>';
   document.querySelector("#categories").innerHTML = categories;
@@ -77,7 +80,7 @@ function initColors(colors) {
 }
 
 function addColor(color) {
-  if (!categoryActive) categoryActive = Object.values(colorsbook).length - 1;
+  if (!categoryActive) { categoryActive = Object.values(colorsbook).length - 1; }
   colorsbook[categoryActive].push(color);
   initColorsbook(colorsbook, categoryActive);
   initEvents();
@@ -101,7 +104,7 @@ function addCategory(name) {
 }
 
 function deleteCategory() {
-  delete colorsbook[categoryFocused];
+  colorsbook[categoryFocused] = undefined;
   categoryActive = false;
   initColorsbook(colorsbook);
   initEvents();
@@ -166,9 +169,9 @@ document
     if (event.key === "Enter") {
       const regex = /^([0-9a-fA-F]{3}|([0-9a-fA-F]{6}))$/g;
       let color = this.value.replace("#", "");
-      if (!regex.test(color)) return;
+      if (!regex.test(color)) { return; }
       this.value = "";
-      addColor("#" + color);
+      addColor(`#${color}`);
       this.parentNode.classList.toggle("active");
     }
   });

@@ -1,6 +1,6 @@
 "use strict";
 
-const { ipcMain, BrowserWindow, app } = require("electron");
+const { ipcMain } = require("electron");
 
 module.exports = (storage, browsers) => {
     const { colorpicker, settings, colorsbook } = browsers;
@@ -18,7 +18,7 @@ module.exports = (storage, browsers) => {
 
     ipcMain.on("minimize-colorsbook", (event) => win.minimize());
     ipcMain.on("maximize-colorsbook", (event, bool) => {
-        if (bool) return win.maximize();
+        if (bool) { return win.maximize(); }
         return win.unmaximize();
     });
     ipcMain.on("close-colorsbook", (event) => win.close());

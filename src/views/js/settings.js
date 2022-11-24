@@ -63,8 +63,9 @@ document.addEventListener(
 for (let el of document.querySelectorAll("header li")) {
   el.addEventListener("click", function (event) {
     document.querySelector(`#${tabActive}-tab`).classList.remove("active");
-    if (document.querySelector("header li.active"))
+    if (document.querySelector("header li.active")) {
       document.querySelector("header li.active").classList.remove("active");
+    }
     this.classList.add("active");
     tabActive = this.id;
     document.querySelector(`#${tabActive}-tab`).classList.add("active");
@@ -81,10 +82,12 @@ window.api.on("init", (event, config) => {
   document
     .querySelector(`#type-icons li[data-type="${config.typeButton}"]`)
     .classList.add("active");
-  if (config.colorfullApp)
+  if (config.colorfullApp) {
     document.querySelector("#colorfull-app").classList.add("active");
-  if (config.realtime)
+  }
+  if (config.realtime) {
     document.querySelector("#picker-realtime").classList.add("active");
+  }
 });
 
 function initTools(selectedTools) {
@@ -96,17 +99,17 @@ function initTools(selectedTools) {
     tags: { title: "Open Colorsbook", icon: "fa-bookmark" },
     shade: { title: "Toggle Shading", icon: "fa-tint" },
     random: { title: "Set Random Color", icon: "fa-random" },
-    opacity: { title: "Toggle Opacity", icon: "fa-sliders-h" },
     clean: { title: "Focus Mode", icon: "fa-adjust" },
     settings: { title: "Open Settings", icon: "fa-cog" },
   };
 
   for (let tool of selectedTools) {
-    if (tool !== "apply")
+    if (tools[tool] !== undefined && tool !== "apply") {
       htmlSelected += `<p id="${tool}_button" class="tools" title="${tools[tool].title}"><i class="fa ${tools[tool].icon}"></i></p>`;
+    }
   }
   for (let tool in tools) {
-    if (selectedTools.indexOf(tool) === -1) {
+    if (tools[tool] !== undefined && selectedTools.indexOf(tool) === -1) {
       htmlAll += `<p id="${tool}_button" class="tools" title="${tools[tool].title}"><i class="fa ${tools[tool].icon}"></i></p>`;
     }
   }

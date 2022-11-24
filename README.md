@@ -36,7 +36,6 @@ Colorpicker's menu come with a lot of cool features :
 -   [Picker](#picker): open an eyedropper who can pick a color from your desktop;
 -   [Colorsbook](#colorsbook): open Colorsbook, a color manager;
 -   [Shading](#shading): show three bar of shading — hue bar, natural bar and lightness bar;
--   [Opacity](#opacity): toggle Opacity range;
 -   [Clean Vue](#clean-vue): unshow menu, ranges and inputs;
 -   [Magic color](#magic-color): show colors from the clipboard;
 -   [Random](#random): show a random color;
@@ -76,15 +75,6 @@ It is destined to mature over time.
 
 With the shades, you can find the perfect color you need. You have a chromatic bar, a natural color bar and a shadow
 bar.
-
----
-
-## Opacity [WIP]
-
-![Opacity gif](.github/screenshots/opacity.png)
-
-This feature is a bit special. It allows you to render the application transparent. This can be useful to see the
-appearance of a transparent color.
 
 ---
 
