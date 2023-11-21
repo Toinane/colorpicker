@@ -40,7 +40,7 @@
     "win-mouse": "github:Toinane/win-mouse"
   },
   "devDependencies": {
-    "electron": "^19.1.7",
+    "electron": "^27.0.2",
     "electron-builder": "^23.6.0",
     "standard": "^17.0.0"
   },
