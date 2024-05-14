@@ -1,5 +1,5 @@
 name: colorpicker-app
-version: '2.0.4'
+version: "2.2.1"
 base: core18
 summary: A mininal but complete Colorpicker desktop app
 description: |
@@ -25,7 +25,7 @@ apps:
     command: opt/Colorpicker/colorpicker-app --no-sandbox
     desktop: usr/share/applications/colorpicker-app.desktop
     autostart: colorpicker-app.desktop
-    plugs: 
+    plugs:
       - desktop
       - desktop-legacy
       - home
@@ -62,7 +62,7 @@ parts:
       sed -i 's|Icon=colorpicker-app|Icon=/usr/share/icons/hicolor/256x256/apps/colorpicker-app.png|' ${SNAPCRAFT_PART_INSTALL}/usr/share/applications/colorpicker-app.desktop
     prime:
       - -opt/Colorpicker/chrome-sandbox
-    stage-packages: 
+    stage-packages:
       - libasound2
       - libgconf2-4
       - libnotify4
@@ -83,7 +83,7 @@ parts:
   cleanup:
     after: [colorpicker-app]
     plugin: nil
-    build-snaps: [ gnome-3-28-1804 ]
+    build-snaps: [gnome-3-28-1804]
     override-prime: |
       set -eux
       cd /snap/gnome-3-28-1804/current
