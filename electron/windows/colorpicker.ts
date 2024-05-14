@@ -17,14 +17,14 @@ class ColorpickerWindow extends Window<IColorpickerSettings> {
       theme: 'system',
       tools: ['picker', 'swatch', 'tint', 'contrast'],
       width: 400,
-      height: 250,
+      height: 150,
     });
 
-    const { scaleFactor } = screen.getPrimaryDisplay();
+    // const { scaleFactor } = screen.getPrimaryDisplay();
 
     this.props = {
-      minWidth: 400 / scaleFactor,
-      minHeight: 150 / scaleFactor,
+      minWidth: 400,
+      minHeight: 150,
       alwaysOnTop: is.dev,
     };
   }
@@ -34,6 +34,7 @@ class ColorpickerWindow extends Window<IColorpickerSettings> {
     ipcMain.handle('colorpicker:store:get', () => this.store.storage);
 
     ipcMain.handle('colorpicker:store:update', (_, updatedStore: Partial<IColorpickerSettings>) => {
+      console.log(this.window?.getBounds())
       console.log(updatedStore);
       this.store.set(updatedStore);
     });

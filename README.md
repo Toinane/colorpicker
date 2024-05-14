@@ -51,19 +51,19 @@ You should use a Code Editor compatible with _Prettier_ and _ESLint_ plugins lik
 - Install dependencies
 
 ```shell
-yarn
+npm i
 ```
 
 - Launch Colorpicker in development mode
 
 ```shell
-yarn dev
+npm run dev
 ```
 
 - Make a Nightly build
 
 ```
-yarn release:nightly
+npm run release:nightly
 ```
 
 #### How to make stable release

@@ -55,7 +55,7 @@ body .windowButtons div:hover:active {
   position: absolute;
   bottom: 45%;
   left: 32%;
-  width: 8px;
+  width: 9px;
   height: 1px;
   transform: rotate(45deg);
   background: var(--window-icon-main-color);

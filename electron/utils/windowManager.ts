@@ -19,15 +19,15 @@ export default class Window<T extends IWindowSettings> {
   store: Storage<IWindowSettings>;
 
   constructor(name: string, defaultStore: T) {
-    const { scaleFactor } = screen.getPrimaryDisplay();
+    // const { scaleFactor } = screen.getPrimaryDisplay();
 
     this.name = name;
     this.store = new Storage<T>(this.name, defaultStore);
     this.defaultProps = {
       show: false,
       titleBarStyle: 'hidden',
-      width: (this.store.storage.width || 400) / scaleFactor,
-      height: (this.store.storage.height || 250) / scaleFactor,
+      width: (this.store.storage.width || 400),
+      height: (this.store.storage.height || 250) ,
       webPreferences: {
         sandbox: true,
         preload: path.resolve(__dirname, '..', 'dist', `${this.name}_preload.js`),
