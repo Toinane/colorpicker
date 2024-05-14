@@ -1,7 +1,7 @@
 {
   "name": "colorpicker",
   "productName": "colorpicker",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Colorpicker is a little Electron app that can show colors with hex/rgb code, and generate shading for your color.",
   "main": "src/main.js",
   "scripts": {
@@ -15,7 +15,7 @@
     "release-window": "electron-builder --publish=never --config colorpicker-build.json --win nsis portable",
     "nightly": "electron-builder --publish=never --config colorpicker-build-nightly.json",
     "nightly-linux": "electron-builder --publish=never --config colorpicker-build-nightly.json --linux deb appImage",
-    "rebuild": "npm rebuild --runtime=electron --target=19.1.7 --disturl=https://electronjs.org/headers --abi=106"
+    "rebuild": "npm rebuild --runtime=electron --target=19.1.9 --disturl=https://electronjs.org/headers --abi=106"
   },
   "repository": "https://github.com/toinane/colorpicker",
   "keywords": [
@@ -23,16 +23,13 @@
     "colors",
     "code",
     "shading",
-    "picker",
-    "Toinane",
-    "Crea-THAT",
-    "crea-that"
+    "picker"
   ],
   "dependencies": {
     "electron-json-storage": "^4.6.0",
     "request": "^2.88.2",
     "robotjs": "github:Toinane/robotjs",
-    "semver": "^7.3.8"
+    "semver": "^7.6.2"
   },
   "optionalDependencies": {
     "iohook": "^0.9.3",
@@ -40,21 +37,21 @@
     "win-mouse": "github:Toinane/win-mouse"
   },
   "devDependencies": {
-    "electron": "^19.1.7",
-    "electron-builder": "^23.6.0",
-    "standard": "^17.0.0"
+    "electron": "^19.1.9",
+    "electron-builder": "^24.13.3",
+    "standard": "^17.1.0"
   },
   "author": {
     "name": "Toinane",
     "email": "toinane@crea-that.fr",
-    "url": "https://toinane.crea-th.at"
+    "url": "https://colorpicker.fr"
   },
   "bugs": "https://github.com/toinane/colorpicker/issues",
   "homepage": "https://crea-th.at/p/colorpicker",
   "license": "GPL-3.0",
   "iohook": {
     "targets": [
-      "electron-103"
+      "electron-123"
     ],
     "platforms": [
       "linux"

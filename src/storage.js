@@ -2,6 +2,8 @@
 
 const electronStorage = require("electron-json-storage");
 const { dialog } = require("electron");
+const fs = require("fs");
+const path = require("path");
 
 let storage;
 let template;
@@ -14,7 +16,9 @@ let defaultStorage;
 let init = () =>
   new Promise((resolve, reject) =>
     electronStorage.has("colorpicker", (err, exist) => {
-      if (err) { throw err; }
+      if (err) {
+        fs.rmSync(path.join(electronStorage.getDefaultDataPath(), "colorpicker.json"));
+      }
       if (exist) { resolve(fetch()); }
       else {
         storage = defaultStorage;
@@ -31,9 +35,9 @@ let fetch = () =>
   new Promise((resolve, reject) => {
     electronStorage.get("colorpicker", (err, data) => {
       if (err) {
-        dialog.showErrorBox("loading storage file error", err);
+        fs.rmSync(path.join(electronStorage.getDefaultDataPath(), "colorpicker.json"));
         storage = defaultStorage;
-        resolve(false);
+        return resolve(false);
       }
       storage = defaultStorage;
       for (let key in defaultStorage.colorpicker) {
