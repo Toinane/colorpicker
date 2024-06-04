@@ -16,22 +16,27 @@ module.exports = {
     };
 
     request(options, (err, res, body) => {
-      let update = JSON.parse(body);
-      if (semver.gt(update.release, app.getVersion())) {
-        dialog
-          .showMessageBox(null, {
-            message: "A new update of Colorpicker is available",
-            type: "info",
-            defaultId: 1,
-            buttons: ["Show Update", "Ignore"],
-          })
-          .then((result) => {
-            if (result.response === 0) {
-              shell.openExternal(
-                "https://github.com/Toinane/colorpicker/releases"
-              );
-            }
-          });
+      try {
+        let update = JSON.parse(body);
+        if (semver.gt(update.release, app.getVersion())) {
+          dialog
+            .showMessageBox(null, {
+              message: "A new update of Colorpicker is available",
+              type: "info",
+              defaultId: 1,
+              buttons: ["Show Update", "Ignore"],
+            })
+            .then((result) => {
+              if (result.response === 0) {
+                shell.openExternal(
+                  "https://github.com/Toinane/colorpicker/releases"
+                );
+              }
+            });
+        }
+      }
+      catch (error) {
+        console.error("Error while checking for updates", error);
       }
     });
   },
