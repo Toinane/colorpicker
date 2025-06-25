@@ -44,13 +44,17 @@ module.exports = (storage, browsers) => {
 			if (!picker.getWindow()) {
 				return;
 			}
-			let realtime = storage.get('realtime', 'picker');
-			let { x, y } = event;
-			let color = `#${robot.getPixelColor(parseInt(x), parseInt(y))}`;
+
 			picker.getWindow().setPosition(parseInt(x) - 50, parseInt(y) - 50);
-			picker.getWindow().webContents.send('updatePicker', color);
-			if (realtime) {
-				colorpicker.getWindow().webContents.send('previewColor', color);
+
+			if (!lastUpdateTime || Date.now() - lastUpdateTime > pickerUpdateDelay) {
+				let realtime = storage.get('realtime', 'picker');
+				let { x, y } = event;
+				let color = `#${robot.getPixelColor(parseInt(x), parseInt(y))}`;
+				picker.getWindow().webContents.send('updatePicker', color);
+				if (realtime) {
+					colorpicker.getWindow().webContents.send('previewColor', color);
+				}
 			}
 		});
 
