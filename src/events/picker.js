@@ -4,6 +4,7 @@ const { ipcMain, screen } = require('electron');
 const robot = require('robotjs');
 
 let mouseEvent;
+let ioHook;
 let color;
 let lastUpdateTime;
 
@@ -20,9 +21,8 @@ module.exports = (storage, browsers) => {
 		const pickerWindow = picker.getWindow();
 
 		if (pickerWindow) {
-			mouseEvent.removeListener('move', mouseMoveEvent);
-			mouseEvent.removeListener('left-up', leftClickEvent);
-			mouseEvent.removeListener('right-up', closePicker);
+			cleanupEvents();
+			cleanupEventsLinux();
 			colorpicker.getWindow().webContents.send('changeColor', newColor);
 			colorpicker.getWindow().focus();
 			ipcMain.removeListener('closePicker', closePicker);
@@ -36,38 +36,13 @@ module.exports = (storage, browsers) => {
 	};
 
 	const linuxSupport = () => {
-		const ioHook = require('iohook');
+		ioHook = require('iohook');
 
 		ioHook.start();
 
-		ioHook.on('mousemove', (event) => {
-			if (!picker.getWindow()) {
-				return;
-			}
+		ioHook.on('mousemove', mouseMoveHandlerLinux);
 
-			picker.getWindow().setPosition(parseInt(x) - 50, parseInt(y) - 50);
-
-			if (!lastUpdateTime || Date.now() - lastUpdateTime > pickerUpdateDelay) {
-				let realtime = storage.get('realtime', 'picker');
-				let { x, y } = event;
-				let color = `#${robot.getPixelColor(parseInt(x), parseInt(y))}`;
-				picker.getWindow().webContents.send('updatePicker', color);
-				if (realtime) {
-					colorpicker.getWindow().webContents.send('previewColor', color);
-				}
-			}
-		});
-
-		ioHook.on('mouseup', (event) => {
-			if (!picker.getWindow()) {
-				return;
-			}
-			if (event.button === 2) {
-				return closePicker();
-			}
-			let { x, y } = event;
-			closePicker(`#${robot.getPixelColor(parseInt(x), parseInt(y))}`);
-		});
+		ioHook.on('mouseup', mouseUpHandlerLinux);
 
 		let pos = robot.getMousePos();
 		picker.getWindow().setPosition(parseInt(pos.x) - 50, parseInt(pos.y) - 50);
@@ -126,5 +101,51 @@ module.exports = (storage, browsers) => {
 
 	const leftClickEvent = (x, y) => {
 		closePicker(`#${robot.getPixelColor(parseInt(x), parseInt(y))}`);
+	};
+
+	const mouseUpHandlerLinux = (event) => {
+		if (!picker.getWindow()) {
+			return;
+		}
+		if (event.button === 2) {
+			return closePicker();
+		}
+		let { x, y } = event;
+		closePicker(`#${robot.getPixelColor(parseInt(x), parseInt(y))}`);
+	};
+
+	const mouseMoveHandlerLinux = (event) => {
+		if (!picker.getWindow()) {
+			return;
+		}
+
+		picker.getWindow().setPosition(parseInt(x) - 50, parseInt(y) - 50);
+
+		if (!lastUpdateTime || Date.now() - lastUpdateTime > pickerUpdateDelay) {
+			let realtime = storage.get('realtime', 'picker');
+			let { x, y } = event;
+			let color = `#${robot.getPixelColor(parseInt(x), parseInt(y))}`;
+			picker.getWindow().webContents.send('updatePicker', color);
+			if (realtime) {
+				colorpicker.getWindow().webContents.send('previewColor', color);
+			}
+		}
+	};
+
+	const cleanupEvents = () => {
+		if (!mouseEvent) return;
+
+		mouseEvent.removeListener('move', mouseMoveEvent);
+		mouseEvent.removeListener('left-up', leftClickEvent);
+		mouseEvent.removeListener('right-up', closePicker);
+	};
+
+	const cleanupEventsLinux = () => {
+		if (!ioHook) return;
+
+		ioHook.removeListener('mousemove', mouseMoveHandlerLinux);
+		ioHook.removeListener('mouseup', mouseUpHandlerLinux);
+		ioHook.stop();
+		ioHook = null;
 	};
 };
