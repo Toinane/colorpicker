@@ -27,6 +27,9 @@ module.exports = (storage, browsers) => {
 			colorpicker.getWindow().focus();
 			ipcMain.removeListener('closePicker', closePicker);
 
+			// Reset timing for next picker session
+			lastUpdateTime = null;
+
 			setTimeout(() => {
 				if (pickerWindow && !pickerWindow.isDestroyed()) {
 					pickerWindow.destroy();
@@ -119,16 +122,17 @@ module.exports = (storage, browsers) => {
 			return;
 		}
 
+		let { x, y } = event;
 		picker.getWindow().setPosition(parseInt(x) - 50, parseInt(y) - 50);
 
 		if (!lastUpdateTime || Date.now() - lastUpdateTime > pickerUpdateDelay) {
 			let realtime = storage.get('realtime', 'picker');
-			let { x, y } = event;
 			let color = `#${robot.getPixelColor(parseInt(x), parseInt(y))}`;
 			picker.getWindow().webContents.send('updatePicker', color);
 			if (realtime) {
 				colorpicker.getWindow().webContents.send('previewColor', color);
 			}
+			lastUpdateTime = Date.now();
 		}
 	};
 
