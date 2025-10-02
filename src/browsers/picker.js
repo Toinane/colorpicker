@@ -1,11 +1,19 @@
 "use strict";
 
-const { BrowserWindow, nativeImage } = require("electron");
+const { BrowserWindow, nativeImage, systemPreferences } = require("electron");
 
 module.exports = (dirname, storage) => {
   let win;
 
   let init = () => {
+    if (process.platform === "darwin") {
+      const hasPermission = systemPreferences.getMediaAccessStatus("screen");
+      if (hasPermission !== "granted") {
+        systemPreferences.askForMediaAccess("screen");
+        return;
+      }
+    }
+
     if (win === null || win === undefined) {
       createWindow();
     }

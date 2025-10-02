@@ -21,6 +21,12 @@
     "shading",
     "picker"
   ],
+  "config": {
+    "target": "38.2.0",
+    "disturl": "https://electronjs.org/headers",
+    "runtime": "electron",
+    "build_from_source": true
+  },
   "dependencies": {
     "electron-json-storage": "^4.6.0",
     "robotjs": "github:Toinane/robotjs",
