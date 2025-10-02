@@ -47,22 +47,32 @@ a {
   margin-bottom: 1px;
 }
 #tools p {
-  color: rgba(0, 0, 0, 0.45);
+  color: rgba(0, 0, 0, 0.5);
   font-weight: bold;
-  padding: 2px 5px 2px 5px;
-  width: 17px;
+  padding: 3px;
+  margin: 0 1px;
+  width: 20px;
   text-align: center;
   -webkit-app-region: no-drag;
   cursor: pointer;
   transition: 0.3s;
-  border-radius: 3px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#tools p svg {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  fill: rgba(0, 0, 0, 0.5);
 }
 .darkMode #tools p {
   color: rgba(255, 255, 255, 0.7);
 }
 #tools p:hover {
   background-color: rgba(0, 0, 0, 0.1);
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(0, 0, 0, 0.7);
 }
 .darkMode #tools p:hover {
   background-color: rgba(255, 255, 255, 0.2);
@@ -70,12 +80,12 @@ a {
 }
 
 #tools p.active {
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.15);
   color: rgba(0, 0, 0, 0.6);
 }
 .darkMode #tools p.active {
+  background-color: rgba(255, 255, 255, 0.2);
   color: rgba(255, 255, 255, 0.9);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
 }
 
 #tools::selection,
@@ -185,9 +195,12 @@ progress[value]::-webkit-progress-bar {
   width: 99%;
   top: 5px;
   left: 1px;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(23, 23, 23, 0.35);
   border-radius: 6px;
   height: 10px;
+}
+.darkMode progress[value]::-webkit-progress-bar {
+  background-color: rgba(255, 255, 255, 0.6);
 }
 progress[value]::-webkit-progress-value {
   border-radius: 6px;
@@ -231,10 +244,11 @@ progress {
 input[type="text"] {
   width: 40px;
   text-align: center;
-  background: rgba(0, 0, 0, 0.08);
-  color: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.7);
   border: none;
   padding: 2px;
+  border-radius: 4px;
   font-size: 1.05em;
   font-weight: bold;
   outline: none;
@@ -243,12 +257,12 @@ input[type="text"] {
 .darkMode .inputs input[type="number"],
 .darkMode input[type="text"],
 .darkMode .value p {
-  background: rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .value {
-  margin-bottom: 9px;
+  margin-bottom: 8px;
   margin-left: 10px;
   transition: opacity 0.4s;
 }

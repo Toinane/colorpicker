@@ -2,13 +2,11 @@
 
 const {
   ipcMain,
-  BrowserWindow,
   app,
   Notification,
   dialog,
   shell,
 } = require("electron");
-const request = require("request");
 const semver = require("semver");
 
 module.exports = (storage, browsers) => {
@@ -74,25 +72,34 @@ module.exports = (storage, browsers) => {
     }
   });
 
-  function updateApp(event) {
-    const options = {
-      url: "https://colorpicker.fr/release.json",
-      method: "GET",
-      headers: {
-        "content-type": "application/json",
-        "user-agent": `colorpicker-${app.getVersion()}`,
-      },
+  async function updateApp(event) {
+    const url = "https://colorpicker.fr/release.json";
+    const headers = {
+      "content-type": "application/json",
+      "user-agent": `colorpicker-${app.getVersion()}`,
     };
 
     let message =
       '<i class="fa fa-ban"></i> Can\'t connect to server, check manually <a href="https://github.com/Toinane/colorpicker/releases">here</a>';
-    request(options, (err, res, body) => {
-      if (err) { return event.sender.send("update", message); }
-      let update = JSON.parse(body);
-      if (update === undefined || update === null) {
+
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: headers,
+      });
+
+      if (!response.ok) {
         return event.sender.send("update", message);
       }
-      if (semver.lt(update.release, app.getVersion())) {
+
+      const body = await response.text();
+      let update = JSON.parse(body);
+
+      if (update === undefined || update === null || !update.release) {
+        return event.sender.send("update", message);
+      }
+
+      if (semver.satisfies(app.getVersion(), `>=${update.release}`)) {
         return event.sender.send(
           "update",
           '<i class="fa fa-check"></i> You\'re up to date!'
@@ -112,6 +119,8 @@ module.exports = (storage, browsers) => {
           `<i class="fa fa-exclamation-triangle"></i> New update available <a href="${update.link}">here</a>`
         );
       }
-    });
+    } catch (err) {
+      return event.sender.send("update", message);
+    }
   }
 };

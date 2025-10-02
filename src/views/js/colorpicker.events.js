@@ -63,18 +63,23 @@ function initTools(tools) {
   let html = "";
   let allTools = {
     top: { title: "Pin to Foreground", icon: "fa-map-pin" },
-    picker: { title: "Pick Color", icon: "fa-eye-dropper" },
-    tags: { title: "Open Colorsbook", icon: "fa-bookmark" },
+    picker: { title: "Pick Color", svg: PICKER_ICON },
+    tags: { title: "Open Colorsbook", svg: COLORBOOK_ICON },
     shade: { title: "Toggle Shading", icon: "fa-tint" },
-    random: { title: "Set Random Color", icon: "fa-random" },
-    clean: { title: "Focus Mode", icon: "fa-adjust" },
+    random: { title: "Set Random Color", svg: RANDOM_ICON },
+    clean: { title: "Focus Mode", svg: CONTRAST_ICON },
     apply: { title: "Get Clipboard's Colors", icon: "fa-clone" },
     settings: { title: "Open Settings", icon: "fa-cog" },
   };
 
   for (let tool of tools) {
     if (allTools[tool] !== undefined) {
-      html += `<p id="${tool}_button" title="${allTools[tool].title}"><i class="fas ${allTools[tool].icon}"></i></p>`;
+      if (allTools[tool].svg) {
+        html += `<p id="${tool}_button" title="${allTools[tool].title}">${allTools[tool].svg}</p>`;
+      } else {
+        html += `<p id="${tool}_button" title="${allTools[tool].title}"><i class="fas ${allTools[tool].icon}"></i></p>`;
+
+      }
     }
   }
 

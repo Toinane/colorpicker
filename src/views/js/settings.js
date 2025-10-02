@@ -2,8 +2,6 @@
 
 let tabActive = "general";
 
-window.api.send("init-settings");
-
 /* TAB GENERAL */
 let options = {
   dragClass: "sortable-drag",
@@ -95,22 +93,30 @@ function initTools(selectedTools) {
   let htmlAll = "";
   let tools = {
     top: { title: "Pin to Foreground", icon: "fa-map-pin" },
-    picker: { title: "Pick Color", icon: "fa-eye-dropper" },
-    tags: { title: "Open Colorsbook", icon: "fa-bookmark" },
+    picker: { title: "Pick Color", svg: PICKER_ICON },
+    tags: { title: "Open Colorsbook", svg: COLORBOOK_ICON },
     shade: { title: "Toggle Shading", icon: "fa-tint" },
-    random: { title: "Set Random Color", icon: "fa-random" },
-    clean: { title: "Focus Mode", icon: "fa-adjust" },
+    random: { title: "Set Random Color", svg: RANDOM_ICON },
+    clean: { title: "Focus Mode", svg: CONTRAST_ICON },
     settings: { title: "Open Settings", icon: "fa-cog" },
   };
 
   for (let tool of selectedTools) {
     if (tools[tool] !== undefined && tool !== "apply") {
-      htmlSelected += `<p id="${tool}_button" class="tools" title="${tools[tool].title}"><i class="fa ${tools[tool].icon}"></i></p>`;
+      if (tools[tool].svg) {
+        htmlSelected += `<p id="${tool}_button" class="tools" title="${tools[tool].title}">${tools[tool].svg}</p>`;
+      } else {
+        htmlSelected += `<p id="${tool}_button" class="tools" title="${tools[tool].title}"><i class="fa ${tools[tool].icon}"></i></p>`;
+      }
     }
   }
   for (let tool in tools) {
     if (tools[tool] !== undefined && selectedTools.indexOf(tool) === -1) {
-      htmlAll += `<p id="${tool}_button" class="tools" title="${tools[tool].title}"><i class="fa ${tools[tool].icon}"></i></p>`;
+      if (tools[tool].svg) {
+        htmlAll += `<p id="${tool}_button" class="tools" title="${tools[tool].title}">${tools[tool].svg}</p>`;
+      } else {
+        htmlAll += `<p id="${tool}_button" class="tools" title="${tools[tool].title}"><i class="fa ${tools[tool].icon}"></i></p>`;
+      }
     }
   }
 

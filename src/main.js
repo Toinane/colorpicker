@@ -1,9 +1,11 @@
 "use strict";
+const { app, Menu, shell } = require("electron");
+
+app.setAppUserModelId("com.toinane.colorpicker");
 
 let eventEmitter = require("events");
 eventEmitter = new eventEmitter();
 
-const { app, Tray, Menu, shell } = require("electron");
 const storage = require("./storage");
 const touchbar = require("./touchbar")(__dirname, eventEmitter);
 const { searchNewUpdate } = require("./checkUpdate");
@@ -13,33 +15,11 @@ const browsers = require("./browsers")(__dirname, storage, {
 });
 const { colorpicker, colorsbook, picker, settings } = browsers;
 
-// @TODO remove when electron@9.0.0
-app.allowRendererProcessReuse = true;
-
 require("./events")(storage, browsers, eventEmitter);
 
 if (process.platform === "linux") {
   app.disableHardwareAcceleration();
 }
-
-let tray;
-
-let createTray = () => {
-  if (tray) { return; }
-  if (process.platform === "darwin") {
-    tray = new Tray(`${__dirname}/ressources/tray-black@3x.png`);
-  }
-  if (process.platform === "win32") {
-    tray = new Tray(`${__dirname}/ressources/tray-black@3x.png`); // color here
-  }
-  if (process.platform === "linux") {
-    tray = new Tray(`${__dirname}/ressources/tray-white@3x.png`);
-  }
-  if (process.platform === "darwin") {
-    tray.setPressedImage(`${__dirname}/ressources/tray-white@3x.png`);
-  }
-  tray.on("click", (event) => colorpicker.init());
-};
 
 /**
  * [setMenu - set new app menu]
@@ -174,7 +154,6 @@ let setMenu = () => {
  */
 app.on("ready", () => {
   storage.init().then(() => {
-    // createTray();
     setMenu();
     colorpicker.init();
     searchNewUpdate();

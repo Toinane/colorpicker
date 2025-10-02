@@ -1,21 +1,17 @@
 {
   "name": "colorpicker",
   "productName": "colorpicker",
-  "version": "2.2.2",
+  "version": "2.3.0",
   "description": "Colorpicker is a little Electron app that can show colors with hex/rgb code, and generate shading for your color.",
   "main": "src/main.js",
   "scripts": {
     "start": "npx electron src/main.js",
-    "standard": "standard",
-    "pack": "electron-builder --dir",
     "publish": "snapcraft push --release=stable *.snap",
-    "release": "electron-builder --publish=never --config colorpicker-build.json",
-    "release-linux": "electron-builder --publish=never --config colorpicker-build.json --linux deb appImage",
+    "release": "electron-builder --publish=never --config build/colorpicker-build.json",
+    "release-linux": "electron-builder --publish=never --config build/colorpicker-build.json --linux deb appImage",
     "release-snap": "snapcraft snap",
-    "release-window": "electron-builder --publish=never --config colorpicker-build.json --win nsis portable",
-    "nightly": "electron-builder --publish=never --config colorpicker-build-nightly.json",
-    "nightly-linux": "electron-builder --publish=never --config colorpicker-build-nightly.json --linux deb appImage",
-    "rebuild": "npm rebuild --runtime=electron --target=19.1.9 --disturl=https://electronjs.org/headers --abi=106"
+    "release-window": "electron-builder --publish=never --config build/colorpicker-build.json --win nsis portable",
+    "rebuild": "npm rebuild --runtime=electron --target=38.2.0 --disturl=https://electronjs.org/headers --abi=139"
   },
   "repository": "https://github.com/toinane/colorpicker",
   "keywords": [
@@ -27,23 +23,20 @@
   ],
   "dependencies": {
     "electron-json-storage": "^4.6.0",
-    "request": "^2.88.2",
     "robotjs": "github:Toinane/robotjs",
-    "semver": "^7.6.2"
+    "semver": "^7.7.2"
   },
   "optionalDependencies": {
-    "iohook": "^0.9.3",
+    "iohook": "github:Toinane/iohook",
     "osx-mouse": "github:Toinane/osx-mouse",
     "win-mouse": "github:Toinane/win-mouse"
   },
   "devDependencies": {
-    "electron": "^19.1.9",
-    "electron-builder": "^24.13.3",
-    "standard": "^17.1.0"
+    "electron": "^38.2.0",
+    "electron-builder": "^26.0.12"
   },
   "author": {
     "name": "Toinane",
-    "email": "toinane@crea-that.fr",
     "url": "https://colorpicker.fr"
   },
   "bugs": "https://github.com/toinane/colorpicker/issues",
@@ -51,7 +44,7 @@
   "license": "GPL-3.0",
   "iohook": {
     "targets": [
-      "electron-123"
+      "electron-139"
     ],
     "platforms": [
       "linux"

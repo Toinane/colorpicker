@@ -1,18 +1,22 @@
 {
-  "appId": "com.electron.colorpicker",
+  "appId": "com.toinane.colorpicker",
   "productName": "Colorpicker",
   "compression": "maximum",
-  "copyright": "Copyright @Toinane",
   "buildDependenciesFromSource": true,
   "directories": {
-    "output": "out"
+    "output": "dist"
   },
-  "files": ["**/*"],
+  "files": ["src/**"],
   "mac": {
     "target": [{ "target": "dmg", "arch": ["arm64", "x64"] }],
     "category": "public.app-category.graphics-design",
     "icon": "build/icon.icns",
-    "type": "distribution"
+    "type": "distribution",
+    "darkModeSupport": true,
+    "extendInfo": {
+      "NSUserNotificationAlertStyle": "alert",
+      "LSHasLocalizedDisplayName": true
+    }
   },
   "dmg": {
     "icon": "build/VolumeIcon.icns",
