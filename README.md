@@ -3,23 +3,32 @@
         <img src="build/icon.png" width="256" height="256" alt="ColorPicker icon" />
     </a>
     <h1 align="center">Colorpicker</h1>
-    <p align="center">A mininal but complete colorpicker desktop app</p>
+    <p align="center">Modern and powerful color management software</p>
     <p align="center">
         <img src="https://badgen.net/github/release/toinane/colorpicker/stable" />
-        <img src="https://img.shields.io/github/downloads/toinane/colorpicker/total.svg">
-        <img src="https://img.shields.io/github/downloads/toinane/colorpicker/latest/total.svg">
-        <img src="https://img.shields.io/github/release-date/Toinane/colorpicker.svg">
-        <img src="https://badgen.net/david/dep/toinane/colorpicker">
-        <a href="https://snapcraft.io/colorpicker-app">
-            <img alt="colorpicker-app" src="https://snapcraft.io/colorpicker-app/badge.svg" />
-        </a>
-        <a href="https://crowdin.com/project/colorpicker">
-            <img src="https://badges.crowdin.net/colorpicker/localized.svg">
-        </a>
+    <img src="https://img.shields.io/github/downloads/toinane/colorpicker/total.svg">
+    <img src="https://img.shields.io/github/downloads/toinane/colorpicker/latest/total.svg">
+    <img src="https://img.shields.io/github/release-date/Toinane/colorpicker.svg">
+    <img src="https://github.com/Toinane/colorpicker/actions/workflows/package.yaml/badge.svg">
+    <a href="https://snapcraft.io/colorpicker-app">
+      <img alt="colorpicker-app" src="https://snapcraft.io/colorpicker-app/badge.svg" />
+    </a>
+    <a href="https://crowdin.com/project/colorpicker">
+      <img src="https://badges.crowdin.net/colorpicker/localized.svg">
+    </a>
     </p>
 </p>
 
-### Want to help to translate this app? go on [Crowdin](https://crowdin.com/project/colorpicker)! Your help is welcome :)
+---
+
+<h4 align="center">
+  Want to help with the localization of Colorpicker?
+</h4>
+<p align="center">
+  Please connect to <a href="https://crowdin.com/project/colorpicker" target="_blank">Crowdin and join the project</a>, your contribution is highly appreciated! 👍
+</p>
+
+---
 
 Colorpicker is a desktop tool with _Electron_ to get and save colors code quickly for _OSX_, _Windows_ and _Linux_!
 
@@ -30,14 +39,14 @@ Colorpicker is a desktop tool with _Electron_ to get and save colors code quickl
 
 Colorpicker's menu come with a lot of cool features :
 
--   [Pin](#pin): pin Colorpicker to the foreground;
--   [Picker](#picker): open an eyedropper who can pick a color from your desktop;
--   [Colorsbook](#colorsbook): open Colorsbook, a color manager;
--   [Shading](#shading): show three bar of shading — hue bar, natural bar and lightness bar;
--   [Clean Vue](#clean-vue): unshow menu, ranges and inputs;
--   [Magic color](#magic-color): show colors from the clipboard;
--   [Random](#random): show a random color;
--   [Settings](#settings): open the preferences panel.
+- [Pin](#pin): pin Colorpicker to the foreground;
+- [Picker](#picker): open an eyedropper who can pick a color from your desktop;
+- [Colorsbook](#colorsbook): open Colorsbook, a color manager;
+- [Shading](#shading): show three bar of shading — hue bar, natural bar and lightness bar;
+- [Clean Vue](#clean-vue): unshow menu, ranges and inputs;
+- [Magic color](#magic-color): show colors from the clipboard;
+- [Random](#random): show a random color;
+- [Settings](#settings): open the preferences panel.
 
 ## Pin
 
@@ -106,8 +115,7 @@ The settings menu allows you to customize your Colorpicker, I let you discover i
 
 # Download
 
--   You can download the [latest release on the website!](https://colorpicker.fr)
--   Or [on GitHub releases here.](https://github.com/Toinane/colorpicker/releases)
+- You can download [on GitHub releases here.](https://github.com/Toinane/colorpicker/releases)
 
 ## Want to support me?
 
@@ -115,35 +123,51 @@ You can [buy me a coffee here](https://toinane.itch.io/colorpicker)! Thank you!
 
 #### **_Happy Design !_**
 
-# Developers
+# Development
 
-### Changelog
+### Prerequisites
 
-See [changelog here](changelog.md).
+#### Windows
+
+You'll need to install Visual Studio Installer and install Development with C++ module.
+
+Install latest Python version.
+
+#### MacOS
+
+You'll need the latest Xcode Command Line Tools installed.
+
+Install latest Python version.
+
+#### Linux
+
+Install libxtst-dev libpng++-dev package:
+`apt-get install libxtst-dev libpng++-dev`
+
+Install latest Python version if already installed.
 
 ### How to compile
 
--   Install dependencies:
+1. Install dependencies:
 
 ```shell
-yarn
+npm install
 ```
 
--   To build C/C++ modules to the correct Electron version, use:
+2. Rebuild C/C++ modules to the correct Electron version:
 
 ```shell
-yarn rebuild
+npm run rebuild
 ```
 
--   To build a new version:
+3. Launch Colorpicker in development mode:
 
 ```shell
-# You can build nightly & release only for your current OS.
-# i.e. you can't build a OSX version if you use a Windows
+npm start
+```
 
-# build a nightly version
-yarn nightly
+4. To build a new version:
 
-# build a release version
-yarn release
+```shell
+npm run release
 ```
