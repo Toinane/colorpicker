@@ -1,6 +1,6 @@
 import { ipcMain, screen } from 'electron';
 
-import { IColorpickerSettings } from '@type/settings';
+import { IColorpickerSettings } from 'src/types/settings';
 
 import Window from '../utils/windowManager';
 import Storage from '../utils/storage';

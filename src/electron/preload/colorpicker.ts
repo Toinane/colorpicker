@@ -1,7 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron';
 
-import { IColorpickerSettings } from '@type/settings';
-import { IpcRendererCallback } from '@type/preload';
+import { IColorpickerSettings } from 'src/types/settings';
+import { IpcRendererCallback } from 'src/types/preload';
 
 contextBridge.exposeInMainWorld('api', {
   window: {

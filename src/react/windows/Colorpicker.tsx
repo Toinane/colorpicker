@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 import { converter, formatRgb } from 'culori';
 import { Color } from 'culori/src/common';
 
-import debounce from '@common/debounce';
+import debounce from 'colorpicker/electron/common/debounce';
 
 import WindowBar from '@components/windowBar';
 import ColorBackground from '@components/colorBackground';

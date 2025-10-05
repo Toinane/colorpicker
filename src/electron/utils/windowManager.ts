@@ -1,8 +1,8 @@
 import path from 'path';
 import { BrowserWindow, BrowserWindowConstructorOptions, nativeTheme, screen } from 'electron';
 
-import { IWindowSettings } from '@type/settings';
-import debounce from '@common/debounce';
+import { IWindowSettings } from 'src/types/settings';
+import debounce from 'colorpicker/electron/common/debounce';
 
 import is from './is';
 import Storage from './storage';
