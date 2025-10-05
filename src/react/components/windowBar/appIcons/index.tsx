@@ -1,8 +1,8 @@
-import { FunctionComponent, JSX } from 'preact';
+import { FunctionComponent, JSX } from 'react'
 
-import AppIcon, { IAppIcon } from './appIcon';
+import AppIcon, { IAppIcon } from './appIcon'
 
-import style from './style.module.css';
+import style from './style.module.css'
 
 const AppIcons: FunctionComponent = (): JSX.Element => (
   <section className={style.appIcons}>
@@ -14,6 +14,6 @@ const AppIcons: FunctionComponent = (): JSX.Element => (
     <AppIcon type={IAppIcon.OPACITY} />
     {/* <AppIcon type={IAppIcon.LOCK} /> */}
   </section>
-);
+)
 
-export default AppIcons;
+export default AppIcons

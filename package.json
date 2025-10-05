@@ -61,8 +61,10 @@
   "dependencies": {
     "colorjs.io": "^0.5.2",
     "electron-squirrel-startup": "^1.0.1",
+    "electron-store": "^11.0.0",
     "i18next": "^25.5.3",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "winston": "^3.18.3"
   }
 }

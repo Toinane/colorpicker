@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module": "commonjs",
+    "module": "nodenext",
     "lib": ["ESNext", "DOM"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -12,14 +12,15 @@
     "baseUrl": ".",
     "outDir": "dist",
     "jsx": "react-jsx",
-    "moduleResolution": "node",
+    "moduleResolution": "nodenext",
     "resolveJsonModule": true,
     "paths": {
-      "@type/*": ["src/types/*"],
-      "@common/*": ["./electron/common/*"],
-      "@stores/*": ["./src/stores/*"],
-      "@components/*": ["./src/components/*"],
-      "@windows/*": ["./src/windows/*"],
+      "@/*": ["./src/*"],
+      "@interfaces/*": ["./src/types/*"],
+      "@electron/*": ["./src/electron/*"],
+      "@components/*": ["./src/react/components/*"],
+      "@windows/*": ["./src/react/windows/*"],
+      "@common/*": ["./src/common/*"]
     }
   }
 }

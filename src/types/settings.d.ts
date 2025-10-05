@@ -1,16 +1,23 @@
-export type ColorpickerTheme = 'system' | 'light' | 'dark';
-export type ColorpickerTool = 'picker' | 'swatch' | 'tint' | 'contrast';
+import type { NativeTheme } from 'electron'
 
-export interface IWindowSettings {
-  width?: number;
-  height?: number;
-  x?: number;
-  y?: number;
-  theme?: ColorpickerTheme;
+export type ColorpickerTool = 'picker' | 'swatch' | 'tint' | 'contrast'
+
+export interface IWindowSchema {
+  width?: number
+  height?: number
+  x?: number
+  y?: number
+  theme?: NativeTheme.ThemeSource
 }
-export interface IColorpickerSettings extends IWindowSettings {
-  currentColor: string;
-  history: Array<string>;
-  sendCrashReport: boolean;
-  tools: Array<ColorpickerTool>;
+
+export interface IColorpickerWindowSchema extends IWindowSchema {
+  width: number
+  height: number
+}
+
+export interface ISettingsSchema extends IWindowSchema {
+  currentColor: string
+  history: Array<string>
+  sendCrashReport: boolean
+  tools: Array<ColorpickerTool>
 }

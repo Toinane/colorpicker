@@ -1,15 +1,15 @@
-import { FunctionComponent, JSX } from 'preact';
-import { RecoilState, useRecoilState } from 'recoil';
-import { round } from 'culori';
+import { FunctionComponent, JSX, useState } from 'react'
+// import { RecoilState, useRecoilState } from 'recoil';
+// import { round } from 'culori';
 
-import style from './style.module.css';
+import style from './style.module.css'
 
 type SliderProps = {
-  min?: number;
-  max?: number;
-  type: string;
-  state: RecoilState<number>;
-};
+  min?: number
+  max?: number
+  type: string
+  state: number // RecoilState<number>;
+}
 
 const Slider: FunctionComponent<SliderProps> = ({
   min = 0,
@@ -17,11 +17,11 @@ const Slider: FunctionComponent<SliderProps> = ({
   type,
   state,
 }): JSX.Element => {
-  const [color, setColor] = useRecoilState(state);
+  const [color, setColor] = useState(state)
 
-  const changeValue = (event: Event) => {
-    setColor(event.target instanceof HTMLInputElement ? Number(event.target.value) / 255 : 0);
-  };
+  const changeValue = (event: React.FormEvent<HTMLInputElement>) => {
+    setColor(event.target instanceof HTMLInputElement ? Number(event.target.value) / 255 : 0)
+  }
 
   return (
     <section className={style.section}>
@@ -30,17 +30,16 @@ const Slider: FunctionComponent<SliderProps> = ({
         type="range"
         min={min}
         max={max}
-        value={round(1)(color * 255)}
+        value={Math.round(color * 255)}
         onInput={changeValue}
       />
       <progress
         className={[style.progress, style[type]].join(' ')}
-        min={min}
         max={max}
-        value={round(1)(color * 255)}
+        value={Math.round(color * 255)}
       />
     </section>
-  );
-};
+  )
+}
 
-export default Slider;
+export default Slider

@@ -29,7 +29,7 @@ img {
 /* Global Style */
 
 :root {
-  --colopicker-main-color: black;
+  --colopicker-main-color: #3380cc;
   --colorpicker-background-color: white;
   --user-selection: rgba(104, 222, 238, 0.7);
 }

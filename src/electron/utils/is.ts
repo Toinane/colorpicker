@@ -1,4 +1,4 @@
-import { app } from 'electron';
+import { app } from 'electron'
 
 export default {
   dev: process.env.NODE_ENV === 'development' && !app.isPackaged,
@@ -8,4 +8,4 @@ export default {
   oneOf: (platform: string, ...conditions: Array<string>): boolean => conditions.includes(platform),
   allOf: (platform: string, ...conditions: Array<string>): boolean =>
     !conditions.includes(platform),
-};
+}

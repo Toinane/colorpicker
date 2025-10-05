@@ -1,12 +1,11 @@
-import { FunctionComponent, JSX } from 'preact';
-import { useState } from 'preact/hooks';
+import { FunctionComponent, JSX, useState } from 'react'
 
-import AppIcons from './appIcons';
+import AppIcons from './appIcons'
 
-import style from './style.module.css';
+import style from './style.module.css'
 
 const WindowBar: FunctionComponent = (): JSX.Element => {
-  const [lock, setLock] = useState(false);
+  const [lock, setLock] = useState(false)
 
   const LockIcon = lock ? (
     <svg viewBox="0 0 256 256">
@@ -26,7 +25,7 @@ const WindowBar: FunctionComponent = (): JSX.Element => {
         d="M98.3596 38.658C110.314 26.4243 128.447 23.2454 143.623 29.3086C158.433 35.2257 171.025 50.274 171.025 76.0211V110.624H52.9309H39.9309V123.624V229.679V242.679H52.9309H203.069H216.069V229.679V123.624V110.624H203.069H184.025V76.0211C184.025 45.4054 168.599 25.2879 148.446 17.2364C128.658 9.33086 104.884 13.3804 89.0617 29.5724L98.3596 38.658ZM52.9309 123.624H203.069V229.679H52.9309V123.624Z"
       />
     </svg>
-  );
+  )
 
   return (
     <section className={style.windowBar}>
@@ -65,7 +64,7 @@ const WindowBar: FunctionComponent = (): JSX.Element => {
         />
       </section>
     </section>
-  );
-};
+  )
+}
 
-export default WindowBar;
+export default WindowBar

@@ -1,7 +1,7 @@
-import { contextBridge, ipcRenderer } from 'electron';
+import { contextBridge, ipcRenderer } from 'electron'
 
-import { IColorpickerSettings } from 'src/types/settings';
-import { IpcRendererCallback } from 'src/types/preload';
+import { IColorpickerWindowSchema } from 'src/types/settings'
+import { IpcRendererCallback } from 'src/types/preload'
 
 contextBridge.exposeInMainWorld('api', {
   window: {
@@ -17,8 +17,8 @@ contextBridge.exposeInMainWorld('api', {
   colorpicker: {
     store: {
       get: async () => ipcRenderer.invoke('colorpicker:store:get'),
-      update: async (updatedStore: Partial<IColorpickerSettings>) =>
+      update: async (updatedStore: Partial<IColorpickerWindowSchema>) =>
         ipcRenderer.invoke('colorpicker:store:update', updatedStore),
     },
   },
-});
+})
