@@ -1,7 +1,4 @@
 import { FunctionComponent, JSX, useState, useEffect } from 'react'
-// import { RecoilState, useRecoilState } from 'recoil';
-
-// import { round } from 'culori';
 
 import style from './style.module.css'
 

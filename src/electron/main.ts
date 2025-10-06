@@ -1,8 +1,11 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import started from 'electron-squirrel-startup'
 
-import createLogger from '@common/logger'
+import { getPlatformDetails } from '@electron/utils/platform'
+import createLogger from '@electron/utils/logger'
 import ColorpickerWindow from './windows/colorpicker'
+
+app.setAppUserModelId('com.toinane.colorpicker')
 
 const logger = createLogger('main')
 
@@ -12,41 +15,17 @@ if (started) {
   app.quit()
 }
 
-logger.debug('Colorpicker starting...')
-app.commandLine.appendSwitch('force-color-profile', 'srgb') // generic-rgb & macos only
-app.disableDomainBlockingFor3DAPIs()
-app.disableHardwareAcceleration()
+// show colorpicker version
+logger.info('Initializing Colorpicker ' + app.getVersion())
+logger.info('Running on platform:', getPlatformDetails())
 
-const handleMainEvents = () => {
-  ipcMain.handle('window:minimize', (event) => {
-    const win = BrowserWindow.fromWebContents(event.sender)
-    if (win instanceof BrowserWindow) win.minimize()
-  })
-  ipcMain.handle('window:maximize', (event) => {
-    const win = BrowserWindow.fromWebContents(event.sender)
-    if (win instanceof BrowserWindow) win.maximize()
-  })
-  ipcMain.handle('window:maximize:toggle', (event) => {
-    const win = BrowserWindow.fromWebContents(event.sender)
-    if (!(win instanceof BrowserWindow)) return
-    if (win.isMaximized()) win.unmaximize()
-    else win.maximize()
-  })
-  ipcMain.handle('window:unmaximize', (event) => {
-    const win = BrowserWindow.fromWebContents(event.sender)
-    if (win instanceof BrowserWindow) win.unmaximize()
-  })
-  ipcMain.handle('window:close', (event) => {
-    const win = BrowserWindow.fromWebContents(event.sender)
-    if (win instanceof BrowserWindow) win.close()
-  })
-}
+// https://github.com/electron/electron/issues/10732
+// app.commandLine.appendSwitch('force-color-profile', 'srgb')
 
 app.on('ready', async () => {
   logger.info('Colorpicker is ready')
-  handleMainEvents()
   const cpWin = new ColorpickerWindow()
-  await cpWin.initWindow()
+  await cpWin.init()
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
@@ -54,6 +33,8 @@ app.on('ready', async () => {
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
+    logger.info('All windows closed, quitting Colorpicker')
+    logger.info('Bye bye!')
     app.quit()
   }
 })
@@ -62,7 +43,8 @@ app.on('activate', async () => {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (BrowserWindow.getAllWindows().length === 0) {
+    logger.info('Re-activating Colorpicker app')
     const cpWin = new ColorpickerWindow()
-    await cpWin.initWindow()
+    await cpWin.init()
   }
 })

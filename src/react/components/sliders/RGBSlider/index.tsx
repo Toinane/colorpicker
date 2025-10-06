@@ -1,7 +1,7 @@
 import { FunctionComponent, JSX, useMemo, useCallback } from 'react'
 import Color from 'colorjs.io'
 
-import { useColorStore } from '@/react/stores/color'
+import { useColorStore } from '@react/stores/color'
 
 import Slider from '../slider'
 import NumberInput from '../numberInput'

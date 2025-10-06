@@ -32,7 +32,8 @@
   "license": "CECILL-2.1",
   "main": ".vite/build/main.js",
   "scripts": {
-    "start": "electron-forge start",
+    "dev": "electron-forge start",
+    "start": "cross-env NODE_ENV=production electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
@@ -52,6 +53,7 @@
     "@types/react-dom": "^19.2.0",
     "@typescript-eslint/eslint-plugin": "^8.45.0",
     "@typescript-eslint/parser": "^8.45.0",
+    "cross-env": "^10.1.0",
     "electron": "38.2.1",
     "eslint": "^9.37.0",
     "eslint-plugin-import": "^2.32.0",

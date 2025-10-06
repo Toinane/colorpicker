@@ -1,7 +1,7 @@
 import { FunctionComponent, JSX, useCallback, useState, useEffect } from 'react'
 import Color from 'colorjs.io'
 
-import { useColorStore } from '@/react/stores/color'
+import { useColorStore } from '@react/stores/color'
 import { isValidHex } from '@common/color'
 
 import style from './style.module.css'

@@ -31,7 +31,7 @@ const WindowBar: FunctionComponent = (): JSX.Element => {
     <section className={style.windowBar}>
       <AppIcons />
       <section className={style.windowButtons}>
-        <div className={style.menu} />
+        {/* <div className={style.menu} />
         <div
           className={lock ? style.lock : style.unlock}
           role="button"
@@ -61,7 +61,7 @@ const WindowBar: FunctionComponent = (): JSX.Element => {
           tabIndex={-1}
           onClick={window.api.window.close}
           onKeyUp={window.api.window.close}
-        />
+        /> */}
       </section>
     </section>
   )

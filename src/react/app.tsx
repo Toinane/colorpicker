@@ -1,5 +1,6 @@
 import { createRoot } from 'react-dom/client'
-import { Route, Switch } from 'wouter'
+import { Router, Route } from 'wouter'
+import { useHashLocation } from 'wouter/use-hash-location'
 
 import Colorpicker from '@windows/Colorpicker'
 
@@ -11,10 +12,10 @@ import './style.global.css'
 // })
 
 const App = () => (
-  <Switch>
+  <Router hook={useHashLocation}>
+    <Route path="/colorpicker" component={Colorpicker} />
     <Route path="/" component={Colorpicker} />
-    <Route>Something went wrong.</Route>
-  </Switch>
+  </Router>
 )
 
 createRoot(document.body).render(<App />)

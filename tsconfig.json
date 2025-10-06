@@ -15,9 +15,9 @@
     "moduleResolution": "nodenext",
     "resolveJsonModule": true,
     "paths": {
-      "@/*": ["./src/*"],
       "@interfaces/*": ["./src/types/*"],
       "@electron/*": ["./src/electron/*"],
+      "@react/*": ["./src/react/*"],
       "@components/*": ["./src/react/components/*"],
       "@windows/*": ["./src/react/windows/*"],
       "@common/*": ["./src/common/*"]
