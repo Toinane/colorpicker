@@ -4,7 +4,7 @@ import Color from 'colorjs.io'
 import { useColorStore } from '@react/stores/color'
 import { isValidHex } from '@common/color'
 
-import style from './style.module.css'
+import style from './hexInput.module.css'
 
 const HexInput: FunctionComponent = (): JSX.Element => {
   const color = useColorStore((state) => state.color)

@@ -22,6 +22,7 @@
   width: 100%;
   -webkit-app-region: drag;
   box-shadow: var(--window-shadow);
+  padding-right: 138px;
 }
 
 body[class='bordered'] .windowBar {
@@ -82,75 +83,4 @@ body .windowButtons div:hover:active {
 
 .windowButtons .lock:hover:active {
   background: rgba(57, 152, 146, 0.6);
-}
-
-.minimize::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 38%;
-  width: 10px;
-  border-bottom: 1px solid var(--window-icon-main-color);
-}
-
-.maximize:not(.active)::before {
-  content: '';
-  position: absolute;
-  top: 37%;
-  left: 37%;
-  width: 10px;
-  height: 10px;
-  border: 1px solid var(--window-icon-main-color);
-  border-radius: 2px;
-}
-
-.unmaximize::before {
-  content: '';
-  position: absolute;
-  top: 41%;
-  left: 37%;
-  width: 9px;
-  height: 9px;
-  border: 1px solid var(--window-icon-main-color);
-  border-radius: 1px;
-}
-
-.unmaximize::after {
-  content: '';
-  position: absolute;
-  top: 35%;
-  left: 44%;
-  width: 8px;
-  height: 8px;
-  border-top: 1px solid var(--window-icon-main-color);
-  border-right: 1px solid var(--window-icon-main-color);
-  border-radius: 0 3px 0 0;
-}
-
-.close::before,
-.close::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 32%;
-  width: 13px;
-  height: 1px;
-  transform: rotate(45deg);
-  background: var(--window-icon-main-color);
-}
-
-.close::after {
-  transform: rotate(-45deg);
-}
-
-.windowButtons .close:hover {
-  background: #e81123;
-}
-
-.windowButtons .close:hover:active {
-  background: #f1707a;
-}
-.close:active::after,
-.close:active::before {
-  background: black;
 }

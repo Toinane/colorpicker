@@ -1,5 +1,6 @@
 .input {
   width: 42px;
+  height: 24px;
   background: linear-gradient(160deg, rgba(0, 0, 0, 0.15) 20%, rgba(0, 0, 0, 0.1) 50%);
   color: rgba(0, 0, 0, 0.7);
   font-family: 'Ubuntu', sans-serif;

@@ -1,6 +1,6 @@
 import { FunctionComponent, JSX, useState, useEffect } from 'react'
 
-import style from './style.module.css'
+import style from './numberInput.module.css'
 
 type NumberInputProps = {
   min: number
@@ -19,10 +19,10 @@ const NumberInput: FunctionComponent<NumberInputProps> = ({
   value,
   onChange,
 }): JSX.Element => {
-  const [number, setNumber] = useState(isNaN(value) ? 0 : value)
+  const [number, setNumber] = useState(Number.isNaN(value) ? 0 : value)
 
   useEffect(() => {
-    setNumber(isNaN(value) ? 0 : value)
+    setNumber(Number.isNaN(value) ? 0 : value)
   }, [value])
 
   const verifyNumber = (currentNumber: number): number => {
@@ -44,7 +44,7 @@ const NumberInput: FunctionComponent<NumberInputProps> = ({
     }
 
     setNumber(verifyNumber(currentNumber))
-    onChange && onChange(verifyNumber(currentNumber))
+    onChange?.(verifyNumber(currentNumber))
   }
 
   const onKeyboard = (event: React.KeyboardEvent<HTMLInputElement>) => {

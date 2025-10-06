@@ -1,5 +1,6 @@
-import path from 'path'
+import path from 'node:path'
 import {
+  app,
   BrowserWindow,
   BrowserWindowConstructorOptions,
   nativeTheme,
@@ -32,7 +33,7 @@ export default class Window<T extends IWindowSchema = IWindowSchema> {
   protected height: number = 250
   protected x?: number
   protected y?: number
-  private defaultProps: BrowserWindowConstructorOptions
+  private readonly defaultProps: BrowserWindowConstructorOptions
 
   /**
    * Creates a new Window instance
@@ -45,7 +46,13 @@ export default class Window<T extends IWindowSchema = IWindowSchema> {
   constructor(name: string, schema: Schema<T>) {
     this.name = name
     this.logger = createLogger(`Window:${name}`)
-    this.store = new Store<T>({ schema, name: this.name + 'Window' })
+    // TODO: make a storage manager to prevent crash from json parse error
+    this.store = new Store<T>({
+      schema,
+      name: this.name + '_window',
+      cwd: path.join(app.getPath('userData'), 'config'),
+    })
+    // END TODO
     this.width = this.store.get('width') ?? this.width
     this.height = this.store.get('height') ?? this.height
     this.x = this.store.get('x')
@@ -57,6 +64,8 @@ export default class Window<T extends IWindowSchema = IWindowSchema> {
       show: false,
       width: this.width,
       height: this.height,
+      x: this.x,
+      y: this.y,
       frame: false,
       titleBarStyle: 'hidden',
       titleBarOverlay: this.getTitleBarOverlayTheme(),

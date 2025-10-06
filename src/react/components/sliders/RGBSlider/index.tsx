@@ -6,7 +6,7 @@ import { useColorStore } from '@react/stores/color'
 import Slider from '../slider'
 import NumberInput from '../numberInput'
 
-import style from './style.module.css'
+import style from './RGBSlider.module.css'
 
 const RGBSlider: FunctionComponent = (): JSX.Element => {
   const color = useColorStore((state) => state.color)

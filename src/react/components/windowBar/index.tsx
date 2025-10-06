@@ -2,7 +2,7 @@ import { FunctionComponent, JSX, useState } from 'react'
 
 import AppIcons from './appIcons'
 
-import style from './style.module.css'
+import style from './windowBar.module.css'
 
 const WindowBar: FunctionComponent = (): JSX.Element => {
   const [lock, setLock] = useState(false)
@@ -31,7 +31,7 @@ const WindowBar: FunctionComponent = (): JSX.Element => {
     <section className={style.windowBar}>
       <AppIcons />
       <section className={style.windowButtons}>
-        {/* <div className={style.menu} />
+        <div className={style.menu} />
         <div
           className={lock ? style.lock : style.unlock}
           role="button"
@@ -41,27 +41,6 @@ const WindowBar: FunctionComponent = (): JSX.Element => {
         >
           {LockIcon}
         </div>
-        <div
-          className={style.minimize}
-          role="button"
-          tabIndex={-1}
-          onClick={window.api.window.minimize}
-          onKeyUp={window.api.window.minimize}
-        />
-        <div
-          className={style.maximize}
-          role="button"
-          tabIndex={-1}
-          onClick={window.api.window.maximize.toggle}
-          onKeyUp={window.api.window.maximize.toggle}
-        />
-        <div
-          className={style.close}
-          role="button"
-          tabIndex={-1}
-          onClick={window.api.window.close}
-          onKeyUp={window.api.window.close}
-        /> */}
       </section>
     </section>
   )

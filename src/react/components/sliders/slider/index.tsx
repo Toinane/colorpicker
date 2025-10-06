@@ -1,6 +1,6 @@
 import { FunctionComponent, JSX, useState, useEffect } from 'react'
 
-import style from './style.module.css'
+import style from './slider.module.css'
 
 type SliderProps = {
   min: number
@@ -17,17 +17,17 @@ const Slider: FunctionComponent<SliderProps> = ({
   value,
   onChange,
 }): JSX.Element => {
-  const [color, setColor] = useState(isNaN(value) ? 0 : value)
+  const [color, setColor] = useState(Number.isNaN(value) ? 0 : value)
 
   // Sync local state when prop changes
   useEffect(() => {
-    setColor(isNaN(value) ? 0 : value)
+    setColor(Number.isNaN(value) ? 0 : value)
   }, [value])
 
   const changeValue = (event: React.FormEvent<HTMLInputElement>) => {
     const newColor = event.target instanceof HTMLInputElement ? Number(event.target.value) : 0
     setColor(newColor)
-    onChange && onChange(newColor)
+    onChange?.(newColor)
   }
 
   return (

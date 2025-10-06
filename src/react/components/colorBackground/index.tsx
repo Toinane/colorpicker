@@ -2,7 +2,7 @@ import { useEffect, JSX, FunctionComponent } from 'react'
 
 import { useColorStore } from '../../stores/color'
 
-import style from './style.module.css'
+import style from './colorBackground.module.css'
 
 const ColorBackground: FunctionComponent = (): JSX.Element => {
   const color = useColorStore((state) => state.color)

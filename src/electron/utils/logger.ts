@@ -31,10 +31,7 @@ const createLogger = (label: string) => {
     }
 
     // Get the base level name (remove ANSI color codes if present)
-    const cleanLevel = level
-      .replace(/\u001b\[.*?m/g, '')
-      .trim()
-      .toLowerCase()
+    const cleanLevel = level.trim().toLowerCase()
     const levelInfo = levelMap[cleanLevel] || { icon: '●', colorCode: colors.white }
 
     const formattedTime = `${colors.dim}${timestamp}${colors.reset}`
@@ -50,7 +47,7 @@ const createLogger = (label: string) => {
     if (Object.keys(meta).length) {
       // Pretty print metadata with indentation and subtle styling
       const metaJson = JSON.stringify(meta, null, 2)
-      const indentedMeta = metaJson.replace(/\n/g, '\n  ')
+      const indentedMeta = metaJson.replaceAll(/\n/g, '\n  ')
       metaStr = `\n${levelInfo.colorCode}  ${indentedMeta}${colors.reset}`
     }
 
@@ -59,10 +56,7 @@ const createLogger = (label: string) => {
   })
 
   const fileFormat = winston.format.printf(({ level, message, timestamp, ...meta }) => {
-    const cleanLevel = level
-      .replace(/\u001b\[.*?m/g, '')
-      .trim()
-      .toUpperCase()
+    const cleanLevel = level.trim().toUpperCase()
     const metaStr = Object.keys(meta).length ? ` | ${JSON.stringify(meta)}` : ''
     return `${timestamp} ${cleanLevel.padEnd(5)} [${label}] ${message}${metaStr}`
   })

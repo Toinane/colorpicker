@@ -2,7 +2,7 @@ import { FunctionComponent, JSX } from 'react'
 
 import AppIcon, { IAppIcon } from './appIcon'
 
-import style from './style.module.css'
+import style from './appIcons.module.css'
 
 const AppIcons: FunctionComponent = (): JSX.Element => (
   <section className={style.appIcons}>

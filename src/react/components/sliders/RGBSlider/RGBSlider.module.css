@@ -1,6 +1,6 @@
 .RGBSlider {
   width: 70%;
-  margin: 15px;
+  max-width: 400px;
 }
 
 .slider {
@@ -11,7 +11,7 @@
 
 @media screen and (max-height: 245px) {
   .RGBSlider {
-    position: absolute;
+    /* position: absolute; */
     bottom: -7px;
     left: 0;
   }

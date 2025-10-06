@@ -1,6 +1,6 @@
 import { FunctionComponent, JSX } from 'react'
 
-import style from './style.module.css'
+import style from './appIcon.module.css'
 
 export enum IAppIcon {
   PICKER = 'picker',

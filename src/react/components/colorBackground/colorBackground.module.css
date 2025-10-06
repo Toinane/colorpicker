@@ -6,7 +6,7 @@
 
 @media screen and (max-height: 245px) {
   .colorBackground {
-    /* position: absolute; */
+    position: absolute;
     top: 0;
     left: 0;
     height: 100%;
