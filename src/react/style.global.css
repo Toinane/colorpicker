@@ -29,15 +29,15 @@ img {
 /* Global Style */
 
 :root {
-  --colopicker-main-color: #3380cc;
+  --colorpicker-main-color: #3380cc;
   --colorpicker-background-color: white;
-  --user-selection: rgba(104, 222, 238, 0.7);
+  --user-selection: #68deeeff;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --colorpicker-background-color: #2d2d3a;
-    --user-selection: rgba(0, 155, 175, 0.7);
+    --user-selection: #009bafff;
   }
 }
 
@@ -48,11 +48,11 @@ body {
 
 body {
   user-select: none;
-  background: var(--colorpicker-background-color);
+  background: var(--colorpicker-main-color);
+  display: flex;
+  flex-direction: column;
 }
 
 body.bordered {
-  border: 2px solid var(--colopicker-main-color);
-  border-radius: 9px;
-  overflow: hidden;
+  border: 6px solid var(--colorpicker-main-color);
 }

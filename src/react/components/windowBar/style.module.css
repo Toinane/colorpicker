@@ -16,11 +16,16 @@
 
 .windowBar {
   display: flex;
+  background: var(--colorpicker-background-color);
   justify-content: space-between;
   height: 34px;
   width: 100%;
   -webkit-app-region: drag;
   box-shadow: var(--window-shadow);
+}
+
+body[class='bordered'] .windowBar {
+  border-radius: 4px;
 }
 
 .windowButtons {

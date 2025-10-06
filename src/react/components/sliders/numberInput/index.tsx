@@ -1,4 +1,4 @@
-import { FunctionComponent, JSX, useState } from 'react'
+import { FunctionComponent, JSX, useState, useEffect } from 'react'
 // import { RecoilState, useRecoilState } from 'recoil';
 
 // import { round } from 'culori';
@@ -6,26 +6,32 @@ import { FunctionComponent, JSX, useState } from 'react'
 import style from './style.module.css'
 
 type NumberInputProps = {
-  min?: number
-  max?: number
+  min: number
+  max: number
   maxLength?: number
   step?: number
-  state: number // RecoilState<number>;
+  value: number
+  onChange?: (value: number) => void
 }
 
 const NumberInput: FunctionComponent<NumberInputProps> = ({
-  min = 0,
-  max = 255,
+  min,
+  max,
   maxLength = 3,
   step = 1,
-  state,
+  value,
+  onChange,
 }): JSX.Element => {
-  const [number, setNumber] = useState(state)
+  const [number, setNumber] = useState(isNaN(value) ? 0 : value)
+
+  useEffect(() => {
+    setNumber(isNaN(value) ? 0 : value)
+  }, [value])
 
   const verifyNumber = (currentNumber: number): number => {
     if (currentNumber < min) return min
-    if (currentNumber > max) return max / 255
-    return currentNumber / 255
+    if (currentNumber > max) return max
+    return currentNumber
   }
 
   const onInput = (event: React.FormEvent<HTMLInputElement>) => {
@@ -41,11 +47,12 @@ const NumberInput: FunctionComponent<NumberInputProps> = ({
     }
 
     setNumber(verifyNumber(currentNumber))
+    onChange && onChange(verifyNumber(currentNumber))
   }
 
   const onKeyboard = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.code === 'ArrowUp') setNumber(verifyNumber(number * 255 + step))
-    if (event.code === 'ArrowDown') setNumber(verifyNumber(number * 255 - step))
+    if (event.code === 'ArrowUp') setNumber(verifyNumber(number + step))
+    if (event.code === 'ArrowDown') setNumber(verifyNumber(number - step))
   }
 
   return (
@@ -56,7 +63,7 @@ const NumberInput: FunctionComponent<NumberInputProps> = ({
       max={max}
       maxLength={maxLength}
       step={step}
-      value={Math.round(number * 255)}
+      value={number}
       onInput={onInput}
       onKeyDown={onKeyboard}
     />

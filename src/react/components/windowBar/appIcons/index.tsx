@@ -6,7 +6,7 @@ import style from './style.module.css'
 
 const AppIcons: FunctionComponent = (): JSX.Element => (
   <section className={style.appIcons}>
-    <AppIcon type={IAppIcon.UNLOCK} />
+    {/* <AppIcon type={IAppIcon.UNLOCK} /> */}
     <AppIcon type={IAppIcon.PICKER} />
     <AppIcon type={IAppIcon.SWATCH} />
     <AppIcon type={IAppIcon.TINT} />

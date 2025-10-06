@@ -1,12 +1,10 @@
-import { ipcMain } from 'electron'
+import { BrowserWindow, ipcMain } from 'electron'
 import Store from 'electron-store'
 
 import type { IColorpickerWindowSchema } from '@interfaces/settings'
 
-import createLogger from '@common/logger'
 import Window from './windowManager'
-
-const logger = createLogger('ColorpickerWindow')
+import is from '../utils/is'
 
 export default class ColorpickerWindow extends Window<IColorpickerWindowSchema> {
   declare store: Store<IColorpickerWindowSchema>
@@ -29,6 +27,15 @@ export default class ColorpickerWindow extends Window<IColorpickerWindowSchema> 
       minWidth: 400,
       minHeight: 150,
     }
+  }
+
+  showWindow(): boolean {
+    super.showWindow()
+
+    if (!(this.window instanceof BrowserWindow)) return false
+    if (is.dev) this.window.setAlwaysOnTop(true, 'normal')
+
+    return true
   }
 
   eventsHandle() {
