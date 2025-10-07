@@ -5,15 +5,19 @@ import { useHashLocation } from 'wouter/use-hash-location'
 import Colorpicker from '@windows/Colorpicker'
 
 import './style.global.css'
+import WindowBar from './components/windowBar'
 
-// window.api.window.handleBlur((event, isBlur) => {
-//   if (isBlur) document.body.classList.add('blur')
-//   else document.body.classList.remove('blur')
-// })
+window.api.window.handleBlur((event, isBlur) => {
+  if (isBlur) document.body.classList.add('blur')
+  else document.body.classList.remove('blur')
+})
 
 const App = () => (
   <Router hook={useHashLocation}>
     <Route path="/colorpicker" component={Colorpicker} />
+    <Route path="/settings">
+      <WindowBar />
+    </Route>
     <Route path="/" component={Colorpicker} />
   </Router>
 )

@@ -48,9 +48,6 @@ body {
 
 body {
   user-select: none;
-  background: var(--colorpicker-main-color);
-  display: flex;
-  flex-direction: column;
 }
 
 body.bordered {

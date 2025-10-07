@@ -16,13 +16,13 @@ const Colorpicker = () => {
   }, [color])
 
   return (
-    <>
+    <section className={style.colorpicker}>
       <WindowBar />
       <section className={style.sliders}>
         <RGBSlider />
         <HexInput />
       </section>
-    </>
+    </section>
   )
 }
 

@@ -178,6 +178,8 @@ export default class Window<T extends IWindowSchema = IWindowSchema> {
   protected registerEvents(): void {
     if (!this.window) return
 
+    this.logger.debug('Registering event listeners')
+
     nativeTheme.on('updated', () => this.themeListener())
     screen.on('display-added', () => this.validateWindowPosition())
     screen.on('display-removed', () => this.validateWindowPosition())
@@ -237,7 +239,11 @@ export default class Window<T extends IWindowSchema = IWindowSchema> {
   private registerWindowEvents(): void {
     if (!this.window) return
 
-    this.window.on('ready-to-show', () => this.show())
+    this.logger.debug('Registering window event listeners')
+
+    // Not using ready-to-show for now: https://github.com/electron/electron/issues/42409
+    this.window.webContents.on('did-finish-load', () => this.show())
+
     this.window.on('closed', () => this.close())
     this.window.on(
       'resize',

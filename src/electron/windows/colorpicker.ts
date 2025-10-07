@@ -19,6 +19,8 @@ export default class ColorpickerWindow extends Window {
     this.props = {
       minWidth: 400,
       minHeight: 150,
+      // TODO: play with the accentColor on Windows.
+      // accentColor: '#1E90FF',
     }
   }
 
