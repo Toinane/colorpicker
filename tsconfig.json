@@ -20,7 +20,8 @@
       "@react/*": ["./src/react/*"],
       "@components/*": ["./src/react/components/*"],
       "@windows/*": ["./src/react/windows/*"],
-      "@common/*": ["./src/common/*"]
+      "@common/*": ["./src/common/*"],
+      "@assets/*": ["./src/assets/*"]
     }
   }
 }

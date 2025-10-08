@@ -53,6 +53,10 @@
   height: 75%;
 }
 
+.section:hover svg {
+  opacity: 1;
+}
+
 .mainColor {
   fill: var(--app-icon-main-color);
 }

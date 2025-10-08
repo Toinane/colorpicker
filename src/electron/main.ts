@@ -4,8 +4,10 @@ import started from 'electron-squirrel-startup'
 import { getPlatformDetails } from '@electron/utils/platform'
 import createLogger from '@electron/utils/logger'
 import ColorpickerWindow from './windows/colorpicker'
+import SettingsWindow from './windows/settings'
 
 app.setAppUserModelId('com.toinane.colorpicker')
+app.enableSandbox()
 
 const logger = createLogger('main')
 

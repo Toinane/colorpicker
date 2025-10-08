@@ -27,17 +27,35 @@ img {
 }
 
 /* Global Style */
+@font-face {
+  font-family: Ubuntu;
+  font-display: swap;
+  src: url('@assets/fonts/UbuntuSans-VariableFont.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: UbuntuMono;
+  font-display: swap;
+  src: url('@assets/fonts/UbuntuSansMono-VariableFont.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: FiraCode;
+  font-display: swap;
+  src: url('@assets/fonts/FiraCode-VariableFont.ttf') format('truetype');
+}
 
 :root {
-  --colorpicker-main-color: #3380cc;
+  --main-color: #3380cc;
+  --opposite-color: #cc7f33;
   --colorpicker-background-color: white;
-  --user-selection: #68deeeff;
+  --user-selection: var(--opposite-color);
+  --colorpicker-font: FiraCode;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --colorpicker-background-color: #2d2d3a;
-    --user-selection: #009bafff;
   }
 }
 
@@ -51,5 +69,5 @@ body {
 }
 
 body.bordered {
-  border: 6px solid var(--colorpicker-main-color);
+  border: 6px solid var(--main-color);
 }

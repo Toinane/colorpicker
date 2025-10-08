@@ -1,0 +1,26 @@
+.numberInput {
+  background: linear-gradient(165deg, rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, 0.2) 50%);
+  color: black;
+  width: 42px;
+  height: 24px;
+  font-family: var(--colorpicker-font), sans-serif;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  font-size: 1em;
+  text-align: center;
+  border-radius: 4px;
+  padding: 2px 0;
+  outline: none;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
+.DARK .numberInput {
+  background: linear-gradient(-10deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.25) 40%);
+  color: white;
+}
+
+.numberInput::selection {
+  background: var(--user-selection);
+}

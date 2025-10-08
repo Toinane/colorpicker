@@ -11,9 +11,8 @@ export default defineConfig({
       '@electron': path.resolve(__dirname, '../src/electron'),
       '@interfaces': path.resolve(__dirname, '../src/types'),
       '@react': path.resolve(__dirname, '../src/react'),
-      '@components': path.resolve(__dirname, '../src/react/components'),
-      '@windows': path.resolve(__dirname, '../src/react/windows'),
       '@common': path.resolve(__dirname, '../src/common'),
+      '@assets': path.resolve(__dirname, '../src/assets'),
     },
   },
 })

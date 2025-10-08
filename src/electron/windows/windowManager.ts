@@ -99,7 +99,7 @@ export default class Window<T extends IWindowSchema = IWindowSchema> {
    * @returns Promise resolving to the created BrowserWindow instance
    */
   public async init(): Promise<BrowserWindow> {
-    this.logger.info('Initializing Window')
+    this.logger.debug('Initializing Window')
     this.window = new BrowserWindow({
       ...this.defaultProps,
       ...this.props,
@@ -121,6 +121,8 @@ export default class Window<T extends IWindowSchema = IWindowSchema> {
         },
       )
     }
+
+    this.logger.info('Window initialized')
 
     return this.window
   }
@@ -173,7 +175,6 @@ export default class Window<T extends IWindowSchema = IWindowSchema> {
    * - Theme changes (updates title bar colors)
    * - Display changes (validates position when monitors added/removed)
    * - Display metrics changes (validates position when resolution/workarea changes)
-   * - Window lifecycle events (ready-to-show, closed, resize, move, focus, blur)
    */
   protected registerEvents(): void {
     if (!this.window) return
@@ -234,7 +235,6 @@ export default class Window<T extends IWindowSchema = IWindowSchema> {
    * - ready-to-show: Shows window when ready
    * - closed: Cleans up when window closes
    * - resize/move: Saves new position and size (debounced)
-   * - blur/focus: Notifies renderer process of focus state
    */
   private registerWindowEvents(): void {
     if (!this.window) return
@@ -253,8 +253,6 @@ export default class Window<T extends IWindowSchema = IWindowSchema> {
       'move',
       debounce(() => this.updateWindowSizePos()),
     )
-    this.window.on('blur', () => this.window?.webContents.send('window:blur', true))
-    this.window.on('focus', () => this.window?.webContents.send('window:blur', false))
   }
 
   /**

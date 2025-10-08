@@ -1,6 +1,6 @@
 import { FunctionComponent, JSX, useState, useEffect } from 'react'
 
-import style from './numberInput.module.css'
+import './numberInput.css'
 
 type NumberInputProps = {
   min: number
@@ -48,21 +48,29 @@ const NumberInput: FunctionComponent<NumberInputProps> = ({
   }
 
   const onKeyboard = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.code === 'ArrowUp') setNumber(verifyNumber(number + step))
-    if (event.code === 'ArrowDown') setNumber(verifyNumber(number - step))
+    if (event.code === 'ArrowUp') {
+      setNumber(verifyNumber(number + step))
+      onChange?.(verifyNumber(number + step))
+    }
+    if (event.code === 'ArrowDown') {
+      setNumber(verifyNumber(number - step))
+      onChange?.(verifyNumber(number - step))
+    }
   }
 
   return (
     <input
-      className={style.input}
+      className="numberInput"
       type="input"
       min={min}
       max={max}
       maxLength={maxLength}
       step={step}
       value={number}
+      onFocus={(e) => e.target.select()}
       onInput={onInput}
       onKeyDown={onKeyboard}
+      placeholder={number.toString()}
     />
   )
 }

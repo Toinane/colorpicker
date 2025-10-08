@@ -1,5 +1,4 @@
 .colorpicker {
-  background: var(--colorpicker-main-color);
   width: 100%;
   height: 100%;
   display: flex;
@@ -7,14 +6,15 @@
 }
 
 .sliders {
+  background: var(--main-color);
   height: 100%;
   display: flex;
   flex-direction: row;
   align-items: flex-end;
   gap: 10px;
   justify-content: flex-start;
-  margin-bottom: 8px;
-  margin-left: 15px;
+  padding-bottom: 8px;
+  padding-left: 15px;
 }
 
 .sliders > :last-child {

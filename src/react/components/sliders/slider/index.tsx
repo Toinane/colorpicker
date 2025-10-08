@@ -1,5 +1,7 @@
 import { FunctionComponent, JSX, useState, useEffect } from 'react'
 
+import { useColorStore } from '@react/stores/colorStore'
+
 import style from './slider.module.css'
 
 type SliderProps = {
@@ -18,6 +20,7 @@ const Slider: FunctionComponent<SliderProps> = ({
   onChange,
 }): JSX.Element => {
   const [color, setColor] = useState(Number.isNaN(value) ? 0 : value)
+  const isDarkColor = useColorStore((state) => state.isDarkColor)
 
   // Sync local state when prop changes
   useEffect(() => {
@@ -40,7 +43,11 @@ const Slider: FunctionComponent<SliderProps> = ({
         value={color}
         onInput={changeValue}
       />
-      <progress className={[style.progress, style[type]].join(' ')} max={max} value={color} />
+      <progress
+        className={`${style.progress} ${style[type]} ${isDarkColor ? style.dark : style.light}`}
+        max={max}
+        value={color}
+      />
     </section>
   )
 }

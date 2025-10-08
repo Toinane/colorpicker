@@ -19,6 +19,7 @@ export default class SettingsWindow extends Window {
       backgroundMaterial: 'mica',
       // TODO: test with different vibrancy types on macOS
       vibrancy: 'appearance-based',
+      // accentColor: '#1E90FF',
     }
   }
 }

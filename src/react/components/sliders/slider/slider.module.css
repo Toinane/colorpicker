@@ -27,7 +27,7 @@
   height: 22px;
   width: 22px;
   border-radius: 50%;
-  background: linear-gradient(150deg, #ffffff 54%, #ececec 97%);
+  background: linear-gradient(150deg, #fff 20%, #ffffffff 65%, #bcbcbc53 100%);
   box-shadow: 0 0px 2px 1px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }
@@ -41,18 +41,46 @@
   overflow: hidden;
 }
 
-.progress::-webkit-progress-bar {
-  background: linear-gradient(rgba(0, 0, 0, 0.16) 40%, rgba(0, 0, 0, 0.14) 100%);
+.progress.light::-webkit-progress-bar {
+  background: linear-gradient(rgba(0, 0, 0, 0.3) 40%, rgba(0, 0, 0, 0.25) 100%);
 }
 
-@media (prefers-color-scheme: dark) {
-  .progress::-webkit-progress-bar {
-    background: linear-gradient(rgba(0, 0, 0, 0.5) 40%, rgba(0, 0, 0, 0.45) 100%);
-  }
+.progress.dark::-webkit-progress-bar {
+  background: linear-gradient(rgba(255, 255, 255, 0.3) 40%, rgba(255, 255, 255, 0.4) 100%);
+}
+
+.redGradient::-webkit-progress-bar {
+  background:
+    linear-gradient(transparent 60%, rgba(0, 0, 0, 0.08) 100%),
+    linear-gradient(
+      to right,
+      rgb(0%, var(--main-color-g), var(--main-color-b)),
+      rgb(100%, var(--main-color-g), var(--main-color-b)) 100%
+    ) !important;
+}
+
+.greenGradient::-webkit-progress-bar {
+  background:
+    linear-gradient(transparent 60%, rgba(0, 0, 0, 0.08) 100%),
+    linear-gradient(
+      to right,
+      rgb(var(--main-color-r), 0%, var(--main-color-b)),
+      rgb(var(--main-color-r), 100%, var(--main-color-b)) 100%
+    ) !important;
+}
+
+.blueGradient::-webkit-progress-bar {
+  background:
+    linear-gradient(transparent 60%, rgba(0, 0, 0, 0.08) 100%),
+    linear-gradient(
+      to right,
+      rgb(var(--main-color-r), var(--main-color-g), 0%),
+      rgb(var(--main-color-r), var(--main-color-g), 100%) 100%
+    ) !important;
 }
 
 .progress::-webkit-progress-value {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: unset;
 }
 
 .red::-webkit-progress-value {
@@ -68,7 +96,8 @@
 }
 
 .hue::-webkit-progress-bar {
-  background: -webkit-linear-gradient(
+  background:
+    -webkit-linear-gradient(
       left,
       hsla(0, var(--saturation), var(--lightness), 0.85),
       hsla(60, var(--saturation), var(--lightness), 0.85),
@@ -82,7 +111,8 @@
 }
 
 .saturation::-webkit-progress-bar {
-  background: -webkit-linear-gradient(
+  background:
+    -webkit-linear-gradient(
       left,
       hsla(150, 0%, var(--lightness), 0.85),
       hsla(var(--hue), 100%, var(--lightness), 0.85)

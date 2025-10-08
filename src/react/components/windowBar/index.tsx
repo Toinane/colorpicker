@@ -32,7 +32,7 @@ const WindowBar: FunctionComponent = (): JSX.Element => {
       <AppIcons />
       <section className={style.windowButtons}>
         <div className={style.menu} />
-        <div
+        {/* <div
           className={lock ? style.lock : style.unlock}
           role="button"
           tabIndex={-1}
@@ -40,7 +40,7 @@ const WindowBar: FunctionComponent = (): JSX.Element => {
           onKeyUp={() => setLock(!lock)}
         >
           {LockIcon}
-        </div>
+        </div> */}
       </section>
     </section>
   )

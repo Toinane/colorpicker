@@ -54,19 +54,23 @@
     "@typescript-eslint/eslint-plugin": "^8.45.0",
     "@typescript-eslint/parser": "^8.45.0",
     "cross-env": "^10.1.0",
-    "electron": "38.2.1",
+    "electron": "38.2.2",
     "eslint": "^9.37.0",
     "eslint-plugin-import": "^2.32.0",
     "typescript": "^5.9.3",
-    "vite": "^7.1.9"
+    "vite": "^7.1.9",
+    "vite-plugin-svgr": "^4.5.0"
   },
   "dependencies": {
+    "classnames": "^2.5.1",
     "colorjs.io": "^0.5.2",
     "electron-squirrel-startup": "^1.0.1",
     "electron-store": "^11.0.0",
     "i18next": "^25.5.3",
+    "i18next-resources-to-backend": "^1.2.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-i18next": "^16.0.0",
     "winston": "^3.18.3",
     "wouter": "^3.7.1",
     "zustand": "^5.0.8"

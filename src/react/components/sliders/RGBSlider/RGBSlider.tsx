@@ -1,12 +1,13 @@
 import { FunctionComponent, JSX, useMemo, useCallback } from 'react'
+import classNames from 'classnames'
 import Color from 'colorjs.io'
 
-import { useColorStore } from '@react/stores/color'
+import { useColorStore } from '@react/stores/colorStore'
 
-import Slider from '../slider'
-import NumberInput from '../numberInput'
+import Slider from '@components/sliders/slider'
+import NumberInput from '@react/components/inputs/numberInput/numberInput'
 
-import style from './RGBSlider.module.css'
+import './RGBSlider.css'
 
 const RGBSlider: FunctionComponent = (): JSX.Element => {
   const color = useColorStore((state) => state.color)
@@ -28,49 +29,51 @@ const RGBSlider: FunctionComponent = (): JSX.Element => {
   )
 
   return (
-    <section className={style.RGBSlider}>
-      <section className={style.slider}>
+    <section
+      className={classNames('RGBSlider', { DARK: useColorStore((state) => state.isDarkColor) })}
+    >
+      <section className="slider">
         <Slider
-          type="red"
+          type="redGradient"
           min={0}
           max={255}
-          value={rgb.r * 255}
+          value={Math.round(rgb.r * 255)}
           onChange={(value) => handleChange('r', value)}
         />
         <NumberInput
           min={0}
           max={255}
-          value={rgb.r * 255}
+          value={Math.round(rgb.r * 255)}
           onChange={(value) => handleChange('r', value)}
         />
       </section>
-      <section className={style.slider}>
+      <section className="slider">
         <Slider
-          type="green"
+          type="greenGradient"
           min={0}
           max={255}
-          value={rgb.g * 255}
+          value={Math.round(rgb.g * 255)}
           onChange={(value) => handleChange('g', value)}
         />
         <NumberInput
           min={0}
           max={255}
-          value={rgb.g * 255}
+          value={Math.round(rgb.g * 255)}
           onChange={(value) => handleChange('g', value)}
         />
       </section>
-      <section className={style.slider}>
+      <section className="slider">
         <Slider
-          type="blue"
+          type="blueGradient"
           min={0}
           max={255}
-          value={rgb.b * 255}
+          value={Math.round(rgb.b * 255)}
           onChange={(value) => handleChange('b', value)}
         />
         <NumberInput
           min={0}
           max={255}
-          value={rgb.b * 255}
+          value={Math.round(rgb.b * 255)}
           onChange={(value) => handleChange('b', value)}
         />
       </section>
