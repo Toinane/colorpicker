@@ -28,6 +28,8 @@ app.on('ready', async () => {
   logger.info('Colorpicker is ready')
   const cpWin = new ColorpickerWindow()
   await cpWin.init()
+  const settingsWin = new SettingsWindow()
+  await settingsWin.init()
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common

@@ -1,0 +1,56 @@
+.settingsNav {
+  -webkit-app-region: drag;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 6px 6px 20px 6px;
+  flex-shrink: 0;
+  gap: 4px;
+}
+
+/* .settingsNav:has(section:first-child.active) {
+  background: linear-gradient(to bottom, #2495ff11 0%, transparent 50%);
+} */
+
+.settingsNav section {
+  -webkit-app-region: no-drag;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 2px 6px 10px 6px;
+  border-radius: 8px;
+  align-self: stretch;
+  justify-content: flex-end;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
+.settingsNav section:hover,
+.settingsNav section.active {
+  background-color: #00000010;
+}
+
+.settingsNav section.active::after {
+  position: absolute;
+  content: '';
+  bottom: 0;
+  width: 40%;
+  height: 4px;
+  border-radius: 8px;
+  background-color: var(--main-color);
+}
+
+@media (prefers-color-scheme: dark) {
+  .settingsNav section:hover,
+  .settingsNav section.active {
+    background-color: #ffffff10;
+  }
+}
+
+.settingsNav svg {
+  width: 64px;
+  height: 64px;
+}

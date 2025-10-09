@@ -1,0 +1,49 @@
+.settingsWindow {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-family: Ubuntu, sans-serif;
+  font-size: 0.9em;
+}
+
+.settingsContent {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.settingsContent > h1 {
+  font-weight: 500;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.settingsPage {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 4px;
+  border: 1px solid #00000020;
+  padding: 20px;
+  gap: 10px;
+}
+
+.settingsPage span {
+  color: var(--main-color);
+}
+
+@media (prefers-color-scheme: dark) {
+  .settingsWindow {
+    color: white;
+  }
+
+  .settingsContent {
+    scrollbar-color: #44444468 transparent;
+  }
+
+  .settingsPage {
+    background-color: #ffffff10;
+    border: 1px solid #00000084;
+  }
+}
