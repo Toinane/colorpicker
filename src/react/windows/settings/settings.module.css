@@ -9,14 +9,10 @@
 .settingsContent {
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  align-items: center;
+  padding: 5px 20px 20px 20px;
+  height: 100%;
   overflow-y: auto;
-}
-
-.settingsContent > h1 {
-  font-weight: 500;
-  margin-top: 30px;
-  margin-bottom: 10px;
 }
 
 .settingsPage {

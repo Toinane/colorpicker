@@ -15,6 +15,7 @@ const App = () => (
     <Router hook={useHashLocation}>
       <Route path="/colorpicker" component={Colorpicker} />
       <Route path="/settings" component={Settings} />
+      <Route path="/settings/*" component={Settings} />
       <Route path="/" component={Colorpicker} />
     </Router>
   </I18nextProvider>

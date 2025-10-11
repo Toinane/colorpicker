@@ -2,8 +2,8 @@ import { useEffect } from 'react'
 import classNames from 'classnames'
 
 import WindowBar from '@components/windowBar'
-import RGBSlider from '@react/components/sliders/RGBSlider/RGBSlider'
-import HexInput from '@react/components/inputs/hexInput'
+import RGBSlider from '@components/colorpicker/sliders/RGBSlider/RGBSlider'
+import HexInput from '@components/colorpicker/inputs/hexInput'
 
 import { useColorpickerStore } from '@react/stores/colorpickerStore'
 import { useColorStore } from '../../stores/colorStore'

@@ -7,7 +7,7 @@ export default class SettingsWindow extends Window {
     super('settings', {
       width: {
         type: 'number',
-        default: 462,
+        default: 542,
       },
       height: {
         type: 'number',
@@ -16,7 +16,7 @@ export default class SettingsWindow extends Window {
     })
 
     this.props = {
-      minWidth: 462,
+      minWidth: 542,
       minHeight: 550,
       backgroundMaterial: 'mica',
       // TODO: test with different vibrancy types on macOS

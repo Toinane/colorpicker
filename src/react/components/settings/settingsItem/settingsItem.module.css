@@ -1,0 +1,35 @@
+:root {
+  --settings-item-background: #f9f9f9;
+  --settings-item-border: #00000020;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --settings-item-background: #ffffff10;
+    --settings-item-border: #00000050;
+  }
+}
+
+.settingsItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 30px;
+  border: 1px solid var(--settings-item-border);
+  background-color: var(--settings-item-background);
+}
+
+.settingsItemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 70%;
+}
+
+.settingsItemLabel {
+}
+
+.settingsItemDescription {
+  font-size: 0.8em;
+  opacity: 0.8;
+}

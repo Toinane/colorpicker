@@ -1,4 +1,3 @@
 {
-  "i18n-ally.localesPaths": ["src/common/locales"],
-  "i18n-ally.keystyle": "nested"
+  "i18n-ally.localesPaths": ["src/assets/locales"]
 }

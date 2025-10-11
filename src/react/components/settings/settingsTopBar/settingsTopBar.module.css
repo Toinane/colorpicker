@@ -1,0 +1,67 @@
+:root {
+  --settingsTopBar-background: #00000010;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --settingsTopBar-background: #ffffff10;
+  }
+}
+
+.settingsTopBar {
+  -webkit-app-region: drag;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 6px 6px 20px 6px;
+  flex-shrink: 0;
+  gap: 4px;
+}
+
+.navItem {
+  -webkit-app-region: no-drag;
+  position: relative;
+  max-width: 76px;
+  height: 92px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 2px 6px 10px 6px;
+  border-radius: 8px;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+  color: inherit;
+  word-break: break-all;
+  overflow: hidden;
+  text-align: center;
+}
+
+.navItem:hover,
+.navItem.active {
+  background-color: var(--settingsTopBar-background);
+}
+
+.navItem.active::after {
+  position: absolute;
+  content: '';
+  bottom: 0;
+  width: 40%;
+  height: 4px;
+  border-radius: 8px;
+  background-color: var(--main-color);
+}
+
+.navTitle {
+  width: fit-content;
+  margin: 0;
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+.navIcon {
+  width: 100%;
+  max-width: 64px;
+  height: fit-content;
+}

@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, shell } from 'electron'
 import started from 'electron-squirrel-startup'
 
 import { getPlatformDetails } from '@electron/utils/platform'
@@ -26,8 +26,8 @@ logger.info('Running on platform:', getPlatformDetails())
 
 app.on('ready', async () => {
   logger.info('Colorpicker is ready')
-  const cpWin = new ColorpickerWindow()
-  await cpWin.init()
+  // const cpWin = new ColorpickerWindow()
+  // await cpWin.init()
   const settingsWin = new SettingsWindow()
   await settingsWin.init()
 })
@@ -52,3 +52,17 @@ app.on('activate', async () => {
     await cpWin.init()
   }
 })
+
+// block all url navigations and open them in the browser instead
+// app.on('web-contents-created', (event, contents) => {
+//   contents.on('will-navigate', (event, navigationUrl) => {
+//     event.preventDefault()
+//     logger.info(`Blocked navigation to: ${navigationUrl}`)
+//   })
+
+//   contents.setWindowOpenHandler(({ url }) => {
+//     logger.info(`Opening url in browser: ${url}`)
+//     shell.openExternal(url)
+//     return { action: 'deny' }
+//   })
+// })

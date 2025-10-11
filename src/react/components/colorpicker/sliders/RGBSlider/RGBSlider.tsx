@@ -4,8 +4,8 @@ import Color from 'colorjs.io'
 
 import { useColorStore } from '@react/stores/colorStore'
 
-import Slider from '@components/sliders/slider'
-import NumberInput from '@react/components/inputs/numberInput/numberInput'
+import Slider from '@components/colorpicker/sliders/slider'
+import NumberInput from '@components/colorpicker/inputs/numberInput/numberInput'
 
 import './RGBSlider.css'
 
