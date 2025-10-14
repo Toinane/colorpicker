@@ -3,11 +3,11 @@ import { Link, useLocation } from 'wouter'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 
-import ColorpickerIcon from '@assets/svg/settings/colorpicker-icon.svg?react'
-import PickerIcon from '@assets/svg/settings/picker-icon.svg?react'
-import ShortcutsIcon from '@assets/svg/settings/shortcuts-icon.svg?react'
-import FormatIcon from '@assets/svg/settings/format-icon.svg?react'
-import PaletteIcon from '@assets/svg/settings/palette-icon.svg?react'
+import ColorpickerIcon from '@assets/icons/settings/colorpicker-icon.svg?react'
+import PickerIcon from '@assets/icons/settings/picker-icon.svg?react'
+import ShortcutsIcon from '@assets/icons/settings/shortcuts-icon.svg?react'
+import FormatIcon from '@assets/icons/settings/format-icon.svg?react'
+import PaletteIcon from '@assets/icons/settings/palette-icon.svg?react'
 
 import style from './settingsTopBar.module.css'
 

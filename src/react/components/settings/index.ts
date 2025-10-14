@@ -1,3 +1,8 @@
 export { default as SettingsTopBar } from './settingsTopBar/settingsTopBar'
 export { default as SettingsSection } from './settingsSection/settingsSection'
 export { default as SettingsItem } from './settingsItem/settingsItem'
+export { default as SettingsItemList } from './settingsItemList/settingsItemList'
+export { default as SettingsAccordion } from './settingsAccordion/settingsAccordion'
+export { default as SettingsButton } from './settingsButton/settingsButton'
+export { default as SettingsLink } from './settingsLink/settingsLink'
+export { default as SettingsToggle } from './settingsToggle/settingsToggle'

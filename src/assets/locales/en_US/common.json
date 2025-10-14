@@ -1,0 +1,17 @@
+{
+  "action": {
+    "yes": "Yes",
+    "no": "No",
+    "ok": "Ok",
+    "copy": "Copy",
+    "copied": "Copied 🗸",
+    "cut": "Cut",
+    "paste": "Paste",
+    "reset": "Reset",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "terms": {
+    "website": "Website"
+  }
+}

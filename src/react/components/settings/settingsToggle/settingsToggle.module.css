@@ -1,0 +1,93 @@
+:root {
+  --settings-toggle-background: #f0f0f0e0;
+  --settings-toggle-border: #00000070;
+  --settings-toggle-slider: #0000009c;
+  --settings-toggle-slider-checked: #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --settings-toggle-background: #00000020;
+    --settings-toggle-border: #ffffff90;
+    --settings-toggle-slider: #ffffffd0;
+    --settings-toggle-slider-checked: #000;
+  }
+}
+
+.settingsToggleWrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.settingsToggleWrapper:focus-visible {
+  outline: 2px solid var(--settings-focus-outline);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.settingsToggleLabel {
+  min-width: 28px;
+  user-select: none;
+}
+
+.settingsToggle {
+  position: relative;
+  width: 40px;
+  height: 20px;
+  background: var(--settings-toggle-background);
+  border: 1.5px solid var(--settings-toggle-border);
+  border-radius: 24px;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.settingsToggleSlider {
+  position: absolute;
+  top: 2.5px;
+  left: 2.5px;
+  width: 12px;
+  height: 12px;
+  background: var(--settings-toggle-slider);
+  border-radius: 50%;
+  transition:
+    transform 0.3s ease,
+    width 0.1s ease,
+    height 0.1s ease,
+    top 0.1s ease,
+    left 0.1s ease;
+}
+
+.settingsToggleWrapper:hover .settingsToggleSlider,
+.settingsToggleWrapper:active .settingsToggleSlider {
+  top: 1.5px;
+  left: 1.5px;
+  width: 14px;
+  height: 14px;
+}
+
+.settingsToggleWrapper:active .settingsToggleSlider {
+  width: 17px;
+  left: 2px;
+  border-radius: 10px;
+}
+
+.settingsToggleChecked {
+  background: var(--main-color);
+  border: 1.5px solid var(--main-color);
+}
+
+.settingsToggleChecked .settingsToggleSlider {
+  transform: translateX(22px);
+  background: var(--settings-toggle-slider-checked);
+}
+
+.settingsToggleWrapper:active .settingsToggleChecked .settingsToggleSlider {
+  width: 17px;
+  left: -2.5px;
+  border-radius: 10px;
+}

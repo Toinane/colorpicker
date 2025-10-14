@@ -1,6 +1,65 @@
+:root {
+  --app-icon-main-color: black;
+  --app-icon-second-color: #3e3e3e;
+  --app-icon-third-color: #7b7b7b;
+  --app-icon-opacity: 0.7;
+  --app-icon-selected: rgba(0, 0, 0, 0.1);
+  --app-icon-hover: rgba(0, 0, 0, 0.15);
+  --app-icon-active: rgba(0, 0, 0, 0.25);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --app-icon-main-color: white;
+    --app-icon-second-color: #bebdbd;
+    --app-icon-third-color: #989898;
+    --app-icon-opacity: 0.8;
+    --app-icon-selected: rgba(255, 255, 255, 0.1);
+    --app-icon-hover: rgba(255, 255, 255, 0.15);
+    --app-icon-active: rgba(255, 255, 255, 0.25);
+  }
+}
+
 .appIcons {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-left: 5px;
+}
+
+.iconContainer {
+  -webkit-app-region: no-drag;
+  width: 28px;
+  height: 70%;
+  padding: 0 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+  margin: 0 1px;
+  transition: 0.3s background;
+}
+
+.iconContainer.selected {
+  background: var(--app-icon-selected);
+}
+
+.iconContainer:hover {
+  background: var(--app-icon-hover);
+  transition: 0.1s background;
+}
+
+.iconContainer:active:hover {
+  background: var(--app-icon-active);
+  transition: 0s background;
+}
+
+.iconContainer svg {
+  opacity: var(--app-icon-opacity);
+  transition: 0.2s;
+  height: 75%;
+}
+
+.section:hover svg {
+  opacity: 1;
 }

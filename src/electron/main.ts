@@ -26,8 +26,8 @@ logger.info('Running on platform:', getPlatformDetails())
 
 app.on('ready', async () => {
   logger.info('Colorpicker is ready')
-  // const cpWin = new ColorpickerWindow()
-  // await cpWin.init()
+  const cpWin = new ColorpickerWindow()
+  await cpWin.init()
   const settingsWin = new SettingsWindow()
   await settingsWin.init()
 })

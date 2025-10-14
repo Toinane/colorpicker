@@ -1,0 +1,33 @@
+:root {
+  --settings-link-background: transparent;
+  --settings-link-background-hover: #eaeaea;
+  --settings-link-color: #0066cc;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --settings-link-background-hover: #ffffff15;
+    --settings-link-color: #66b3ff;
+  }
+}
+
+.settingsLink {
+  display: inline-block;
+  background: var(--settings-link-background);
+  color: var(--settings-link-color);
+  text-decoration: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.settingsLink:focus-visible {
+  outline: 2px solid var(--settings-focus-outline);
+  border-radius: 4px;
+  outline-offset: 0px;
+}
+
+.settingsLink:hover {
+  background: var(--settings-link-background-hover);
+}

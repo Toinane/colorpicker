@@ -1,3 +1,13 @@
+:root {
+  --settings-focus-outline: #000000ff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --settings-focus-outline: #ffffffff;
+  }
+}
+
 .settingsWindow {
   display: flex;
   flex-direction: column;

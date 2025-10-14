@@ -5,5 +5,40 @@
     "palette": "Palette",
     "shortcuts": "Shortcuts",
     "format": "Format"
+  },
+  "general": {
+    "colorpicker": {
+      "title": "Colorpicker",
+      "openAtLogin": {
+        "label": "Open Colorpicker at login",
+        "description": "Launch Colorpicker automatically when you log in"
+      },
+      "keepOnTop": {
+        "label": "Keep Colorpicker on top",
+        "description": "Always display Colorpicker above other windows"
+      }
+    },
+    "advanced": {
+      "title": "Advanced",
+      "accordion": {
+        "label": "Advanced Settings",
+        "description": "Show or hide advanced settings"
+      },
+      "resetSettings": {
+        "label": "Reset settings to default",
+        "description": "Restore all settings to their original default values"
+      }
+    },
+    "about": {
+      "title": "About",
+      "versions": {
+        "label": "Version",
+        "description": "Colorpicker's current version specifications"
+      },
+      "author": {
+        "label": "Developed by Toinane",
+        "description": "With ❤️"
+      }
+    }
   }
 }

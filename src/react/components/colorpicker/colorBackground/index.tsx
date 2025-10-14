@@ -1,6 +1,6 @@
 import { JSX, FunctionComponent } from 'react'
 
-import { useColorStore } from '../../stores/colorStore'
+import { useColorStore } from '@react/stores/colorStore'
 
 import style from './colorBackground.module.css'
 

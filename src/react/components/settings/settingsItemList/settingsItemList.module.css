@@ -1,0 +1,38 @@
+:root {
+  --settings-item-background: #f9f9f9;
+  --settings-item-border: #00000020;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --settings-item-background: #ffffff10;
+    --settings-item-border: #00000050;
+  }
+}
+
+.settingsItemList {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 8px 12px;
+  padding: 15px 30px;
+  border: 1px solid var(--settings-item-border);
+  background-color: var(--settings-item-background);
+}
+
+.settingsItemListRow {
+  display: contents;
+}
+
+.settingsItemListLabel {
+  flex-shrink: 0;
+}
+
+.settingsItemListEmpty {
+  /* Empty placeholder for grid layout when there's no label */
+}
+
+.settingsItemListValue {
+  user-select: text;
+  opacity: 0.7;
+  cursor: text;
+}

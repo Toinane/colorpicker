@@ -38,6 +38,12 @@
   text-align: center;
 }
 
+.navItem:focus-visible {
+  outline: 2px solid var(--settings-focus-outline);
+  outline-offset: 0px;
+  border-radius: 8px;
+}
+
 .navItem:hover,
 .navItem.active {
   background-color: var(--settingsTopBar-background);
