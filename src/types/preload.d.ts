@@ -1,19 +1,17 @@
-import { Event } from 'electron'
-import { IColorpickerSettings } from './settings'
+/**
+ * Global type declarations for preload API
+ * Types are automatically inferred from the actual preload implementations
+ * No need to manually maintain type definitions!
+ */
 
-export type IpcRendererCallback<T> = (event: Event, value: T) => void
-
-export type PreloadAPI = {
-  colorpicker: {
-    store: {
-      get: () => Promise<IColorpickerSettings>
-      update: (updatedStore: Partial<IColorpickerSettings>) => void
-    }
-  }
-}
+import type { PreloadAPI as SettingsPreloadAPI } from '@preload/settings'
 
 declare global {
   interface Window {
-    api: PreloadAPI
+    /**
+     * API exposed by preload scripts
+     * Types are automatically inferred from the implementation
+     */
+    api: SettingsPreloadAPI
   }
 }

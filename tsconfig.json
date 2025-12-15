@@ -21,7 +21,8 @@
       "@components/*": ["./src/react/components/*"],
       "@windows/*": ["./src/react/windows/*"],
       "@common/*": ["./src/common/*"],
-      "@assets/*": ["./src/assets/*"]
+      "@assets/*": ["./src/assets/*"],
+      "@preload/*": ["./src/preload/*"]
     }
   }
 }

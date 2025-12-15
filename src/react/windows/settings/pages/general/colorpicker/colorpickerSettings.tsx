@@ -1,23 +1,38 @@
-import { memo, useState, useCallback } from 'react'
+import { memo, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { SettingsSection, SettingsItem, SettingsToggle } from '@react/components/settings'
+import { useOpenAtLogin, useKeepOnTop } from '@react/hooks'
 
 const ColorpickerSettings = () => {
   const SettingsT = useTranslation('settings', { keyPrefix: 'general.colorpicker' })
 
-  const [openAtLogin, setOpenAtLogin] = useState(false)
-  const [keepOnTop, setKeepOnTop] = useState(false)
+  const [openAtLogin, setOpenAtLogin] = useOpenAtLogin()
+  const [keepOnTop, setKeepOnTop] = useKeepOnTop()
 
-  const handleOpenAtLoginChange = useCallback((checked: boolean) => {
-    setOpenAtLogin(checked)
-    // TODO: Call electron API to set login item
-  }, [])
+  const handleOpenAtLoginChange = useCallback(
+    async (checked: boolean) => {
+      try {
+        await setOpenAtLogin(checked)
+      } catch (error) {
+        console.error('Failed to update open at login:', error)
+        // TODO: Show error notification to user
+      }
+    },
+    [setOpenAtLogin],
+  )
 
-  const handleKeepOnTopChange = useCallback((checked: boolean) => {
-    setKeepOnTop(checked)
-    // TODO: Call electron API to set always on top
-  }, [])
+  const handleKeepOnTopChange = useCallback(
+    async (checked: boolean) => {
+      try {
+        await setKeepOnTop(checked)
+      } catch (error) {
+        console.error('Failed to update keep on top:', error)
+        // TODO: Show error notification to user
+      }
+    },
+    [setKeepOnTop],
+  )
 
   return (
     <SettingsSection title={SettingsT.t('title')}>

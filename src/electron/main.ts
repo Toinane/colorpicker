@@ -3,6 +3,8 @@ import started from 'electron-squirrel-startup'
 
 import { getPlatformDetails } from '@electron/utils/platform'
 import createLogger from '@electron/utils/logger'
+import { initSettingsStore } from '@electron/stores/settingsStore'
+import { registerSettingsApi } from '@electron/stores/settingsApi'
 import ColorpickerWindow from './windows/colorpicker'
 import SettingsWindow from './windows/settings'
 
@@ -20,6 +22,11 @@ if (started) {
 // show colorpicker version
 logger.info('Initializing Colorpicker ' + app.getVersion())
 logger.info('Running on platform:', getPlatformDetails())
+
+// Initialize settings store and IPC API
+initSettingsStore()
+registerSettingsApi()
+logger.info('Settings store and IPC API initialized')
 
 // https://github.com/electron/electron/issues/10732
 // app.commandLine.appendSwitch('force-color-profile', 'srgb')
