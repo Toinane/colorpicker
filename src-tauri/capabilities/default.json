@@ -8,6 +8,8 @@
     "core:event:allow-listen",
     "core:event:allow-emit",
     "core:window:allow-show",
-    "core:window:allow-hide"
+    "core:window:allow-hide",
+    "log:allow-log",
+    "log:default"
   ]
 }

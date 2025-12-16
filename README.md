@@ -81,15 +81,6 @@ npm run build
 
 Outputs will be in `src-tauri/target/release/bundle/`
 
-##### Legacy Electron Version
-
-The Electron version is still available but deprecated:
-
-```shell
-npm run electron:dev    # Development
-npm run electron:make   # Build
-```
-
 #### How to make stable release
 
 Colorpicker uses **Github Actions** to make a release automatically. This allows to have the application available on all platforms without having to do it manually.

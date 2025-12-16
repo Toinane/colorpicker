@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { subscribeWithSelector } from 'zustand/middleware'
 
 import type { IAppSettings } from '@interfaces/settings'
+import { createScopedLogger } from '@common/logger'
 
 export interface SettingsStore extends IAppSettings {
   // Loading state
@@ -14,7 +15,6 @@ export interface SettingsStore extends IAppSettings {
   updateSetting: <K extends keyof IAppSettings>(key: K, value: IAppSettings[K]) => Promise<void>
   updateSettings: (updates: Partial<IAppSettings>) => Promise<void>
   resetSettings: () => Promise<void>
-  setOpenAtLogin: (value: boolean) => Promise<void>
 }
 
 // Default settings
@@ -34,6 +34,8 @@ const DEFAULT_SETTINGS: IAppSettings = {
   eyedropperShowHex: true,
   eyedropperHideMain: true,
 }
+
+const log = createScopedLogger('SettingsStore')
 
 /**
  * Zustand store for application settings
@@ -64,6 +66,7 @@ export const useSettingsStore = create<SettingsStore>()(
      */
     updateSetting: async <K extends keyof IAppSettings>(key: K, value: IAppSettings[K]) => {
       set({ [key]: value } as Partial<SettingsStore>)
+      log.debug('Setting updated:', { [key]: value })
     },
 
     /**
@@ -71,6 +74,7 @@ export const useSettingsStore = create<SettingsStore>()(
      */
     updateSettings: async (updates: Partial<IAppSettings>) => {
       set(updates)
+      log.debug('Multiple settings updated', { updates })
     },
 
     /**
@@ -78,13 +82,7 @@ export const useSettingsStore = create<SettingsStore>()(
      */
     resetSettings: async () => {
       set(DEFAULT_SETTINGS)
-    },
-
-    /**
-     * Set open at login (local state only, no OS integration)
-     */
-    setOpenAtLogin: async (value: boolean) => {
-      set({ openAtLogin: value })
+      log.info('Settings reset to default values')
     },
   })),
 )
@@ -105,4 +103,3 @@ export const useDefaultFormat = () => useSettingsStore((state) => state.defaultF
  */
 export const useUpdateSetting = () => useSettingsStore((state) => state.updateSetting)
 export const useUpdateSettings = () => useSettingsStore((state) => state.updateSettings)
-export const useSetOpenAtLogin = () => useSettingsStore((state) => state.setOpenAtLogin)

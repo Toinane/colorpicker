@@ -77,7 +77,14 @@ export function useSettings<K extends keyof IAppSettings>(
  */
 export function useOpenAtLogin(): [boolean, (value: boolean) => Promise<void>] {
   const openAtLogin = useSettingsStore((state) => state.openAtLogin)
-  const setOpenAtLogin = useSettingsStore((state) => state.setOpenAtLogin)
+  const updateSetting = useSettingsStore((state) => state.updateSetting)
+
+  const setOpenAtLogin = useCallback(
+    async (value: boolean) => {
+      await updateSetting('openAtLogin', value)
+    },
+    [updateSetting],
+  )
 
   return [openAtLogin, setOpenAtLogin]
 }
