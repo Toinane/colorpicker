@@ -34,7 +34,7 @@
 
 Colorpicker is a color management software. Grab any color on your computer screen, easily adjust it to your convenience and save it in personalized color categories.
 
-Colorpicker is built on top of **Electron** with modern frameworks and works as well on **Windows**, **Macos** and **Linux**.
+Colorpicker is built with **Tauri** (Rust + React) and works seamlessly on **Windows**, **macOS** and **Linux**.
 
 ## Download
 
@@ -44,26 +44,50 @@ You can download [Colorpicker on the releases page](https://github.com/Toinane/c
 
 #### How to contribute
 
-Colorpicker use **Preact** to make front development easier with components. **Typescript** is also used to be more consistent and get less side effects.
+Colorpicker uses **React 19** for the frontend and **Rust** for the backend via Tauri. **TypeScript** is used throughout for type safety and better developer experience.
 
-You should use a Code Editor compatible with _Prettier_ and _ESLint_ plugins like **VS Code**.
+You should use a Code Editor compatible with _Prettier_ and _ESLint_ plugins like **VS Code** or **Cursor**.
+
+##### Prerequisites
+
+- Node.js >= 22
+- Rust (latest stable) - Install from [rustup.rs](https://rustup.rs/)
+- Platform-specific dependencies:
+  - **Windows**: Microsoft Visual Studio C++ Build Tools
+  - **macOS**: Xcode Command Line Tools
+  - **Linux**: `build-essential`, `libgtk-3-dev`, `libwebkit2gtk-4.0-dev`
+
+##### Development
 
 - Install dependencies
 
 ```shell
-npm i
+npm install
 ```
 
-- Launch Colorpicker in development mode
+- Launch Colorpicker in development mode (Tauri)
 
 ```shell
 npm run dev
 ```
 
-- Make a Nightly build
+This starts both the Vite dev server and Tauri backend with hot-reload.
 
+- Build for production
+
+```shell
+npm run build
 ```
-npm run release:nightly
+
+Outputs will be in `src-tauri/target/release/bundle/`
+
+##### Legacy Electron Version
+
+The Electron version is still available but deprecated:
+
+```shell
+npm run electron:dev    # Development
+npm run electron:make   # Build
 ```
 
 #### How to make stable release

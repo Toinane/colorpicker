@@ -1,28 +1,34 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module": "nodenext",
-    "lib": ["ESNext", "DOM"],
-    "allowJs": true,
+    "useDefineForClassFields": true,
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
     "skipLibCheck": true,
-    "strict": true,
-    "esModuleInterop": true,
-    "noImplicitAny": true,
-    "sourceMap": true,
-    "baseUrl": ".",
-    "outDir": "dist",
-    "jsx": "react-jsx",
-    "moduleResolution": "nodenext",
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
     "paths": {
-      "@interfaces/*": ["./src/types/*"],
-      "@electron/*": ["./src/electron/*"],
-      "@react/*": ["./src/react/*"],
-      "@components/*": ["./src/react/components/*"],
-      "@windows/*": ["./src/react/windows/*"],
-      "@common/*": ["./src/common/*"],
       "@assets/*": ["./src/assets/*"],
-      "@preload/*": ["./src/preload/*"]
+      "@common/*": ["./src/common/*"],
+      "@components/*": ["./src/components/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@stores/*": ["./src/stores/*"],
+      "@interfaces/*": ["./src/types/*"],
+      "@windows/*": ["./src/windows/*"]
     }
-  }
+  },
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

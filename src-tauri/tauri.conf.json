@@ -1,0 +1,71 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Colorpicker",
+  "version": "3.0.0",
+  "identifier": "com.toinane.colorpicker",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ]
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "colorpicker",
+        "title": "Colorpicker",
+        "url": "/",
+        "width": 400,
+        "height": 150,
+        "minWidth": 400,
+        "minHeight": 150,
+        "resizable": true,
+        "transparent": true,
+        "visible": false,
+        "center": true,
+        "decorations": true,
+        "windowEffects": {
+          "effects": ["mica"],
+          "state": "followsWindowActiveState",
+          "radius": 8.0,
+          "color": [0, 0, 0, 0]
+        }
+      },
+      {
+        "label": "settings",
+        "title": "Settings",
+        "url": "/settings",
+        "width": 542,
+        "height": 550,
+        "minWidth": 542,
+        "minHeight": 550,
+        "resizable": true,
+        "transparent": true,
+        "visible": false,
+        "center": true,
+        "decorations": true,
+        "windowEffects": {
+          "effects": ["mica"],
+          "state": "followsWindowActiveState",
+          "radius": 8.0,
+          "color": [0, 0, 0, 0]
+        }
+      }
+    ],
+    "security": {
+      "capabilities": ["default"],
+      "csp": null
+    }
+  }
+}

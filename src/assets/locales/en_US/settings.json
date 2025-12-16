@@ -40,5 +40,20 @@
         "description": "With ❤️"
       }
     }
+  },
+  "magnifier": {
+    "title": "Magnifier",
+    "gridSize": {
+      "label": "Pixel Grid Size",
+      "description": "Set the size of the pixel grid displayed in the magnifier"
+    },
+    "showHex": {
+      "label": "Show Hex Code",
+      "description": "Display the hex color code in the magnifier"
+    },
+    "hideMain": {
+      "label": "Hide Main Window",
+      "description": "Automatically hide the main Colorpicker window when using the magnifier"
+    }
   }
 }

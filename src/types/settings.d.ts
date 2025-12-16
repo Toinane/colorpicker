@@ -1,5 +1,3 @@
-import type { NativeTheme } from 'electron'
-
 export type ColorpickerTool = 'picker' | 'swatch' | 'tint' | 'contrast'
 
 export interface IWindowSchema {
@@ -14,4 +12,32 @@ export interface ISettingsSchema extends IWindowSchema {
   history: Array<string>
   sendCrashReport: boolean
   tools: Array<ColorpickerTool>
+}
+
+export type ThemeOption = 'light' | 'dark' | 'system'
+export type ColorFormat = 'hex' | 'rgb' | 'hsl' | 'hsv'
+export type EyedropperGridSizeOption = 5 | 11 | 21
+
+export interface IAppSettings {
+  // General Settings
+  openAtLogin: boolean
+  theme: ThemeOption
+  language: string
+  sendCrashReport: boolean
+
+  // Colorpicker Settings
+  keepOnTop: boolean
+  showHistory: boolean
+  maxHistorySize: number
+  defaultFormat: ColorFormat
+
+  // Appearance Settings
+  isBordered: boolean
+  isFullColored: boolean
+  isVibrant: boolean
+
+  // Eyedropper Settings
+  eyedropperGridSize: EyedropperGridSizeOption
+  eyedropperShowHex: boolean
+  eyedropperHideMain: boolean
 }

@@ -1,0 +1,37 @@
+[package]
+name = "colorpicker"
+version = "3.0.0"
+description = "Your powerful toolkit for mastering colors."
+authors = ["Toinane <hello@crea-that.fr>"]
+edition = "2021"
+
+[build-dependencies]
+tauri-build = { version = "2.0", features = [] }
+
+[dependencies]
+tauri = { version = "2.2", features = [] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["rt", "sync"] }
+
+[target."cfg(target_os = \"windows\")".dependencies]
+windows = { version = "0.58", features = [
+    "Win32_Foundation",
+    "Win32_UI_WindowsAndMessaging",
+    "Win32_UI_HiDpi",
+    "Win32_UI_Input_KeyboardAndMouse",
+    "Win32_Graphics_Gdi",
+    "Win32_Graphics_Direct2D",
+    "Win32_Graphics_Direct2D_Common",
+    "Win32_System_LibraryLoader",
+] }
+
+[target."cfg(target_os = \"macos\")".dependencies]
+core-graphics = "0.24"
+
+[profile.release]
+panic = "abort"
+codegen-units = 1
+lto = true
+opt-level = "s"
+strip = true
