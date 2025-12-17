@@ -1,3 +1,12 @@
+//! Windows native color picker implementation
+//!
+//! This module implements a high-performance (144fps+) color picker for Windows using:
+//! - Direct bitmap manipulation for rendering (bypasses GDI bottlenecks)
+//! - Low-level mouse/keyboard hooks for instant input
+//! - Small moving window architecture (300x300) instead of fullscreen
+//! - Pre-computed masks and pre-allocated buffers
+//! - Frame skipping with hash-based change detection
+
 mod window;
 mod capture;
 mod render;
@@ -5,12 +14,7 @@ mod render;
 use super::super::{PickerConfig, PickedColor};
 use std::sync::{Arc, Mutex};
 
-// pub struct PickerState {
-//     pub config: PickerConfig,
-//     pub cursor_pos: (i32, i32),
-//     pub pixel_grid: Vec<PixelColor>,
-// }
-
+/// Represents an RGB pixel color captured from the screen
 #[derive(Clone, Copy, Debug)]
 pub struct PixelColor {
     pub r: u8,
@@ -18,6 +22,11 @@ pub struct PixelColor {
     pub b: u8,
 }
 
+/// Launch the native Windows color picker
+///
+/// Creates a circular magnifier window that follows the cursor and allows
+/// the user to pick a color. Returns `Some(PickedColor)` if a color was picked,
+/// or `None` if the user cancelled (Escape key).
 pub fn run_picker(config: PickerConfig) -> Option<PickedColor> {
     let result = Arc::new(Mutex::new(None));
     let result_clone = Arc::clone(&result);

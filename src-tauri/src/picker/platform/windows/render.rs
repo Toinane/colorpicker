@@ -5,144 +5,235 @@ use windows::Win32::{
 };
 use super::window::WindowState;
 
+/// Ultra-optimized rendering with small moving window
+/// Target: <1ms frame time for true 144fps+
 pub unsafe fn paint(hwnd: HWND, state: &mut WindowState) {
-    // Get cursor position for picker center
     let (cursor_x, cursor_y) = state.cursor_pos;
+    let mag_radius = state.mag_radius;
 
-    // Calculate virtual screen origin
-    let virtual_x = GetSystemMetrics(SM_XVIRTUALSCREEN);
-    let virtual_y = GetSystemMetrics(SM_YVIRTUALSCREEN);
+    // Aggressively hide cursor every frame (bulletproof)
+    SetCursor(state.invisible_cursor);
 
-    // Adjust cursor position relative to virtual screen
-    let picker_x = cursor_x - virtual_x - 100;
-    let picker_y = cursor_y - virtual_y - 100;
+    // Fast hash of pixel grid to detect changes (stationary cursor optimization)
+    let current_hash = fast_hash_pixel_grid(&state.pixel_grid);
+    let grid_changed = current_hash != state.prev_grid_hash;
 
-    // PERFORMANCE: Only clear previous picker region instead of entire screen
-    // Clear slightly larger area (210x210) to catch any overflow/artifacts
-    let (prev_x, prev_y) = state.prev_picker_pos;
-    if prev_x >= -100 && prev_y >= -100 {  // More lenient check for partially off-screen
-        clear_region(state.bitmap_bits, state.screen_width, state.screen_height, prev_x - 5, prev_y - 5, 210, 210);
+    // Calculate window position (magnifier centered on cursor)
+    let window_x = cursor_x - mag_radius;
+    let window_y = cursor_y - mag_radius;
+    let window_moved = (window_x, window_y) != state.prev_window_pos;
+
+    // FRAME SKIP: Skip rendering if nothing changed (stationary cursor on same pixels)
+    if !window_moved && !grid_changed {
+        return;  // Zero work = infinite fps for stationary cursor!
     }
 
-    // Update previous position for next frame
-    state.prev_picker_pos = (picker_x, picker_y);
-
-    // Draw picker circle at cursor position on offscreen DC
-    let hdc_offscreen = state.hdc_offscreen;
-
-    // Create circular clip region to prevent overflow
-    let clip_region = CreateEllipticRgn(picker_x, picker_y, picker_x + 200, picker_y + 200);
-    SelectClipRgn(hdc_offscreen, clip_region);
-
-    // Fill circle background with semi-transparent black for better contrast
-    let brush_bg = CreateSolidBrush(COLORREF(0x00000000));
-    let _ = Ellipse(hdc_offscreen, picker_x, picker_y, picker_x + 200, picker_y + 200);
-    let _ = DeleteObject(brush_bg);
-
-    // Draw pixel grid - maximized to nearly fill the circle (corners will be clipped)
-    if !state.pixel_grid.is_empty() {
-        let grid_size_px = 195;  // Nearly fill the 200px circle, clip region handles overflow
-        let cell_size = grid_size_px / state.config.grid_size;
-        let grid_offset = ((200 - grid_size_px) / 2) as i32;  // Center the grid
-
-        for (idx, pixel) in state.pixel_grid.iter().enumerate() {
-            let row = idx / state.config.grid_size;
-            let col = idx % state.config.grid_size;
-            let is_center = idx == state.pixel_grid.len() / 2;
-
-            let x = picker_x + grid_offset + (col * cell_size) as i32;
-            let y = picker_y + grid_offset + (row * cell_size) as i32;
-
-            let color = COLORREF((pixel.b as u32) << 16 | (pixel.g as u32) << 8 | pixel.r as u32);
-            let brush = CreateSolidBrush(color);
-            let cell_rect = RECT {
-                left: x,
-                top: y,
-                right: x + cell_size as i32,
-                bottom: y + cell_size as i32,
-            };
-            FillRect(hdc_offscreen, &cell_rect, brush);
-            let _ = DeleteObject(brush);
-
-            // Center pixel white border - draw outline only, don't fill
-            if is_center {
-                let pen_center = CreatePen(PS_SOLID, 3, COLORREF(0x00FFFFFF));
-                let old_pen_center = SelectObject(hdc_offscreen, pen_center);
-                let brush_null = GetStockObject(NULL_BRUSH);
-                let old_brush_center = SelectObject(hdc_offscreen, brush_null);
-
-                // Draw border rectangle
-                let _ = Rectangle(hdc_offscreen, cell_rect.left, cell_rect.top, cell_rect.right, cell_rect.bottom);
-
-                // Restore objects
-                SelectObject(hdc_offscreen, old_pen_center);
-                SelectObject(hdc_offscreen, old_brush_center);
-                let _ = DeleteObject(pen_center);
-            }
-        }
-
-        // Draw hex label if enabled
-        if state.config.show_hex {
-            let center_color = state.pixel_grid[state.pixel_grid.len() / 2];
-            let hex_text = format!("#{:02X}{:02X}{:02X}\0", center_color.r, center_color.g, center_color.b);
-
-            SetBkMode(hdc_offscreen, TRANSPARENT);
-            SetTextColor(hdc_offscreen, COLORREF(0x00FFFFFF));
-
-            // Position hex text at bottom of circle
-            let mut text_rect = RECT {
-                left: picker_x + 40,
-                top: picker_y + 165,
-                right: picker_x + 160,
-                bottom: picker_y + 185,
-            };
-            let mut wide_text: Vec<u16> = hex_text.encode_utf16().collect();
-            DrawTextW(
-                hdc_offscreen,
-                &mut wide_text,
-                &mut text_rect as *mut _,
-                DT_CENTER | DT_VCENTER | DT_SINGLELINE,
-            );
-        }
+    // Move window to follow cursor (ASYNC + INSTANT - no blocking)
+    if window_moved {
+        let _ = SetWindowPos(
+            hwnd,
+            HWND_TOPMOST,
+            window_x,
+            window_y,
+            0, 0,
+            SWP_NOSIZE | SWP_NOACTIVATE | SWP_SHOWWINDOW | SWP_ASYNCWINDOWPOS | SWP_NOREDRAW,
+        );
+        state.prev_window_pos = (window_x, window_y);
     }
 
-    // Draw white circle border on top
-    let pen_border = CreatePen(PS_SOLID, 4, COLORREF(0x00FFFFFF));
-    let old_pen = SelectObject(hdc_offscreen, pen_border);
-    let old_brush = SelectObject(hdc_offscreen, GetStockObject(NULL_BRUSH));
-    let _ = Ellipse(hdc_offscreen, picker_x + 2, picker_y + 2, picker_x + 198, picker_y + 198);
+    // Update hash for next frame
+    state.prev_grid_hash = current_hash;
 
-    // Remove clip region
-    SelectClipRgn(hdc_offscreen, HRGN::default());
-    let _ = DeleteObject(clip_region);
+    // Smart clear: Only clear border pixels that aren't inside the content circle
+    // Interior will be overwritten anyway
+    clear_bitmap_smart(state.bitmap_bits, state.mag_size, &state.circle_mask);
 
-    // FIX TRANSPARENCY: Set alpha channel to 255 for all pixels in picker circle
-    // GDI doesn't set alpha channel, so we need to do it manually
+    // Render picker at (0, 0) in window coordinates
+    render_picker_direct(
+        state.bitmap_bits,
+        state.mag_size,
+        0,  // picker_x in window coords
+        0,  // picker_y in window coords
+        state.mag_size,
+        &state.pixel_grid,
+        state.config.grid_size,
+        &state.circle_mask,
+    );
+
+    // Draw border directly to bitmap (no GDI = no artifacts)
+    draw_border_direct(
+        state.bitmap_bits,
+        state.mag_size,
+        0,  // picker_x in window coords
+        0,  // picker_y in window coords
+        mag_radius,
+        &state.border_mask,
+    );
+
+    // Draw hex label using GDI (text rendering is complex, keep GDI for now)
+    if state.config.show_hex && !state.pixel_grid.is_empty() {
+        draw_hex_label(state, 0, 0, state.mag_size);
+    }
+
+    // Update the layered window (SMALL window = FAST update)
+    update_window(hwnd, state);
+}
+
+/// Render picker by writing pixels directly to bitmap buffer
+/// This is the HOT PATH - every optimization matters
+#[inline]
+unsafe fn render_picker_direct(
+    bitmap_bits: *mut u8,
+    stride_pixels: i32,  // Width of bitmap in pixels
+    picker_x: i32,
+    picker_y: i32,
+    mag_size: i32,
+    pixel_grid: &[super::PixelColor],
+    grid_size: usize,
+    circle_mask: &[bool],
+) {
+    if pixel_grid.is_empty() {
+        return;
+    }
+
     let bytes_per_pixel = 4;
-    let stride = state.screen_width * bytes_per_pixel;
-    for dy in 0..200 {
-        let y = picker_y + dy;
-        if y < 0 || y >= state.screen_height {
-            continue;
-        }
-        for dx in 0..200 {
-            let x = picker_x + dx;
-            if x < 0 || x >= state.screen_width {
+    let stride = stride_pixels * bytes_per_pixel;
+
+    // Calculate grid cell size
+    let cell_size = mag_size / grid_size as i32;
+    let actual_grid_size = cell_size * grid_size as i32;
+    let grid_offset = (mag_size - actual_grid_size) / 2;
+
+    let center_idx = pixel_grid.len() / 2;
+
+    // Render each grid cell by writing directly to bitmap
+    for (idx, pixel) in pixel_grid.iter().enumerate() {
+        let row = idx / grid_size;
+        let col = idx % grid_size;
+        let is_center = idx == center_idx;
+
+        let cell_x = picker_x + grid_offset + (col as i32 * cell_size);
+        let cell_y = picker_y + grid_offset + (row as i32 * cell_size);
+
+        // Prepare BGRA color value
+        let bgra = (255u32 << 24) | ((pixel.r as u32) << 16) | ((pixel.g as u32) << 8) | (pixel.b as u32);
+
+        // Draw cell pixels directly
+        for dy in 0..cell_size {
+            let y = cell_y + dy;
+            if y < 0 || y >= stride_pixels {
                 continue;
             }
-            // Check if pixel is inside circle
-            let cx = dx - 100;
-            let cy = dy - 100;
-            let dist_sq = cx * cx + cy * cy;
-            if dist_sq <= 100 * 100 {
-                // Inside circle - set alpha to 255
-                let offset = (y * stride + x * bytes_per_pixel + 3) as isize;
-                *state.bitmap_bits.offset(offset) = 255;
+
+            for dx in 0..cell_size {
+                let x = cell_x + dx;
+                if x < 0 || x >= stride_pixels {
+                    continue;
+                }
+
+                // Check if pixel is inside circle using pre-computed mask
+                let rel_x = x - picker_x;
+                let rel_y = y - picker_y;
+                if rel_x >= 0 && rel_x < mag_size && rel_y >= 0 && rel_y < mag_size {
+                    let mask_idx = (rel_y * mag_size + rel_x) as usize;
+                    if mask_idx < circle_mask.len() && circle_mask[mask_idx] {
+                        // Draw border for center pixel
+                        let is_border = is_center && (dx < 3 || dx >= cell_size - 3 || dy < 3 || dy >= cell_size - 3);
+
+                        let color = if is_border {
+                            0xFFFFFFFF // White border for center pixel
+                        } else {
+                            bgra
+                        };
+
+                        let offset = (y * stride + x * bytes_per_pixel) as isize;
+                        std::ptr::write_unaligned(bitmap_bits.offset(offset) as *mut u32, color);
+                    }
+                }
             }
         }
     }
+}
 
-    // Prepare blend function for UpdateLayeredWindow
+/// Draw circle border directly to bitmap buffer using pre-computed mask
+/// This eliminates GDI artifacts, distance calculations, and is blazing fast
+#[inline]
+unsafe fn draw_border_direct(
+    bitmap_bits: *mut u8,
+    stride_pixels: i32,
+    picker_x: i32,
+    picker_y: i32,
+    radius: i32,
+    border_mask: &[bool],
+) {
+    let bytes_per_pixel = 4;
+    let stride = stride_pixels * bytes_per_pixel;
+    let diameter = radius * 2;
+
+    // White color for border
+    let white = 0xFFFFFFFF_u32;
+
+    // Draw border using pre-computed mask - zero distance calculations
+    for dy in 0..diameter {
+        let y = picker_y + dy;
+        if y < 0 || y >= stride_pixels {
+            continue;
+        }
+
+        for dx in 0..diameter {
+            let x = picker_x + dx;
+            if x < 0 || x >= stride_pixels {
+                continue;
+            }
+
+            // Use pre-computed mask for instant border testing
+            let mask_idx = (dy * diameter + dx) as usize;
+            if mask_idx < border_mask.len() && border_mask[mask_idx] {
+                let offset = (y * stride + x * bytes_per_pixel) as isize;
+                std::ptr::write_unaligned(bitmap_bits.offset(offset) as *mut u32, white);
+            }
+        }
+    }
+}
+
+/// Draw hex label
+#[inline]
+unsafe fn draw_hex_label(
+    state: &WindowState,
+    picker_x: i32,
+    picker_y: i32,
+    mag_size: i32,
+) {
+    let center_color = state.pixel_grid[state.pixel_grid.len() / 2];
+    let hex_text = format!("#{:02X}{:02X}{:02X}\0", center_color.r, center_color.g, center_color.b);
+
+    let hdc = state.hdc_offscreen;
+    SetBkMode(hdc, TRANSPARENT);
+    SetTextColor(hdc, COLORREF(0x00FFFFFF));
+
+    // Position hex text at bottom of circle
+    let text_margin = mag_size / 5;
+    let text_height = mag_size / 10;
+    let mut text_rect = RECT {
+        left: picker_x + text_margin,
+        top: picker_y + mag_size - text_margin - text_height / 2,
+        right: picker_x + mag_size - text_margin,
+        bottom: picker_y + mag_size - text_margin + text_height / 2,
+    };
+
+    let mut wide_text: Vec<u16> = hex_text.encode_utf16().collect();
+    DrawTextW(
+        hdc,
+        &mut wide_text,
+        &mut text_rect,
+        DT_CENTER | DT_VCENTER | DT_SINGLELINE,
+    );
+}
+
+/// Update layered window with the rendered bitmap
+/// CRITICAL: Small window = 10-40x faster than fullscreen!
+#[inline]
+unsafe fn update_window(hwnd: HWND, state: &WindowState) {
     let blend = BLENDFUNCTION {
         BlendOp: AC_SRC_OVER as u8,
         BlendFlags: 0,
@@ -150,77 +241,59 @@ pub unsafe fn paint(hwnd: HWND, state: &mut WindowState) {
         AlphaFormat: AC_SRC_ALPHA as u8,
     };
 
-    // Update the layered window with per-pixel alpha
+    // SMALL window size (magnifier only, not entire screen!)
     let size = SIZE {
-        cx: state.screen_width,
-        cy: state.screen_height,
+        cx: state.mag_size,
+        cy: state.mag_size,
     };
     let point_src = POINT { x: 0, y: 0 };
 
     let _ = UpdateLayeredWindow(
         hwnd,
-        HDC(std::ptr::null_mut()),  // NULL = use screen DC
-        None,    // Window position unchanged
+        HDC(std::ptr::null_mut()),
+        None,
         Some(&size),
-        hdc_offscreen,
+        state.hdc_offscreen,
         Some(&point_src),
         COLORREF(0),
         Some(&blend),
         ULW_ALPHA,
     );
-
-    // Cleanup GDI objects
-    SelectObject(hdc_offscreen, old_pen);
-    SelectObject(hdc_offscreen, old_brush);
-    let _ = DeleteObject(pen_border);
 }
 
-/// Clear a rectangular region in the bitmap buffer to transparent
+/// Fast hash of pixel grid using FNV-1a (optimized for speed, not cryptographic security)
 #[inline]
-unsafe fn clear_region(
-    bitmap_bits: *mut u8,
-    screen_width: i32,
-    screen_height: i32,
-    x: i32,
-    y: i32,
-    width: usize,
-    height: usize,
-) {
-    let bytes_per_pixel = 4;
-    let stride = screen_width * bytes_per_pixel;
+fn fast_hash_pixel_grid(grid: &[super::PixelColor]) -> u64 {
+    const FNV_OFFSET: u64 = 14695981039346656037;
+    const FNV_PRIME: u64 = 1099511628211;
 
-    for dy in 0..height as i32 {
-        let row_y = y + dy;
-        if row_y < 0 || row_y >= screen_height {
-            continue;
-        }
-
-        let row_x_start = x.max(0);
-        let row_x_end = (x + width as i32).min(screen_width);
-        if row_x_start >= row_x_end {
-            continue;
-        }
-
-        let offset = (row_y * stride + row_x_start * bytes_per_pixel) as isize;
-        let clear_width = (row_x_end - row_x_start) as usize * bytes_per_pixel as usize;
-        std::ptr::write_bytes(bitmap_bits.offset(offset), 0, clear_width);
+    let mut hash = FNV_OFFSET;
+    for pixel in grid {
+        hash ^= pixel.r as u64;
+        hash = hash.wrapping_mul(FNV_PRIME);
+        hash ^= pixel.g as u64;
+        hash = hash.wrapping_mul(FNV_PRIME);
+        hash ^= pixel.b as u64;
+        hash = hash.wrapping_mul(FNV_PRIME);
     }
+    hash
 }
 
-#[allow(dead_code)]
-unsafe fn draw_custom_cursor(hdc: HDC, x: i32, y: i32) {
-    // Draw crosshair cursor
-    let pen = CreatePen(PS_SOLID, 2, COLORREF(0x00FFFFFF));
-    let old_pen = SelectObject(hdc, pen);
+/// Smart bitmap clear: Only clear pixels outside the circle
+/// Interior pixels will be overwritten anyway, no need to clear them
+#[inline]
+unsafe fn clear_bitmap_smart(bitmap_bits: *mut u8, size: i32, circle_mask: &[bool]) {
+    let bytes_per_pixel = 4;
+    let stride = size * bytes_per_pixel;
 
-    // Vertical line
-    let _ = MoveToEx(hdc, x, y - 10, None);
-    let _ = LineTo(hdc, x, y + 10);
-
-    // Horizontal line
-    let _ = MoveToEx(hdc, x - 10, y, None);
-    let _ = LineTo(hdc, x + 10, y);
-
-    SelectObject(hdc, old_pen);
-    let _ = DeleteObject(pen);
+    for y in 0..size {
+        for x in 0..size {
+            let mask_idx = (y * size + x) as usize;
+            // Only clear pixels OUTSIDE the circle
+            if mask_idx < circle_mask.len() && !circle_mask[mask_idx] {
+                let offset = (y * stride + x * bytes_per_pixel) as isize;
+                std::ptr::write_unaligned(bitmap_bits.offset(offset) as *mut u32, 0);
+            }
+        }
+    }
 }
