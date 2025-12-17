@@ -20,14 +20,13 @@
 //! 7. Update CALayer contents
 
 use crate::picker::color::Color;
-use super::super::common::geometry::CircleMask;
+use super::super::common::geometry::{CircleMask, BorderMask};
 use super::super::common::primitives::{self, *};
-use core_graphics::base::CGFloat;
+use core_graphics::base::{kCGBitmapByteOrder32Little, kCGImageAlphaFirst, kCGRenderingIntentDefault};
 use core_graphics::color_space::CGColorSpace;
-use core_graphics::context::CGContext;
 use core_graphics::data_provider::CGDataProvider;
-use core_graphics::geometry::{CGPoint, CGRect, CGSize};
 use core_graphics::image::CGImage;
+use std::sync::Arc;
 
 /// Main rendering entry point - orchestrates the complete render pipeline
 ///
@@ -40,7 +39,7 @@ pub fn render_frame(
     pixel_grid: &[Color],
     grid_size: usize,
     circle_mask: &CircleMask,
-    border_mask: &super::geometry::BorderMask,
+    border_mask: &BorderMask,
     show_hex: bool,
     prev_hash: &mut u64,
 ) -> Option<CGImage> {

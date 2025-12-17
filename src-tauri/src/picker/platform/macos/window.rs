@@ -43,6 +43,7 @@ use cocoa::appkit::{
 use cocoa::base::{id, nil, YES, NO};
 use cocoa::foundation::{NSPoint, NSRect, NSSize, NSAutoreleasePool};
 use core_graphics::geometry::{CGPoint, CGRect, CGSize};
+use foreign_types::ForeignType;
 use objc::{class, msg_send, sel, sel_impl};
 
 // Atomic flag to prevent excessive renders during fast mouse movement
@@ -182,9 +183,8 @@ pub fn create_and_run(config: PickerConfig) -> Option<PickedColor> {
         let _: () = msg_send![content_view, setLayer: layer];
         let _: () = msg_send![content_view, setWantsLayer: YES];
 
-        // Hide cursor
-        let _: () = msg_send![class!(NSCursor), hide];
-
+        // Remove duplicate Hide cursor line
+        
         // Show window
         let _: () = msg_send![window, makeKeyAndOrderFront: nil];
         let _: () = msg_send![window, orderFrontRegardless];
@@ -354,34 +354,13 @@ unsafe fn create_rendering_layer(state: &WindowState) -> id {
 }
 
 /// Install global event monitors for mouse and keyboard
-unsafe fn install_event_monitors(state: &mut WindowState) {
-    let state_ptr = state as *mut WindowState;
+unsafe fn install_event_monitors(_state: &mut WindowState) {
+    // NOTE: Mouse tracking is handled in the main event loop via NSEvent
+    // The event loop processes NSMouseMoved events which provide cursor position
+    // This is more efficient than polling and doesn't require thread safety concerns
     
-    // Create a mouse tracking thread for high-frequency updates
-    // This gives us 144fps mouse tracking similar to Windows
-    std::thread::spawn(move || {
-        loop {
-            // Get cursor position
-            let (cursor_x, cursor_y) = super::capture::get_cursor_position();
-            
-            // Update state and trigger render if not pending
-            if !RENDER_PENDING.swap(true, Ordering::AcqRel) {
-                // SAFETY: state_ptr is valid for the lifetime of the picker
-                let state_ref = &mut *state_ptr;
-                state_ref.cursor_pos = (cursor_x, cursor_y);
-                
-                trigger_render(state_ref);
-                RENDER_PENDING.store(false, Ordering::Release);
-            }
-            
-            // 144fps target = ~7ms per frame
-            std::thread::sleep(std::time::Duration::from_millis(7));
-        }
-    });
-    
-    // Install keyboard event handler for main thread
-    // Note: This is a simplified version. Full implementation would use NSEvent addGlobalMonitorForEventsMatchingMask
-    // For now, we'll handle keyboard in the window's key event methods
+    // Keyboard events are also handled in the main event loop
+    // See the NSKeyDown case in the event processing code
 }
 
 /// Trigger a render update

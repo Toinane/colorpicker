@@ -7,6 +7,7 @@
 use crate::picker::color::Color;
 use core_graphics::display::{CGDisplay, CGPoint};
 use core_graphics::image::CGImage;
+use core_foundation::base::TCFType;
 use foreign_types::ForeignType;
 use std::os::raw::c_void;
 
@@ -14,6 +15,10 @@ use std::os::raw::c_void;
 extern "C" {
     fn CGDisplayCreateImage(display_id: u32) -> *mut c_void;
     fn CFRelease(cf: *const c_void);
+    fn CGImageGetDataProvider(image: *const c_void) -> *const c_void;
+    fn CGDataProviderCopyData(provider: *const c_void) -> *const c_void;
+    fn CFDataGetLength(data: *const c_void) -> isize;
+    fn CFDataGetBytePtr(data: *const c_void) -> *const u8;
 }
 
 /// Check if the app has Screen Recording permission
@@ -114,9 +119,13 @@ pub fn capture_grid_at_cursor(cursor_x: f64, cursor_y: f64, grid_size: usize) ->
         }
 
         // Get raw pixel data
-        if let Some(data_provider) = image.data_provider() {
-            if let Some(data) = data_provider.data() {
-                let bytes = data.bytes();
+        let data_ptr = CGImageGetDataProvider(image.as_ptr() as *const _);
+        if !data_ptr.is_null() {
+            let cf_data_ref = CGDataProviderCopyData(data_ptr);
+            if !cf_data_ref.is_null() {
+                let length = CFDataGetLength(cf_data_ref);
+                let byte_ptr = CFDataGetBytePtr(cf_data_ref);
+                let bytes = std::slice::from_raw_parts(byte_ptr, length as usize);
 
                 // Calculate the region we want to sample from the full screen
                 // Convert cursor position to pixel coordinates
@@ -157,6 +166,8 @@ pub fn capture_grid_at_cursor(cursor_x: f64, cursor_y: f64, grid_size: usize) ->
                         }
                     }
                 }
+                
+                CFRelease(cf_data_ref as *const _);
             }
         }
         
