@@ -7,6 +7,14 @@
 use crate::picker::color::Color;
 use core_graphics::display::{CGDisplay, CGPoint};
 use core_graphics::image::CGImage;
+use foreign_types::ForeignType;
+use std::os::raw::c_void;
+
+// External C function declarations
+extern "C" {
+    fn CGDisplayCreateImage(display_id: u32) -> *mut c_void;
+    fn CFRelease(cf: *const c_void);
+}
 
 /// Check if the app has Screen Recording permission
 ///
@@ -18,21 +26,17 @@ use core_graphics::image::CGImage;
 pub fn check_screen_recording_permission() -> bool {
     let display = CGDisplay::main();
     
-    // Try to capture a 1x1 pixel to test permission
-    let test_rect = core_graphics::geometry::CGRect {
-        origin: CGPoint { x: 0.0, y: 0.0 },
-        size: core_graphics::geometry::CGSize {
-            width: 1.0,
-            height: 1.0,
-        },
-    };
-    
-    // If we can capture successfully and get valid image data, we have permission
-    if let Ok(image) = CGImage::create_from_display_at_rect(&display, test_rect) {
-        // Check if the image has actual data (not blank/denied)
-        image.width() > 0 && image.height() > 0
-    } else {
-        false
+    // Try to capture the full screen to test permission
+    unsafe {
+        let image_ref = CGDisplayCreateImage(display.id);
+        if image_ref.is_null() {
+            return false;
+        }
+        
+        let image = CGImage::from_ptr(image_ref as *mut _);
+        let has_data = image.width() > 0 && image.height() > 0;
+        CFRelease(image_ref);
+        has_data
     }
 }
 
@@ -86,20 +90,26 @@ pub fn capture_grid_at_cursor(cursor_x: f64, cursor_y: f64, grid_size: usize) ->
         },
     };
 
-    // Capture screen region
-    // CGDisplayCreateImage returns a Retina-aware image (2x or more pixels per point)
-    // NOTE: This requires Screen Recording permission on macOS 10.15+
-    // If permission is denied, this returns Ok with a blank/black image
-    if let Ok(image) = CGImage::create_from_display_at_rect(&display, rect) {
-        // Get image dimensions (these are in pixels, accounting for Retina)
-        let width = image.width();
-        let height = image.height();
+    // Capture full screen using CGDisplayCreateImage
+    // This is Retina-aware and returns actual pixel data
+    unsafe {
+        let image_ref = CGDisplayCreateImage(display.id);
+        if image_ref.is_null() {
+            return pixels;
+        }
+        
+        let image = CGImage::from_ptr(image_ref as *mut _);
+        
+        // Get full screen dimensions
+        let screen_width = image.width();
+        let screen_height = image.height();
         let bytes_per_row = image.bytes_per_row();
         let bits_per_pixel = image.bits_per_pixel();
 
         // Safety check
         if bits_per_pixel != 32 {
             eprintln!("Unexpected bits per pixel: {}", bits_per_pixel);
+            CFRelease(image_ref);
             return pixels;
         }
 
@@ -108,20 +118,28 @@ pub fn capture_grid_at_cursor(cursor_x: f64, cursor_y: f64, grid_size: usize) ->
             if let Some(data) = data_provider.data() {
                 let bytes = data.bytes();
 
-                // Calculate stride for sampling (to get exactly grid_size x grid_size colors)
-                // On Retina, we might have 18x18 pixels but want 9x9 colors
-                let x_stride = width / grid_size;
-                let y_stride = height / grid_size;
+                // Calculate the region we want to sample from the full screen
+                // Convert cursor position to pixel coordinates
+                let scale_x = screen_width as f64 / CGDisplay::main().pixels_wide() as f64;
+                let scale_y = screen_height as f64 / CGDisplay::main().pixels_high() as f64;
+                
+                let half_grid = (grid_size / 2) as f64;
+                let center_x = (cursor_x * scale_x) as usize;
+                let center_y = (cursor_y * scale_y) as usize;
+                let grid_half_pixels = ((half_grid * scale_x) as usize).max(1);
 
-                // Sample the image at regular intervals to get the grid
+                // Sample the grid around the cursor
                 for row in 0..grid_size {
                     for col in 0..grid_size {
-                        // Calculate pixel coordinates (center of each grid cell)
-                        let pixel_x = col * x_stride + x_stride / 2;
-                        let pixel_y = row * y_stride + y_stride / 2;
+                        // Calculate pixel coordinates relative to cursor
+                        let offset_x = col as isize - (grid_size / 2) as isize;
+                        let offset_y = row as isize - (grid_size / 2) as isize;
+                        
+                        let pixel_x = (center_x as isize + offset_x * (grid_half_pixels as isize / (grid_size / 2) as isize)).max(0) as usize;
+                        let pixel_y = (center_y as isize + offset_y * (grid_half_pixels as isize / (grid_size / 2) as isize)).max(0) as usize;
 
                         // Bounds check
-                        if pixel_x >= width || pixel_y >= height {
+                        if pixel_x >= screen_width || pixel_y >= screen_height {
                             continue;
                         }
 
@@ -141,6 +159,8 @@ pub fn capture_grid_at_cursor(cursor_x: f64, cursor_y: f64, grid_size: usize) ->
                 }
             }
         }
+        
+        CFRelease(image_ref);
     }
 
     // Ensure we always return exactly grid_size * grid_size colors

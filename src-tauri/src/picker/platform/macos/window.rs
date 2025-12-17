@@ -206,9 +206,9 @@ pub fn create_and_run(config: PickerConfig) -> Option<PickedColor> {
             let distant_future: id = msg_send![class!(NSDate), distantFuture];
             let event: id = msg_send![
                 app,
-                nextEventMatchingMask: NSEventMask::NSAnyEventMask as u64
+                nextEventMatchingMask: NSEventMask::NSAnyEventMask.bits()
                 untilDate: distant_future
-                inMode: NSDefaultRunLoopMode
+                inMode: get_default_run_loop_mode()
                 dequeue: YES
             ];
 
@@ -303,7 +303,7 @@ unsafe fn create_picker_window(state: &WindowState) -> id {
     );
 
     // Create borderless, transparent window
-    let style_mask = NSWindowStyleMask::NSWindowStyleMaskBorderless;
+    let style_mask = NSWindowStyleMask::NSBorderlessWindowMask;
 
     let window: id = msg_send![class!(NSWindow), alloc];
     let window: id = msg_send![
@@ -322,7 +322,7 @@ unsafe fn create_picker_window(state: &WindowState) -> id {
     let _: () = msg_send![window, setOpaque: NO];
     let _: () = msg_send![window, setBackgroundColor: NSColor::clearColor(nil)];
     let _: () = msg_send![window, setHasShadow: NO];
-    let _: () = msg_send![window, setLevel: cocoa::appkit::NSWindowLevel::NSFloatingWindowLevel];
+    let _: () = msg_send![window, setLevel: 3]; // NSFloatingWindowLevel = 3
 
     // Set collection behavior to exclude from Spaces, Exposé, etc.
     let collection_behavior = 1 << 6; // NSWindowCollectionBehaviorStationary
@@ -345,8 +345,8 @@ unsafe fn create_rendering_layer(state: &WindowState) -> id {
     }
 
     let frame = CGRect::new(
-        CGPoint::new(0.0, 0.0),
-        CGSize::new(state.window_width as f64, state.window_height as f64),
+        &CGPoint::new(0.0, 0.0),
+        &CGSize::new(state.window_width as f64, state.window_height as f64),
     );
     let _: () = msg_send![layer, setFrame: frame];
     let _: () = msg_send![layer, setOpaque: NO];
@@ -472,4 +472,11 @@ impl NSColor {
     }
 }
 
-const NSDefaultRunLoopMode: id = unsafe { cocoa::foundation::NSDefaultRunLoopMode };
+// NSDefaultRunLoopMode constant
+fn get_default_run_loop_mode() -> id {
+    unsafe {
+        let ns_string_class = class!(NSString);
+        let mode: id = msg_send![ns_string_class, stringWithUTF8String: b"kCFRunLoopDefaultMode\0".as_ptr()];
+        mode
+    }
+}

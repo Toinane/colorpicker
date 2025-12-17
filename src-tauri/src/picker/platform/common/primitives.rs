@@ -5,6 +5,8 @@
 
 use super::geometry::is_in_rounded_rect;
 use crate::picker::color::Color;
+
+#[cfg(target_os = "windows")]
 use windows::Win32::{
     Foundation::*,
     Graphics::Gdi::*,
@@ -173,6 +175,7 @@ pub unsafe fn draw_rounded_rect(
 /// rendering the text with ClearType, and then manually compositing it onto
 /// the main bitmap. This bypasses GDI's broken alpha channel handling for
 /// layered windows.
+#[cfg(target_os = "windows")]
 pub unsafe fn draw_text(
     bitmap_bits: *mut u8,
     stride: i32,

@@ -324,17 +324,16 @@ fn create_cgimage_from_buffer(buffer: &[u8], width: usize, height: usize) -> Opt
     let color_space = CGColorSpace::create_device_rgb();
 
     // Create CGImage
-    CGImage::new(
+    Some(CGImage::new(
         width,
         height,
         bits_per_component,
         bits_per_pixel,
         bytes_per_row,
         &color_space,
-        core_graphics::image::kCGBitmapByteOrder32Little
-            | core_graphics::image::kCGImageAlphaFirst,
+        kCGBitmapByteOrder32Little | kCGImageAlphaFirst,
         &data_provider,
-        false,  // should_interpolate
-        core_graphics::display::kCGRenderingIntentDefault,
-    )
+        false,
+        kCGRenderingIntentDefault,
+    ))
 }
