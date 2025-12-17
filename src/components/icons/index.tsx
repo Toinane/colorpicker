@@ -46,7 +46,7 @@ const Icon: FC<IconProps> = ({ type, colors }): ReactElement => {
         '--app-icon-main-color': colors?.main ?? DEFAULT_COLORS.main,
         '--app-icon-secondary-color': colors?.secondary ?? DEFAULT_COLORS.secondary,
         '--app-icon-tertiary-color': colors?.tertiary ?? DEFAULT_COLORS.tertiary,
-      }) as CSSProperties,
+      } as CSSProperties),
     [colors?.main, colors?.secondary, colors?.tertiary],
   )
 

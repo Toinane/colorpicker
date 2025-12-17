@@ -9,6 +9,9 @@ mod picker;
 
 fn main() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_single_instance::init(|app, argv, cwd| {
+            println!("{}, {argv:?}, {cwd}", app.package_info().name);
+        }))
         .plugin(logger::create_logger().build())
         .setup(|app| {
             log::info!("ColorPicker v{} starting", env!("CARGO_PKG_VERSION"));
@@ -19,6 +22,8 @@ fn main() {
                 let window_label = event.payload().trim_matches('"');
                 log::debug!("Window ready event received: {}", window_label);
 
+                // Show any window when it's ready
+                // This allows both colorpicker (on startup) and settings (on-demand) to work
                 if let Some(window) = app_handle.get_webview_window(window_label) {
                     let _ = window.show();
                     let _ = window.set_focus();

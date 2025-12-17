@@ -59,8 +59,14 @@ img {
   }
 }
 
+svg {
+  width: unset;
+  height: unset;
+}
+
 html,
-body {
+body,
+#root {
   height: 100vh;
 }
 

@@ -8,6 +8,7 @@ import PickerIcon from '@assets/icons/settings/picker-icon.svg?react'
 import ShortcutsIcon from '@assets/icons/settings/shortcuts-icon.svg?react'
 import FormatIcon from '@assets/icons/settings/format-icon.svg?react'
 import PaletteIcon from '@assets/icons/settings/palette-icon.svg?react'
+import WindowControls from '@components/windowBar/windowControls'
 
 import style from './settingsTopBar.module.css'
 
@@ -40,10 +41,13 @@ const SettingsTopBar = () => {
   ]
 
   return (
-    <nav className={style.settingsTopBar}>
+    <nav className={style.settingsTopBar} data-tauri-drag-region>
       {navItems.map((item) => (
         <NavItem key={item.to} {...item} isActive={location === item.to} />
       ))}
+      <div className={style.windowControlsWrapper}>
+        <WindowControls />
+      </div>
     </nav>
   )
 }

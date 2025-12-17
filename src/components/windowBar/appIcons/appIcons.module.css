@@ -30,8 +30,8 @@
 .iconContainer {
   -webkit-app-region: no-drag;
   width: 28px;
-  height: 70%;
-  padding: 0 1px;
+  height: 100%;
+  padding: 3px 1px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -54,10 +54,16 @@
   transition: 0s background;
 }
 
+.iconContainer .svgWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 75%;
+}
+
 .iconContainer svg {
   opacity: var(--app-icon-opacity);
   transition: 0.2s;
-  height: 75%;
 }
 
 .section:hover svg {

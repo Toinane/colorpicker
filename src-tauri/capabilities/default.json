@@ -9,7 +9,16 @@
     "core:event:allow-emit",
     "core:window:allow-show",
     "core:window:allow-hide",
+    "core:window:allow-create",
+    "core:window:allow-set-focus",
+    "core:window:allow-is-maximized",
+    "core:webview:allow-create-webview-window",
+    "core:webview:allow-webview-position",
+    "core:webview:allow-webview-size",
     "log:allow-log",
-    "log:default"
+    "log:default",
+    "core:window:allow-close",
+    "core:window:allow-toggle-maximize",
+    "core:window:allow-minimize"
   ]
 }

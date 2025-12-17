@@ -32,12 +32,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
+    "start": "npm run build && npm run tauri:build:debug && .\\src-tauri\\target\\debug\\colorpicker.exe",
     "tauri": "tauri",
     "tauri:dev": "tauri dev",
     "tauri:build": "tauri build",
     "tauri:build:debug": "tauri build --debug",
-    "lint": "eslint --ext .ts,.tsx ."
+    "lint": "tsc && eslint --ext .ts,.tsx ."
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2.2.0",

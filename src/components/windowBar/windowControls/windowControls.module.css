@@ -1,0 +1,59 @@
+:root {
+  --control-button-color: black;
+  --control-button-hover: rgba(0, 0, 0, 0.1);
+  --control-button-active: rgba(0, 0, 0, 0.2);
+  --close-button-hover: #e81123;
+  --close-button-active: #f1707a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --control-button-color: white;
+    --control-button-hover: rgba(255, 255, 255, 0.1);
+    --control-button-active: rgba(255, 255, 255, 0.2);
+    --close-button-hover: #e81123;
+    --close-button-active: #f1707a;
+  }
+}
+
+.windowControls {
+  display: flex;
+  height: 100%;
+  -webkit-app-region: no-drag;
+}
+
+.controlButton {
+  width: 46px;
+  height: 100%;
+  border: none;
+  background: transparent;
+  color: var(--control-button-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.1s ease;
+  padding: 0;
+  position: relative;
+}
+
+.controlButton:hover {
+  background-color: var(--control-button-hover);
+}
+
+.controlButton:active {
+  background-color: var(--control-button-active);
+}
+
+.closeButton:hover {
+  background-color: var(--close-button-hover);
+  color: white;
+}
+
+.closeButton:active {
+  background-color: var(--close-button-active);
+}
+
+.controlButton svg {
+  pointer-events: none;
+}
