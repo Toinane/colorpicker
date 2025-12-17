@@ -20,12 +20,7 @@
       "icons/icon.ico"
     ],
     "macOS": {
-      "minimumSystemVersion": "10.15",
-      "entitlements": null,
-      "exceptionDomain": null,
-      "frameworks": [],
-      "providerShortName": null,
-      "signingIdentity": null
+      "minimumSystemVersion": "12.3"
     }
   },
   "app": {
