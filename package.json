@@ -33,7 +33,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "start": "npm run build && npm run tauri:build:debug && .\\src-tauri\\target\\debug\\colorpicker.exe",
+    "start": "npm run build && npm run tauri:build:debug && npm run launch",
+    "launch": "node scripts/launch-debug.js",
     "tauri": "tauri",
     "tauri:dev": "tauri dev",
     "tauri:build": "tauri build",

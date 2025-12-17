@@ -42,13 +42,7 @@
         "transparent": true,
         "visible": false,
         "center": true,
-        "decorations": false,
-        "windowEffects": {
-          "effects": ["mica"],
-          "state": "followsWindowActiveState",
-          "radius": 8.0,
-          "color": [0, 0, 0, 0]
-        }
+        "decorations": false
       }
     ],
     "security": {

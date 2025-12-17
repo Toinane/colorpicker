@@ -10,6 +10,7 @@ tauri-build = { version = "2.0", features = [] }
 
 [dependencies]
 tauri = { version = "2.2", features = [] }
+tauri-utils = "2.0"
 tauri-plugin-log = "2.0"
 tauri-plugin-single-instance = "2.0.0"
 log = "0.4"

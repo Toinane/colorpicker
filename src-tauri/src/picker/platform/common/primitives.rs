@@ -6,12 +6,6 @@
 use super::geometry::is_in_rounded_rect;
 use crate::picker::color::Color;
 
-#[cfg(target_os = "windows")]
-use windows::Win32::{
-    Foundation::*,
-    Graphics::Gdi::*,
-};
-
 // ============================================================================
 // UI Constants - Tweak these to customize the picker appearance
 // ============================================================================
@@ -169,131 +163,7 @@ pub unsafe fn draw_rounded_rect(
     }
 }
 
-/// Render text to bitmap with proper alpha compositing
-///
-/// This function handles text rendering by creating a temporary GDI surface,
-/// rendering the text with ClearType, and then manually compositing it onto
-/// the main bitmap. This bypasses GDI's broken alpha channel handling for
-/// layered windows.
-#[cfg(target_os = "windows")]
-pub unsafe fn draw_text(
-    bitmap_bits: *mut u8,
-    stride: i32,
-    x: i32,
-    y: i32,
-    width: i32,
-    height: i32,
-    text: &str,
-    text_color: Color,
-    background_color: Color,
-    hdc: HDC,
-    font: HFONT,
-    offset_x: i32,
-) {
-    // Create temporary rendering surface
-    let temp_hdc = CreateCompatibleDC(hdc);
 
-    let mut bmi = std::mem::zeroed::<BITMAPINFO>();
-    bmi.bmiHeader.biSize = std::mem::size_of::<BITMAPINFOHEADER>() as u32;
-    bmi.bmiHeader.biWidth = width;
-    bmi.bmiHeader.biHeight = -height;  // Top-down DIB
-    bmi.bmiHeader.biPlanes = 1;
-    bmi.bmiHeader.biBitCount = 32;
-    bmi.bmiHeader.biCompression = BI_RGB.0 as u32;
-
-    let mut temp_bits: *mut std::ffi::c_void = std::ptr::null_mut();
-    let temp_bitmap = match CreateDIBSection(
-        temp_hdc,
-        &bmi,
-        DIB_RGB_COLORS,
-        &mut temp_bits,
-        None,
-        0,
-    ) {
-        Ok(bmp) => bmp,
-        Err(_) => {
-            let _ = DeleteDC(temp_hdc);
-            return; // Silently fail to avoid panic with resources held
-        }
-    };
-
-    let old_bitmap = SelectObject(temp_hdc, temp_bitmap);
-    let old_font = SelectObject(temp_hdc, font);
-
-    // Fill with background color
-    let bg_colorref = COLORREF(
-        ((background_color.b as u32) << 16) |
-        ((background_color.g as u32) << 8) |
-        (background_color.r as u32)
-    );
-    let brush = CreateSolidBrush(bg_colorref);
-    let rect = RECT {
-        left: 0,
-        top: 0,
-        right: width,
-        bottom: height,
-    };
-    let _ = FillRect(temp_hdc, &rect, brush);
-    let _ = DeleteObject(brush);
-
-    // Configure text rendering
-    let text_colorref = COLORREF(
-        ((text_color.b as u32) << 16) |
-        ((text_color.g as u32) << 8) |
-        (text_color.r as u32)
-    );
-    SetTextColor(temp_hdc, text_colorref);
-    SetBkMode(temp_hdc, TRANSPARENT);
-
-    // Render text centered with horizontal offset
-    let mut wide_text: Vec<u16> = text.encode_utf16().collect();
-    let mut text_rect = RECT {
-        left: offset_x,
-        top: 0,
-        right: width + offset_x,
-        bottom: height,
-    };
-    let _ = DrawTextW(
-        temp_hdc,
-        &mut wide_text,
-        &mut text_rect,
-        DT_CENTER | DT_VCENTER | DT_SINGLELINE,
-    );
-
-    // Composite text onto main bitmap
-    let temp_bits_u8 = temp_bits as *const u8;
-    const BYTES_PER_PIXEL: i32 = 4;
-
-    for dy in 0..height {
-        for dx in 0..width {
-            let temp_offset = (dy * width * BYTES_PER_PIXEL + dx * BYTES_PER_PIXEL) as isize;
-            let temp_pixel = (temp_bits_u8.offset(temp_offset) as *const u32).read_unaligned();
-
-            let temp_b = (temp_pixel & 0xFF) as u8;
-            let temp_g = ((temp_pixel >> 8) & 0xFF) as u8;
-            let temp_r = ((temp_pixel >> 16) & 0xFF) as u8;
-
-            // If pixel differs from background, it's text - write with full alpha
-            if temp_r != background_color.r 
-                || temp_g != background_color.g 
-                || temp_b != background_color.b 
-            {
-                let final_pixel = (255u32 << 24) 
-                    | ((temp_r as u32) << 16) 
-                    | ((temp_g as u32) << 8) 
-                    | (temp_b as u32);
-                
-                write_pixel(bitmap_bits, stride, x + dx, y + dy, final_pixel);
-            }
-        }
-    }
-
-    // Cleanup
-    SelectObject(temp_hdc, old_font);
-    SelectObject(temp_hdc, old_bitmap);
-    let _ = DeleteObject(temp_bitmap);
-    let _ = DeleteDC(temp_hdc);
-}
 
 /// Fast hash function for change detection (FNV-1a algorithm)
 ///

@@ -7,6 +7,56 @@ mod commands;
 mod logger;
 mod picker;
 
+/// Apply platform-specific window effects
+/// - Windows: Mica effect (Windows 11+ blur that adapts to desktop wallpaper)
+/// - macOS: UnderWindowBackground vibrancy (adapts to wallpaper and system theme)
+fn apply_window_effects(window: &tauri::WebviewWindow) {
+    #[cfg(target_os = "windows")]
+    {
+        use tauri::utils::config::WindowEffectsConfig;
+        use tauri_utils::{WindowEffect, WindowEffectState};
+        use tauri::window::Color;
+
+        let effects = WindowEffectsConfig {
+            effects: vec![WindowEffect::Mica],
+            state: Some(WindowEffectState::FollowsWindowActiveState),
+            radius: Some(8.0),
+            color: Some(Color(0, 0, 0, 0)),
+        };
+
+        if let Err(e) = window.set_effects(Some(effects)) {
+            log::warn!("Failed to apply Mica effect on Windows: {}", e);
+        } else {
+            log::debug!("Applied Mica window effect");
+        }
+    }
+
+    #[cfg(target_os = "macos")]
+    {
+        use tauri::utils::config::WindowEffectsConfig;
+        use tauri_utils::{WindowEffect, WindowEffectState};
+        use tauri::window::Color;
+
+        let effects = WindowEffectsConfig {
+            effects: vec![WindowEffect::UnderWindowBackground],
+            state: Some(WindowEffectState::FollowsWindowActiveState),
+            radius: Some(8.0),
+            color: Some(Color(0, 0, 0, 0)),
+        };
+
+        if let Err(e) = window.set_effects(Some(effects)) {
+            log::warn!("Failed to apply UnderWindowBackground effect on macOS: {}", e);
+        } else {
+            log::debug!("Applied UnderWindowBackground vibrancy effect");
+        }
+    }
+
+    #[cfg(not(any(target_os = "windows", target_os = "macos")))]
+    {
+        log::debug!("Window effects not supported on this platform");
+    }
+}
+
 fn main() {
     tauri::Builder::default()
         .plugin(tauri_plugin_single_instance::init(|app, argv, cwd| {
@@ -15,6 +65,11 @@ fn main() {
         .plugin(logger::create_logger().build())
         .setup(|app| {
             log::info!("ColorPicker v{} starting", env!("CARGO_PKG_VERSION"));
+
+            // Apply platform-specific window effects
+            if let Some(window) = app.get_webview_window("colorpicker") {
+                apply_window_effects(&window);
+            }
 
             // Listen for window-ready events from frontend
             let app_handle = app.handle().clone();
