@@ -30,8 +30,8 @@
 //! - Enables picking hover-state colors (e.g., close button red)
 
 use crate::picker::color::Color;
-use super::geometry::{BorderMask, CircleMask};
-use super::primitives::*;
+use super::super::common::geometry::{BorderMask, CircleMask};
+use super::super::common::primitives::*;
 use super::super::super::{PickerConfig, PickedColor};
 use std::cell::Cell;
 use std::sync::{Arc, Mutex};

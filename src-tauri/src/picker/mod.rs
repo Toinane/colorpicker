@@ -46,8 +46,8 @@ pub struct PickerConfig {
 /// Launch the native color picker
 ///
 /// This function blocks until the user picks a color or cancels.
-/// On Windows, it creates a circular magnifier window that follows
-/// the cursor with 144fps+ tracking.
+/// On Windows and macOS, it creates a circular magnifier window that follows
+/// the cursor with high-performance tracking (144fps+ on Windows).
 ///
 /// # Returns
 /// - `Some(PickedColor)` if a color was picked
@@ -58,7 +58,12 @@ pub fn launch_picker(config: PickerConfig) -> Option<PickedColor> {
         platform::windows::run_picker(config)
     }
 
-    #[cfg(not(target_os = "windows"))]
+    #[cfg(target_os = "macos")]
+    {
+        platform::macos::run_picker(config)
+    }
+
+    #[cfg(not(any(target_os = "windows", target_os = "macos")))]
     {
         eprintln!("Picker not implemented for this platform");
         None

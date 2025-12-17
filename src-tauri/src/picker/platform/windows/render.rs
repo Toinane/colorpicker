@@ -20,8 +20,8 @@
 //! 7. Composite to screen with UpdateLayeredWindow
 
 use crate::picker::color::Color;
-use super::geometry::CircleMask;
-use super::primitives::{self, *};
+use super::super::common::geometry::CircleMask;
+use super::super::common::primitives::{self, *};
 use super::window::WindowState;
 use windows::Win32::{
     Foundation::*,
@@ -197,7 +197,7 @@ unsafe fn draw_border_direct(
     picker_x: i32,
     picker_y: i32,
     mag_size: i32,
-    border_mask: &super::geometry::BorderMask,
+    border_mask: &super::super::common::geometry::BorderMask,
     pixel_grid: &[Color],
     grid_size: usize,
 ) {

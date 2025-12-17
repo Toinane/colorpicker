@@ -8,8 +8,6 @@
 //! - Frame skipping with hash-based change detection
 
 mod capture;
-mod geometry;
-mod primitives;
 mod render;
 mod window;
 
