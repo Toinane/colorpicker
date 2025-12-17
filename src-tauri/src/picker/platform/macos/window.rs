@@ -37,12 +37,12 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex};
 
 use cocoa::appkit::{
-    NSApp, NSApplication, NSBackingStoreType, NSWindow, NSWindowStyleMask,
+    NSApp, NSApplication, NSBackingStoreType, NSWindowStyleMask,
     NSApplicationActivationPolicy, NSEvent, NSEventMask, NSEventType,
 };
 use cocoa::base::{id, nil, YES, NO};
-use cocoa::foundation::{NSPoint, NSRect, NSSize, NSString, NSAutoreleasePool};
-use objc::runtime::{Object, Sel};
+use cocoa::foundation::{NSPoint, NSRect, NSSize, NSAutoreleasePool};
+use core_graphics::geometry::{CGPoint, CGRect, CGSize};
 use objc::{class, msg_send, sel, sel_impl};
 
 // Atomic flag to prevent excessive renders during fast mouse movement
@@ -183,7 +183,6 @@ pub fn create_and_run(config: PickerConfig) -> Option<PickedColor> {
         let _: () = msg_send![content_view, setWantsLayer: YES];
 
         // Hide cursor
-        NSEvent::setMouseCocoaEventsMask(nil, NSEventMask::NSMouseMovedMask);
         let _: () = msg_send![class!(NSCursor), hide];
 
         // Show window
@@ -463,8 +462,6 @@ unsafe fn move_cursor_relative(dx: i32, dy: i32, event: id) {
 }
 
 // Helper types for Cocoa
-use core_graphics::geometry::{CGPoint, CGRect, CGSize};
-
 struct NSColor;
 impl NSColor {
     unsafe fn clearColor(_: id) -> id {
