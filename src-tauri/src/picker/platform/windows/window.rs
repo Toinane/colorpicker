@@ -29,19 +29,21 @@
 //! - Global hooks capture input when window is transparent
 //! - Enables picking hover-state colors (e.g., close button red)
 
+use crate::picker::color::Color;
+use super::geometry::{BorderMask, CircleMask};
+use super::primitives::*;
+use super::super::super::{PickerConfig, PickedColor};
+use std::cell::Cell;
+use std::sync::{Arc, Mutex};
+use windows::core::w;
 use windows::Win32::{
     Foundation::*,
     Graphics::Gdi::*,
-    UI::WindowsAndMessaging::*,
+    System::LibraryLoader::*,
     UI::HiDpi::*,
     UI::Input::KeyboardAndMouse::*,
-    System::LibraryLoader::*,
+    UI::WindowsAndMessaging::*,
 };
-use windows::core::w;
-use std::sync::{Arc, Mutex};
-use std::cell::Cell;
-use super::PixelColor;
-use super::super::super::{PickerConfig, PickedColor};
 
 // Thread-locals for hooks to access window state
 thread_local! {
@@ -74,9 +76,14 @@ pub fn create_and_run(
         };
         RegisterClassExW(&wc);
 
-        // Create small layered window (just magnifier size, moves with cursor)
+        // Create small layered window with space for hex label below magnifier
         // This is MUCH faster than fullscreen window for UpdateLayeredWindow
         let mag_size = config.magnifier_size as i32;
+
+        // Calculate window dimensions to include hex label below magnifier
+        let hex_box_height = HEX_BOX_HEIGHT + HEX_PADDING * 2;
+        let window_width = mag_size;
+        let window_height = mag_size + HEX_MARGIN + hex_box_height;
 
         // Conditionally add WS_EX_TRANSPARENT to allow hover events to pass through
         let ex_style = if config.allow_hover_through {
@@ -91,8 +98,8 @@ pub fn create_and_run(
             w!("Color Picker"),
             WS_POPUP,
             0, 0,
-            mag_size,  // Small window, not fullscreen
-            mag_size,
+            window_width,
+            window_height,
             None, None, instance, None,
         ).map_err(|e| format!("Failed to create window: {:?}", e))?;
 
@@ -100,15 +107,15 @@ pub fn create_and_run(
         let _ = SetWindowDisplayAffinity(hwnd, WDA_EXCLUDEFROMCAPTURE);
 
         // Create offscreen DC and RGBA bitmap for UpdateLayeredWindow
-        // Only need magnifier size, not entire screen!
+        // Sized to include magnifier + hex label below
         let hdc_screen = GetDC(HWND::default());
         let hdc_offscreen = CreateCompatibleDC(hdc_screen);
 
-        // Create BITMAPV5HEADER for 32-bit RGBA (magnifier size only)
+        // Create BITMAPV5HEADER for 32-bit RGBA
         let bmi = BITMAPV5HEADER {
             bV5Size: std::mem::size_of::<BITMAPV5HEADER>() as u32,
-            bV5Width: mag_size,
-            bV5Height: -mag_size,  // Negative for top-down DIB
+            bV5Width: window_width,
+            bV5Height: -window_height,  // Negative for top-down DIB
             bV5Planes: 1,
             bV5BitCount: 32,
             bV5Compression: BI_RGB,
@@ -142,17 +149,43 @@ pub fn create_and_run(
         // Also hide system cursor for good measure
         while ShowCursor(false) >= 0 {}  // Keep calling until hidden
 
+        // Load custom font from embedded bytes
+        let font_data = include_bytes!("../../../../../src/assets/fonts/UbuntuSansMono-VariableFont.ttf");
+        let font_count = font_data.len() as u32;
+        let mut num_fonts: u32 = 0;
+        let _font_handle = AddFontMemResourceEx(
+            font_data.as_ptr() as *const std::ffi::c_void,
+            font_count,
+            None,
+            &mut num_fonts,
+        );
+
+        // Create larger font for hex label (18pt = ~24px at 96 DPI)
+        let hex_font = CreateFontW(
+            -24,  // Height in pixels (negative = character height, not cell height)
+            0,    // Width (0 = default based on height)
+            0,    // Escapement
+            0,    // Orientation
+            FW_BOLD.0 as i32,  // Weight (bold for better visibility with variable font)
+            0,    // Italic
+            0,    // Underline
+            0,    // StrikeOut
+            DEFAULT_CHARSET.0 as u32,
+            OUT_TT_PRECIS.0 as u32,
+            CLIP_DEFAULT_PRECIS.0 as u32,
+            CLEARTYPE_QUALITY.0 as u32,
+            (FIXED_PITCH.0 | FF_MODERN.0) as u32,
+            w!("Ubuntu Sans Mono"),
+        );
+
         // Calculate magnifier dimensions
         let mag_radius = mag_size / 2;
-        let border_width = (mag_size / 50).max(2);
+        let border_width = (mag_size / MAGNIFIER_BORDER_WIDTH_DIVISOR).max(2);
 
-        // Pre-compute circle mask for ultra-fast pixel-in-circle testing
+        // Pre-compute masks for ultra-fast rendering
         // This eliminates expensive distance calculations during rendering
-        let circle_mask = create_circle_mask(mag_radius);
-
-        // Pre-compute border mask for ultra-fast border rendering
-        // Allows drawing the border with simple array lookups instead of math
-        let border_mask = create_border_mask(mag_radius, border_width);
+        let circle_mask = CircleMask::new_circle(mag_radius);
+        let border_mask = BorderMask::new_circle(mag_radius, border_width);
 
         // Pre-allocate pixel grid to eliminate per-frame allocations
         let max_grid_size = config.grid_size * config.grid_size;
@@ -173,7 +206,10 @@ pub fn create_and_run(
             hdc_offscreen,
             bitmap_offscreen,
             bitmap_bits: bitmap_bits as *mut u8,
+            window_width,
+            window_height,
             mag_size,
+            hex_font,
             circle_mask,
             border_mask,
             mag_radius,
@@ -248,18 +284,25 @@ pub(super) struct WindowState {
     pub prev_window_pos: (i32, i32),
 
     // Pixel data and change detection
-    pub pixel_grid: Vec<PixelColor>,
+    pub pixel_grid: Vec<Color>,
     pub prev_grid_hash: u64,
 
     // Offscreen rendering resources for UpdateLayeredWindow
     pub hdc_offscreen: HDC,
     pub bitmap_offscreen: HBITMAP,
     pub bitmap_bits: *mut u8,
+
+    // Window dimensions
+    pub window_width: i32,
+    pub window_height: i32,
     pub mag_size: i32,
 
+    // Font for hex label
+    pub hex_font: HFONT,
+
     // Pre-computed masks for ultra-fast rendering (no per-pixel math)
-    pub circle_mask: Vec<bool>,
-    pub border_mask: Vec<bool>,
+    pub circle_mask: CircleMask,
+    pub border_mask: BorderMask,
     pub mag_radius: i32,
 
     // Invisible cursor for bulletproof cursor hiding
@@ -306,11 +349,7 @@ unsafe extern "system" fn wnd_proc(hwnd: HWND, msg: u32, wparam: WPARAM, lparam:
                 if !state.pixel_grid.is_empty() {
                     let center_idx = state.pixel_grid.len() / 2;
                     let color = state.pixel_grid[center_idx];
-                    *state.result.lock().unwrap() = Some(PickedColor {
-                        r: color.r,
-                        g: color.g,
-                        b: color.b,
-                    });
+                    *state.result.lock().unwrap() = Some(color);
                 }
             }
             // Close window immediately after picking
@@ -329,6 +368,10 @@ unsafe extern "system" fn wnd_proc(hwnd: HWND, msg: u32, wparam: WPARAM, lparam:
         }
 
         WM_KEYDOWN => {
+            // Check if Shift is pressed for faster movement
+            let shift_pressed = (GetKeyState(VK_SHIFT.0 as i32) as u16 & 0x8000) != 0;
+            let move_speed = if shift_pressed { CURSOR_MOVE_FAST } else { CURSOR_MOVE_NORMAL };
+
             match VIRTUAL_KEY(wparam.0 as u16) {
                 VK_ESCAPE => {
                     // Close window immediately
@@ -340,20 +383,16 @@ unsafe extern "system" fn wnd_proc(hwnd: HWND, msg: u32, wparam: WPARAM, lparam:
                         if !state.pixel_grid.is_empty() {
                             let center_idx = state.pixel_grid.len() / 2;
                             let color = state.pixel_grid[center_idx];
-                            *state.result.lock().unwrap() = Some(PickedColor {
-                                r: color.r,
-                                g: color.g,
-                                b: color.b,
-                            });
+                            *state.result.lock().unwrap() = Some(color);
                         }
                     }
                     // Close window immediately after picking
                     let _ = DestroyWindow(hwnd);
                 }
-                VK_LEFT => { move_cursor(-1, 0); }
-                VK_RIGHT => { move_cursor(1, 0); }
-                VK_UP => { move_cursor(0, -1); }
-                VK_DOWN => { move_cursor(0, 1); }
+                VK_LEFT => { move_cursor(-1, 0, move_speed); }
+                VK_RIGHT => { move_cursor(1, 0, move_speed); }
+                VK_UP => { move_cursor(0, -1, move_speed); }
+                VK_DOWN => { move_cursor(0, 1, move_speed); }
                 _ => {}
             }
             LRESULT(0)
@@ -380,6 +419,8 @@ unsafe extern "system" fn wnd_proc(hwnd: HWND, msg: u32, wparam: WPARAM, lparam:
             // Cleanup resources and state
             if !state_ptr.is_null() {
                 let state = &*state_ptr;
+                // Delete font
+                let _ = DeleteObject(state.hex_font);
                 // Delete cursor
                 let _ = DestroyCursor(state.invisible_cursor);
                 // Delete offscreen bitmap and DC
@@ -396,10 +437,10 @@ unsafe extern "system" fn wnd_proc(hwnd: HWND, msg: u32, wparam: WPARAM, lparam:
     }
 }
 
-unsafe fn move_cursor(dx: i32, dy: i32) {
+unsafe fn move_cursor(dx: i32, dy: i32, multiplier: i32) {
     let mut point = POINT { x: 0, y: 0 };
     let _ = GetCursorPos(&mut point);
-    let _ = SetCursorPos(point.x + dx, point.y + dy);
+    let _ = SetCursorPos(point.x + dx * multiplier, point.y + dy * multiplier);
 
     // Manually trigger render update (SetCursorPos doesn't fire mouse hook)
     // Only post if no render pending
@@ -488,52 +529,6 @@ struct KBDLLHOOKSTRUCT {
     flags: u32,
     time: u32,
     dwExtraInfo: usize,
-}
-
-/// Pre-compute circle mask for ultra-fast pixel-in-circle testing
-/// This eliminates per-pixel distance calculations during rendering
-fn create_circle_mask(radius: i32) -> Vec<bool> {
-    let size = radius * 2;
-    let mut mask = vec![false; (size * size) as usize];
-
-    let radius_sq = radius * radius;
-    for y in 0..size {
-        for x in 0..size {
-            let dx = x - radius;
-            let dy = y - radius;
-            let dist_sq = dx * dx + dy * dy;
-            if dist_sq <= radius_sq {
-                mask[(y * size + x) as usize] = true;
-            }
-        }
-    }
-
-    mask
-}
-
-/// Pre-compute border mask for ultra-fast border rendering
-/// This eliminates per-pixel distance calculations during border drawing
-fn create_border_mask(radius: i32, border_width: i32) -> Vec<bool> {
-    let size = radius * 2;
-    let mut mask = vec![false; (size * size) as usize];
-
-    let outer_radius_sq = radius * radius;
-    let inner_radius = radius - border_width;
-    let inner_radius_sq = inner_radius * inner_radius;
-
-    for y in 0..size {
-        for x in 0..size {
-            let dx = x - radius;
-            let dy = y - radius;
-            let dist_sq = dx * dx + dy * dy;
-            // Pixel is in border if it's between inner and outer radius
-            if dist_sq <= outer_radius_sq && dist_sq >= inner_radius_sq {
-                mask[(y * size + x) as usize] = true;
-            }
-        }
-    }
-
-    mask
 }
 
 /// Create a 1x1 fully transparent cursor for bulletproof cursor hiding

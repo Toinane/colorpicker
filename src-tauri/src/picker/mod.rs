@@ -8,8 +8,9 @@
 //!
 //! # Architecture
 //!
-//! The picker is organized into platform-specific modules:
-//! - `platform::windows` - Windows implementation (window, capture, render)
+//! The picker is organized into focused modules:
+//! - `color` - Unified color type and utilities
+//! - `platform::windows` - Windows implementation (window, capture, render, geometry, primitives)
 //!
 //! # Performance Characteristics
 //!
@@ -18,15 +19,10 @@
 //! - **Memory**: Pre-allocated buffers, zero per-frame allocations
 //! - **Rendering**: Direct bitmap manipulation, bypasses GDI overhead
 
+pub mod color;
 pub mod platform;
 
-/// RGB color returned by the picker
-#[derive(Clone, Copy, Debug, serde::Serialize)]
-pub struct PickedColor {
-    pub r: u8,
-    pub g: u8,
-    pub b: u8,
-}
+pub use color::Color as PickedColor;
 
 /// Configuration for the color picker
 #[derive(Clone, Debug)]

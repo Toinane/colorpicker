@@ -3,11 +3,11 @@
 //! Captures a small grid of pixels around the cursor position.
 //! Uses BitBlt for hardware-accelerated screen capture.
 
+use crate::picker::color::Color;
 use windows::Win32::{
     Foundation::*,
     Graphics::Gdi::*,
 };
-use super::PixelColor;
 
 /// Capture a grid of pixels centered at the cursor position
 ///
@@ -22,8 +22,8 @@ use super::PixelColor;
 /// * `grid_size` - Width/height of grid to capture (typically 9)
 ///
 /// # Returns
-/// A flat vector of PixelColor in row-major order (left-to-right, top-to-bottom)
-pub fn capture_grid_at_cursor(cursor_x: i32, cursor_y: i32, grid_size: usize) -> Vec<PixelColor> {
+/// A flat vector of Color in row-major order (left-to-right, top-to-bottom)
+pub fn capture_grid_at_cursor(cursor_x: i32, cursor_y: i32, grid_size: usize) -> Vec<Color> {
     unsafe {
         // Find monitor containing cursor (critical for multi-monitor DPI)
         let point = POINT { x: cursor_x, y: cursor_y };
@@ -89,11 +89,11 @@ pub fn capture_grid_at_cursor(cursor_x: i32, cursor_y: i32, grid_size: usize) ->
 
         // Convert Windows BGRA format to RGB
         for chunk in buffer.chunks(4) {
-            pixels.push(PixelColor {
-                r: chunk[2],  // Windows stores as BGRA
-                g: chunk[1],
-                b: chunk[0],
-            });
+            pixels.push(Color::new(
+                chunk[2],  // R - Windows stores as BGRA
+                chunk[1],  // G
+                chunk[0],  // B
+            ));
         }
 
         // Cleanup GDI resources

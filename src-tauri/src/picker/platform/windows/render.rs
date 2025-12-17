@@ -1,11 +1,36 @@
+//! High-performance rendering engine for the color picker
+//!
+//! This module orchestrates all rendering operations for the picker magnifier.
+//! It achieves <1ms frame times (144fps+) through:
+//!
+//! - **Direct bitmap manipulation** - Bypasses GDI for pixel-level control
+//! - **Hash-based frame skipping** - Eliminates redundant renders
+//! - **Pre-computed masks** - Circle and border lookups are O(1)
+//! - **Modular primitives** - Shared drawing code in `primitives` module
+//!
+//! # Architecture
+//!
+//! The rendering pipeline:
+//! 1. Check if anything changed (position or pixels) - skip if not
+//! 2. Move window to follow cursor (async, hardware-accelerated)
+//! 3. Clear bitmap buffer
+//! 4. Draw magnified pixel grid with adaptive borders
+//! 5. Draw circular border
+//! 6. Draw hex label with colored background
+//! 7. Composite to screen with UpdateLayeredWindow
+
+use crate::picker::color::Color;
+use super::geometry::CircleMask;
+use super::primitives::{self, *};
+use super::window::WindowState;
 use windows::Win32::{
     Foundation::*,
     Graphics::Gdi::*,
     UI::WindowsAndMessaging::*,
 };
-use super::window::WindowState;
 
-/// Ultra-optimized rendering with small moving window
+/// Main rendering entry point - orchestrates the complete render pipeline
+///
 /// Target: <1ms frame time for true 144fps+
 pub unsafe fn paint(hwnd: HWND, state: &mut WindowState) {
     let (cursor_x, cursor_y) = state.cursor_pos;
@@ -18,7 +43,7 @@ pub unsafe fn paint(hwnd: HWND, state: &mut WindowState) {
     let current_hash = fast_hash_pixel_grid(&state.pixel_grid);
     let grid_changed = current_hash != state.prev_grid_hash;
 
-    // Calculate window position (magnifier centered on cursor)
+    // Calculate window position (magnifier centered on cursor, hex label below)
     let window_x = cursor_x - mag_radius;
     let window_y = cursor_y - mag_radius;
     let window_moved = (window_x, window_y) != state.prev_window_pos;
@@ -44,35 +69,40 @@ pub unsafe fn paint(hwnd: HWND, state: &mut WindowState) {
     // Update hash for next frame
     state.prev_grid_hash = current_hash;
 
-    // Smart clear: Only clear border pixels that aren't inside the content circle
-    // Interior will be overwritten anyway
-    clear_bitmap_smart(state.bitmap_bits, state.mag_size, &state.circle_mask);
+    // Clear entire window area (magnifier + hex label space)
+    primitives::clear_bitmap(state.bitmap_bits, state.window_width, state.window_height);
 
-    // Render picker at (0, 0) in window coordinates
+    // Magnifier always at top of window, hex label at bottom
+    let magnifier_y = 0;
+
+    // Render picker
     render_picker_direct(
         state.bitmap_bits,
-        state.mag_size,
+        state.window_width,
+        state.window_height,
         0,  // picker_x in window coords
-        0,  // picker_y in window coords
+        magnifier_y,  // picker_y varies based on label position
         state.mag_size,
         &state.pixel_grid,
         state.config.grid_size,
         &state.circle_mask,
     );
 
-    // Draw border directly to bitmap (no GDI = no artifacts)
+    // Draw border directly to bitmap with adaptive colors (no GDI = no artifacts)
     draw_border_direct(
         state.bitmap_bits,
-        state.mag_size,
+        state.window_width,
         0,  // picker_x in window coords
-        0,  // picker_y in window coords
-        mag_radius,
+        magnifier_y,  // border_y same as picker_y
+        state.mag_size,
         &state.border_mask,
+        &state.pixel_grid,
+        state.config.grid_size,
     );
 
-    // Draw hex label using GDI (text rendering is complex, keep GDI for now)
+    // Draw hex label at bottom of magnifier
     if state.config.show_hex && !state.pixel_grid.is_empty() {
-        draw_hex_label(state, 0, 0, state.mag_size);
+        draw_hex_label_with_background(state);
     }
 
     // Update the layered window (SMALL window = FAST update)
@@ -85,12 +115,13 @@ pub unsafe fn paint(hwnd: HWND, state: &mut WindowState) {
 unsafe fn render_picker_direct(
     bitmap_bits: *mut u8,
     stride_pixels: i32,  // Width of bitmap in pixels
+    bitmap_height: i32,  // Height of bitmap in pixels
     picker_x: i32,
     picker_y: i32,
     mag_size: i32,
-    pixel_grid: &[super::PixelColor],
+    pixel_grid: &[Color],
     grid_size: usize,
-    circle_mask: &[bool],
+    circle_mask: &CircleMask,
 ) {
     if pixel_grid.is_empty() {
         return;
@@ -106,8 +137,12 @@ unsafe fn render_picker_direct(
 
     let center_idx = pixel_grid.len() / 2;
 
+    // Calculate adaptive border color for center pixel based on luminance
+    let center_pixel = pixel_grid[center_idx];
+    let center_border_color = center_pixel.adaptive_foreground_bgra();
+
     // Render each grid cell by writing directly to bitmap
-    for (idx, pixel) in pixel_grid.iter().enumerate() {
+    for (idx, &pixel) in pixel_grid.iter().enumerate() {
         let row = idx / grid_size;
         let col = idx % grid_size;
         let is_center = idx == center_idx;
@@ -116,12 +151,12 @@ unsafe fn render_picker_direct(
         let cell_y = picker_y + grid_offset + (row as i32 * cell_size);
 
         // Prepare BGRA color value
-        let bgra = (255u32 << 24) | ((pixel.r as u32) << 16) | ((pixel.g as u32) << 8) | (pixel.b as u32);
+        let bgra = pixel.to_bgra();
 
         // Draw cell pixels directly
         for dy in 0..cell_size {
             let y = cell_y + dy;
-            if y < 0 || y >= stride_pixels {
+            if y < 0 || y >= bitmap_height {
                 continue;
             }
 
@@ -134,46 +169,48 @@ unsafe fn render_picker_direct(
                 // Check if pixel is inside circle using pre-computed mask
                 let rel_x = x - picker_x;
                 let rel_y = y - picker_y;
-                if rel_x >= 0 && rel_x < mag_size && rel_y >= 0 && rel_y < mag_size {
-                    let mask_idx = (rel_y * mag_size + rel_x) as usize;
-                    if mask_idx < circle_mask.len() && circle_mask[mask_idx] {
-                        // Draw border for center pixel
-                        let is_border = is_center && (dx < 3 || dx >= cell_size - 3 || dy < 3 || dy >= cell_size - 3);
+                
+                if circle_mask.contains(rel_x, rel_y) {
+                    // Draw border for center pixel with adaptive color
+                    let is_border = is_center 
+                        && (dx < CENTER_CELL_BORDER 
+                            || dx >= cell_size - CENTER_CELL_BORDER 
+                            || dy < CENTER_CELL_BORDER 
+                            || dy >= cell_size - CENTER_CELL_BORDER);
 
-                        let color = if is_border {
-                            0xFFFFFFFF // White border for center pixel
-                        } else {
-                            bgra
-                        };
+                    let color = if is_border { center_border_color } else { bgra };
 
-                        let offset = (y * stride + x * bytes_per_pixel) as isize;
-                        std::ptr::write_unaligned(bitmap_bits.offset(offset) as *mut u32, color);
-                    }
+                    let offset = (y * stride + x * bytes_per_pixel) as isize;
+                    std::ptr::write_unaligned(bitmap_bits.offset(offset) as *mut u32, color);
                 }
             }
         }
     }
 }
 
-/// Draw circle border directly to bitmap buffer using pre-computed mask
-/// This eliminates GDI artifacts, distance calculations, and is blazing fast
+/// Draw circle border directly to bitmap buffer with adaptive colors based on adjacent pixels
+/// Border color adapts to the pixel grid cell it's next to (black on light, white on dark)
 #[inline]
 unsafe fn draw_border_direct(
     bitmap_bits: *mut u8,
     stride_pixels: i32,
     picker_x: i32,
     picker_y: i32,
-    radius: i32,
-    border_mask: &[bool],
+    mag_size: i32,
+    border_mask: &super::geometry::BorderMask,
+    pixel_grid: &[Color],
+    grid_size: usize,
 ) {
     let bytes_per_pixel = 4;
     let stride = stride_pixels * bytes_per_pixel;
-    let diameter = radius * 2;
+    let diameter = mag_size;
 
-    // White color for border
-    let white = 0xFFFFFFFF_u32;
+    // Calculate grid layout parameters (same as in render_picker_direct)
+    let cell_size = mag_size / grid_size as i32;
+    let actual_grid_size = cell_size * grid_size as i32;
+    let grid_offset = (mag_size - actual_grid_size) / 2;
 
-    // Draw border using pre-computed mask - zero distance calculations
+    // Draw border using pre-computed mask with adaptive colors
     for dy in 0..diameter {
         let y = picker_y + dy;
         if y < 0 || y >= stride_pixels {
@@ -187,51 +224,108 @@ unsafe fn draw_border_direct(
             }
 
             // Use pre-computed mask for instant border testing
-            let mask_idx = (dy * diameter + dx) as usize;
-            if mask_idx < border_mask.len() && border_mask[mask_idx] {
-                let offset = (y * stride + x * bytes_per_pixel) as isize;
-                std::ptr::write_unaligned(bitmap_bits.offset(offset) as *mut u32, white);
+            if border_mask.contains(dx, dy) {
+                // Determine which grid cell this border pixel is adjacent to
+                // by looking slightly inward from the border pixel
+                let center_x = mag_size / 2;
+                let center_y = mag_size / 2;
+
+                // Calculate direction from center to border pixel
+                let to_border_x = dx - center_x;
+                let to_border_y = dy - center_y;
+
+                // Move slightly inward (90% towards center) to find adjacent grid cell
+                let inward_x = dx - (to_border_x / 10);
+                let inward_y = dy - (to_border_y / 10);
+
+                // Calculate which grid cell this inward point falls into
+                let grid_x = inward_x - grid_offset;
+                let grid_y = inward_y - grid_offset;
+
+                if grid_x >= 0 && grid_y >= 0 {
+                    let col = (grid_x / cell_size).min(grid_size as i32 - 1);
+                    let row = (grid_y / cell_size).min(grid_size as i32 - 1);
+
+                    if col >= 0 && row >= 0 && (row as usize) < grid_size && (col as usize) < grid_size {
+                        let grid_idx = row as usize * grid_size + col as usize;
+
+                        if grid_idx < pixel_grid.len() {
+                            // Get the adjacent pixel color and determine border color
+                            let adjacent_pixel = pixel_grid[grid_idx];
+                            let border_color = adjacent_pixel.adaptive_foreground_bgra();
+
+                            let offset = (y * stride + x * bytes_per_pixel) as isize;
+                            std::ptr::write_unaligned(bitmap_bits.offset(offset) as *mut u32, border_color);
+                        }
+                    }
+                }
             }
         }
     }
 }
 
-/// Draw hex label
+/// Draw hex label with colored background at bottom of magnifier
+/// Background color is the center pixel color, text color adapts based on luminance
 #[inline]
-unsafe fn draw_hex_label(
-    state: &WindowState,
-    picker_x: i32,
-    picker_y: i32,
-    mag_size: i32,
-) {
+unsafe fn draw_hex_label_with_background(state: &WindowState) {
     let center_color = state.pixel_grid[state.pixel_grid.len() / 2];
-    let hex_text = format!("#{:02X}{:02X}{:02X}\0", center_color.r, center_color.g, center_color.b);
+    let hex_text = center_color.to_hex() + "\0";
 
-    let hdc = state.hdc_offscreen;
-    SetBkMode(hdc, TRANSPARENT);
-    SetTextColor(hdc, COLORREF(0x00FFFFFF));
+    // Measure text width to calculate proper box size
+    SelectObject(state.hdc_offscreen, state.hex_font);
+    let wide_text: Vec<u16> = hex_text.encode_utf16().collect();
+    let mut text_size = SIZE { cx: 0, cy: 0 };
+    let _ = GetTextExtentPoint32W(state.hdc_offscreen, &wide_text, &mut text_size);
 
-    // Position hex text at bottom of circle
-    let text_margin = mag_size / 5;
-    let text_height = mag_size / 10;
-    let mut text_rect = RECT {
-        left: picker_x + text_margin,
-        top: picker_y + mag_size - text_margin - text_height / 2,
-        right: picker_x + mag_size - text_margin,
-        bottom: picker_y + mag_size - text_margin + text_height / 2,
-    };
+    // Calculate box dimensions with padding and extra width
+    let label_width = text_size.cx + HEX_PADDING * 2 + HEX_EXTRA_WIDTH;
+    let label_height = HEX_BOX_HEIGHT + HEX_PADDING * 2;
 
-    let mut wide_text: Vec<u16> = hex_text.encode_utf16().collect();
-    DrawTextW(
-        hdc,
-        &mut wide_text,
-        &mut text_rect,
-        DT_CENTER | DT_VCENTER | DT_SINGLELINE,
+    // Center the box horizontally
+    let label_x = (state.window_width - label_width) / 2;
+
+    // Position vertically at bottom (below magnifier)
+    let label_y = state.mag_size + HEX_MARGIN;
+
+    // Draw rounded rectangle background with adaptive border
+    let border_color = center_color.adaptive_foreground();
+    primitives::draw_rounded_rect(
+        state.bitmap_bits,
+        state.window_width,
+        label_x,
+        label_y,
+        label_width,
+        label_height,
+        HEX_BORDER_WIDTH,
+        border_color,
+        center_color,
+        HEX_CORNER_RADIUS,
+    );
+
+    // Calculate adaptive text color for readability
+    let text_color = center_color.adaptive_foreground();
+
+    // Draw text with proper alpha compositing
+    primitives::draw_text(
+        state.bitmap_bits,
+        state.window_width,
+        label_x,
+        label_y,
+        label_width,
+        label_height,
+        &hex_text,
+        text_color,
+        center_color,
+        state.hdc_offscreen,
+        state.hex_font,
+        HEX_TEXT_OFFSET_X,
     );
 }
 
+
+
 /// Update layered window with the rendered bitmap
-/// CRITICAL: Small window = 10-40x faster than fullscreen!
+/// CRITICAL: Small window = much faster than fullscreen!
 #[inline]
 unsafe fn update_window(hwnd: HWND, state: &WindowState) {
     let blend = BLENDFUNCTION {
@@ -241,10 +335,10 @@ unsafe fn update_window(hwnd: HWND, state: &WindowState) {
         AlphaFormat: AC_SRC_ALPHA as u8,
     };
 
-    // SMALL window size (magnifier only, not entire screen!)
+    // Window size includes magnifier + hex label
     let size = SIZE {
-        cx: state.mag_size,
-        cy: state.mag_size,
+        cx: state.window_width,
+        cy: state.window_height,
     };
     let point_src = POINT { x: 0, y: 0 };
 
@@ -263,37 +357,8 @@ unsafe fn update_window(hwnd: HWND, state: &WindowState) {
 
 /// Fast hash of pixel grid using FNV-1a (optimized for speed, not cryptographic security)
 #[inline]
-fn fast_hash_pixel_grid(grid: &[super::PixelColor]) -> u64 {
-    const FNV_OFFSET: u64 = 14695981039346656037;
-    const FNV_PRIME: u64 = 1099511628211;
-
-    let mut hash = FNV_OFFSET;
-    for pixel in grid {
-        hash ^= pixel.r as u64;
-        hash = hash.wrapping_mul(FNV_PRIME);
-        hash ^= pixel.g as u64;
-        hash = hash.wrapping_mul(FNV_PRIME);
-        hash ^= pixel.b as u64;
-        hash = hash.wrapping_mul(FNV_PRIME);
-    }
-    hash
+fn fast_hash_pixel_grid(grid: &[Color]) -> u64 {
+    primitives::fast_hash(grid)
 }
 
-/// Smart bitmap clear: Only clear pixels outside the circle
-/// Interior pixels will be overwritten anyway, no need to clear them
-#[inline]
-unsafe fn clear_bitmap_smart(bitmap_bits: *mut u8, size: i32, circle_mask: &[bool]) {
-    let bytes_per_pixel = 4;
-    let stride = size * bytes_per_pixel;
 
-    for y in 0..size {
-        for x in 0..size {
-            let mask_idx = (y * size + x) as usize;
-            // Only clear pixels OUTSIDE the circle
-            if mask_idx < circle_mask.len() && !circle_mask[mask_idx] {
-                let offset = (y * stride + x * bytes_per_pixel) as isize;
-                std::ptr::write_unaligned(bitmap_bits.offset(offset) as *mut u32, 0);
-            }
-        }
-    }
-}

@@ -7,20 +7,14 @@
 //! - Pre-computed masks and pre-allocated buffers
 //! - Frame skipping with hash-based change detection
 
-mod window;
 mod capture;
+mod geometry;
+mod primitives;
 mod render;
+mod window;
 
 use super::super::{PickerConfig, PickedColor};
 use std::sync::{Arc, Mutex};
-
-/// Represents an RGB pixel color captured from the screen
-#[derive(Clone, Copy, Debug)]
-pub struct PixelColor {
-    pub r: u8,
-    pub g: u8,
-    pub b: u8,
-}
 
 /// Launch the native Windows color picker
 ///
@@ -32,7 +26,7 @@ pub fn run_picker(config: PickerConfig) -> Option<PickedColor> {
     let result_clone = Arc::clone(&result);
 
     match window::create_and_run(config, result_clone) {
-        Ok(_) => result.lock().unwrap().clone(),
+        Ok(_) => *result.lock().unwrap(),
         Err(e) => {
             eprintln!("Picker error: {}", e);
             None
