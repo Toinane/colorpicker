@@ -12,6 +12,7 @@ use core_graphics::display::{
 use core_graphics::image::CGImage;
 use cocoa::appkit::NSScreen;
 use cocoa::base::{id, nil};
+use objc::{msg_send, sel, sel_impl};
 use std::slice;
 
 /// Capture state for the screen capture system

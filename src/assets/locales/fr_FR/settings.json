@@ -5,5 +5,19 @@
     "palette": "Palette",
     "shortcuts": "Raccourcis",
     "format": "Format"
+  },
+  "general": {
+    "colorpicker": {
+      "title": "Colorpicker",
+      "openAtLogin": {
+        "label": "Ouvrir Colorpicker à la connexion",
+        "description": "Ouvre Colorpicker automatiquement au démarrage de votre session"
+      }
+    },
+    "about": {
+      "author": {
+        "description": "Avec ❤️"
+      }
+    }
   }
 }

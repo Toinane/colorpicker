@@ -1,4 +1,4 @@
-import { FunctionComponent, JSX, useEffect, useState } from 'react'
+import { FunctionComponent, JSX, useEffect, useState, useRef } from 'react'
 import { getCurrentWindow } from '@tauri-apps/api/window'
 
 import style from './windowControls.module.css'
@@ -6,18 +6,31 @@ import style from './windowControls.module.css'
 const WindowControls: FunctionComponent = (): JSX.Element => {
   const currentWindow = getCurrentWindow()
   const [isMaximized, setIsMaximized] = useState(false)
+  const resizeTimeoutRef = useRef<number | null>(null)
 
   useEffect(() => {
     // Check initial maximize state
     currentWindow.isMaximized().then(setIsMaximized)
 
-    // Listen for resize events to track maximize state
-    const unlisten = currentWindow.onResized(async () => {
-      const maximized = await currentWindow.isMaximized()
-      setIsMaximized(maximized)
+    // Listen for resize events with debouncing to prevent lag on macOS
+    const unlisten = currentWindow.onResized(() => {
+      // Clear previous timeout
+      if (resizeTimeoutRef.current !== null) {
+        clearTimeout(resizeTimeoutRef.current)
+      }
+
+      // Debounce: only check maximized state after resize stops for 50ms
+      resizeTimeoutRef.current = window.setTimeout(async () => {
+        const maximized = await currentWindow.isMaximized()
+        setIsMaximized(maximized)
+        resizeTimeoutRef.current = null
+      }, 50)
     })
 
     return () => {
+      if (resizeTimeoutRef.current !== null) {
+        clearTimeout(resizeTimeoutRef.current)
+      }
       unlisten.then((fn) => fn())
     }
   }, [currentWindow])

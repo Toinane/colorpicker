@@ -93,10 +93,11 @@ pub fn create_and_run(config: PickerConfig) -> Result<Option<PickedColor>, Strin
 
         // Set layer drawable size
         let scale = NSScreen::mainScreen(nil).backingScaleFactor();
-        layer.set_drawable_size(CGSize::new(
-            magnifier_size * scale,
-            total_height * scale,
-        ));
+        layer.set_drawable_size(metal::MTLSize {
+            width: (magnifier_size * scale) as u64,
+            height: (total_height * scale) as u64,
+            depth: 1,
+        });
 
         // Create NSView and attach Metal layer
         let view = NSView::alloc(nil).initWithFrame_(window_frame);
