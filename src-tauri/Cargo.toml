@@ -13,6 +13,7 @@ tauri = { version = "2.2", features = [] }
 tauri-utils = "2.0"
 tauri-plugin-log = "2.0"
 tauri-plugin-single-instance = "2.0.0"
+tauri-plugin-store = "2.0"
 log = "0.4"
 chrono = "0.4"
 serde = { version = "1", features = ["derive"] }

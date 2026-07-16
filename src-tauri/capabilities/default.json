@@ -19,6 +19,7 @@
     "log:default",
     "core:window:allow-close",
     "core:window:allow-toggle-maximize",
-    "core:window:allow-minimize"
+    "core:window:allow-minimize",
+    "store:default"
   ]
 }

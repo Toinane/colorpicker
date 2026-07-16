@@ -42,18 +42,40 @@
     }
   },
   "magnifier": {
-    "title": "Magnifier",
-    "gridSize": {
-      "label": "Pixel Grid Size",
-      "description": "Set the size of the pixel grid displayed in the magnifier"
+    "display": {
+      "title": "Display",
+      "gridSize": {
+        "label": "Pixel Grid Size",
+        "description": "Set the size of the pixel grid displayed in the magnifier"
+      },
+      "magnifierSize": {
+        "label": "Magnifier Size",
+        "description": "Set the diameter of the circular magnifier window",
+        "options": {
+          "small": "Small",
+          "normal": "Normal",
+          "high": "High"
+        }
+      },
+      "showHex": {
+        "label": "Show Hex Code",
+        "description": "Display the hex color code in the magnifier"
+      }
     },
-    "showHex": {
-      "label": "Show Hex Code",
-      "description": "Display the hex color code in the magnifier"
-    },
-    "hideMain": {
-      "label": "Hide Main Window",
-      "description": "Automatically hide the main Colorpicker window when using the magnifier"
+    "behavior": {
+      "title": "Behavior",
+      "hideMain": {
+        "label": "Hide Main Window",
+        "description": "Automatically hide the main Colorpicker window when using the magnifier"
+      },
+      "detectBackgroundChanges": {
+        "label": "Detect Background Changes",
+        "description": "Poll for color changes while the cursor is stationary, useful for picking colors from video or animations"
+      },
+      "allowHoverThrough": {
+        "label": "Allow Hover Through",
+        "description": "Let mouse events pass through the magnifier so you can pick hover-state colors from underlying windows"
+      }
     }
   }
 }

@@ -19,5 +19,28 @@
         "description": "Avec ❤️"
       }
     }
+  },
+  "magnifier": {
+    "display": {
+      "magnifierSize": {
+        "label": "Taille de la loupe",
+        "description": "Définit le diamètre de la fenêtre circulaire de la loupe",
+        "options": {
+          "small": "Petite",
+          "normal": "Normale",
+          "high": "Grande"
+        }
+      }
+    },
+    "behavior": {
+      "detectBackgroundChanges": {
+        "label": "Détecter les changements d'arrière-plan",
+        "description": "Vérifie les changements de couleur lorsque le curseur est immobile, utile pour capturer des couleurs depuis une vidéo ou une animation"
+      },
+      "allowHoverThrough": {
+        "label": "Autoriser le survol au travers",
+        "description": "Laisse les événements de la souris traverser la loupe pour capturer les couleurs des états de survol des fenêtres sous-jacentes"
+      }
+    }
   }
 }

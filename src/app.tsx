@@ -10,6 +10,7 @@ import i18n from './i18n'
 
 import Colorpicker from '@windows/colorpicker/colorpicker'
 import Settings from '@windows/settings/settings'
+import SettingsProvider from '@components/SettingsProvider'
 
 import './style.global.css'
 
@@ -52,9 +53,11 @@ const AppRouter = () => {
 
 const App = () => (
   <I18nextProvider i18n={i18n}>
-    <Router hook={useHashLocation}>
-      <AppRouter />
-    </Router>
+    <SettingsProvider>
+      <Router hook={useHashLocation}>
+        <AppRouter />
+      </Router>
+    </SettingsProvider>
   </I18nextProvider>
 )
 

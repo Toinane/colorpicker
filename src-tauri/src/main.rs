@@ -63,6 +63,7 @@ fn main() {
             println!("{}, {argv:?}, {cwd}", app.package_info().name);
         }))
         .plugin(logger::create_logger().build())
+        .plugin(tauri_plugin_store::Builder::default().build())
         .setup(|app| {
             log::info!("ColorPicker v{} starting", env!("CARGO_PKG_VERSION"));
 

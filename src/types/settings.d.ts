@@ -17,6 +17,7 @@ export interface ISettingsSchema extends IWindowSchema {
 export type ThemeOption = 'light' | 'dark' | 'system'
 export type ColorFormat = 'hex' | 'rgb' | 'hsl' | 'hsv'
 export type EyedropperGridSizeOption = 5 | 11 | 21
+export type EyedropperMagnifierSizeOption = 220 | 300 | 380
 
 export interface IAppSettings {
   // General Settings
@@ -40,4 +41,7 @@ export interface IAppSettings {
   eyedropperGridSize: EyedropperGridSizeOption
   eyedropperShowHex: boolean
   eyedropperHideMain: boolean
+  eyedropperMagnifierSize: EyedropperMagnifierSizeOption
+  eyedropperDetectBackgroundChanges: boolean
+  eyedropperAllowHoverThrough: boolean
 }

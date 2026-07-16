@@ -51,6 +51,7 @@ lerna-debug.log*
 !.vscode/extensions.json
 .idea
 .claude
+claude.md
 .DS_Store
 *.suo
 *.ntvs*

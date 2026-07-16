@@ -30,7 +30,14 @@ const AppIcons: FunctionComponent = (): JSX.Element => {
   const theme = useTheme()
   const iconColors = THEME_COLORS[theme]
   const { setColor } = useColorStore()
-  const { eyedropperHideMain } = useSettingsStore()
+  const {
+    eyedropperHideMain,
+    eyedropperGridSize,
+    eyedropperShowHex,
+    eyedropperMagnifierSize,
+    eyedropperDetectBackgroundChanges,
+    eyedropperAllowHoverThrough,
+  } = useSettingsStore()
 
   const handlePickerClick = async () => {
     const currentWindow = getCurrentWindow()
@@ -42,7 +49,13 @@ const AppIcons: FunctionComponent = (): JSX.Element => {
       }
 
       // Launch native picker (blocks until color selected)
-      const result = await invoke<{ r: number; g: number; b: number } | null>('pick_color')
+      const result = await invoke<{ r: number; g: number; b: number } | null>('pick_color', {
+        gridSize: eyedropperGridSize,
+        showHex: eyedropperShowHex,
+        magnifierSize: eyedropperMagnifierSize,
+        detectBackgroundChanges: eyedropperDetectBackgroundChanges,
+        allowHoverThrough: eyedropperAllowHoverThrough,
+      })
 
       // Show main window again
       if (eyedropperHideMain) {
