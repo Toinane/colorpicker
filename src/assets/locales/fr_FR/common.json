@@ -1,4 +1,19 @@
 {
+  "action": {
+    "yes": "Oui",
+    "no": "Non",
+    "ok": "Ok",
+    "copy": "Copier",
+    "copied": "Copié 🗸",
+    "cut": "Couper",
+    "paste": "Coller",
+    "reset": "Réinitialiser",
+    "save": "Enregistrer",
+    "cancel": "Annuler"
+  },
+  "terms": {
+    "website": "Site web"
+  },
   "tray": {
     "open": "Ouvrir Colorpicker",
     "settings": "Paramètres",

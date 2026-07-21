@@ -1,5 +1,7 @@
-import { memo, type ReactNode } from 'react'
+import { memo, useEffect, type ReactNode } from 'react'
+import i18n from '../i18n'
 import { useInitializeSettings } from '@hooks/index'
+import { useLanguage } from '@stores/settingsStore'
 
 interface SettingsProviderProps {
   children: ReactNode
@@ -12,6 +14,13 @@ interface SettingsProviderProps {
  */
 const SettingsProvider = ({ children, fallback }: SettingsProviderProps) => {
   const { isInitialized, isLoading, error } = useInitializeSettings()
+  const language = useLanguage()
+
+  useEffect(() => {
+    if (isInitialized && i18n.language !== language) {
+      i18n.changeLanguage(language)
+    }
+  }, [isInitialized, language])
 
   if (isLoading || !isInitialized) {
     return <>{fallback || null}</>

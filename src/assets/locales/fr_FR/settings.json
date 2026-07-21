@@ -13,19 +13,52 @@
         "label": "Ouvrir Colorpicker à la connexion",
         "description": "Ouvre Colorpicker automatiquement au démarrage de votre session"
       },
+      "keepOnTop": {
+        "label": "Garder Colorpicker au premier plan",
+        "description": "Affiche toujours Colorpicker au-dessus des autres fenêtres"
+      },
       "closeToTray": {
         "label": "Fermer dans la barre système",
         "description": "Garde Colorpicker actif dans la barre système au lieu de quitter à la fermeture de la fenêtre"
       }
     },
+    "language": {
+      "title": "Langue",
+      "language": {
+        "label": "Langue",
+        "description": "Choisissez la langue d'affichage de Colorpicker"
+      }
+    },
+    "advanced": {
+      "title": "Avancé",
+      "accordion": {
+        "label": "Paramètres avancés",
+        "description": "Afficher ou masquer les paramètres avancés"
+      },
+      "resetSettings": {
+        "label": "Réinitialiser les paramètres par défaut",
+        "description": "Restaure tous les paramètres à leurs valeurs d'origine"
+      }
+    },
     "about": {
+      "title": "À propos",
+      "versions": {
+        "label": "Version",
+        "description": "Spécifications de la version actuelle de Colorpicker"
+      },
       "author": {
+        "label": "Développé par Toinane",
         "description": "Avec ❤️"
       }
     }
   },
   "magnifier": {
     "display": {
+      "title": "Affichage",
+      "gridSize": {
+        "label": "Taille de la grille de pixels",
+        "description": "Définit la taille de la grille de pixels affichée dans la loupe"
+      },
       "magnifierSize": {
         "label": "Taille de la loupe",
         "description": "Définit le diamètre de la fenêtre circulaire de la loupe",
@@ -34,9 +67,18 @@
           "normal": "Normale",
           "high": "Grande"
         }
+      },
+      "showHex": {
+        "label": "Afficher le code hexadécimal",
+        "description": "Affiche le code couleur hexadécimal dans la loupe"
       }
     },
     "behavior": {
+      "title": "Comportement",
+      "hideMain": {
+        "label": "Masquer la fenêtre principale",
+        "description": "Masque automatiquement la fenêtre principale de Colorpicker lors de l'utilisation de la loupe"
+      },
       "detectBackgroundChanges": {
         "label": "Détecter les changements d'arrière-plan",
         "description": "Vérifie les changements de couleur lorsque le curseur est immobile, utile pour capturer des couleurs depuis une vidéo ou une animation"

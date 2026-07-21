@@ -22,6 +22,13 @@
         "description": "Keep Colorpicker running in the system tray instead of quitting when the window is closed"
       }
     },
+    "language": {
+      "title": "Language",
+      "language": {
+        "label": "Language",
+        "description": "Choose the display language for Colorpicker"
+      }
+    },
     "advanced": {
       "title": "Advanced",
       "accordion": {

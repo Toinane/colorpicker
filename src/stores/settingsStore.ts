@@ -5,6 +5,7 @@ import { emit, listen } from '@tauri-apps/api/event'
 
 import type { IAppSettings } from '@interfaces/settings'
 import { createScopedLogger } from '@common/logger'
+import { resolveSupportedLanguage } from '@common/languages'
 
 export interface SettingsStore extends IAppSettings {
   // Loading state
@@ -41,6 +42,11 @@ export const DEFAULT_SETTINGS: IAppSettings = {
   eyedropperAllowHoverThrough: false,
   pickerHotkey: 'CommandOrControl+Shift+C',
 }
+
+// Passed to the Tauri store's `defaults` so that everything except `language`
+// is present from the very first read. `language` is deliberately left out so
+// its absence can be used to detect a first launch and trigger OS-locale detection.
+const { language: _language, ...STORE_DEFAULTS } = DEFAULT_SETTINGS
 
 const log = createScopedLogger('SettingsStore')
 
@@ -106,10 +112,22 @@ export const useSettingsStore = create<SettingsStore>()(
       try {
         storeHandle = await load(SETTINGS_FILE, {
           autoSave: false,
-          defaults: DEFAULT_SETTINGS as unknown as Record<string, unknown>,
+          defaults: STORE_DEFAULTS as unknown as Record<string, unknown>,
         })
         const entries = await storeHandle.entries<IAppSettings[keyof IAppSettings]>()
         const loaded = Object.fromEntries(entries) as Partial<IAppSettings>
+
+        // `language` is absent only on a fresh install (see STORE_DEFAULTS above) -
+        // detect it from the OS/browser locale once, then persist it so this only runs once.
+        if (loaded.language === undefined) {
+          loaded.language = resolveSupportedLanguage(navigator.language)
+          await storeHandle.set('language', loaded.language)
+          await storeHandle.save()
+          log.info('First launch detected, resolved language from OS locale', {
+            osLocale: navigator.language,
+            resolved: loaded.language,
+          })
+        }
 
         set({ ...DEFAULT_SETTINGS, ...loaded, isInitialized: true, isLoading: false })
 
