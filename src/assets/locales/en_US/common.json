@@ -13,5 +13,11 @@
   },
   "terms": {
     "website": "Website"
+  },
+  "tray": {
+    "open": "Open Colorpicker",
+    "settings": "Settings",
+    "pick": "Launch Picker",
+    "quit": "Quit"
   }
 }

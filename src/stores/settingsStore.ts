@@ -20,7 +20,7 @@ export interface SettingsStore extends IAppSettings {
 }
 
 // Default settings
-const DEFAULT_SETTINGS: IAppSettings = {
+export const DEFAULT_SETTINGS: IAppSettings = {
   openAtLogin: false,
   theme: 'system' as const,
   language: 'en_US',
@@ -29,6 +29,7 @@ const DEFAULT_SETTINGS: IAppSettings = {
   showHistory: true,
   maxHistorySize: 50,
   defaultFormat: 'hex' as const,
+  closeToTray: false,
   isBordered: false,
   isFullColored: false,
   isVibrant: true,
@@ -38,6 +39,7 @@ const DEFAULT_SETTINGS: IAppSettings = {
   eyedropperMagnifierSize: 300,
   eyedropperDetectBackgroundChanges: false,
   eyedropperAllowHoverThrough: false,
+  pickerHotkey: 'CommandOrControl+Shift+C',
 }
 
 const log = createScopedLogger('SettingsStore')

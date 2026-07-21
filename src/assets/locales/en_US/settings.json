@@ -16,6 +16,10 @@
       "keepOnTop": {
         "label": "Keep Colorpicker on top",
         "description": "Always display Colorpicker above other windows"
+      },
+      "closeToTray": {
+        "label": "Close to tray",
+        "description": "Keep Colorpicker running in the system tray instead of quitting when the window is closed"
       }
     },
     "advanced": {
@@ -77,5 +81,21 @@
         "description": "Let mouse events pass through the magnifier so you can pick hover-state colors from underlying windows"
       }
     }
+  },
+  "shortcuts": {
+    "picker": {
+      "title": "Picker",
+      "pickerHotkey": {
+        "label": "Launch Picker Hotkey",
+        "description": "Global keyboard shortcut to launch the color picker from anywhere, even when Colorpicker is closed",
+        "recording": "Press a key combination…"
+      }
+    }
+  },
+  "hotkey": {
+    "noModifier": "Include at least one modifier key",
+    "reserved": "This shortcut is reserved by the system",
+    "reset": "Reset to default",
+    "conflict": "Already used by {{label}}"
   }
 }

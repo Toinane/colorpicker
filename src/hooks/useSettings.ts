@@ -108,6 +108,24 @@ export function useKeepOnTop(): [boolean, (value: boolean) => Promise<void>] {
 }
 
 /**
+ * Hook for closeToTray setting
+ * @returns Current value and setter function
+ */
+export function useCloseToTray(): [boolean, (value: boolean) => Promise<void>] {
+  const closeToTray = useSettingsStore((state) => state.closeToTray)
+  const updateSetting = useSettingsStore((state) => state.updateSetting)
+
+  const setCloseToTray = useCallback(
+    async (value: boolean) => {
+      await updateSetting('closeToTray', value)
+    },
+    [updateSetting],
+  )
+
+  return [closeToTray, setCloseToTray]
+}
+
+/**
  * Hook for theme setting
  * @returns Current value and setter function
  */

@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { createRoot } from 'react-dom/client'
-import { Router, Route, useLocation } from 'wouter'
+import { Router, Route } from 'wouter'
 import { useHashLocation } from 'wouter/use-hash-location'
 import { I18nextProvider } from 'react-i18next'
 import { getCurrentWindow } from '@tauri-apps/api/window'
@@ -15,31 +15,22 @@ import SettingsProvider from '@components/SettingsProvider'
 import './style.global.css'
 
 const AppRouter = () => {
-  const [, setLocation] = useLocation()
+  const readyEmitted = useRef(false)
 
   useEffect(() => {
-    // Detect which window we're in and route accordingly
-    const setupWindow = async () => {
-      const window = getCurrentWindow()
-      const label = window.label
+    // Signal that the frontend is ready and window can be shown
+    // Wait a brief moment for the DOM to fully render
+    // Guard against React StrictMode's dev-only double-invocation of effects
+    if (readyEmitted.current) return
+    readyEmitted.current = true
 
-      if (label === 'settings') {
-        setLocation('/settings')
-      } else if (label === 'colorpicker') {
-        setLocation('/colorpicker')
-      }
-
-      // Signal that the frontend is ready and window can be shown
-      // Wait a brief moment for the DOM to fully render
+    const label = getCurrentWindow().label
+    requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          emit('window-ready', label).catch(console.error)
-        })
+        emit('window-ready', label).catch(console.error)
       })
-    }
-
-    setupWindow()
-  }, [setLocation])
+    })
+  }, [])
 
   return (
     <>
@@ -60,6 +51,15 @@ const App = () => (
     </SettingsProvider>
   </I18nextProvider>
 )
+
+// Set the initial hash synchronously (before the first render) so the router
+// never briefly renders the default "/" (Colorpicker) route in the settings window.
+const initialWindowLabel = getCurrentWindow().label
+if (initialWindowLabel === 'settings' && !window.location.hash.startsWith('#/settings')) {
+  window.location.hash = '/settings'
+} else if (initialWindowLabel === 'colorpicker' && !window.location.hash.startsWith('#/colorpicker')) {
+  window.location.hash = '/colorpicker'
+}
 
 createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>

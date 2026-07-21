@@ -31,6 +31,7 @@ export interface IAppSettings {
   showHistory: boolean
   maxHistorySize: number
   defaultFormat: ColorFormat
+  closeToTray: boolean
 
   // Appearance Settings
   isBordered: boolean
@@ -44,4 +45,7 @@ export interface IAppSettings {
   eyedropperMagnifierSize: EyedropperMagnifierSizeOption
   eyedropperDetectBackgroundChanges: boolean
   eyedropperAllowHoverThrough: boolean
+
+  // Shortcuts
+  pickerHotkey: string
 }

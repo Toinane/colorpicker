@@ -1,0 +1,8 @@
+{
+  "tray": {
+    "open": "Ouvrir Colorpicker",
+    "settings": "Paramètres",
+    "pick": "Lancer la pipette",
+    "quit": "Quitter"
+  }
+}

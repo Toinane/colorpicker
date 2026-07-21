@@ -96,3 +96,10 @@ pub async fn pick_color(
 
     Ok(result)
 }
+
+/// Register a new global hotkey for launching the picker, replacing any previously
+/// registered shortcut. The caller is responsible for persisting the value.
+#[tauri::command]
+pub fn set_picker_hotkey(app: tauri::AppHandle, hotkey: String) -> Result<(), String> {
+    crate::shortcuts::register_picker_shortcut(&app, &hotkey)
+}

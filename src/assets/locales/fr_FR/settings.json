@@ -12,6 +12,10 @@
       "openAtLogin": {
         "label": "Ouvrir Colorpicker à la connexion",
         "description": "Ouvre Colorpicker automatiquement au démarrage de votre session"
+      },
+      "closeToTray": {
+        "label": "Fermer dans la barre système",
+        "description": "Garde Colorpicker actif dans la barre système au lieu de quitter à la fermeture de la fenêtre"
       }
     },
     "about": {
@@ -42,5 +46,21 @@
         "description": "Laisse les événements de la souris traverser la loupe pour capturer les couleurs des états de survol des fenêtres sous-jacentes"
       }
     }
+  },
+  "shortcuts": {
+    "picker": {
+      "title": "Pipette",
+      "pickerHotkey": {
+        "label": "Raccourci de lancement",
+        "description": "Raccourci clavier global pour lancer le sélecteur de couleur depuis n'importe où, même lorsque Colorpicker est fermé",
+        "recording": "Appuyez sur une combinaison de touches…"
+      }
+    }
+  },
+  "hotkey": {
+    "noModifier": "Incluez au moins une touche de modification",
+    "reserved": "Ce raccourci est réservé par le système",
+    "reset": "Réinitialiser par défaut",
+    "conflict": "Déjà utilisé par {{label}}"
   }
 }

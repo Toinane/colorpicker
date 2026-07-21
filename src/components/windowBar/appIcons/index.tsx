@@ -1,14 +1,15 @@
-import { FunctionComponent, JSX } from 'react'
+import { FunctionComponent, JSX, useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { invoke } from '@tauri-apps/api/core'
 import { getCurrentWindow } from '@tauri-apps/api/window'
 import { getAllWebviewWindows, WebviewWindow } from '@tauri-apps/api/webviewWindow'
-import Color from 'colorjs.io'
+import { listen } from '@tauri-apps/api/event'
 
 import Icon, { IconColors, IconEnum } from '../../icons'
 import { useTheme } from '@hooks/index'
 import { useColorStore } from '@stores/colorStore'
 import { useSettingsStore } from '@stores/settingsStore'
+import { rgbToColor } from '@common/color'
 
 import style from './appIcons.module.css'
 
@@ -64,8 +65,21 @@ const AppIcons: FunctionComponent = (): JSX.Element => {
 
       // Update color if selected
       if (result) {
-        const color = new Color('srgb', [result.r / 255, result.g / 255, result.b / 255])
-        setColor(color)
+        setColor(rgbToColor(result))
+
+        // Bring the main window back if it was closed to tray or minimized,
+        // so the user can see the color that was just picked
+        if (!eyedropperHideMain) {
+          const [isMinimized, isVisible] = await Promise.all([
+            currentWindow.isMinimized(),
+            currentWindow.isVisible(),
+          ])
+          if (isMinimized || !isVisible) {
+            if (isMinimized) await currentWindow.unminimize()
+            if (!isVisible) await currentWindow.show()
+            await currentWindow.setFocus()
+          }
+        }
       }
     } catch (err) {
       console.error('Picker failed:', err)
@@ -76,7 +90,7 @@ const AppIcons: FunctionComponent = (): JSX.Element => {
     }
   }
 
-  const handleSettingsClick = async () => {
+  const handleSettingsClick = useCallback(async () => {
     try {
       // Check if settings window already exists
       const windows = await getAllWebviewWindows()
@@ -94,6 +108,7 @@ const AppIcons: FunctionComponent = (): JSX.Element => {
           const newWindow = new WebviewWindow('settings', {
             url: '/',
             title: 'Settings',
+            parent: 'colorpicker',
             width: 543,
             height: 550,
             minWidth: 555,
@@ -118,7 +133,16 @@ const AppIcons: FunctionComponent = (): JSX.Element => {
     } catch (err) {
       console.error('Failed to open settings:', err)
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    const unlistenPromise = listen('tray-open-settings', () => {
+      handleSettingsClick()
+    })
+    return () => {
+      unlistenPromise.then((unlisten) => unlisten())
+    }
+  }, [handleSettingsClick])
 
   return (
     <section className={style.appIcons}>

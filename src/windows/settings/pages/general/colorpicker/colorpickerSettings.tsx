@@ -2,13 +2,14 @@ import { memo, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { SettingsSection, SettingsItem, SettingsToggle } from '@components/settings'
-import { useOpenAtLogin, useKeepOnTop } from '@hooks/index'
+import { useOpenAtLogin, useKeepOnTop, useCloseToTray } from '@hooks/index'
 
 const ColorpickerSettings = () => {
   const SettingsT = useTranslation('settings', { keyPrefix: 'general.colorpicker' })
 
   const [openAtLogin, setOpenAtLogin] = useOpenAtLogin()
   const [keepOnTop, setKeepOnTop] = useKeepOnTop()
+  const [closeToTray, setCloseToTray] = useCloseToTray()
 
   const handleOpenAtLoginChange = useCallback(
     async (checked: boolean) => {
@@ -34,6 +35,18 @@ const ColorpickerSettings = () => {
     [setKeepOnTop],
   )
 
+  const handleCloseToTrayChange = useCallback(
+    async (checked: boolean) => {
+      try {
+        await setCloseToTray(checked)
+      } catch (error) {
+        console.error('Failed to update close to tray:', error)
+        // TODO: Show error notification to user
+      }
+    },
+    [setCloseToTray],
+  )
+
   return (
     <SettingsSection title={SettingsT.t('title')}>
       <SettingsItem
@@ -47,6 +60,12 @@ const ColorpickerSettings = () => {
         description={SettingsT.t('keepOnTop.description')}
       >
         <SettingsToggle checked={keepOnTop} onChange={handleKeepOnTopChange} />
+      </SettingsItem>
+      <SettingsItem
+        label={SettingsT.t('closeToTray.label')}
+        description={SettingsT.t('closeToTray.description')}
+      >
+        <SettingsToggle checked={closeToTray} onChange={handleCloseToTrayChange} />
       </SettingsItem>
     </SettingsSection>
   )

@@ -12,6 +12,9 @@
     "core:window:allow-create",
     "core:window:allow-set-focus",
     "core:window:allow-is-maximized",
+    "core:window:allow-is-minimized",
+    "core:window:allow-is-visible",
+    "core:window:allow-unminimize",
     "core:webview:allow-create-webview-window",
     "core:webview:allow-webview-position",
     "core:webview:allow-webview-size",
@@ -20,6 +23,7 @@
     "core:window:allow-close",
     "core:window:allow-toggle-maximize",
     "core:window:allow-minimize",
-    "store:default"
+    "store:default",
+    "global-shortcut:default"
   ]
 }
