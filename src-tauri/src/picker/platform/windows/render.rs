@@ -50,7 +50,7 @@ unsafe fn draw_text(
     offset_x: i32,
 ) {
     // Create temporary rendering surface
-    let temp_hdc = CreateCompatibleDC(hdc);
+    let temp_hdc = CreateCompatibleDC(Some(hdc));
 
     let mut bmi = std::mem::zeroed::<BITMAPINFO>();
     bmi.bmiHeader.biSize = std::mem::size_of::<BITMAPINFOHEADER>() as u32;
@@ -62,7 +62,7 @@ unsafe fn draw_text(
 
     let mut temp_bits: *mut std::ffi::c_void = std::ptr::null_mut();
     let temp_bitmap = match CreateDIBSection(
-        temp_hdc,
+        Some(temp_hdc),
         &bmi,
         DIB_RGB_COLORS,
         &mut temp_bits,
@@ -76,8 +76,8 @@ unsafe fn draw_text(
         }
     };
 
-    let old_bitmap = SelectObject(temp_hdc, temp_bitmap);
-    let old_font = SelectObject(temp_hdc, font);
+    let old_bitmap = SelectObject(temp_hdc, temp_bitmap.into());
+    let old_font = SelectObject(temp_hdc, font.into());
 
     // Fill with background color
     let bg_colorref = COLORREF(
@@ -93,7 +93,7 @@ unsafe fn draw_text(
         bottom: height,
     };
     let _ = FillRect(temp_hdc, &rect, brush);
-    let _ = DeleteObject(brush);
+    let _ = DeleteObject(brush.into());
 
     // Configure text rendering
     let text_colorref = COLORREF(
@@ -150,7 +150,7 @@ unsafe fn draw_text(
     // Cleanup
     SelectObject(temp_hdc, old_font);
     SelectObject(temp_hdc, old_bitmap);
-    let _ = DeleteObject(temp_bitmap);
+    let _ = DeleteObject(temp_bitmap.into());
     let _ = DeleteDC(temp_hdc);
 }
 
@@ -162,7 +162,7 @@ pub unsafe fn paint(hwnd: HWND, state: &mut WindowState) {
     let mag_radius = state.mag_radius;
 
     // Aggressively hide cursor every frame (bulletproof)
-    SetCursor(state.invisible_cursor);
+    SetCursor(Some(state.invisible_cursor));
 
     // Fast hash of pixel grid to detect changes (stationary cursor optimization)
     let current_hash = fast_hash_pixel_grid(&state.pixel_grid);
@@ -182,7 +182,7 @@ pub unsafe fn paint(hwnd: HWND, state: &mut WindowState) {
     if window_moved {
         let _ = SetWindowPos(
             hwnd,
-            HWND_TOPMOST,
+            Some(HWND_TOPMOST),
             window_x,
             window_y,
             0, 0,
@@ -397,7 +397,7 @@ unsafe fn draw_hex_label_with_background(state: &WindowState) {
     let hex_text = center_color.to_hex() + "\0";
 
     // Measure text width to calculate proper box size
-    SelectObject(state.hdc_offscreen, state.hex_font);
+    SelectObject(state.hdc_offscreen, state.hex_font.into());
     let wide_text: Vec<u16> = hex_text.encode_utf16().collect();
     let mut text_size = SIZE { cx: 0, cy: 0 };
     let _ = GetTextExtentPoint32W(state.hdc_offscreen, &wide_text, &mut text_size);
@@ -469,10 +469,10 @@ unsafe fn update_window(hwnd: HWND, state: &WindowState) {
 
     let _ = UpdateLayeredWindow(
         hwnd,
-        HDC(std::ptr::null_mut()),
+        Some(HDC(std::ptr::null_mut())),
         None,
         Some(&size),
-        state.hdc_offscreen,
+        Some(state.hdc_offscreen),
         Some(&point_src),
         COLORREF(0),
         Some(&blend),

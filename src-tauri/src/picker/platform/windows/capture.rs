@@ -37,8 +37,8 @@ pub fn capture_grid_at_cursor(cursor_x: i32, cursor_y: i32, grid_size: usize) ->
         let _ = GetMonitorInfoW(hmonitor, &mut monitor_info);
 
         // Get screen DC and create compatible memory DC
-        let hdc_screen = GetDC(HWND::default());
-        let hdc_mem = CreateCompatibleDC(hdc_screen);
+        let hdc_screen = GetDC(Some(HWND::default()));
+        let hdc_mem = CreateCompatibleDC(Some(hdc_screen));
 
         // Calculate capture area centered on cursor
         let half_grid = (grid_size / 2) as i32;
@@ -47,7 +47,7 @@ pub fn capture_grid_at_cursor(cursor_x: i32, cursor_y: i32, grid_size: usize) ->
 
         // Create bitmap for captured pixels
         let bitmap = CreateCompatibleBitmap(hdc_screen, grid_size as i32, grid_size as i32);
-        SelectObject(hdc_mem, bitmap);
+        SelectObject(hdc_mem, bitmap.into());
 
         // BitBlt: Hardware-accelerated screen capture
         let _ = BitBlt(
@@ -55,7 +55,7 @@ pub fn capture_grid_at_cursor(cursor_x: i32, cursor_y: i32, grid_size: usize) ->
             0, 0,
             grid_size as i32,
             grid_size as i32,
-            hdc_screen,
+            Some(hdc_screen),
             start_x,
             start_y,
             SRCCOPY,
@@ -97,9 +97,9 @@ pub fn capture_grid_at_cursor(cursor_x: i32, cursor_y: i32, grid_size: usize) ->
         }
 
         // Cleanup GDI resources
-        let _ = DeleteObject(bitmap);
+        let _ = DeleteObject(bitmap.into());
         let _ = DeleteDC(hdc_mem);
-        ReleaseDC(HWND::default(), hdc_screen);
+        ReleaseDC(Some(HWND::default()), hdc_screen);
 
         pixels
     }

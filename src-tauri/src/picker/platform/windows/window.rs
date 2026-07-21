@@ -100,7 +100,7 @@ pub fn create_and_run(
             0, 0,
             window_width,
             window_height,
-            None, None, instance, None,
+            None, None, Some(instance.into()), None,
         ).map_err(|e| format!("Failed to create window: {:?}", e))?;
 
         // Exclude from screen capture
@@ -108,8 +108,8 @@ pub fn create_and_run(
 
         // Create offscreen DC and RGBA bitmap for UpdateLayeredWindow
         // Sized to include magnifier + hex label below
-        let hdc_screen = GetDC(HWND::default());
-        let hdc_offscreen = CreateCompatibleDC(hdc_screen);
+        let hdc_screen = GetDC(Some(HWND::default()));
+        let hdc_offscreen = CreateCompatibleDC(Some(hdc_screen));
 
         // Create BITMAPV5HEADER for 32-bit RGBA
         let bmi = BITMAPV5HEADER {
@@ -129,7 +129,7 @@ pub fn create_and_run(
         // Create DIB section and get pointer to pixel data
         let mut bitmap_bits: *mut std::ffi::c_void = std::ptr::null_mut();
         let bitmap_offscreen = CreateDIBSection(
-            hdc_screen,
+            Some(hdc_screen),
             &bmi as *const BITMAPV5HEADER as *const BITMAPINFO,
             DIB_RGB_COLORS,
             &mut bitmap_bits,
@@ -137,14 +137,14 @@ pub fn create_and_run(
             0,
         ).expect("Failed to create DIB section");
 
-        SelectObject(hdc_offscreen, bitmap_offscreen);
-        ReleaseDC(HWND::default(), hdc_screen);
+        SelectObject(hdc_offscreen, bitmap_offscreen.into());
+        ReleaseDC(Some(HWND::default()), hdc_screen);
 
         // Create invisible cursor (more reliable than ShowCursor)
         let invisible_cursor = create_invisible_cursor();
 
         // Set invisible cursor
-        SetCursor(invisible_cursor);
+        SetCursor(Some(invisible_cursor));
 
         // Also hide system cursor for good measure
         while ShowCursor(false) >= 0 {}  // Keep calling until hidden
@@ -170,10 +170,10 @@ pub fn create_and_run(
             0,    // Italic
             0,    // Underline
             0,    // StrikeOut
-            DEFAULT_CHARSET.0 as u32,
-            OUT_TT_PRECIS.0 as u32,
-            CLIP_DEFAULT_PRECIS.0 as u32,
-            CLEARTYPE_QUALITY.0 as u32,
+            DEFAULT_CHARSET,
+            OUT_TT_PRECIS,
+            CLIP_DEFAULT_PRECIS,
+            CLEARTYPE_QUALITY,
             (FIXED_PITCH.0 | FF_MODERN.0) as u32,
             w!("Ubuntu Sans Mono"),
         );
@@ -225,7 +225,7 @@ pub fn create_and_run(
         let mouse_hook = SetWindowsHookExW(
             WH_MOUSE_LL,
             Some(mouse_hook_proc),
-            instance,
+            Some(instance.into()),
             0,
         ).map_err(|e| format!("Failed to install mouse hook: {:?}", e))?;
 
@@ -234,7 +234,7 @@ pub fn create_and_run(
             Some(SetWindowsHookExW(
                 WH_KEYBOARD_LL,
                 Some(keyboard_hook_proc),
-                instance,
+                Some(instance.into()),
                 0,
             ).map_err(|e| format!("Failed to install keyboard hook: {:?}", e))?)
         } else {
@@ -248,15 +248,15 @@ pub fn create_and_run(
         // Background change detection timer: 30fps polling (doesn't affect 144fps mouse tracking!)
         // This allows picking color changes in videos/animations when mouse is stationary
         if detect_background_changes {
-            SetTimer(hwnd, 2, 33, None);  // Timer ID 2, 33ms = ~30fps
+            SetTimer(Some(hwnd), 2, 33, None);  // Timer ID 2, 33ms = ~30fps
         }
 
         // Trigger initial render
-        let _ = PostMessageW(hwnd, WM_USER, WPARAM(0), LPARAM(0));
+        let _ = PostMessageW(Some(hwnd), WM_USER, WPARAM(0), LPARAM(0));
 
         // Message loop
         let mut msg = MSG::default();
-        while GetMessageW(&mut msg, HWND::default(), 0, 0).into() {
+        while GetMessageW(&mut msg, Some(HWND::default()), 0, 0).into() {
             let _ = TranslateMessage(&msg);
             DispatchMessageW(&msg);
         }
@@ -360,9 +360,9 @@ unsafe extern "system" fn wnd_proc(hwnd: HWND, msg: u32, wparam: WPARAM, lparam:
         WM_SETCURSOR => {
             // Prevent Windows from showing cursor - use invisible cursor
             if let Some(state) = state {
-                SetCursor(state.invisible_cursor);
+                SetCursor(Some(state.invisible_cursor));
             } else {
-                SetCursor(HCURSOR::default());
+                SetCursor(Some(HCURSOR::default()));
             }
             LRESULT(1)  // TRUE - we handled it
         }
@@ -406,7 +406,7 @@ unsafe extern "system" fn wnd_proc(hwnd: HWND, msg: u32, wparam: WPARAM, lparam:
                 if !RENDER_PENDING.swap(true, std::sync::atomic::Ordering::AcqRel) {
                     // Post WM_USER to trigger pixel capture + render
                     // The existing hash-based frame skip will prevent actual rendering if nothing changed
-                    let _ = PostMessageW(hwnd, WM_USER, WPARAM(0), LPARAM(0));
+                    let _ = PostMessageW(Some(hwnd), WM_USER, WPARAM(0), LPARAM(0));
                 }
             }
             LRESULT(0)
@@ -414,17 +414,17 @@ unsafe extern "system" fn wnd_proc(hwnd: HWND, msg: u32, wparam: WPARAM, lparam:
 
         WM_DESTROY => {
             // Kill background timer (safe to call even if not created)
-            let _ = KillTimer(hwnd, 2);
+            let _ = KillTimer(Some(hwnd), 2);
 
             // Cleanup resources and state
             if !state_ptr.is_null() {
                 let state = &*state_ptr;
                 // Delete font
-                let _ = DeleteObject(state.hex_font);
+                let _ = DeleteObject(state.hex_font.into());
                 // Delete cursor
                 let _ = DestroyCursor(state.invisible_cursor);
                 // Delete offscreen bitmap and DC
-                let _ = DeleteObject(state.bitmap_offscreen);
+                let _ = DeleteObject(state.bitmap_offscreen.into());
                 let _ = DeleteDC(state.hdc_offscreen);
                 // Drop the state box
                 drop(Box::from_raw(state_ptr));
@@ -448,7 +448,7 @@ unsafe fn move_cursor(dx: i32, dy: i32, multiplier: i32) {
         PICKER_HWND.with(|h| {
             let hwnd = h.get();
             if !hwnd.is_invalid() {
-                let _ = PostMessageW(hwnd, WM_USER, WPARAM(0), LPARAM(0));
+                let _ = PostMessageW(Some(hwnd), WM_USER, WPARAM(0), LPARAM(0));
             }
         });
     }
@@ -466,7 +466,7 @@ unsafe extern "system" fn mouse_hook_proc(code: i32, wparam: WPARAM, lparam: LPA
                     PICKER_HWND.with(|h| {
                         let hwnd = h.get();
                         if !hwnd.is_invalid() {
-                            let _ = PostMessageW(hwnd, WM_USER, WPARAM(0), LPARAM(0));
+                            let _ = PostMessageW(Some(hwnd), WM_USER, WPARAM(0), LPARAM(0));
                         }
                     });
                 }
@@ -482,7 +482,7 @@ unsafe extern "system" fn mouse_hook_proc(code: i32, wparam: WPARAM, lparam: LPA
                     PICKER_HWND.with(|h| {
                         let hwnd = h.get();
                         if !hwnd.is_invalid() {
-                            let _ = PostMessageW(hwnd, WM_LBUTTONDOWN, WPARAM(0), LPARAM(0));
+                            let _ = PostMessageW(Some(hwnd), WM_LBUTTONDOWN, WPARAM(0), LPARAM(0));
                         }
                     });
                     // Return 1 to prevent the click from reaching underlying windows
@@ -492,7 +492,7 @@ unsafe extern "system" fn mouse_hook_proc(code: i32, wparam: WPARAM, lparam: LPA
             _ => {}
         }
     }
-    CallNextHookEx(HHOOK::default(), code, wparam, lparam)
+    CallNextHookEx(Some(HHOOK::default()), code, wparam, lparam)
 }
 
 /// Low-level keyboard hook for Escape, Enter, and arrow keys
@@ -509,7 +509,7 @@ unsafe extern "system" fn keyboard_hook_proc(code: i32, wparam: WPARAM, lparam: 
                 PICKER_HWND.with(|h| {
                     let hwnd = h.get();
                     if !hwnd.is_invalid() {
-                        let _ = PostMessageW(hwnd, WM_KEYDOWN, WPARAM(vk_code.0 as usize), LPARAM(0));
+                        let _ = PostMessageW(Some(hwnd), WM_KEYDOWN, WPARAM(vk_code.0 as usize), LPARAM(0));
                     }
                 });
                 // Consume the event (don't pass to other apps)
@@ -518,7 +518,7 @@ unsafe extern "system" fn keyboard_hook_proc(code: i32, wparam: WPARAM, lparam: 
             _ => {}
         }
     }
-    CallNextHookEx(HHOOK::default(), code, wparam, lparam)
+    CallNextHookEx(Some(HHOOK::default()), code, wparam, lparam)
 }
 
 #[repr(C)]
@@ -538,7 +538,7 @@ unsafe fn create_invisible_cursor() -> HCURSOR {
     let xor_mask = [0x00_u8];  // XOR mask - all 0s
 
     CreateCursor(
-        GetModuleHandleW(None).unwrap_or_default(),
+        Some(GetModuleHandleW(None).unwrap_or_default().into()),
         0,  // hotspot x
         0,  // hotspot y
         1,  // width
