@@ -7,8 +7,12 @@ import { useSettingsStore } from '@stores/settingsStore'
 const BehaviorSettings = () => {
   const SettingsT = useTranslation('settings', { keyPrefix: 'magnifier.behavior' })
 
-  const { eyedropperHideMain, eyedropperDetectBackgroundChanges, eyedropperAllowHoverThrough, updateSetting } =
-    useSettingsStore()
+  const {
+    eyedropperHideMain,
+    eyedropperDetectBackgroundChanges,
+    eyedropperAllowHoverThrough,
+    updateSetting,
+  } = useSettingsStore()
 
   return (
     <SettingsSection title={SettingsT.t('title')}>

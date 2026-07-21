@@ -12,7 +12,7 @@ const ColorpickerSettings = () => {
   const SettingsT = useTranslation('settings', { keyPrefix: 'general.advanced' })
   const CommonT = useTranslation('common')
 
-  const onResetSettings = useCallback((checked: boolean) => {
+  const onResetSettings = useCallback(() => {
     // TODO: Call Tauri API to set login item
   }, [])
 

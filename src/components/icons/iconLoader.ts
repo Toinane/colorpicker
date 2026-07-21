@@ -20,16 +20,22 @@ const extractIconName = (path: string): string => {
   return fileName.toUpperCase()
 }
 
-export const iconMap = Object.entries(iconModules).reduce((acc, [path, module]) => {
-  const iconName = extractIconName(path)
-  acc[iconName] = module.default
-  return acc
-}, {} as Record<string, FC<{ style: CSSProperties }>>)
+export const iconMap = Object.entries(iconModules).reduce(
+  (acc, [path, module]) => {
+    const iconName = extractIconName(path)
+    acc[iconName] = module.default
+    return acc
+  },
+  {} as Record<string, FC<{ style: CSSProperties }>>,
+)
 
-export const iconNames = Object.keys(iconMap).reduce((acc, key) => {
-  acc[key] = key
-  return acc
-}, {} as Record<string, string>)
+export const iconNames = Object.keys(iconMap).reduce(
+  (acc, key) => {
+    acc[key] = key
+    return acc
+  },
+  {} as Record<string, string>,
+)
 
 /**
  * Get list of available icon names for debugging

@@ -37,7 +37,9 @@
   flex-direction: column;
   padding: 2px 6px 10px 6px;
   border-radius: 8px;
-  transition: background-color 0.2s, color 0.2s;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
   color: inherit;
   word-break: break-all;
   overflow: hidden;

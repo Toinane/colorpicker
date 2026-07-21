@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import classNames from 'classnames'
+import classNames from 'clsx'
 
 import style from './settingsAccordion.module.css'
 import Icons from '@components/icons'

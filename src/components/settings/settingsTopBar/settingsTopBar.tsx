@@ -1,6 +1,6 @@
 import { memo } from 'react'
 import { Link, useLocation } from 'wouter'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import { useTranslation } from 'react-i18next'
 
 import ColorpickerIcon from '@assets/icons/settings/colorpicker-icon.svg?react'

@@ -94,7 +94,13 @@ const SettingsSelect = ({ value, onChange, options, disabled = false }: Settings
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          <path
+            d="M2.5 4.5L6 8L9.5 4.5"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
       </div>
       {isOpen && (

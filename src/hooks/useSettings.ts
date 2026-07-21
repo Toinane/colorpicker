@@ -56,10 +56,13 @@ export function useSettings<K extends keyof IAppSettings>(
   const store = useSettingsStore()
   const updateSettingsFn = store.updateSettings
 
-  const values = keys.reduce((acc, key) => {
-    acc[key] = store[key]
-    return acc
-  }, {} as Pick<IAppSettings, K>)
+  const values = keys.reduce(
+    (acc, key) => {
+      acc[key] = store[key]
+      return acc
+    },
+    {} as Pick<IAppSettings, K>,
+  )
 
   const updateSettings = useCallback(
     async (updates: Partial<Pick<IAppSettings, K>>) => {
@@ -177,7 +180,7 @@ export function useDebouncedSetting<K extends keyof IAppSettings>(
   const storeValue = useSettingsStore((state) => state[key])
   const updateSetting = useSettingsStore((state) => state.updateSetting)
   const [localValue, setLocalValue] = useState<IAppSettings[K]>(storeValue)
-  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null)
+  const [timeoutId, setTimeoutId] = useState<ReturnType<typeof setTimeout> | null>(null)
 
   // Sync local value with store value
   useEffect(() => {

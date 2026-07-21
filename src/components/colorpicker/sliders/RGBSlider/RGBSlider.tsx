@@ -1,5 +1,5 @@
 import { FunctionComponent, JSX, useMemo, useCallback } from 'react'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import Color from 'colorjs.io'
 
 import { useColorStore } from '@stores/colorStore'
@@ -11,7 +11,10 @@ import './RGBSlider.css'
 
 const RGBSlider: FunctionComponent = (): JSX.Element => {
   const color = useColorStore((state) => state.color)
-  const rgb = useMemo(() => color.srgb, [color])
+  // NOTE: use getAll('srgb') rather than the color.srgb accessor - colorjs.io's
+  // package.json sideEffects list omits src/space-accessors.js, so Vite's esbuild
+  // pre-bundler tree-shakes that accessor away and color.srgb silently returns undefined.
+  const [r, g, b] = useMemo(() => color.getAll({ space: 'srgb' }), [color])
 
   const handleChange = useCallback(
     (channel: 'r' | 'g' | 'b', value: number) => {
@@ -19,13 +22,13 @@ const RGBSlider: FunctionComponent = (): JSX.Element => {
         .getState()
         .setColor(
           new Color('srgb', [
-            channel === 'r' ? value / 255 : rgb.r,
-            channel === 'g' ? value / 255 : rgb.g,
-            channel === 'b' ? value / 255 : rgb.b,
+            channel === 'r' ? value / 255 : (r ?? 0),
+            channel === 'g' ? value / 255 : (g ?? 0),
+            channel === 'b' ? value / 255 : (b ?? 0),
           ]),
         )
     },
-    [rgb],
+    [r, g, b],
   )
 
   return (
@@ -37,13 +40,13 @@ const RGBSlider: FunctionComponent = (): JSX.Element => {
           type="redGradient"
           min={0}
           max={255}
-          value={Math.round(rgb.r * 255)}
+          value={Math.round((r ?? 0) * 255)}
           onChange={(value) => handleChange('r', value)}
         />
         <NumberInput
           min={0}
           max={255}
-          value={Math.round(rgb.r * 255)}
+          value={Math.round((r ?? 0) * 255)}
           onChange={(value) => handleChange('r', value)}
         />
       </section>
@@ -52,13 +55,13 @@ const RGBSlider: FunctionComponent = (): JSX.Element => {
           type="greenGradient"
           min={0}
           max={255}
-          value={Math.round(rgb.g * 255)}
+          value={Math.round((g ?? 0) * 255)}
           onChange={(value) => handleChange('g', value)}
         />
         <NumberInput
           min={0}
           max={255}
-          value={Math.round(rgb.g * 255)}
+          value={Math.round((g ?? 0) * 255)}
           onChange={(value) => handleChange('g', value)}
         />
       </section>
@@ -67,13 +70,13 @@ const RGBSlider: FunctionComponent = (): JSX.Element => {
           type="blueGradient"
           min={0}
           max={255}
-          value={Math.round(rgb.b * 255)}
+          value={Math.round((b ?? 0) * 255)}
           onChange={(value) => handleChange('b', value)}
         />
         <NumberInput
           min={0}
           max={255}
-          value={Math.round(rgb.b * 255)}
+          value={Math.round((b ?? 0) * 255)}
           onChange={(value) => handleChange('b', value)}
         />
       </section>

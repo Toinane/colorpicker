@@ -6,15 +6,15 @@ authors = ["Toinane <hello@crea-that.fr>"]
 edition = "2021"
 
 [build-dependencies]
-tauri-build = { version = "2.0", features = [] }
+tauri-build = { version = "2.6", features = [] }
 
 [dependencies]
-tauri = { version = "2.2", features = ["tray-icon"] }
-tauri-utils = "2.0"
-tauri-plugin-log = "2.0"
-tauri-plugin-single-instance = "2.0.0"
-tauri-plugin-store = "2.0"
-tauri-plugin-global-shortcut = "2.0"
+tauri = { version = "2.11", features = ["tray-icon"] }
+tauri-utils = "2.9"
+tauri-plugin-log = "2.9"
+tauri-plugin-single-instance = "2.4.3"
+tauri-plugin-store = "2.4"
+tauri-plugin-global-shortcut = "2.3"
 log = "0.4"
 chrono = "0.4"
 serde = { version = "1", features = ["derive"] }

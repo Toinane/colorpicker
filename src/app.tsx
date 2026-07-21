@@ -57,7 +57,10 @@ const App = () => (
 const initialWindowLabel = getCurrentWindow().label
 if (initialWindowLabel === 'settings' && !window.location.hash.startsWith('#/settings')) {
   window.location.hash = '/settings'
-} else if (initialWindowLabel === 'colorpicker' && !window.location.hash.startsWith('#/colorpicker')) {
+} else if (
+  initialWindowLabel === 'colorpicker' &&
+  !window.location.hash.startsWith('#/colorpicker')
+) {
   window.location.hash = '/colorpicker'
 }
 

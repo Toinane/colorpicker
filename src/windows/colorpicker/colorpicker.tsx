@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import { listen } from '@tauri-apps/api/event'
 
 import WindowBar from '@components/windowBar'
@@ -33,9 +33,18 @@ const Colorpicker = () => {
     const rgb = color.to('srgb')
 
     document.documentElement.style.setProperty('--main-color', `${color}`)
-    document.documentElement.style.setProperty('--main-color-r', `${Math.round(rgb.r * 100)}%`)
-    document.documentElement.style.setProperty('--main-color-g', `${Math.round(rgb.g * 100)}%`)
-    document.documentElement.style.setProperty('--main-color-b', `${Math.round(rgb.b * 100)}%`)
+    document.documentElement.style.setProperty(
+      '--main-color-r',
+      `${Math.round((rgb.r ?? 0) * 100)}%`,
+    )
+    document.documentElement.style.setProperty(
+      '--main-color-g',
+      `${Math.round((rgb.g ?? 0) * 100)}%`,
+    )
+    document.documentElement.style.setProperty(
+      '--main-color-b',
+      `${Math.round((rgb.b ?? 0) * 100)}%`,
+    )
     document.documentElement.style.setProperty('--opposite-color', `${oppositeColor}`)
   }, [color, oppositeColor])
 

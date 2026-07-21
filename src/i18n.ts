@@ -1,13 +1,19 @@
-import i18n from 'i18next'
-import resourcesToBackend from 'i18next-resources-to-backend'
+import i18n, { type BackendModule } from 'i18next'
 import { initReactI18next } from 'react-i18next'
 
-i18n
-  .use(resourcesToBackend((lng: string, ns: string) => import(`@assets/locales/${lng}/${ns}.json`)))
-  .use(initReactI18next)
-  .init({
-    lng: 'en_US',
-    fallbackLng: 'en_US',
-  })
+const resourcesBackend: BackendModule = {
+  type: 'backend',
+  init: () => {},
+  read: (language, namespace, callback) => {
+    import(`@assets/locales/${language}/${namespace}.json`)
+      .then((module) => callback(null, module.default))
+      .catch((error) => callback(error, null))
+  },
+}
+
+i18n.use(resourcesBackend).use(initReactI18next).init({
+  lng: 'en_US',
+  fallbackLng: 'en_US',
+})
 
 export default i18n
