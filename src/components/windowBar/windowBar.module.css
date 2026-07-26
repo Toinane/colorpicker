@@ -18,15 +18,15 @@
   -webkit-app-region: drag;
 }
 
-[class='no-vibrancy'] .windowBar {
+[class~='no-vibrancy'] .windowBar {
   background: var(--colorpicker-background-color);
 }
 
-[class='bordered'] .windowBar {
+[class~='bordered'] .windowBar {
   border-radius: 4px;
 }
 
-[class='colored'] .windowBar {
+[class~='colored'] .windowBar {
   background: var(--main-color);
 }
 

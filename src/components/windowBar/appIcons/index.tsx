@@ -1,15 +1,9 @@
-import { FunctionComponent, JSX, useCallback, useEffect } from 'react'
+import { FunctionComponent, JSX } from 'react'
 import { useTranslation } from 'react-i18next'
-import { invoke } from '@tauri-apps/api/core'
-import { getCurrentWindow } from '@tauri-apps/api/window'
-import { getAllWebviewWindows, WebviewWindow } from '@tauri-apps/api/webviewWindow'
-import { listen } from '@tauri-apps/api/event'
 
 import Icon, { IconColors, IconEnum } from '../../icons'
 import { useTheme } from '@hooks/index'
-import { useColorStore } from '@stores/colorStore'
-import { useSettingsStore } from '@stores/settingsStore'
-import { rgbToColor } from '@common/color'
+import { launchPicker, openSettings } from '@common/ipc'
 
 import style from './appIcons.module.css'
 
@@ -30,119 +24,28 @@ const AppIcons: FunctionComponent = (): JSX.Element => {
   const { t } = useTranslation()
   const theme = useTheme()
   const iconColors = THEME_COLORS[theme]
-  const { setColor } = useColorStore()
-  const {
-    eyedropperHideMain,
-    eyedropperGridSize,
-    eyedropperShowHex,
-    eyedropperMagnifierSize,
-    eyedropperDetectBackgroundChanges,
-    eyedropperAllowHoverThrough,
-  } = useSettingsStore()
-
+  // Hide/show/restore and applying the result are all handled Rust-side
+  // (shortcuts::trigger_global_pick) and delivered via the `color-picked`
+  // event listened to in colorpicker.tsx — the single result path shared
+  // with the tray "pick" item and the global hotkey.
   const handlePickerClick = async () => {
-    const currentWindow = getCurrentWindow()
-
     try {
-      // Hide main window if setting enabled
-      if (eyedropperHideMain) {
-        await currentWindow.hide()
-      }
-
-      // Launch native picker (blocks until color selected)
-      const result = await invoke<{ r: number; g: number; b: number } | null>('pick_color', {
-        gridSize: eyedropperGridSize,
-        showHex: eyedropperShowHex,
-        magnifierSize: eyedropperMagnifierSize,
-        detectBackgroundChanges: eyedropperDetectBackgroundChanges,
-        allowHoverThrough: eyedropperAllowHoverThrough,
-      })
-
-      // Show main window again
-      if (eyedropperHideMain) {
-        await currentWindow.show()
-      }
-
-      // Update color if selected
-      if (result) {
-        setColor(rgbToColor(result))
-
-        // Bring the main window back if it was closed to tray or minimized,
-        // so the user can see the color that was just picked
-        if (!eyedropperHideMain) {
-          const [isMinimized, isVisible] = await Promise.all([
-            currentWindow.isMinimized(),
-            currentWindow.isVisible(),
-          ])
-          if (isMinimized || !isVisible) {
-            if (isMinimized) await currentWindow.unminimize()
-            if (!isVisible) await currentWindow.show()
-            await currentWindow.setFocus()
-          }
-        }
-      }
+      await launchPicker()
     } catch (err) {
       console.error('Picker failed:', err)
-      // Re-show window on error
-      if (eyedropperHideMain) {
-        await currentWindow.show()
-      }
     }
   }
 
-  const handleSettingsClick = useCallback(async () => {
+  // Window creation, geometry, Mica effects, and the create-or-focus check
+  // are all handled Rust-side (commands::open_settings) — the tray
+  // "Settings" item calls it directly, so this is just the toolbar's path.
+  const handleSettingsClick = async () => {
     try {
-      // Check if settings window already exists
-      const windows = await getAllWebviewWindows()
-      let settingsWindow = windows.find((w) => w.label === 'settings')
-
-      if (settingsWindow) {
-        // Window exists, just show and focus it
-        await settingsWindow.show()
-        await settingsWindow.setFocus()
-      } else {
-        // Create the settings window on-demand (hidden initially)
-        // It will be shown automatically when the frontend emits "window-ready"
-        console.log('Creating settings window')
-        try {
-          const newWindow = new WebviewWindow('settings', {
-            url: '/',
-            title: 'Settings',
-            parent: 'colorpicker',
-            width: 543,
-            height: 550,
-            minWidth: 555,
-            minHeight: 560,
-            resizable: true,
-            transparent: true,
-            center: true,
-            decorations: false,
-            visible: false,
-            windowEffects: {
-              effects: ['mica' as any],
-              state: 'followsWindowActiveState' as any,
-              radius: 8.0,
-              color: [0, 0, 0, 0],
-            },
-          })
-          console.log('Settings window created:', newWindow.label)
-        } catch (createErr) {
-          console.error('Failed to create settings window:', createErr)
-        }
-      }
+      await openSettings()
     } catch (err) {
       console.error('Failed to open settings:', err)
     }
-  }, [])
-
-  useEffect(() => {
-    const unlistenPromise = listen('tray-open-settings', () => {
-      handleSettingsClick()
-    })
-    return () => {
-      unlistenPromise.then((unlisten) => unlisten())
-    }
-  }, [handleSettingsClick])
+  }
 
   return (
     <section className={style.appIcons}>

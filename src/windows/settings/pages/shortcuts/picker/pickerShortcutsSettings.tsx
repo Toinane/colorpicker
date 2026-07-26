@@ -1,10 +1,10 @@
 import { memo, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { invoke } from '@tauri-apps/api/core'
 
 import { SettingsSection, SettingsItem, SettingsHotkeyInput } from '@components/settings'
 import { useSettingsStore, DEFAULT_SETTINGS } from '@stores/settingsStore'
 import { useHotkeyConflict } from '@hooks/index'
+import { setPickerHotkey } from '@common/ipc'
 
 const PickerShortcutsSettings = () => {
   const SettingsT = useTranslation('settings', { keyPrefix: 'shortcuts.picker' })
@@ -16,7 +16,7 @@ const PickerShortcutsSettings = () => {
     async (hotkey: string) => {
       try {
         // Register with the OS first; only persist if it actually succeeded
-        await invoke('set_picker_hotkey', { hotkey })
+        await setPickerHotkey(hotkey)
         await updateSetting('pickerHotkey', hotkey)
       } catch (error) {
         console.error('Failed to register picker hotkey:', error)

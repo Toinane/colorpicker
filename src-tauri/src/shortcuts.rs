@@ -37,12 +37,17 @@ fn load_picker_config(app: &AppHandle) -> PickerConfig {
             .unwrap_or(default)
     };
 
+    let defaults = PickerConfig::default();
+
     PickerConfig {
-        grid_size: get_num("eyedropperGridSize", 9),
-        show_hex: get_bool("eyedropperShowHex", true),
-        magnifier_size: get_num("eyedropperMagnifierSize", 300),
-        detect_background_changes: get_bool("eyedropperDetectBackgroundChanges", false),
-        allow_hover_through: get_bool("eyedropperAllowHoverThrough", false),
+        grid_size: get_num("eyedropperGridSize", defaults.grid_size),
+        show_hex: get_bool("eyedropperShowHex", defaults.show_hex),
+        magnifier_size: get_num("eyedropperMagnifierSize", defaults.magnifier_size),
+        detect_background_changes: get_bool(
+            "eyedropperDetectBackgroundChanges",
+            defaults.detect_background_changes,
+        ),
+        allow_hover_through: get_bool("eyedropperAllowHoverThrough", defaults.allow_hover_through),
     }
 }
 

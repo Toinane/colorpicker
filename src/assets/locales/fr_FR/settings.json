@@ -49,6 +49,27 @@
       "author": {
         "label": "Développé par Toinane",
         "description": "Avec ❤️"
+      },
+      "experimentalUnlockedToast": "Fonctionnalités expérimentales débloquées — gardez en tête qu'elles sont susceptibles de changer",
+      "experimentalLockedToast": "Fonctionnalités expérimentales masquées"
+    },
+    "experimental": {
+      "title": "Expérimental",
+      "accordion": {
+        "label": "Paramètres expérimentaux",
+        "description": "Afficher ou masquer les paramètres expérimentaux"
+      },
+      "isBordered": {
+        "label": "Fenêtre bordée",
+        "description": "Affiche une bordure autour de la fenêtre de Colorpicker"
+      },
+      "isFullColored": {
+        "label": "Fond entièrement coloré",
+        "description": "Remplit toute la fenêtre avec la couleur actuelle au lieu des seules zones d'accent"
+      },
+      "isVibrant": {
+        "label": "Apparence vibrante",
+        "description": "Utilise un style de fenêtre plus vibrant et saturé"
       }
     }
   },

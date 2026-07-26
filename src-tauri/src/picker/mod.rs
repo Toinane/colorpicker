@@ -43,6 +43,20 @@ pub struct PickerConfig {
     pub allow_hover_through: bool,
 }
 
+/// The single canonical defaults table. Grid size options are `5 | 11 | 21`
+/// (frontend-canonical, see `EyedropperGridSizeOption`); default `5`.
+impl Default for PickerConfig {
+    fn default() -> Self {
+        Self {
+            grid_size: 5,
+            show_hex: true,
+            magnifier_size: 300,
+            detect_background_changes: false,
+            allow_hover_through: false,
+        }
+    }
+}
+
 /// Guards against two picker sessions running concurrently: hotkey, tray, and
 /// button triggers can race and would otherwise spawn two overlapping
 /// sessions (two hooks, two topmost windows).

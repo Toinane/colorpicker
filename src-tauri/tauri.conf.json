@@ -28,7 +28,7 @@
       {
         "label": "colorpicker",
         "title": "Colorpicker",
-        "url": "/",
+        "url": "/#/colorpicker",
         "width": 400,
         "minWidth": 410,
         "height": 150,

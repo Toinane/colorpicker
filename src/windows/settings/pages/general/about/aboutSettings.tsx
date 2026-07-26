@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { memo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -9,10 +9,20 @@ import {
   SettingsButton,
   SettingsLink,
 } from '@components/settings'
+import { useSettingsStore } from '@stores/settingsStore'
+import { showToast } from '@stores/toastStore'
+
+// Consecutive clicks (within CLICK_WINDOW_MS of each other) needed to toggle
+// the Experimental section, à la Android's "tap build number" trick.
+const TOGGLE_CLICK_COUNT = 10
+const CLICK_WINDOW_MS = 1500
 
 const AboutSettings = () => {
   const SettingsT = useTranslation('settings', { keyPrefix: 'general.about' })
   const CommonT = useTranslation('common')
+
+  const clickCountRef = useRef(0)
+  const lastClickAtRef = useRef(0)
 
   const versionsList: Array<Record<string, string> | string> = [
     'Stable 3.0.0 (cdf3e8b6)',
@@ -25,6 +35,21 @@ const AboutSettings = () => {
       .map((item) => (typeof item === 'string' ? item : Object.values(item).join(': ')))
       .join('\n')
     navigator.clipboard.writeText(versionsText)
+  }
+
+  const onAuthorClick = () => {
+    const now = Date.now()
+    clickCountRef.current = now - lastClickAtRef.current > CLICK_WINDOW_MS ? 1 : clickCountRef.current + 1
+    lastClickAtRef.current = now
+
+    if (clickCountRef.current >= TOGGLE_CLICK_COUNT) {
+      clickCountRef.current = 0
+      const nowUnlocked = !useSettingsStore.getState().experimentalFeaturesUnlocked
+      useSettingsStore.getState().updateSetting('experimentalFeaturesUnlocked', nowUnlocked)
+      showToast(
+        SettingsT.t(nowUnlocked ? 'experimentalUnlockedToast' : 'experimentalLockedToast'),
+      )
+    }
   }
 
   return (
@@ -48,10 +73,12 @@ const AboutSettings = () => {
         <SettingsItem label={CommonT.t('website')}>
           <SettingsLink href="https://colorpicker.fr" label="colorpicker.fr" />
         </SettingsItem>
-        <SettingsItem
-          label={SettingsT.t('author.label')}
-          description={SettingsT.t('author.description')}
-        />
+        <div onClick={onAuthorClick}>
+          <SettingsItem
+            label={SettingsT.t('author.label')}
+            description={SettingsT.t('author.description')}
+          />
+        </div>
       </SettingsSection>
     </>
   )

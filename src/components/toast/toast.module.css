@@ -1,0 +1,52 @@
+:root {
+  --toast-background: #ffffffe6;
+  --toast-color: #000000;
+  --toast-border: #00000020;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --toast-background: #2d2d3ae6;
+    --toast-color: #ffffff;
+    --toast-border: #00000084;
+  }
+}
+
+.toastContainer {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 8px;
+  z-index: 9999;
+  max-width: calc(100% - 32px);
+  pointer-events: none;
+}
+
+.toast {
+  font-family: Ubuntu, sans-serif;
+  background: var(--toast-background);
+  color: var(--toast-color);
+  border: 1px solid var(--toast-border);
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 0.9em;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: break-word;
+  animation: toastIn 150ms ease-out;
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

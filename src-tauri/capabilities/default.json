@@ -24,6 +24,7 @@
     "core:window:allow-toggle-maximize",
     "core:window:allow-minimize",
     "store:default",
-    "global-shortcut:default"
+    "global-shortcut:default",
+    "autostart:default"
   ]
 }

@@ -49,4 +49,7 @@ export interface IAppSettings {
 
   // Shortcuts
   pickerHotkey: string
+
+  // Experimental
+  experimentalFeaturesUnlocked: boolean
 }

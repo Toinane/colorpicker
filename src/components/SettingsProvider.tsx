@@ -1,7 +1,8 @@
 import { memo, useEffect, type ReactNode } from 'react'
 import i18n from '../i18n'
 import { useInitializeSettings } from '@hooks/index'
-import { useLanguage } from '@stores/settingsStore'
+import { useLanguage, useSettingsStore } from '@stores/settingsStore'
+import { useColorpickerStore } from '@stores/colorpickerStore'
 
 interface SettingsProviderProps {
   children: ReactNode
@@ -15,12 +16,22 @@ interface SettingsProviderProps {
 const SettingsProvider = ({ children, fallback }: SettingsProviderProps) => {
   const { isInitialized, isLoading, error } = useInitializeSettings()
   const language = useLanguage()
+  const isBordered = useSettingsStore((state) => state.isBordered)
+  const isFullColored = useSettingsStore((state) => state.isFullColored)
+  const isVibrant = useSettingsStore((state) => state.isVibrant)
 
   useEffect(() => {
     if (isInitialized && i18n.language !== language) {
       i18n.changeLanguage(language)
     }
   }, [isInitialized, language])
+
+  // Hydrate the colorpicker's rendering store from the persisted appearance
+  // settings, at init and on every change (incl. synced from other windows).
+  useEffect(() => {
+    if (!isInitialized) return
+    useColorpickerStore.setState({ isBordered, isFullColored, isVibrant })
+  }, [isInitialized, isBordered, isFullColored, isVibrant])
 
   if (isLoading || !isInitialized) {
     return <>{fallback || null}</>

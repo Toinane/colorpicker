@@ -49,6 +49,27 @@
       "author": {
         "label": "Developed by Toinane",
         "description": "With ❤️"
+      },
+      "experimentalUnlockedToast": "Experimental features unlocked — keep in mind these are subject to change",
+      "experimentalLockedToast": "Experimental features hidden"
+    },
+    "experimental": {
+      "title": "Experimental",
+      "accordion": {
+        "label": "Experimental Settings",
+        "description": "Show or hide experimental settings"
+      },
+      "isBordered": {
+        "label": "Bordered window",
+        "description": "Show a border around the Colorpicker window"
+      },
+      "isFullColored": {
+        "label": "Full colored background",
+        "description": "Fill the entire window with the current color instead of just the accent areas"
+      },
+      "isVibrant": {
+        "label": "Vibrant appearance",
+        "description": "Use a more vibrant, saturated window style"
       }
     }
   },

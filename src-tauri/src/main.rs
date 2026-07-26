@@ -2,6 +2,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use tauri::{Listener, Manager};
+use tauri_plugin_store::StoreExt;
 
 mod commands;
 mod i18n;
@@ -13,7 +14,7 @@ mod tray;
 /// Apply platform-specific window effects
 /// - Windows: Mica effect (Windows 11+ blur that adapts to desktop wallpaper)
 /// - macOS: UnderWindowBackground vibrancy (adapts to wallpaper and system theme)
-fn apply_window_effects(window: &tauri::WebviewWindow) {
+pub(crate) fn apply_window_effects(window: &tauri::WebviewWindow) {
     #[cfg(target_os = "windows")]
     {
         use tauri::utils::config::WindowEffectsConfig;
@@ -80,12 +81,27 @@ fn main() {
         .plugin(logger::create_logger().build())
         .plugin(tauri_plugin_store::Builder::default().build())
         .plugin(tauri_plugin_global_shortcut::Builder::new().build())
+        .plugin(tauri_plugin_autostart::init(
+            tauri_plugin_autostart::MacosLauncher::LaunchAgent,
+            None,
+        ))
         .setup(|app| {
             log::info!("ColorPicker v{} starting", env!("CARGO_PKG_VERSION"));
 
             // Apply platform-specific window effects
             if let Some(window) = app.get_webview_window("colorpicker") {
                 apply_window_effects(&window);
+
+                // keepOnTop is a runtime window attribute (unlike openAtLogin, which
+                // is persisted OS-side), so it must be re-applied on every startup;
+                // afterward it's kept in sync via the set_keep_on_top command.
+                let keep_on_top = app
+                    .store("settings.json")
+                    .ok()
+                    .and_then(|store| store.get("keepOnTop"))
+                    .and_then(|v| v.as_bool())
+                    .unwrap_or(false);
+                let _ = window.set_always_on_top(keep_on_top);
 
                 // Closing the main window either quits the app (closing the settings
                 // window along with it) or, if the user opted in, just hides both
@@ -135,8 +151,12 @@ fn main() {
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
-            commands::pick_color,
+            commands::launch_picker,
             commands::set_picker_hotkey,
+            commands::open_settings,
+            commands::set_keep_on_top,
+            commands::set_open_at_login,
+            commands::get_open_at_login,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

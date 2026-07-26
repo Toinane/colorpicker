@@ -1,11 +1,11 @@
 import { create } from 'zustand'
 import { subscribeWithSelector } from 'zustand/middleware'
 import { load, type Store } from '@tauri-apps/plugin-store'
-import { emit, listen } from '@tauri-apps/api/event'
 
 import type { IAppSettings } from '@interfaces/settings'
 import { createScopedLogger } from '@common/logger'
 import { resolveSupportedLanguage } from '@common/languages'
+import { emitSettingsChanged, onSettingsChanged } from '@common/ipc'
 
 export interface SettingsStore extends IAppSettings {
   // Loading state
@@ -41,6 +41,7 @@ export const DEFAULT_SETTINGS: IAppSettings = {
   eyedropperDetectBackgroundChanges: false,
   eyedropperAllowHoverThrough: false,
   pickerHotkey: 'CommandOrControl+Shift+C',
+  experimentalFeaturesUnlocked: false,
 }
 
 // Passed to the Tauri store's `defaults` so that everything except `language`
@@ -51,12 +52,6 @@ const { language: _language, ...STORE_DEFAULTS } = DEFAULT_SETTINGS
 const log = createScopedLogger('SettingsStore')
 
 const SETTINGS_FILE = 'settings.json'
-const SETTINGS_CHANGED_EVENT = 'settings-changed'
-
-interface SettingsChangedPayload {
-  source: string
-  updates: Partial<IAppSettings>
-}
 
 // Identifies this window instance so it can ignore its own broadcasted changes
 const INSTANCE_ID = crypto.randomUUID()
@@ -80,7 +75,7 @@ async function persistAndBroadcast(updates: Partial<IAppSettings>): Promise<void
   }
 
   try {
-    await emit<SettingsChangedPayload>(SETTINGS_CHANGED_EVENT, { source: INSTANCE_ID, updates })
+    await emitSettingsChanged({ source: INSTANCE_ID, updates })
   } catch (err) {
     log.error('Failed to broadcast settings change to other windows', {
       error: String(err),
@@ -133,10 +128,10 @@ export const useSettingsStore = create<SettingsStore>()(
 
         if (!listening) {
           listening = true
-          await listen<SettingsChangedPayload>(SETTINGS_CHANGED_EVENT, (event) => {
-            if (event.payload.source === INSTANCE_ID) return
-            set(event.payload.updates)
-            log.debug('Settings synced from another window', event.payload.updates)
+          await onSettingsChanged((payload) => {
+            if (payload.source === INSTANCE_ID) return
+            set(payload.updates)
+            log.debug('Settings synced from another window', payload.updates)
           })
         }
       } catch (err) {

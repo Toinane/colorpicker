@@ -1,6 +1,11 @@
 import { useEffect, useCallback, useState } from 'react'
 import type { IAppSettings } from '@interfaces/settings'
 import { useSettingsStore } from '@stores/settingsStore'
+import {
+  setKeepOnTop as applyKeepOnTop,
+  setOpenAtLogin as applyOpenAtLogin,
+  getOpenAtLogin,
+} from '@common/ipc'
 
 /**
  * Hook to initialize settings on app startup
@@ -82,8 +87,22 @@ export function useOpenAtLogin(): [boolean, (value: boolean) => Promise<void>] {
   const openAtLogin = useSettingsStore((state) => state.openAtLogin)
   const updateSetting = useSettingsStore((state) => state.updateSetting)
 
+  // Reflect the real OS state on load, in case it drifted from the persisted
+  // setting (e.g. the user removed the startup entry via Task Manager).
+  useEffect(() => {
+    getOpenAtLogin()
+      .then((actual) => {
+        if (actual !== useSettingsStore.getState().openAtLogin) {
+          updateSetting('openAtLogin', actual)
+        }
+      })
+      .catch((error) => console.error('Failed to read autostart state from OS:', error))
+  }, [updateSetting])
+
   const setOpenAtLogin = useCallback(
     async (value: boolean) => {
+      // Apply to the OS first; only persist if it actually succeeded
+      await applyOpenAtLogin(value)
       await updateSetting('openAtLogin', value)
     },
     [updateSetting],
@@ -102,6 +121,8 @@ export function useKeepOnTop(): [boolean, (value: boolean) => Promise<void>] {
 
   const setKeepOnTop = useCallback(
     async (value: boolean) => {
+      // Apply to the window first; only persist if it actually succeeded
+      await applyKeepOnTop(value)
       await updateSetting('keepOnTop', value)
     },
     [updateSetting],

@@ -3,7 +3,7 @@
 use tauri::{
     menu::{Menu, MenuItem, PredefinedMenuItem},
     tray::{MouseButton, MouseButtonState, TrayIcon, TrayIconBuilder, TrayIconEvent},
-    AppHandle, Emitter, Listener, Manager, Wry,
+    AppHandle, Listener, Manager, Wry,
 };
 use tauri_plugin_store::StoreExt;
 
@@ -71,7 +71,12 @@ pub fn create_tray(app: &AppHandle) -> tauri::Result<()> {
         .on_menu_event(|app, event| match event.id.as_ref() {
             "open" => show_main_window(app),
             "settings" => {
-                let _ = app.emit("tray-open-settings", ());
+                let app_handle = app.clone();
+                tauri::async_runtime::spawn(async move {
+                    if let Err(e) = crate::commands::open_settings(app_handle).await {
+                        log::error!("Failed to open settings window: {}", e);
+                    }
+                });
             }
             "pick" => {
                 let app_handle = app.clone();

@@ -1,106 +1,22 @@
-/// Launch the native high-performance color picker
+//! Tauri commands. The TS-side call signatures for these are hand-mirrored in
+//! `src/common/ipc.ts` — keep both in sync (see that file for why it's not
+//! generated via tauri-specta yet).
+
+use tauri::Manager;
+use tauri_plugin_autostart::ManagerExt;
+
+/// Launch the native color picker using the current persisted settings.
 ///
-/// Opens a circular magnifier that follows the cursor and allows precise color picking.
-/// The picker achieves 144fps+ performance through direct bitmap manipulation and
-/// hardware-accelerated window compositing.
-///
-/// # User Controls
-/// - **Left Click** or **Enter**: Pick the center color
-/// - **Escape**: Cancel without picking
-/// - **Arrow Keys**: Fine-tune cursor position pixel-by-pixel
-///
-/// # Parameters
-///
-/// ## `grid_size` (default: 9)
-/// Size of the magnifier grid in pixels. The picker shows a grid_size × grid_size
-/// grid of magnified pixels. Typical values: 5, 7, 9, 11.
-///
-/// ## `show_hex` (default: true)
-/// Whether to display the hex color value at the bottom of the magnifier.
-///
-/// ## `magnifier_size` (default: 300)
-/// Diameter of the circular magnifier window in pixels. Larger sizes show more
-/// detail but may impact performance on slower systems.
-///
-/// ## `detect_background_changes` (default: false)
-/// Enable 30fps polling to detect color changes when the cursor is stationary.
-/// Useful for picking colors from videos or animations. Has minimal performance
-/// impact but adds slight CPU usage when enabled.
-///
-/// ## `allow_hover_through` (default: false)
-/// Allow mouse events to pass through the magnifier to underlying windows.
-/// When enabled, hovering over UI elements will trigger their hover states,
-/// allowing you to pick hover colors (e.g., a button's red color on hover).
-/// Uses global hooks for input when enabled.
-///
-/// # Returns
-/// - `Some(PickedColor)` if user picked a color
-/// - `None` if user cancelled (Escape key)
-///
-/// # Example
-/// ```javascript
-/// // Basic usage
-/// const color = await invoke('pick_color');
-///
-/// // Pick colors from video with hover-through
-/// const color = await invoke('pick_color', {
-///   detect_background_changes: true,
-///   allow_hover_through: true,
-///   magnifier_size: 400
-/// });
-/// ```
+/// This is the single launch path for the picker: the toolbar button, the
+/// tray "pick" menu item, and the global hotkey all end up here (the tray
+/// and hotkey call `shortcuts::trigger_global_pick` directly since they have
+/// no `invoke` caller to resolve to). Hides/shows the main window per the
+/// `eyedropperHideMain` setting and emits the result via the `color-picked`
+/// event — the frontend listens for that event rather than this command's
+/// return value, so all three trigger paths are handled identically.
 #[tauri::command]
-pub async fn pick_color(
-    grid_size: Option<u32>,
-    show_hex: Option<bool>,
-    magnifier_size: Option<u32>,
-    detect_background_changes: Option<bool>,
-    allow_hover_through: Option<bool>,
-) -> Result<Option<crate::picker::PickedColor>, String> {
-    let config = crate::picker::PickerConfig {
-        grid_size: grid_size.unwrap_or(9) as usize,
-        show_hex: show_hex.unwrap_or(true),
-        magnifier_size: magnifier_size.unwrap_or(300) as usize,
-        detect_background_changes: detect_background_changes.unwrap_or(false),
-        allow_hover_through: allow_hover_through.unwrap_or(false),
-    };
-
-    log::debug!(
-        "pick_color command invoked: grid_size={}, show_hex={}, magnifier_size={}, detect_background_changes={}, allow_hover_through={}",
-        config.grid_size,
-        config.show_hex,
-        config.magnifier_size,
-        config.detect_background_changes,
-        config.allow_hover_through
-    );
-
-    // Spawn blocking task (runs native window)
-    let result = tokio::task::spawn_blocking(move || {
-        let (tx, rx) = std::sync::mpsc::channel();
-        crate::picker::launch_picker(config, move |result| {
-            let _ = tx.send(result);
-        });
-        rx.recv().unwrap_or(None)
-    })
-        .await
-        .map_err(|e| {
-            let error_msg = format!("Picker task failed: {}", e);
-            log::error!("{}", error_msg);
-            error_msg
-        })?;
-
-    if let Some(ref color) = result {
-        log::info!(
-            "Color picked successfully: #{:02X}{:02X}{:02X}",
-            color.r,
-            color.g,
-            color.b
-        );
-    } else {
-        log::debug!("Color picker cancelled by user");
-    }
-
-    Ok(result)
+pub async fn launch_picker(app: tauri::AppHandle) {
+    crate::shortcuts::trigger_global_pick(app).await
 }
 
 /// Register a new global hotkey for launching the picker, replacing any previously
@@ -108,4 +24,96 @@ pub async fn pick_color(
 #[tauri::command]
 pub fn set_picker_hotkey(app: tauri::AppHandle, hotkey: String) -> Result<(), String> {
     crate::shortcuts::register_picker_shortcut(&app, &hotkey)
+}
+
+/// Open the settings window, creating it if it doesn't exist yet or focusing
+/// it otherwise. The toolbar button and the tray "Settings" menu item both
+/// call this, so there's a single creation path (no more racing
+/// `getAllWebviewWindows` calls from two different windows).
+///
+/// A plain sync `#[tauri::command]` runs on Tauri's command thread pool, not
+/// the main thread — but window creation is thread-affine on Windows (must
+/// happen on the thread owning the message loop). Creating it from a pool
+/// thread doesn't error, it just hangs/misbehaves. So the actual work is
+/// marshaled onto the main thread via `run_on_main_thread`, and this stays
+/// `async` to await that result without blocking a pool thread on it.
+#[tauri::command]
+pub async fn open_settings(app: tauri::AppHandle) -> Result<(), String> {
+    let (tx, rx) = tokio::sync::oneshot::channel();
+    let app_handle = app.clone();
+
+    app.run_on_main_thread(move || {
+        let _ = tx.send(open_or_focus_settings_window(&app_handle));
+    })
+    .map_err(|e| format!("Failed to schedule settings window creation: {}", e))?;
+
+    rx.await
+        .map_err(|_| "Settings window task was dropped".to_string())?
+}
+
+fn open_or_focus_settings_window(app: &tauri::AppHandle) -> Result<(), String> {
+    if let Some(window) = app.get_webview_window("settings") {
+        let _ = window.unminimize();
+        let _ = window.show();
+        let _ = window.set_focus();
+        return Ok(());
+    }
+
+    // Deliberately no `.parent()`: on Windows that sets an *owner* relationship
+    // (GWLP_HWNDPARENT), and owned windows don't get their own taskbar button —
+    // minimizing one just shrinks it to the screen corner with no way back.
+    // The "closes/hides with the main window" lifecycle we'd get from ownership
+    // is already handled explicitly in main.rs's CloseRequested handler, so
+    // nothing is lost by keeping this a normal top-level window.
+    //
+    // Hidden until the settings frontend emits "window-ready" (main.rs), same
+    // as the main window — avoids a flash of unstyled/unpositioned content.
+    let window = tauri::WebviewWindowBuilder::new(
+        app,
+        "settings",
+        tauri::WebviewUrl::App("/#/settings".into()),
+    )
+    .title("Settings")
+    .inner_size(543.0, 550.0)
+    .min_inner_size(555.0, 560.0)
+    .resizable(true)
+    .transparent(true)
+    .center()
+    .decorations(false)
+    .visible(false)
+    .build()
+    .map_err(|e| format!("Failed to create settings window: {}", e))?;
+
+    crate::apply_window_effects(&window);
+
+    Ok(())
+}
+
+/// Apply the "keep on top" setting to the main colorpicker window immediately.
+/// Also applied at startup from the persisted setting (see `main.rs`).
+#[tauri::command]
+pub fn set_keep_on_top(app: tauri::AppHandle, enabled: bool) -> Result<(), String> {
+    let window = app
+        .get_webview_window("colorpicker")
+        .ok_or_else(|| "colorpicker window not found".to_string())?;
+    window.set_always_on_top(enabled).map_err(|e| e.to_string())
+}
+
+/// Enable or disable launching the app at OS login.
+#[tauri::command]
+pub fn set_open_at_login(app: tauri::AppHandle, enabled: bool) -> Result<(), String> {
+    let autolaunch = app.autolaunch();
+    if enabled {
+        autolaunch.enable().map_err(|e| e.to_string())
+    } else {
+        autolaunch.disable().map_err(|e| e.to_string())
+    }
+}
+
+/// Read the actual OS-level autostart registration state. Used to reconcile
+/// the persisted setting with reality when the settings page loads, in case
+/// it drifted (e.g. the user removed the startup entry via Task Manager).
+#[tauri::command]
+pub fn get_open_at_login(app: tauri::AppHandle) -> Result<bool, String> {
+    app.autolaunch().is_enabled().map_err(|e| e.to_string())
 }
