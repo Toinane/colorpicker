@@ -48,10 +48,12 @@ export interface IAppSettings {
   eyedropperMagnifierSize: EyedropperMagnifierSizeOption
   eyedropperDetectBackgroundChanges: boolean
   eyedropperAllowHoverThrough: boolean
+  eyedropperShowPixelGrid: boolean
 
   // Shortcuts
   pickerHotkey: string
 
   // Experimental
   experimentalFeaturesUnlocked: boolean
+  eyedropperAdaptiveBorder: boolean
 }

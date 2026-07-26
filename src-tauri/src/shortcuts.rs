@@ -48,6 +48,8 @@ fn load_picker_config(app: &AppHandle) -> PickerConfig {
             defaults.detect_background_changes,
         ),
         allow_hover_through: get_bool("eyedropperAllowHoverThrough", defaults.allow_hover_through),
+        show_pixel_grid: get_bool("eyedropperShowPixelGrid", defaults.show_pixel_grid),
+        adaptive_border: get_bool("eyedropperAdaptiveBorder", defaults.adaptive_border),
     }
 }
 

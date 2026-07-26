@@ -70,6 +70,10 @@
       "isVibrant": {
         "label": "Apparence vibrante",
         "description": "Utilise un style de fenêtre plus vibrant et saturé"
+      },
+      "eyedropperAdaptiveBorder": {
+        "label": "Bordure adaptative de la pipette",
+        "description": "Adapte la couleur de la bordure extérieure de la loupe au pixel en dessous (noir sur clair, blanc sur foncé) au lieu d'un blanc constant"
       }
     }
   },
@@ -92,6 +96,10 @@
       "showHex": {
         "label": "Afficher le code hexadécimal",
         "description": "Affiche le code couleur hexadécimal dans la loupe"
+      },
+      "showPixelGrid": {
+        "label": "Afficher la grille de pixels",
+        "description": "Affiche une grille semi-transparente entre les pixels agrandis"
       }
     },
     "behavior": {

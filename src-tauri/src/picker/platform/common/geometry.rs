@@ -137,6 +137,75 @@ impl BorderMask {
     }
 }
 
+/// Pre-computed radial falloff mask for the magnifier's outer drop shadow.
+///
+/// Stores an alpha value (0-255) per pixel position in a square region
+/// centered on the magnifier, covering everything from the circle's edge
+/// out to `margin` pixels beyond it. Pixels inside the circle itself get a
+/// nonzero alpha too (whatever the falloff curve gives at that distance
+/// would be > the max, so it's clamped to 0 — see `new`), but that's moot
+/// either way: the shadow is drawn first and the circle/grid content is
+/// drawn over it afterward, so only the ring outside the circle ever stays
+/// visible.
+pub struct ShadowMask {
+    mask: Vec<u8>,
+    half_size: i32,
+}
+
+impl ShadowMask {
+    /// `radius` is the magnifier circle's radius; `margin` is how far the
+    /// shadow extends beyond it; `max_alpha` is the alpha right at the
+    /// circle's edge, fading (eased) to 0 by `radius + margin`.
+    pub fn new(radius: i32, margin: i32, max_alpha: u8) -> Self {
+        let half_size = radius + margin;
+        let size = half_size * 2;
+        let mut mask = vec![0u8; (size * size) as usize];
+
+        let radius_f = radius as f32;
+        let margin_f = margin.max(1) as f32;
+
+        for y in 0..size {
+            for x in 0..size {
+                let dx = (x - half_size) as f32;
+                let dy = (y - half_size) as f32;
+                let dist = (dx * dx + dy * dy).sqrt();
+
+                if dist > radius_f {
+                    let t = ((dist - radius_f) / margin_f).clamp(0.0, 1.0);
+                     // Ease-out: fades faster near the edge, softer at the tail.
+                    let falloff = (1.0 - t) * (1.0 - t);
+                    mask[(y * size + x) as usize] = (falloff * max_alpha as f32).round() as u8;
+                }
+            }
+        }
+
+        Self { mask, half_size }
+    }
+
+    /// Side length of the shadow's square bounding box.
+    #[inline]
+    pub fn size(&self) -> i32 {
+        self.half_size * 2
+    }
+
+    /// Alpha at a position relative to the top-left of the shadow's bounding
+    /// square (not relative to its center — matches how it's blitted).
+    #[inline]
+    pub fn alpha_at(&self, x: i32, y: i32) -> u8 {
+        let size = self.half_size * 2;
+        if x < 0 || y < 0 || x >= size || y >= size {
+            return 0;
+        }
+
+        let idx = (y * size + x) as usize;
+        if idx < self.mask.len() {
+            self.mask[idx]
+        } else {
+            0
+        }
+    }
+}
+
 /// Test if a point is within a rounded rectangle
 ///
 /// Used for drawing rounded corners on UI elements like the hex label box.
@@ -214,8 +283,26 @@ mod tests {
     fn test_rounded_rect() {
         // Point in center should always be inside
         assert!(is_in_rounded_rect(50, 50, 100, 100, 10));
-        
+
         // Point outside should not be inside
         assert!(!is_in_rounded_rect(-1, 50, 100, 100, 10));
+    }
+
+    #[test]
+    fn test_shadow_mask() {
+        let mask = ShadowMask::new(10, 5, 100);
+
+        // Center (well inside the circle) has no shadow
+        assert_eq!(mask.alpha_at(15, 15), 0);
+
+        // Just outside the circle's edge: still a visible amount of shadow
+        assert!(mask.alpha_at(15, 26) > 50);
+
+        // At the outer edge of the margin: alpha has fully faded out
+        assert_eq!(mask.alpha_at(15, 0), 0);
+
+        // Out of bounds is always 0, never panics
+        assert_eq!(mask.alpha_at(-1, 0), 0);
+        assert_eq!(mask.alpha_at(100, 100), 0);
     }
 }

@@ -20,7 +20,7 @@
 //! 7. Composite to screen with UpdateLayeredWindow
 
 use crate::picker::color::Color;
-use super::super::common::geometry::CircleMask;
+use super::super::common::geometry::{CircleMask, ShadowMask};
 use super::super::common::primitives::{self, *};
 use super::window::WindowState;
 use windows::Win32::{
@@ -169,9 +169,12 @@ pub unsafe fn paint(hwnd: HWND, state: &mut WindowState) {
     let current_hash = fast_hash_pixel_grid(&state.pixel_grid);
     let grid_changed = current_hash != state.prev_grid_hash;
 
-    // Calculate window position (magnifier centered on cursor, hex label below)
-    let window_x = cursor_x - mag_radius;
-    let window_y = cursor_y - mag_radius;
+    // Calculate window position (circle centered on cursor, hex label below).
+    // Offset by SHADOW_MARGIN since the window is padded on all sides to fit
+    // the drop shadow around the circle — without this the *window* (not the
+    // circle) would stay centered on the cursor, visibly offsetting the lens.
+    let window_x = cursor_x - mag_radius - SHADOW_MARGIN;
+    let window_y = cursor_y - mag_radius - SHADOW_MARGIN;
     let window_moved = (window_x, window_y) != state.prev_window_pos;
 
     // FRAME SKIP: Skip rendering if nothing changed (stationary cursor on same pixels)
@@ -198,32 +201,49 @@ pub unsafe fn paint(hwnd: HWND, state: &mut WindowState) {
     // Clear entire window area (magnifier + hex label space)
     primitives::clear_bitmap(state.bitmap_bits, state.window_width, state.window_height);
 
-    // Magnifier always at top of window, hex label at bottom
-    let magnifier_y = 0;
+    // Magnifier is inset by SHADOW_MARGIN on all sides (top/left) to leave
+    // room for the drop shadow around the circle.
+    let magnifier_x = SHADOW_MARGIN;
+    let magnifier_y = SHADOW_MARGIN;
+
+    // Drop shadow, drawn first: everything inside the circle gets fully
+    // overwritten by the opaque grid/border below, leaving only the soft
+    // ring outside the circle visible.
+    draw_shadow(
+        state.bitmap_bits,
+        state.window_width,
+        state.window_height,
+        magnifier_x - SHADOW_MARGIN,
+        magnifier_y - SHADOW_MARGIN,
+        &state.shadow_mask,
+    );
 
     // Render picker
     render_picker_direct(
         state.bitmap_bits,
         state.window_width,
         state.window_height,
-        0,  // picker_x in window coords
+        magnifier_x,  // picker_x in window coords
         magnifier_y,  // picker_y varies based on label position
         state.mag_size,
         &state.pixel_grid,
         state.config.grid_size,
         &state.circle_mask,
+        state.config.show_pixel_grid,
     );
 
-    // Draw border directly to bitmap with adaptive colors (no GDI = no artifacts)
+    // Draw border directly to bitmap (no GDI = no artifacts). White by
+    // default; adaptive color is an experimental opt-in (see draw_border_direct).
     draw_border_direct(
         state.bitmap_bits,
         state.window_width,
-        0,  // picker_x in window coords
+        magnifier_x,  // picker_x in window coords
         magnifier_y,  // border_y same as picker_y
         state.mag_size,
         &state.border_mask,
         &state.pixel_grid,
         state.config.grid_size,
+        state.config.adaptive_border,
     );
 
     // Draw hex label at bottom of magnifier
@@ -233,6 +253,48 @@ pub unsafe fn paint(hwnd: HWND, state: &mut WindowState) {
 
     // Update the layered window (SMALL window = FAST update)
     update_window(hwnd, state);
+}
+
+/// Draw the soft drop shadow around the magnifier circle. Writes plain black
+/// pixels at the mask's alpha (no blending needed): this runs first, right
+/// after the bitmap is cleared to transparent, so there's nothing underneath
+/// yet to blend with. Everything inside the circle gets overwritten by the
+/// opaque grid/border afterward — only the ring outside stays visible.
+#[inline]
+unsafe fn draw_shadow(
+    bitmap_bits: *mut u8,
+    stride_pixels: i32,
+    bitmap_height: i32,
+    origin_x: i32,
+    origin_y: i32,
+    shadow_mask: &ShadowMask,
+) {
+    let bytes_per_pixel = 4;
+    let stride = stride_pixels * bytes_per_pixel;
+    let size = shadow_mask.size();
+
+    for dy in 0..size {
+        let y = origin_y + dy;
+        if y < 0 || y >= bitmap_height {
+            continue;
+        }
+
+        for dx in 0..size {
+            let x = origin_x + dx;
+            if x < 0 || x >= stride_pixels {
+                continue;
+            }
+
+            let alpha = shadow_mask.alpha_at(dx, dy);
+            if alpha == 0 {
+                continue;
+            }
+
+            let bgra = (alpha as u32) << 24; // black (r=g=b=0) at this alpha
+            let offset = (y * stride + x * bytes_per_pixel) as isize;
+            std::ptr::write_unaligned(bitmap_bits.offset(offset) as *mut u32, bgra);
+        }
+    }
 }
 
 /// Render picker by writing pixels directly to bitmap buffer
@@ -249,6 +311,7 @@ unsafe fn render_picker_direct(
     pixel_grid: &[Color],
     grid_size: usize,
     circle_mask: &CircleMask,
+    show_pixel_grid: bool,
 ) {
     if pixel_grid.is_empty() {
         return;
@@ -305,7 +368,20 @@ unsafe fn render_picker_direct(
                             || dy < CENTER_CELL_BORDER 
                             || dy >= cell_size - CENTER_CELL_BORDER);
 
-                    let color = if is_border { center_border_color } else { bgra };
+                    // Grid line at each cell's right/bottom seam only (not
+                    // left/top too — that would double-blend the same seam
+                    // shared with the neighboring cell, compounding darker).
+                    let is_grid_line = show_pixel_grid
+                        && !is_border
+                        && (dx == cell_size - 1 || dy == cell_size - 1);
+
+                    let color = if is_border {
+                        center_border_color
+                    } else if is_grid_line {
+                        blend_gray_overlay(bgra, 128, PIXEL_GRID_LINE_ALPHA)
+                    } else {
+                        bgra
+                    };
 
                     let offset = (y * stride + x * bytes_per_pixel) as isize;
                     std::ptr::write_unaligned(bitmap_bits.offset(offset) as *mut u32, color);
@@ -315,8 +391,13 @@ unsafe fn render_picker_direct(
     }
 }
 
-/// Draw circle border directly to bitmap buffer with adaptive colors based on adjacent pixels
-/// Border color adapts to the pixel grid cell it's next to (black on light, white on dark)
+/// Draw circle border directly to bitmap buffer.
+///
+/// By default the border is a constant white — `adaptive_border` (an
+/// experimental setting) switches it to adapt per-pixel to whichever grid
+/// cell it's next to (black on light, white on dark), which is the
+/// original/legacy behavior but can itself become hard to see against
+/// certain colors, hence demoting it from the default.
 #[inline]
 #[allow(clippy::too_many_arguments)]
 unsafe fn draw_border_direct(
@@ -328,7 +409,10 @@ unsafe fn draw_border_direct(
     border_mask: &super::super::common::geometry::BorderMask,
     pixel_grid: &[Color],
     grid_size: usize,
+    adaptive_border: bool,
 ) {
+    const WHITE_BGRA: u32 = 0xFFFFFFFF;
+
     let bytes_per_pixel = 4;
     let stride = stride_pixels * bytes_per_pixel;
     let diameter = mag_size;
@@ -338,7 +422,7 @@ unsafe fn draw_border_direct(
     let actual_grid_size = cell_size * grid_size as i32;
     let grid_offset = (mag_size - actual_grid_size) / 2;
 
-    // Draw border using pre-computed mask with adaptive colors
+    // Draw border using pre-computed mask
     for dy in 0..diameter {
         let y = picker_y + dy;
         if y < 0 || y >= stride_pixels {
@@ -353,6 +437,12 @@ unsafe fn draw_border_direct(
 
             // Use pre-computed mask for instant border testing
             if border_mask.contains(dx, dy) {
+                if !adaptive_border {
+                    let offset = (y * stride + x * bytes_per_pixel) as isize;
+                    std::ptr::write_unaligned(bitmap_bits.offset(offset) as *mut u32, WHITE_BGRA);
+                    continue;
+                }
+
                 // Determine which grid cell this border pixel is adjacent to
                 // by looking slightly inward from the border pixel
                 let center_x = mag_size / 2;
@@ -412,8 +502,9 @@ unsafe fn draw_hex_label_with_background(state: &WindowState) {
     // Center the box horizontally
     let label_x = (state.window_width - label_width) / 2;
 
-    // Position vertically at bottom (below magnifier)
-    let label_y = state.mag_size + HEX_MARGIN;
+    // Position vertically at bottom (below magnifier). Offset by SHADOW_MARGIN
+    // since the circle itself starts that far down in the (now padded) window.
+    let label_y = SHADOW_MARGIN + state.mag_size + HEX_MARGIN;
 
     // Draw rounded rectangle background with adaptive border
     let border_color = center_color.adaptive_foreground();

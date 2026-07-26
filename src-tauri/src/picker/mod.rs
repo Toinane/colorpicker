@@ -41,6 +41,16 @@ pub struct PickerConfig {
 
     /// Allow hover events to pass through to underlying windows
     pub allow_hover_through: bool,
+
+    /// Show a semi-transparent grid overlay between magnified pixels
+    pub show_pixel_grid: bool,
+
+    /// Experimental: adapt the outer circle border's color to whichever grid
+    /// cell it's next to (black on light, white on dark) instead of a
+    /// constant white. This is the original/legacy behavior, demoted behind
+    /// this flag because the adaptive color can itself become hard to see
+    /// against certain colors.
+    pub adaptive_border: bool,
 }
 
 /// The single canonical defaults table. Grid size options are `5 | 11 | 21`
@@ -53,6 +63,8 @@ impl Default for PickerConfig {
             magnifier_size: 300,
             detect_background_changes: false,
             allow_hover_through: false,
+            show_pixel_grid: false,
+            adaptive_border: false,
         }
     }
 }

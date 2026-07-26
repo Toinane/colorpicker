@@ -70,6 +70,14 @@ pub const HEX_CORNER_RADIUS: i32 = 8;         // Corner radius for rounded hex b
 // Center cell highlight
 pub const CENTER_CELL_BORDER: i32 = 3;        // Border width for the center pixel highlight
 
+// Outer drop shadow around the magnifier circle — sized closer to a native
+// Windows window shadow (wide, soft spread) rather than a tight glow.
+pub const SHADOW_MARGIN: i32 = 45;            // Extra padding around the circle reserved for the shadow
+pub const SHADOW_MAX_ALPHA: u8 = 35;          // Alpha at the circle's edge (~35%), fading to 0 outward
+
+// Semi-transparent pixel grid overlay (optional, see PickerConfig::show_pixel_grid)
+pub const PIXEL_GRID_LINE_ALPHA: u8 = 90;     // ~35% opacity gridlines between magnified pixels
+
 // Cursor movement speeds
 pub const CURSOR_MOVE_NORMAL: i32 = 1;        // Normal arrow key movement (1 pixel)
 pub const CURSOR_MOVE_FAST: i32 = 10;        // Shift + arrow key movement (10 pixels)
@@ -98,6 +106,27 @@ pub unsafe fn write_pixel(bitmap_bits: *mut u8, stride: i32, x: i32, y: i32, bgr
         .saturating_mul(BYTES_PER_PIXEL as isize)
         .saturating_add((x as isize).saturating_mul(BYTES_PER_PIXEL as isize));
     std::ptr::write_unaligned(bitmap_bits.offset(offset) as *mut u32, bgra);
+}
+
+/// Alpha-blend a translucent gray overlay onto an already-opaque BGRA pixel
+/// (e.g. a grid line drawn over a magnified pixel cell). `base_bgra` is
+/// assumed fully opaque, so the result is too — only `overlay_alpha` controls
+/// how much the gray shows through.
+#[inline]
+pub fn blend_gray_overlay(base_bgra: u32, gray: u8, overlay_alpha: u8) -> u32 {
+    let base_b = base_bgra & 0xFF;
+    let base_g = (base_bgra >> 8) & 0xFF;
+    let base_r = (base_bgra >> 16) & 0xFF;
+
+    let a = overlay_alpha as u32;
+    let inv_a = 255 - a;
+    let overlay = gray as u32;
+
+    let r = (overlay * a + base_r * inv_a) / 255;
+    let g = (overlay * a + base_g * inv_a) / 255;
+    let b = (overlay * a + base_b * inv_a) / 255;
+
+    (255u32 << 24) | (r << 16) | (g << 8) | b
 }
 
 /// Draw a filled rectangle with rounded corners

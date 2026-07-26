@@ -8,8 +8,13 @@ import type { EyedropperGridSizeOption, EyedropperMagnifierSizeOption } from '@i
 const DisplaySettings = () => {
   const SettingsT = useTranslation('settings', { keyPrefix: 'magnifier.display' })
 
-  const { eyedropperGridSize, eyedropperMagnifierSize, eyedropperShowHex, updateSetting } =
-    useSettingsStore()
+  const {
+    eyedropperGridSize,
+    eyedropperMagnifierSize,
+    eyedropperShowHex,
+    eyedropperShowPixelGrid,
+    updateSetting,
+  } = useSettingsStore()
 
   return (
     <SettingsSection title={SettingsT.t('title')}>
@@ -52,6 +57,15 @@ const DisplaySettings = () => {
         <SettingsToggle
           checked={eyedropperShowHex}
           onChange={(checked) => updateSetting('eyedropperShowHex', checked)}
+        />
+      </SettingsItem>
+      <SettingsItem
+        label={SettingsT.t('showPixelGrid.label')}
+        description={SettingsT.t('showPixelGrid.description')}
+      >
+        <SettingsToggle
+          checked={eyedropperShowPixelGrid}
+          onChange={(checked) => updateSetting('eyedropperShowPixelGrid', checked)}
         />
       </SettingsItem>
     </SettingsSection>

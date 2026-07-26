@@ -70,6 +70,10 @@
       "isVibrant": {
         "label": "Vibrant appearance",
         "description": "Use a more vibrant, saturated window style"
+      },
+      "eyedropperAdaptiveBorder": {
+        "label": "Adaptive picker border",
+        "description": "Adapt the magnifier's outer border color to the pixel underneath it (black on light, white on dark) instead of a constant white"
       }
     }
   },
@@ -92,6 +96,10 @@
       "showHex": {
         "label": "Show Hex Code",
         "description": "Display the hex color code in the magnifier"
+      },
+      "showPixelGrid": {
+        "label": "Show Pixel Grid",
+        "description": "Display a semi-transparent grid between magnified pixels"
       }
     },
     "behavior": {

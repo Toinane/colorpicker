@@ -42,8 +42,10 @@ export const DEFAULT_SETTINGS: IAppSettings = {
   eyedropperMagnifierSize: 300,
   eyedropperDetectBackgroundChanges: false,
   eyedropperAllowHoverThrough: false,
+  eyedropperShowPixelGrid: false,
   pickerHotkey: 'CommandOrControl+Shift+C',
   experimentalFeaturesUnlocked: false,
+  eyedropperAdaptiveBorder: false,
 }
 
 // Passed to the Tauri store's `defaults` so that everything except `language`

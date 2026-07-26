@@ -13,6 +13,7 @@ const ExperimentalSettings = () => {
   const [isBordered, setIsBordered] = useSetting('isBordered')
   const [isFullColored, setIsFullColored] = useSetting('isFullColored')
   const [isVibrant, setIsVibrant] = useSetting('isVibrant')
+  const [eyedropperAdaptiveBorder, setEyedropperAdaptiveBorder] = useSetting('eyedropperAdaptiveBorder')
 
   if (!unlocked) return null
 
@@ -39,6 +40,15 @@ const ExperimentalSettings = () => {
           description={SettingsT.t('isVibrant.description')}
         >
           <SettingsToggle checked={isVibrant} onChange={setIsVibrant} />
+        </SettingsItem>
+        <SettingsItem
+          label={SettingsT.t('eyedropperAdaptiveBorder.label')}
+          description={SettingsT.t('eyedropperAdaptiveBorder.description')}
+        >
+          <SettingsToggle
+            checked={eyedropperAdaptiveBorder}
+            onChange={setEyedropperAdaptiveBorder}
+          />
         </SettingsItem>
       </SettingsAccordion>
     </SettingsSection>

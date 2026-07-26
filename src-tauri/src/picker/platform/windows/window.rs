@@ -30,7 +30,7 @@
 //! - Enables picking hover-state colors (e.g., close button red)
 
 use crate::picker::color::Color;
-use super::super::common::geometry::{BorderMask, CircleMask};
+use super::super::common::geometry::{BorderMask, CircleMask, ShadowMask};
 use super::super::common::primitives::*;
 use super::super::super::{PickerConfig, PickedColor};
 use std::cell::Cell;
@@ -88,10 +88,14 @@ pub fn create_and_run(
         // This is MUCH faster than fullscreen window for UpdateLayeredWindow
         let mag_size = config.magnifier_size as i32;
 
-        // Calculate window dimensions to include hex label below magnifier
+        // Calculate window dimensions to include hex label below magnifier and
+        // padding on all sides for the drop shadow around the circle. Only the
+        // top/sides get shadow_margin added to height/width; the bottom edge
+        // already has room via the (negative, overlapping) HEX_MARGIN, and the
+        // hex label draws over whatever shadow ends up underneath it.
         let hex_box_height = HEX_BOX_HEIGHT + HEX_PADDING * 2;
-        let window_width = mag_size;
-        let window_height = mag_size + HEX_MARGIN + hex_box_height;
+        let window_width = mag_size + SHADOW_MARGIN * 2;
+        let window_height = SHADOW_MARGIN + mag_size + HEX_MARGIN + hex_box_height;
 
         // Conditionally add WS_EX_TRANSPARENT to allow hover events to pass through
         let ex_style = if config.allow_hover_through {
@@ -203,6 +207,7 @@ pub fn create_and_run(
         // This eliminates expensive distance calculations during rendering
         let circle_mask = CircleMask::new_circle(mag_radius);
         let border_mask = BorderMask::new_circle(mag_radius, border_width);
+        let shadow_mask = ShadowMask::new(mag_radius, SHADOW_MARGIN, SHADOW_MAX_ALPHA);
 
         // Pre-allocate pixel grid to eliminate per-frame allocations
         let max_grid_size = config.grid_size * config.grid_size;
@@ -233,6 +238,7 @@ pub fn create_and_run(
             hex_font,
             circle_mask,
             border_mask,
+            shadow_mask,
             mag_radius,
             invisible_cursor,
         });
@@ -324,6 +330,7 @@ pub(super) struct WindowState {
     // Pre-computed masks for ultra-fast rendering (no per-pixel math)
     pub circle_mask: CircleMask,
     pub border_mask: BorderMask,
+    pub shadow_mask: ShadowMask,
     pub mag_radius: i32,
 
     // Invisible cursor for bulletproof cursor hiding
