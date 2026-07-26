@@ -40,7 +40,8 @@
     "tauri:build": "tauri build",
     "tauri:build:debug": "tauri build --debug",
     "lint": "tsc && oxlint src",
-    "format": "oxfmt --write src"
+    "format": "oxfmt --write src",
+    "test": "vitest run"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2.11.4",
@@ -48,14 +49,17 @@
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.3",
+    "esbuild": "^0.28.1",
     "oxfmt": "^0.59.0",
     "oxlint": "^1.74.0",
     "typescript": "^7.0.2",
     "vite": "^8.1.5",
-    "vite-plugin-svgr": "^5.2.0"
+    "vite-plugin-svgr": "^5.2.0",
+    "vitest": "^4.1.10"
   },
   "dependencies": {
     "@tauri-apps/api": "^2.11.1",
+    "@tauri-apps/plugin-clipboard-manager": "^2.3.2",
     "@tauri-apps/plugin-log": "^2.9.0",
     "@tauri-apps/plugin-store": "^2.4.4",
     "clsx": "^2.1.1",

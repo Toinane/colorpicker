@@ -25,6 +25,9 @@
     "core:window:allow-minimize",
     "store:default",
     "global-shortcut:default",
-    "autostart:default"
+    "autostart:default",
+    "window-state:default",
+    "clipboard-manager:allow-read-text",
+    "clipboard-manager:allow-write-text"
   ]
 }

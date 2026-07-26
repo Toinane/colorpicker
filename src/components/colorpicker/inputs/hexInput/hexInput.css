@@ -1,3 +1,34 @@
+.hexInputGroup {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+
+.hexInputCopyButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 5px;
+  border-radius: 4px;
+  background: transparent;
+  opacity: 0.7;
+  transition:
+    background-color 0.2s,
+    opacity 0.2s;
+}
+
+.hexInputCopyButton:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.DARK .hexInputCopyButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
 .hexInput {
   background: linear-gradient(165deg, rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, 0.2) 50%);
   color: black;

@@ -5,6 +5,7 @@
     "ok": "Ok",
     "copy": "Copy",
     "copied": "Copied 🗸",
+    "colorCopiedToast": "Color copied to clipboard",
     "cut": "Cut",
     "paste": "Paste",
     "reset": "Reset",

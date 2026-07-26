@@ -1,0 +1,20 @@
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <rect
+    x="88"
+    y="88"
+    width="128"
+    height="128"
+    rx="16"
+    fill="none"
+    stroke="var(--app-icon-main-color)"
+    stroke-width="16"
+  />
+  <path
+    d="M168 88V64C168 55.1634 160.837 48 152 48H56C47.1634 48 40 55.1634 40 64V160C40 168.837 47.1634 176 56 176H80"
+    fill="none"
+    stroke="var(--app-icon-main-color)"
+    stroke-width="16"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>

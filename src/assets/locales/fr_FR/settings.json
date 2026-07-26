@@ -107,7 +107,28 @@
       "allowHoverThrough": {
         "label": "Autoriser le survol au travers",
         "description": "Laisse les événements de la souris traverser la loupe pour capturer les couleurs des états de survol des fenêtres sous-jacentes"
+      },
+      "autoCopyOnPick": {
+        "label": "Copie automatique",
+        "description": "Copie automatiquement la couleur dans le presse-papiers dès qu'elle est sélectionnée"
       }
+    }
+  },
+  "format": {
+    "title": "Format",
+    "defaultFormat": {
+      "label": "Format par défaut",
+      "description": "Le format de couleur utilisé pour la copie, et affiché par défaut dans Colorpicker",
+      "options": {
+        "hex": "Hex",
+        "rgb": "RGB",
+        "hsl": "HSL",
+        "hsv": "HSV"
+      }
+    },
+    "hexPrefix": {
+      "label": "Préfixe hexadécimal",
+      "description": "Inclure le # au début des codes couleur hexadécimaux affichés ou copiés"
     }
   },
   "shortcuts": {

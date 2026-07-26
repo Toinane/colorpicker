@@ -32,7 +32,9 @@ export interface IAppSettings {
   showHistory: boolean
   maxHistorySize: number
   defaultFormat: ColorFormat
+  hexPrefix: boolean
   closeToTray: boolean
+  autoCopyOnPick: boolean
 
   // Appearance Settings
   isBordered: boolean

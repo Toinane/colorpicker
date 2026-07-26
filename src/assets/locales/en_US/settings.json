@@ -107,7 +107,28 @@
       "allowHoverThrough": {
         "label": "Allow Hover Through",
         "description": "Let mouse events pass through the magnifier so you can pick hover-state colors from underlying windows"
+      },
+      "autoCopyOnPick": {
+        "label": "Auto-copy on pick",
+        "description": "Automatically copy the color to the clipboard whenever you pick one"
       }
+    }
+  },
+  "format": {
+    "title": "Format",
+    "defaultFormat": {
+      "label": "Default format",
+      "description": "The color format used when copying, and shown by default throughout Colorpicker",
+      "options": {
+        "hex": "Hex",
+        "rgb": "RGB",
+        "hsl": "HSL",
+        "hsv": "HSV"
+      }
+    },
+    "hexPrefix": {
+      "label": "Hex prefix",
+      "description": "Include the leading # when displaying or copying hex colors"
     }
   },
   "shortcuts": {

@@ -59,6 +59,15 @@ fn open_or_focus_settings_window(app: &tauri::AppHandle) -> Result<(), String> {
         return Ok(());
     }
 
+    const WINDOW_WIDTH: f64 = 543.0;
+    const WINDOW_HEIGHT: f64 = 550.0;
+
+    // Only used to find which monitor to open on (see below) — not passed to
+    // `.parent()`.
+    let parent = app
+        .get_webview_window("colorpicker")
+        .ok_or_else(|| "colorpicker window not found".to_string())?;
+
     // Deliberately no `.parent()`: on Windows that sets an *owner* relationship
     // (GWLP_HWNDPARENT), and owned windows don't get their own taskbar button —
     // minimizing one just shrinks it to the screen corner with no way back.
@@ -68,21 +77,43 @@ fn open_or_focus_settings_window(app: &tauri::AppHandle) -> Result<(), String> {
     //
     // Hidden until the settings frontend emits "window-ready" (main.rs), same
     // as the main window — avoids a flash of unstyled/unpositioned content.
-    let window = tauri::WebviewWindowBuilder::new(
+    let mut builder = tauri::WebviewWindowBuilder::new(
         app,
         "settings",
         tauri::WebviewUrl::App("/#/settings".into()),
     )
     .title("Settings")
-    .inner_size(543.0, 550.0)
+    .inner_size(WINDOW_WIDTH, WINDOW_HEIGHT)
     .min_inner_size(555.0, 560.0)
     .resizable(true)
     .transparent(true)
-    .center()
     .decorations(false)
-    .visible(false)
-    .build()
-    .map_err(|e| format!("Failed to create settings window: {}", e))?;
+    .visible(false);
+
+    // `.center()` centers on the *new* window's own current monitor, which
+    // for a freshly created window is wherever the OS defaults to — not
+    // necessarily where the main window actually is on a multi-monitor
+    // setup. Center on the main window's monitor instead, falling back to
+    // the builder's own `.center()` if that can't be determined.
+    builder = match parent.current_monitor().ok().flatten() {
+        Some(monitor) => {
+            let area = monitor.work_area();
+            let scale = monitor.scale_factor();
+            let area_x = area.position.x as f64 / scale;
+            let area_y = area.position.y as f64 / scale;
+            let area_width = area.size.width as f64 / scale;
+            let area_height = area.size.height as f64 / scale;
+            builder.position(
+                area_x + (area_width - WINDOW_WIDTH) / 2.0,
+                area_y + (area_height - WINDOW_HEIGHT) / 2.0,
+            )
+        }
+        None => builder.center(),
+    };
+
+    let window = builder
+        .build()
+        .map_err(|e| format!("Failed to create settings window: {}", e))?;
 
     crate::apply_window_effects(&window);
 

@@ -5,6 +5,7 @@
     "ok": "Ok",
     "copy": "Copier",
     "copied": "Copié 🗸",
+    "colorCopiedToast": "Couleur copiée dans le presse-papiers",
     "cut": "Couper",
     "paste": "Coller",
     "reset": "Réinitialiser",

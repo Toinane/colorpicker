@@ -11,6 +11,7 @@ const BehaviorSettings = () => {
     eyedropperHideMain,
     eyedropperDetectBackgroundChanges,
     eyedropperAllowHoverThrough,
+    autoCopyOnPick,
     updateSetting,
   } = useSettingsStore()
 
@@ -41,6 +42,15 @@ const BehaviorSettings = () => {
         <SettingsToggle
           checked={eyedropperAllowHoverThrough}
           onChange={(checked) => updateSetting('eyedropperAllowHoverThrough', checked)}
+        />
+      </SettingsItem>
+      <SettingsItem
+        label={SettingsT.t('autoCopyOnPick.label')}
+        description={SettingsT.t('autoCopyOnPick.description')}
+      >
+        <SettingsToggle
+          checked={autoCopyOnPick}
+          onChange={(checked) => updateSetting('autoCopyOnPick', checked)}
         />
       </SettingsItem>
     </SettingsSection>

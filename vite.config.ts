@@ -5,6 +5,15 @@ import svgr from 'vite-plugin-svgr'
 
 const host = process.env.TAURI_DEV_HOST
 
+// TAURI_ENV_PLATFORM is only set when the Tauri CLI drives the build (`tauri
+// build`/`tauri dev`) — a bare `npm run build` (as used by the `start`
+// script) never has it, so it always fell through to the `safari13` branch
+// below, which this esbuild version can't downlevel-transform destructuring
+// for. Fall back to the actual host OS in that case.
+const isWindows = process.env.TAURI_ENV_PLATFORM
+  ? process.env.TAURI_ENV_PLATFORM === 'windows'
+  : process.platform === 'win32'
+
 // Vite config for Tauri development
 // This is used when running `npm run tauri:dev`
 export default defineConfig({
@@ -45,7 +54,7 @@ export default defineConfig({
 
   // Build configuration
   build: {
-    target: process.env.TAURI_ENV_PLATFORM == 'windows' ? 'chrome105' : 'safari13',
+    target: isWindows ? 'chrome105' : 'safari13',
     // don't minify for debug builds
     minify: !process.env.TAURI_ENV_DEBUG ? 'esbuild' : false,
     // produce sourcemaps for debug builds

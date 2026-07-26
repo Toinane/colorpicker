@@ -1,5 +1,6 @@
 import { memo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { writeText } from '@tauri-apps/plugin-clipboard-manager'
 
 import {
   SettingsSection,
@@ -34,7 +35,7 @@ const AboutSettings = () => {
     const versionsText = versionsList
       .map((item) => (typeof item === 'string' ? item : Object.values(item).join(': ')))
       .join('\n')
-    navigator.clipboard.writeText(versionsText)
+    writeText(versionsText).catch((err) => console.error('Failed to copy versions:', err))
   }
 
   const onAuthorClick = () => {
