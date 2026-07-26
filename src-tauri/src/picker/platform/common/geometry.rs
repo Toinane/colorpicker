@@ -148,6 +148,10 @@ impl BorderMask {
 /// * `radius` - Corner radius for rounding
 #[inline]
 pub fn is_in_rounded_rect(x: i32, y: i32, width: i32, height: i32, radius: i32) -> bool {
+    if x < 0 || y < 0 || x >= width || y >= height {
+        return false;
+    }
+
     // Check if in corner regions
     if x < radius && y < radius {
         // Top-left corner
@@ -187,7 +191,7 @@ mod tests {
         assert!(mask.contains(5, 5));
         
         // Points on the circle should be inside
-        assert!(mask.contains(10, 5)); // Right edge
+        assert!(mask.contains(9, 5)); // Right edge (diameter - 1, the last valid index)
         assert!(mask.contains(0, 5));  // Left edge
         
         // Points far outside should not be inside
@@ -203,7 +207,7 @@ mod tests {
         assert!(!mask.contains(10, 10));
         
         // Points on outer edge should be on border
-        assert!(mask.contains(20, 10));
+        assert!(mask.contains(19, 10)); // diameter - 1, the last valid index
     }
 
     #[test]

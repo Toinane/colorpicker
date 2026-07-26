@@ -47,8 +47,8 @@ use windows::Win32::{
 
 // Thread-locals for hooks to access window state
 thread_local! {
-    static PICKER_HWND: Cell<HWND> = Cell::new(HWND(std::ptr::null_mut()));
-    static ALLOW_HOVER_THROUGH: Cell<bool> = Cell::new(false);
+    static PICKER_HWND: Cell<HWND> = const { Cell::new(HWND(std::ptr::null_mut())) };
+    static ALLOW_HOVER_THROUGH: Cell<bool> = const { Cell::new(false) };
 }
 
 // Atomic flag to prevent message queue congestion during fast mouse movement
@@ -59,8 +59,16 @@ pub fn create_and_run(
     result: Arc<Mutex<Option<PickedColor>>>,
 ) -> Result<(), String> {
     unsafe {
-        // DPI awareness - CRITICAL for multi-monitor
-        let _ = SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
+        // DPI awareness is set once at app startup (main.rs) since it's process-wide
+        // and only the first call ever succeeds (see W5). Just verify it here in debug.
+        debug_assert!(
+            AreDpiAwarenessContextsEqual(
+                GetThreadDpiAwarenessContext(),
+                DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2,
+            )
+            .as_bool(),
+            "process should already be per-monitor DPI aware (set at app startup in main.rs)"
+        );
 
         // Register window class
         let instance = GetModuleHandleW(None).map_err(|e| format!("GetModuleHandleW failed: {:?}", e))?;
@@ -103,8 +111,17 @@ pub fn create_and_run(
             None, None, Some(instance.into()), None,
         ).map_err(|e| format!("Failed to create window: {:?}", e))?;
 
-        // Exclude from screen capture
-        let _ = SetWindowDisplayAffinity(hwnd, WDA_EXCLUDEFROMCAPTURE);
+        // Exclude the lens from screen capture. This is a correctness requirement,
+        // not a privacy feature: the lens sits directly over the pixels it samples,
+        // so without exclusion capture would read the lens's own rendering back
+        // (self-capture feedback loop) and the picker would pick nothing real.
+        // Requires Win10 2004+; on older builds this call fails and picking breaks.
+        if let Err(e) = SetWindowDisplayAffinity(hwnd, WDA_EXCLUDEFROMCAPTURE) {
+            log::error!(
+                "SetWindowDisplayAffinity(WDA_EXCLUDEFROMCAPTURE) failed: {:?} — picker will self-capture and pick incorrect colors. Requires Windows 10 2004+.",
+                e
+            );
+        }
 
         // Create offscreen DC and RGBA bitmap for UpdateLayeredWindow
         // Sized to include magnifier + hex label below
@@ -152,12 +169,12 @@ pub fn create_and_run(
         // Load custom font from embedded bytes
         let font_data = include_bytes!("../../../../../src/assets/fonts/UbuntuSansMono-VariableFont.ttf");
         let font_count = font_data.len() as u32;
-        let mut num_fonts: u32 = 0;
+        let num_fonts: u32 = 0;
         let _font_handle = AddFontMemResourceEx(
             font_data.as_ptr() as *const std::ffi::c_void,
             font_count,
             None,
-            &mut num_fonts,
+            &num_fonts,
         );
 
         // Create larger font for hex label (18pt = ~24px at 96 DPI)
@@ -189,7 +206,10 @@ pub fn create_and_run(
 
         // Pre-allocate pixel grid to eliminate per-frame allocations
         let max_grid_size = config.grid_size * config.grid_size;
-        let pixel_grid = Vec::with_capacity(max_grid_size);
+        let pixel_grid = vec![Color::new(0, 0, 0); max_grid_size];
+
+        // Persistent GDI capture resources, reused every frame (see W1)
+        let capture_ctx = super::capture::CaptureContext::new(config.grid_size);
 
         // Read config values before moving it into state
         let detect_background_changes = config.detect_background_changes;
@@ -203,6 +223,7 @@ pub fn create_and_run(
             prev_window_pos: (-1000, -1000),
             pixel_grid,
             prev_grid_hash: 0,
+            capture_ctx,
             hdc_offscreen,
             bitmap_offscreen,
             bitmap_bits: bitmap_bits as *mut u8,
@@ -229,21 +250,20 @@ pub fn create_and_run(
             0,
         ).map_err(|e| format!("Failed to install mouse hook: {:?}", e))?;
 
-        // Install keyboard hook only if hover-through enabled (otherwise window receives keyboard events normally)
-        let keyboard_hook = if allow_hover_through {
-            Some(SetWindowsHookExW(
-                WH_KEYBOARD_LL,
-                Some(keyboard_hook_proc),
-                Some(instance.into()),
-                0,
-            ).map_err(|e| format!("Failed to install keyboard hook: {:?}", e))?)
-        } else {
-            None
-        };
+        // Always install the keyboard hook (see W3): relying on WM_KEYDOWN via window
+        // focus is fragile — SetForegroundWindow can silently fail (foreground-lock
+        // rules), and any focus steal would kill Escape/Enter/arrows mid-session.
+        // The hook consumes and forwards picker keys regardless of focus, one input
+        // path for both normal and hover-through modes.
+        let keyboard_hook = SetWindowsHookExW(
+            WH_KEYBOARD_LL,
+            Some(keyboard_hook_proc),
+            Some(instance.into()),
+            0,
+        ).map_err(|e| format!("Failed to install keyboard hook: {:?}", e))?;
 
-        // Show window (no focus needed - we use global hooks for input)
+        // Show window (no focus needed - mouse and keyboard are both hook-driven)
         let _ = ShowWindow(hwnd, SW_SHOW);
-        let _ = SetForegroundWindow(hwnd);
 
         // Background change detection timer: 30fps polling (doesn't affect 144fps mouse tracking!)
         // This allows picking color changes in videos/animations when mouse is stationary
@@ -263,9 +283,7 @@ pub fn create_and_run(
 
         // Cleanup
         let _ = UnhookWindowsHookEx(mouse_hook);
-        if let Some(kb_hook) = keyboard_hook {
-            let _ = UnhookWindowsHookEx(kb_hook);
-        }
+        let _ = UnhookWindowsHookEx(keyboard_hook);
         while ShowCursor(true) < 0 {}  // Restore cursor
         Ok(())
     }
@@ -286,6 +304,9 @@ pub(super) struct WindowState {
     // Pixel data and change detection
     pub pixel_grid: Vec<Color>,
     pub prev_grid_hash: u64,
+
+    // Persistent capture resources, reused every frame (see W1)
+    pub capture_ctx: super::capture::CaptureContext,
 
     // Offscreen rendering resources for UpdateLayeredWindow
     pub hdc_offscreen: HDC,
@@ -322,12 +343,8 @@ unsafe extern "system" fn wnd_proc(hwnd: HWND, msg: u32, wparam: WPARAM, lparam:
                 let _ = GetCursorPos(&mut point);
                 state.cursor_pos = (point.x, point.y);
 
-                // Capture pixels at cursor
-                state.pixel_grid = super::capture::capture_grid_at_cursor(
-                    point.x,
-                    point.y,
-                    state.config.grid_size,
-                );
+                // Capture pixels at cursor (writes into the pre-allocated grid)
+                state.capture_ctx.capture_grid_at_cursor(point.x, point.y, &mut state.pixel_grid);
 
                 // Render with optimized direct bitmap manipulation
                 super::render::paint(hwnd, state);
@@ -522,7 +539,7 @@ unsafe extern "system" fn keyboard_hook_proc(code: i32, wparam: WPARAM, lparam: 
 }
 
 #[repr(C)]
-#[allow(dead_code, non_snake_case)]
+#[allow(dead_code, non_snake_case, clippy::upper_case_acronyms)]
 struct KBDLLHOOKSTRUCT {
     vkCode: u32,
     scanCode: u32,

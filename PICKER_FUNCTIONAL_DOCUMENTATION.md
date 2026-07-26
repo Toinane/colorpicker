@@ -440,7 +440,7 @@ High frame rates and low latency create a professional, responsive experience th
 
 ### Unobtrusive Operation
 
-The picker minimizes its footprint (small moving window instead of fullscreen), is excluded from screen capture, and hides the cursor to stay out of the way.
+The picker minimizes its footprint (small moving window instead of fullscreen) and hides the cursor to stay out of the way. It must never sample its own rendering (the lens sits over the sampled pixels); on Windows this currently requires excluding the window from screen capture (`WDA_EXCLUDEFROMCAPTURE`) — a correctness fix, not a goal. Wherever a platform allows solving this without global exclusion, the picker stays visible in screenshots and recordings.
 
 ### Flexibility
 

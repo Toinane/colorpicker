@@ -61,6 +61,18 @@ fn apply_window_effects(window: &tauri::WebviewWindow) {
 }
 
 fn main() {
+    // DPI awareness is process-wide and only the first call ever succeeds, so it
+    // must be set once here rather than per picker session (see picker W5).
+    #[cfg(target_os = "windows")]
+    {
+        use windows::Win32::UI::HiDpi::{
+            SetProcessDpiAwarenessContext, DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2,
+        };
+        unsafe {
+            let _ = SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
+        }
+    }
+
     tauri::Builder::default()
         .plugin(tauri_plugin_single_instance::init(|app, argv, cwd| {
             println!("{}, {argv:?}, {cwd}", app.package_info().name);

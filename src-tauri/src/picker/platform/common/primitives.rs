@@ -109,6 +109,7 @@ pub unsafe fn write_pixel(bitmap_bits: *mut u8, stride: i32, x: i32, y: i32, bgr
 /// * `border_color` - Color for the border
 /// * `fill_color` - Color for the interior
 /// * `radius` - Corner radius in pixels
+#[allow(clippy::too_many_arguments)]
 pub unsafe fn draw_rounded_rect(
     bitmap_bits: *mut u8,
     stride: i32,

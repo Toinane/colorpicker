@@ -1,7 +1,7 @@
-/// Custom logging configuration for ColorPicker
-///
-/// Philosophy: Logs should be beautiful, informative, and never overwhelming.
-/// In development, we want clarity. In production, we want complete records.
+//! Custom logging configuration for ColorPicker
+//!
+//! Philosophy: Logs should be beautiful, informative, and never overwhelming.
+//! In development, we want clarity. In production, we want complete records.
 
 use log::LevelFilter;
 use tauri_plugin_log::{Target, TargetKind};

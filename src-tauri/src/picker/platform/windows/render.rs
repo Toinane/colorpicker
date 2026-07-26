@@ -35,6 +35,7 @@ use windows::Win32::{
 /// rendering the text with ClearType, and then manually compositing it onto
 /// the main bitmap. This bypasses GDI's broken alpha channel handling for
 /// layered windows.
+#[allow(clippy::too_many_arguments)]
 unsafe fn draw_text(
     bitmap_bits: *mut u8,
     stride: i32,
@@ -58,7 +59,7 @@ unsafe fn draw_text(
     bmi.bmiHeader.biHeight = -height;  // Top-down DIB
     bmi.bmiHeader.biPlanes = 1;
     bmi.bmiHeader.biBitCount = 32;
-    bmi.bmiHeader.biCompression = BI_RGB.0 as u32;
+    bmi.bmiHeader.biCompression = BI_RGB.0;
 
     let mut temp_bits: *mut std::ffi::c_void = std::ptr::null_mut();
     let temp_bitmap = match CreateDIBSection(
@@ -237,6 +238,7 @@ pub unsafe fn paint(hwnd: HWND, state: &mut WindowState) {
 /// Render picker by writing pixels directly to bitmap buffer
 /// This is the HOT PATH - every optimization matters
 #[inline]
+#[allow(clippy::too_many_arguments)]
 unsafe fn render_picker_direct(
     bitmap_bits: *mut u8,
     stride_pixels: i32,  // Width of bitmap in pixels
@@ -316,6 +318,7 @@ unsafe fn render_picker_direct(
 /// Draw circle border directly to bitmap buffer with adaptive colors based on adjacent pixels
 /// Border color adapts to the pixel grid cell it's next to (black on light, white on dark)
 #[inline]
+#[allow(clippy::too_many_arguments)]
 unsafe fn draw_border_direct(
     bitmap_bits: *mut u8,
     stride_pixels: i32,

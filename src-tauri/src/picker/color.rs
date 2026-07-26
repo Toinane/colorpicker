@@ -81,7 +81,7 @@ impl Color {
     pub fn adaptive_foreground_bgra(self) -> u32 {
         const LIGHT_THRESHOLD: f32 = 0.8;
         if self.luminance() > LIGHT_THRESHOLD {
-            0xFF1d1f23_u32  // Dark (BGRA format)
+            0xff1d1f23_u32  // Dark (BGRA format)
         } else {
             0xFFFFFFFF_u32  // Light
         }

@@ -26,7 +26,7 @@ pub fn run_picker(config: PickerConfig) -> Option<PickedColor> {
     match window::create_and_run(config, result_clone) {
         Ok(_) => *result.lock().unwrap(),
         Err(e) => {
-            eprintln!("Picker error: {}", e);
+            log::error!("Picker error: {}", e);
             None
         }
     }

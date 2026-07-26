@@ -75,7 +75,13 @@ pub async fn pick_color(
     );
 
     // Spawn blocking task (runs native window)
-    let result = tokio::task::spawn_blocking(move || crate::picker::launch_picker(config))
+    let result = tokio::task::spawn_blocking(move || {
+        let (tx, rx) = std::sync::mpsc::channel();
+        crate::picker::launch_picker(config, move |result| {
+            let _ = tx.send(result);
+        });
+        rx.recv().unwrap_or(None)
+    })
         .await
         .map_err(|e| {
             let error_msg = format!("Picker task failed: {}", e);

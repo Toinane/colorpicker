@@ -67,7 +67,13 @@ pub async fn trigger_global_pick(app: AppHandle) {
         }
     }
 
-    let result = tokio::task::spawn_blocking(move || picker::launch_picker(config))
+    let result = tokio::task::spawn_blocking(move || {
+        let (tx, rx) = std::sync::mpsc::channel();
+        picker::launch_picker(config, move |result| {
+            let _ = tx.send(result);
+        });
+        rx.recv().unwrap_or(None)
+    })
         .await
         .unwrap_or_else(|e| {
             log::error!("Global hotkey picker task failed: {}", e);
