@@ -20,5 +20,8 @@
     "settings": "Paramètres",
     "pick": "Lancer la pipette",
     "quit": "Quitter"
+  },
+  "notification": {
+    "colorPickedTitle": "Couleur sélectionnée"
   }
 }

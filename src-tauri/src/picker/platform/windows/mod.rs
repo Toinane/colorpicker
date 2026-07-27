@@ -17,13 +17,18 @@ use std::sync::{Arc, Mutex};
 /// Launch the native Windows color picker
 ///
 /// Creates a circular magnifier window that follows the cursor and allows
-/// the user to pick a color. Returns `Some(PickedColor)` if a color was picked,
-/// or `None` if the user cancelled (Escape key).
-pub fn run_picker(config: PickerConfig) -> Option<PickedColor> {
+/// the user to pick a color. `on_pick` fires for every pick in the session
+/// (Shift+Click multi-picks without closing the window); the final result
+/// returned is the last picked color, or `None` if the user cancelled
+/// (Escape or right-click) without picking anything.
+pub fn run_picker(
+    config: PickerConfig,
+    on_pick: impl Fn(PickedColor) + Send + 'static,
+) -> Option<PickedColor> {
     let result = Arc::new(Mutex::new(None));
     let result_clone = Arc::clone(&result);
 
-    match window::create_and_run(config, result_clone) {
+    match window::create_and_run(config, result_clone, on_pick) {
         Ok(_) => *result.lock().unwrap(),
         Err(e) => {
             log::error!("Picker error: {}", e);

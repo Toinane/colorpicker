@@ -33,6 +33,7 @@ export const DEFAULT_SETTINGS: IAppSettings = {
   hexPrefix: true,
   closeToTray: false,
   autoCopyOnPick: false,
+  quickPickHeadless: false,
   isBordered: false,
   isFullColored: false,
   isVibrant: true,

@@ -57,6 +57,7 @@ static RENDER_PENDING: std::sync::atomic::AtomicBool = std::sync::atomic::Atomic
 pub fn create_and_run(
     config: PickerConfig,
     result: Arc<Mutex<Option<PickedColor>>>,
+    on_pick: impl Fn(PickedColor) + Send + 'static,
 ) -> Result<(), String> {
     unsafe {
         // DPI awareness is set once at app startup (main.rs) since it's process-wide
@@ -224,6 +225,8 @@ pub fn create_and_run(
         let state = Box::new(WindowState {
             config,
             result,
+            on_pick: Box::new(on_pick),
+            pick_count: 0,
             cursor_pos: (0, 0),
             prev_window_pos: (-1000, -1000),
             pixel_grid,
@@ -303,6 +306,11 @@ pub(super) struct WindowState {
     pub config: PickerConfig,
     pub result: Arc<Mutex<Option<PickedColor>>>,
 
+    // Called on every pick, including the final one (multi-pick, see B8).
+    pub on_pick: Box<dyn Fn(PickedColor) + Send>,
+    // Number of picks so far this session, for the on-lens count indicator.
+    pub pick_count: usize,
+
     // Cursor and window tracking
     pub cursor_pos: (i32, i32),
     pub prev_window_pos: (i32, i32),
@@ -368,15 +376,39 @@ unsafe extern "system" fn wnd_proc(hwnd: HWND, msg: u32, wparam: WPARAM, lparam:
         }
 
         WM_LBUTTONDOWN => {
-            // Pick center color
+            // Pick center color. Shift+Click multi-picks without ending the
+            // session (on_pick fires, session continues); a plain click
+            // picks and closes, as before.
             if let Some(state) = state {
                 if !state.pixel_grid.is_empty() {
                     let center_idx = state.pixel_grid.len() / 2;
                     let color = state.pixel_grid[center_idx];
+                    let shift_pressed = (GetKeyState(VK_SHIFT.0 as i32) as u16 & 0x8000) != 0;
+
+                    (state.on_pick)(color);
+
+                    if shift_pressed {
+                        state.pick_count += 1;
+                        // Force a redraw so the pick-count indicator updates
+                        // even if the cursor hasn't moved since (same trick
+                        // as move_cursor() uses for arrow-key nudges).
+                        state.prev_grid_hash = state.prev_grid_hash.wrapping_add(1);
+                        if !RENDER_PENDING.swap(true, std::sync::atomic::Ordering::AcqRel) {
+                            let _ = PostMessageW(Some(hwnd), WM_USER, WPARAM(0), LPARAM(0));
+                        }
+                        return LRESULT(0);
+                    }
+
                     *state.result.lock().unwrap() = Some(color);
                 }
             }
-            // Close window immediately after picking
+            // Close window after a non-multi-pick click
+            let _ = DestroyWindow(hwnd);
+            LRESULT(0)
+        }
+
+        WM_RBUTTONDOWN => {
+            // Right-click cancels the session (like Escape) without picking.
             let _ = DestroyWindow(hwnd);
             LRESULT(0)
         }
@@ -402,11 +434,13 @@ unsafe extern "system" fn wnd_proc(hwnd: HWND, msg: u32, wparam: WPARAM, lparam:
                     let _ = DestroyWindow(hwnd);
                 }
                 VK_RETURN => {
-                    // Pick center color (same as left click)
+                    // Pick center color and close (same as a plain left
+                    // click — Enter always closes, no multi-pick variant)
                     if let Some(state) = state {
                         if !state.pixel_grid.is_empty() {
                             let center_idx = state.pixel_grid.len() / 2;
                             let color = state.pixel_grid[center_idx];
+                            (state.on_pick)(color);
                             *state.result.lock().unwrap() = Some(color);
                         }
                     }
@@ -502,7 +536,10 @@ unsafe extern "system" fn mouse_hook_proc(code: i32, wparam: WPARAM, lparam: LPA
                 // Otherwise, the window will receive the click normally
                 let handle_in_hook = ALLOW_HOVER_THROUGH.with(|f| f.get());
                 if handle_in_hook {
-                    // Pick color on left click (consume the event)
+                    // Pick color on left click (consume the event). The
+                    // shift-modifier check for multi-pick happens once the
+                    // forwarded message reaches wnd_proc, same as a direct
+                    // (non-hover-through) click.
                     PICKER_HWND.with(|h| {
                         let hwnd = h.get();
                         if !hwnd.is_invalid() {
@@ -510,6 +547,20 @@ unsafe extern "system" fn mouse_hook_proc(code: i32, wparam: WPARAM, lparam: LPA
                         }
                     });
                     // Return 1 to prevent the click from reaching underlying windows
+                    return LRESULT(1);
+                }
+            }
+            WM_RBUTTONDOWN => {
+                // Right-click cancels the session — same forward+consume
+                // treatment as left click, so it works in hover-through mode too.
+                let handle_in_hook = ALLOW_HOVER_THROUGH.with(|f| f.get());
+                if handle_in_hook {
+                    PICKER_HWND.with(|h| {
+                        let hwnd = h.get();
+                        if !hwnd.is_invalid() {
+                            let _ = PostMessageW(Some(hwnd), WM_RBUTTONDOWN, WPARAM(0), LPARAM(0));
+                        }
+                    });
                     return LRESULT(1);
                 }
             }

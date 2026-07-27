@@ -3,6 +3,8 @@ import classNames from 'clsx'
 import Color from 'colorjs.io'
 
 import { useColorStore } from '@stores/colorStore'
+import { useColorHistoryStore } from '@stores/colorHistoryStore'
+import { toHex } from '@common/color'
 
 import Slider from '@components/colorpicker/sliders/slider'
 import NumberInput from '@components/colorpicker/inputs/numberInput/numberInput'
@@ -18,15 +20,16 @@ const RGBSlider: FunctionComponent = (): JSX.Element => {
 
   const handleChange = useCallback(
     (channel: 'r' | 'g' | 'b', value: number) => {
-      useColorStore
-        .getState()
-        .setColor(
-          new Color('srgb', [
-            channel === 'r' ? value / 255 : (r ?? 0),
-            channel === 'g' ? value / 255 : (g ?? 0),
-            channel === 'b' ? value / 255 : (b ?? 0),
-          ]),
-        )
+      const newColor = new Color('srgb', [
+        channel === 'r' ? value / 255 : (r ?? 0),
+        channel === 'g' ? value / 255 : (g ?? 0),
+        channel === 'b' ? value / 255 : (b ?? 0),
+      ])
+      useColorStore.getState().setColor(newColor)
+      // Manual manipulation history — independent of picker history (see
+      // @stores/pickerHistoryStore); debounced internally, so a drag only
+      // commits once it settles.
+      useColorHistoryStore.getState().commitColor(toHex(newColor))
     },
     [r, g, b],
   )

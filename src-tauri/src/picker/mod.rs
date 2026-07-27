@@ -77,18 +77,25 @@ static PICKER_ACTIVE: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicB
 /// Launch the native color picker
 ///
 /// Creates a circular magnifier window that follows the cursor with
-/// high-performance tracking (144fps+ on Windows), then invokes `on_done`
-/// with the result once the session ends. On Windows this call blocks the
-/// calling thread for the duration of the session (own Win32 message loop)
-/// and `on_done` runs synchronously just before returning; callers that
-/// need this off the calling thread should run it via `spawn_blocking`.
+/// high-performance tracking (144fps+ on Windows). `on_pick` is invoked for
+/// *every* pick during the session — Shift+Click picks a color without
+/// ending the session (multi-pick), so this can fire multiple times before
+/// `on_done` finally runs once the session ends. On Windows this call blocks
+/// the calling thread for the duration of the session (own Win32 message
+/// loop) and both callbacks run synchronously on it; callers that need this
+/// off the calling thread should run it via `spawn_blocking`.
 ///
 /// If a picker session is already running, this call is a no-op and
-/// `on_done(None)` is invoked immediately.
+/// `on_done(None)` is invoked immediately (`on_pick` never fires).
 ///
-/// - `on_done(Some(PickedColor))` if a color was picked
-/// - `on_done(None)` if the user cancelled (Escape key) or a session was already active
-pub fn launch_picker(config: PickerConfig, on_done: impl FnOnce(Option<PickedColor>) + Send + 'static) {
+/// - `on_pick(color)` once per pick, including the final one
+/// - `on_done(Some(PickedColor))` with the last picked color if at least one pick happened
+/// - `on_done(None)` if the user cancelled (Escape/right-click) without picking, or a session was already active
+pub fn launch_picker(
+    config: PickerConfig,
+    on_pick: impl Fn(PickedColor) + Send + 'static,
+    on_done: impl FnOnce(Option<PickedColor>) + Send + 'static,
+) {
     if PICKER_ACTIVE.swap(true, std::sync::atomic::Ordering::AcqRel) {
         log::warn!("Picker already active, ignoring launch request");
         on_done(None);
@@ -102,22 +109,23 @@ pub fn launch_picker(config: PickerConfig, on_done: impl FnOnce(Option<PickedCol
 
     #[cfg(target_os = "windows")]
     {
-        finish(platform::windows::run_picker(config));
+        finish(platform::windows::run_picker(config, on_pick));
     }
 
     #[cfg(target_os = "macos")]
     {
-        finish(platform::macos::run_picker(config));
+        finish(platform::macos::run_picker(config, on_pick));
     }
 
     #[cfg(target_os = "linux")]
     {
-        finish(platform::linux::run_picker(config));
+        finish(platform::linux::run_picker(config, on_pick));
     }
 
     #[cfg(not(any(target_os = "windows", target_os = "macos", target_os = "linux")))]
     {
         eprintln!("Picker not implemented for this platform");
+        let _ = on_pick;
         finish(None);
     }
 }

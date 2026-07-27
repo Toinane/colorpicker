@@ -1,6 +1,6 @@
 import { memo, useEffect, type ReactNode } from 'react'
 import i18n from '../i18n'
-import { useInitializeSettings } from '@hooks/index'
+import { useInitializeSettings, useInitializeHistory } from '@hooks/index'
 import { useLanguage, useSettingsStore } from '@stores/settingsStore'
 import { useColorpickerStore } from '@stores/colorpickerStore'
 
@@ -15,6 +15,9 @@ interface SettingsProviderProps {
  */
 const SettingsProvider = ({ children, fallback }: SettingsProviderProps) => {
   const { isInitialized, isLoading, error } = useInitializeSettings()
+  // Not gating render on this — history is independent of settings and a
+  // slower/failed load here shouldn't block the app from showing up.
+  useInitializeHistory()
   const language = useLanguage()
   const isBordered = useSettingsStore((state) => state.isBordered)
   const isFullColored = useSettingsStore((state) => state.isFullColored)

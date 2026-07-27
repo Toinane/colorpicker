@@ -119,6 +119,10 @@
       "autoCopyOnPick": {
         "label": "Copie automatique",
         "description": "Copie automatiquement la couleur dans le presse-papiers dès qu'elle est sélectionnée"
+      },
+      "quickPickHeadless": {
+        "label": "Sélection rapide sans fenêtre",
+        "description": "Sélectionne sans jamais afficher la fenêtre principale : copie la couleur et affiche une notification à la place"
       }
     }
   },

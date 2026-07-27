@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import Icon, { IconEnum } from "@components/icons";
 import { useColorStore } from "@stores/colorStore";
 import { useSettingsStore } from "@stores/settingsStore";
+import { useColorHistoryStore } from "@stores/colorHistoryStore";
 import { showToast } from "@stores/toastStore";
 import { isValidHex, serializeColor, toHex } from "@common/color";
 
@@ -34,7 +35,9 @@ const HexInput: FunctionComponent = (): JSX.Element => {
       setInputValue(value);
 
       if (isValidHex(value)) {
-        setColor(new Color(value));
+        const newColor = new Color(value);
+        setColor(newColor);
+        useColorHistoryStore.getState().commitColor(toHex(newColor));
       }
     },
     [setColor],
@@ -52,6 +55,7 @@ const HexInput: FunctionComponent = (): JSX.Element => {
 
       setColor(newColor);
       setInputValue(toHex(newColor));
+      useColorHistoryStore.getState().commitColor(toHex(newColor));
     }
     if (event.code === "ArrowDown") {
       const newColor = new Color(event.target.value).to("srgb").set({
@@ -62,6 +66,7 @@ const HexInput: FunctionComponent = (): JSX.Element => {
 
       setColor(newColor);
       setInputValue(toHex(newColor));
+      useColorHistoryStore.getState().commitColor(toHex(newColor));
     }
   };
 

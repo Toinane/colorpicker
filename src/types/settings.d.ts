@@ -35,6 +35,7 @@ export interface IAppSettings {
   hexPrefix: boolean
   closeToTray: boolean
   autoCopyOnPick: boolean
+  quickPickHeadless: boolean
 
   // Appearance Settings
   isBordered: boolean

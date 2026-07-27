@@ -119,6 +119,10 @@
       "autoCopyOnPick": {
         "label": "Auto-copy on pick",
         "description": "Automatically copy the color to the clipboard whenever you pick one"
+      },
+      "quickPickHeadless": {
+        "label": "Headless quick-pick",
+        "description": "Pick without ever showing the main window: copies the color and shows a notification instead"
       }
     }
   },

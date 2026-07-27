@@ -6,7 +6,10 @@
 
 use crate::picker::{PickedColor, PickerConfig};
 
-pub fn run_picker(_config: PickerConfig) -> Option<PickedColor> {
+pub fn run_picker(
+    _config: PickerConfig,
+    _on_pick: impl Fn(PickedColor) + Send + 'static,
+) -> Option<PickedColor> {
     log::warn!("picker not implemented on Linux yet");
     None
 }

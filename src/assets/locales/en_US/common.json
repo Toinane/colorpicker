@@ -20,5 +20,8 @@
     "settings": "Settings",
     "pick": "Launch Picker",
     "quit": "Quit"
+  },
+  "notification": {
+    "colorPickedTitle": "Color picked"
   }
 }

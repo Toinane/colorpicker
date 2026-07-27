@@ -12,6 +12,7 @@ const BehaviorSettings = () => {
     eyedropperDetectBackgroundChanges,
     eyedropperAllowHoverThrough,
     autoCopyOnPick,
+    quickPickHeadless,
     updateSetting,
   } = useSettingsStore()
 
@@ -51,6 +52,15 @@ const BehaviorSettings = () => {
         <SettingsToggle
           checked={autoCopyOnPick}
           onChange={(checked) => updateSetting('autoCopyOnPick', checked)}
+        />
+      </SettingsItem>
+      <SettingsItem
+        label={SettingsT.t('quickPickHeadless.label')}
+        description={SettingsT.t('quickPickHeadless.description')}
+      >
+        <SettingsToggle
+          checked={quickPickHeadless}
+          onChange={(checked) => updateSetting('quickPickHeadless', checked)}
         />
       </SettingsItem>
     </SettingsSection>

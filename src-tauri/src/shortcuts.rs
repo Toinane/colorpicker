@@ -55,30 +55,51 @@ fn load_picker_config(app: &AppHandle) -> PickerConfig {
 
 /// Launch the picker using the current persisted settings, triggered from the global hotkey
 /// or the tray menu's "Launch Picker" item. Hides/shows the main colorpicker window per the
-/// `eyedropperHideMain` setting, and emits the result to the frontend via a `color-picked`
-/// event since there's no `invoke` caller.
+/// `eyedropperHideMain` setting (skipped entirely in headless quick-pick mode — see
+/// `quickPickHeadless`), and emits each pick to the frontend via a `color-picked` event
+/// since there's no `invoke` caller. Multi-pick sessions (Shift+Click, see B8) emit one
+/// event per pick, not just at the end.
 pub async fn trigger_global_pick(app: AppHandle) {
     let config = load_picker_config(&app);
-    let hide_main = app
-        .store(SETTINGS_FILE)
-        .ok()
+    let store = app.store(SETTINGS_FILE).ok();
+    let hide_main = store
+        .as_ref()
         .and_then(|s| s.get("eyedropperHideMain"))
         .and_then(|v| v.as_bool())
         .unwrap_or(true);
+    // Headless quick-pick: window state is left completely untouched (no
+    // hide/show/restore at all) — clipboard + notification are handled by
+    // the frontend's color-picked listener, same event this fn already emits.
+    let headless = store
+        .as_ref()
+        .and_then(|s| s.get("quickPickHeadless"))
+        .and_then(|v| v.as_bool())
+        .unwrap_or(false);
 
     let window = app.get_webview_window("colorpicker");
 
-    if hide_main {
+    if hide_main && !headless {
         if let Some(window) = &window {
             let _ = window.hide();
         }
     }
 
+    let app_for_picks = app.clone();
     let result = tokio::task::spawn_blocking(move || {
         let (tx, rx) = std::sync::mpsc::channel();
-        picker::launch_picker(config, move |result| {
-            let _ = tx.send(result);
-        });
+        picker::launch_picker(
+            config,
+            move |color| {
+                // Emit immediately on every pick — a multi-pick session
+                // fires this several times before the session actually ends.
+                if let Err(e) = app_for_picks.emit("color-picked", &Some(color)) {
+                    log::error!("Failed to emit color-picked event: {}", e);
+                }
+            },
+            move |result| {
+                let _ = tx.send(result);
+            },
+        );
         rx.recv().unwrap_or(None)
     })
         .await
@@ -87,21 +108,23 @@ pub async fn trigger_global_pick(app: AppHandle) {
             None
         });
 
-    if hide_main {
-        if let Some(window) = &window {
-            let _ = window.show();
-            let _ = window.set_focus();
-        }
-    } else if result.is_some() {
-        // Bring the main window back if it was closed to tray or minimized,
-        // so the user can see the color that was just picked
-        if let Some(window) = &window {
-            let is_minimized = window.is_minimized().unwrap_or(false);
-            let is_visible = window.is_visible().unwrap_or(true);
-            if is_minimized || !is_visible {
-                let _ = window.unminimize();
+    if !headless {
+        if hide_main {
+            if let Some(window) = &window {
                 let _ = window.show();
                 let _ = window.set_focus();
+            }
+        } else if result.is_some() {
+            // Bring the main window back if it was closed to tray or minimized,
+            // so the user can see the color that was just picked
+            if let Some(window) = &window {
+                let is_minimized = window.is_minimized().unwrap_or(false);
+                let is_visible = window.is_visible().unwrap_or(true);
+                if is_minimized || !is_visible {
+                    let _ = window.unminimize();
+                    let _ = window.show();
+                    let _ = window.set_focus();
+                }
             }
         }
     }
@@ -113,10 +136,13 @@ pub async fn trigger_global_pick(app: AppHandle) {
             color.g,
             color.b
         );
-    }
-
-    if let Err(e) = app.emit("color-picked", &result) {
-        log::error!("Failed to emit color-picked event: {}", e);
+    } else {
+        // The final color (if any) was already emitted above via on_pick —
+        // only a fully-cancelled session (no picks at all) still needs its
+        // own event, so the frontend has something to react to either way.
+        if let Err(e) = app.emit("color-picked", &Option::<crate::picker::PickedColor>::None) {
+            log::error!("Failed to emit color-picked event: {}", e);
+        }
     }
 }
 
