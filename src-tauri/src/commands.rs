@@ -148,3 +148,129 @@ pub fn set_open_at_login(app: tauri::AppHandle, enabled: bool) -> Result<(), Str
 pub fn get_open_at_login(app: tauri::AppHandle) -> Result<bool, String> {
     app.autolaunch().is_enabled().map_err(|e| e.to_string())
 }
+
+/// The portable data directory, if this is a portable build (see `portable.rs`).
+/// The frontend uses this to build absolute paths for its own `plugin-store`
+/// files, mirroring the same redirection the Rust side already applies to
+/// settings.json/window-state.json/logs.
+#[tauri::command]
+pub fn get_portable_data_dir() -> Option<String> {
+    crate::portable::data_dir().map(|p| p.to_string_lossy().into_owned())
+}
+
+/// Open the Palettes window (saved categories/colors), creating it if it
+/// doesn't exist yet or focusing it otherwise. Same create-or-focus pattern
+/// as `open_settings`.
+#[tauri::command]
+pub async fn open_palettes(app: tauri::AppHandle) -> Result<(), String> {
+    let (tx, rx) = tokio::sync::oneshot::channel();
+    let app_handle = app.clone();
+
+    app.run_on_main_thread(move || {
+        let _ = tx.send(open_or_focus_palettes_window(&app_handle));
+    })
+    .map_err(|e| format!("Failed to schedule palettes window creation: {}", e))?;
+
+    rx.await
+        .map_err(|_| "Palettes window task was dropped".to_string())?
+}
+
+fn open_or_focus_palettes_window(app: &tauri::AppHandle) -> Result<(), String> {
+    if let Some(window) = app.get_webview_window("palettes") {
+        let _ = window.unminimize();
+        let _ = window.show();
+        let _ = window.set_focus();
+        return Ok(());
+    }
+
+    const WINDOW_WIDTH: f64 = 480.0;
+    const WINDOW_HEIGHT: f64 = 620.0;
+
+    // Only used to find which monitor to open on (see `open_or_focus_settings_window`).
+    let parent = app
+        .get_webview_window("colorpicker")
+        .ok_or_else(|| "colorpicker window not found".to_string())?;
+
+    let mut builder = tauri::WebviewWindowBuilder::new(
+        app,
+        "palettes",
+        tauri::WebviewUrl::App("/#/palettes".into()),
+    )
+    .title("Palettes")
+    .inner_size(WINDOW_WIDTH, WINDOW_HEIGHT)
+    .min_inner_size(600.0, 400.0)
+    .resizable(true)
+    .transparent(true)
+    .decorations(false)
+    .visible(false);
+
+    builder = match parent.current_monitor().ok().flatten() {
+        Some(monitor) => {
+            let area = monitor.work_area();
+            let scale = monitor.scale_factor();
+            let area_x = area.position.x as f64 / scale;
+            let area_y = area.position.y as f64 / scale;
+            let area_width = area.size.width as f64 / scale;
+            let area_height = area.size.height as f64 / scale;
+            builder.position(
+                area_x + (area_width - WINDOW_WIDTH) / 2.0,
+                area_y + (area_height - WINDOW_HEIGHT) / 2.0,
+            )
+        }
+        None => builder.center(),
+    };
+
+    let window = builder
+        .build()
+        .map_err(|e| format!("Failed to create palettes window: {}", e))?;
+
+    crate::apply_window_effects(&window);
+
+    Ok(())
+}
+
+/// Path to the legacy v2 (Electron) storage file, if this OS/install has one.
+/// `electron-json-storage` wrote it to `<userData>/storage/<key>.json`, and
+/// the v2 app's Electron `name`/`productName` was "colorpicker", giving
+/// `%APPDATA%/colorpicker/storage/colorpicker.json` on Windows.
+fn legacy_palettes_path() -> Option<std::path::PathBuf> {
+    let appdata = std::env::var("APPDATA").ok()?;
+    Some(
+        std::path::Path::new(&appdata)
+            .join("colorpicker")
+            .join("storage")
+            .join("colorpicker.json"),
+    )
+}
+
+/// Read the legacy v2 storage file's raw text, if present. Returns `None`
+/// (not an error) when the file doesn't exist — that's the normal fresh-install
+/// case, not a failure. Parsing is deliberately left to the caller (TS side)
+/// so migration logic stays in one place; this command only does the
+/// OS-specific path resolution + read.
+#[tauri::command]
+pub fn read_legacy_palettes() -> Result<Option<String>, String> {
+    let Some(path) = legacy_palettes_path() else {
+        return Ok(None);
+    };
+    if !path.exists() {
+        return Ok(None);
+    }
+    std::fs::read_to_string(&path)
+        .map(Some)
+        .map_err(|e| format!("Failed to read legacy storage file: {}", e))
+}
+
+/// Back up the legacy v2 storage file to `<path>.bak` (overwriting any
+/// previous backup) without touching the original, when it fails to parse.
+/// The legacy app used to `fs.rmSync` the file on any read error, destroying
+/// the user's data (G14); this is the deliberate opposite.
+#[tauri::command]
+pub fn backup_corrupt_legacy_palettes() -> Result<(), String> {
+    let path = legacy_palettes_path()
+        .ok_or_else(|| "Could not resolve legacy storage path".to_string())?;
+    let backup_path = path.with_extension("json.bak");
+    std::fs::copy(&path, &backup_path)
+        .map(|_| ())
+        .map_err(|e| format!("Failed to back up corrupt legacy storage file: {}", e))
+}

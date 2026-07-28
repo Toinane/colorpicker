@@ -1,11 +1,12 @@
 import { create } from 'zustand'
 import { subscribeWithSelector } from 'zustand/middleware'
-import { load, type Store } from '@tauri-apps/plugin-store'
+import type { Store } from '@tauri-apps/plugin-store'
 
 import type { IAppSettings } from '@interfaces/settings'
 import { createScopedLogger } from '@common/logger'
 import { resolveSupportedLanguage } from '@common/languages'
 import { emitSettingsChanged, onSettingsChanged } from '@common/ipc'
+import { openStore, persistToStore, initializeStore } from '@common/persistedStore'
 
 export interface SettingsStore extends IAppSettings {
   // Loading state
@@ -44,6 +45,8 @@ export const DEFAULT_SETTINGS: IAppSettings = {
   eyedropperDetectBackgroundChanges: false,
   eyedropperAllowHoverThrough: false,
   eyedropperShowPixelGrid: false,
+  eyedropperCursorAsideMode: false,
+  eyedropperAllowHoverThroughBeforeCursorAside: false,
   pickerHotkey: 'CommandOrControl+Shift+C',
   experimentalFeaturesUnlocked: false,
   eyedropperAdaptiveBorder: false,
@@ -68,10 +71,7 @@ let listening = false
 async function persistAndBroadcast(updates: Partial<IAppSettings>): Promise<void> {
   try {
     if (storeHandle) {
-      for (const [key, value] of Object.entries(updates)) {
-        await storeHandle.set(key, value)
-      }
-      await storeHandle.save()
+      await persistToStore(storeHandle, updates)
     } else {
       log.error('Settings store not loaded yet, change was not persisted', { updates })
     }
@@ -105,45 +105,43 @@ export const useSettingsStore = create<SettingsStore>()(
     /**
      * Load settings from disk and start listening for changes made in other windows
      */
-    initialize: async () => {
-      if (get().isInitialized || get().isLoading) return
-      set({ isLoading: true, error: null })
-
-      try {
-        storeHandle = await load(SETTINGS_FILE, {
-          autoSave: false,
-          defaults: STORE_DEFAULTS as unknown as Record<string, unknown>,
-        })
-        const entries = await storeHandle.entries<IAppSettings[keyof IAppSettings]>()
-        const loaded = Object.fromEntries(entries) as Partial<IAppSettings>
-
-        // `language` is absent only on a fresh install (see STORE_DEFAULTS above) -
-        // detect it from the OS/browser locale once, then persist it so this only runs once.
-        if (loaded.language === undefined) {
-          loaded.language = resolveSupportedLanguage(navigator.language)
-          await storeHandle.set('language', loaded.language)
-          await storeHandle.save()
-          log.info('First launch detected, resolved language from OS locale', {
-            osLocale: navigator.language,
-            resolved: loaded.language,
+    initialize: () =>
+      initializeStore(
+        get,
+        set,
+        async () => {
+          storeHandle = await openStore(SETTINGS_FILE, {
+            autoSave: false,
+            defaults: STORE_DEFAULTS as unknown as Record<string, unknown>,
           })
-        }
+          const entries = await storeHandle.entries<IAppSettings[keyof IAppSettings]>()
+          const loaded = Object.fromEntries(entries) as Partial<IAppSettings>
 
-        set({ ...DEFAULT_SETTINGS, ...loaded, isInitialized: true, isLoading: false })
+          // `language` is absent only on a fresh install (see STORE_DEFAULTS above) -
+          // detect it from the OS/browser locale once, then persist it so this only runs once.
+          if (loaded.language === undefined) {
+            loaded.language = resolveSupportedLanguage(navigator.language)
+            await storeHandle.set('language', loaded.language)
+            await storeHandle.save()
+            log.info('First launch detected, resolved language from OS locale', {
+              osLocale: navigator.language,
+              resolved: loaded.language,
+            })
+          }
 
-        if (!listening) {
-          listening = true
-          await onSettingsChanged((payload) => {
-            if (payload.source === INSTANCE_ID) return
-            set(payload.updates)
-            log.debug('Settings synced from another window', payload.updates)
-          })
-        }
-      } catch (err) {
-        log.error('Failed to load settings from disk', { error: String(err) })
-        set({ isInitialized: true, isLoading: false, error: String(err) })
-      }
-    },
+          if (!listening) {
+            listening = true
+            await onSettingsChanged((payload) => {
+              if (payload.source === INSTANCE_ID) return
+              set(payload.updates)
+              log.debug('Settings synced from another window', payload.updates)
+            })
+          }
+
+          return { ...DEFAULT_SETTINGS, ...loaded }
+        },
+        (err) => log.error('Failed to load settings from disk', { error: String(err) }),
+      ),
 
     /**
      * Update a single setting, persist it, and notify other windows

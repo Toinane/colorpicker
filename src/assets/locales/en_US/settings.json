@@ -1,8 +1,8 @@
 {
   "navigation": {
     "general": "General",
-    "magnifier": "Magnifier",
-    "palette": "Palette",
+    "magnifier": "Picker",
+    "palette": "Palettes",
     "shortcuts": "Shortcuts",
     "format": "Format"
   },
@@ -123,6 +123,10 @@
       "quickPickHeadless": {
         "label": "Headless quick-pick",
         "description": "Pick without ever showing the main window: copies the color and shows a notification instead"
+      },
+      "cursorAsideMode": {
+        "label": "Cursor-aside mode",
+        "description": "Windows only. Shows the magnifier beside your mouse pointer instead of over it, so you keep seeing your cursor while picking"
       }
     }
   },

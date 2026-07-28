@@ -1,0 +1,27 @@
+.colorItemContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding-bottom: 5px;
+}
+
+.colorItem {
+  flex-shrink: 0;
+  cursor: pointer;
+  border-radius: 8px;
+  border: 1px solid;
+  width: 48px;
+  height: 48px;
+  transition: all 0.1s ease-in-out;
+}
+
+.colorItem:hover {
+  rotate: 5deg;
+  scale: 1.1;
+}
+
+.colorName {
+  font-size: 10px;
+}

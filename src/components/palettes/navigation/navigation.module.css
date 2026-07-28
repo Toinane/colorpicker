@@ -1,0 +1,13 @@
+.navigation {
+  display: flex;
+  flex-direction: column;
+  /* background-color: var(--palette-section-background); */
+  /* border: 1px solid var(--palette-section-border); */
+  gap: 2px;
+  border-radius: 4px;
+  width: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #44444468 transparent;
+}

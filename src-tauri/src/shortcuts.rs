@@ -50,6 +50,7 @@ fn load_picker_config(app: &AppHandle) -> PickerConfig {
         allow_hover_through: get_bool("eyedropperAllowHoverThrough", defaults.allow_hover_through),
         show_pixel_grid: get_bool("eyedropperShowPixelGrid", defaults.show_pixel_grid),
         adaptive_border: get_bool("eyedropperAdaptiveBorder", defaults.adaptive_border),
+        cursor_aside_mode: get_bool("eyedropperCursorAsideMode", defaults.cursor_aside_mode),
     }
 }
 

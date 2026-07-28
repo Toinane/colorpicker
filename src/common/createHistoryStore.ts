@@ -1,8 +1,9 @@
 import { create, type StoreApi, type UseBoundStore } from 'zustand'
-import { load, type Store } from '@tauri-apps/plugin-store'
+import type { Store } from '@tauri-apps/plugin-store'
 
 import debounce from './debounce'
 import { pushHistoryEntry } from './history'
+import { openStore, persistToStore, initializeStore } from './persistedStore'
 
 export interface HistoryStore {
   history: string[]
@@ -43,11 +44,7 @@ export function createHistoryStore(
 
   const resolveMaxSize = (): number => (typeof maxSize === 'function' ? maxSize() : maxSize)
 
-  const persist = async (history: string[]): Promise<void> => {
-    if (!storeHandle) return
-    await storeHandle.set('history', history)
-    await storeHandle.save()
-  }
+  const persist = (history: string[]): Promise<void> => persistToStore(storeHandle, { history })
 
   return create<HistoryStore>((set, get) => {
     const commitNow = (hex: string) => {
@@ -72,19 +69,17 @@ export function createHistoryStore(
 
       commitColor,
 
-      initialize: async () => {
-        if (get().isInitialized || get().isLoading) return
-        set({ isLoading: true, error: null })
-
-        try {
-          storeHandle = await load(fileName, { autoSave: false })
-          const history = (await storeHandle.get<string[]>('history')) ?? []
-          set({ history, isInitialized: true, isLoading: false })
-        } catch (err) {
-          console.error(`Failed to load history (${fileName}):`, err)
-          set({ isInitialized: true, isLoading: false, error: String(err) })
-        }
-      },
+      initialize: () =>
+        initializeStore(
+          get,
+          set,
+          async () => {
+            storeHandle = await openStore(fileName, { autoSave: false })
+            const history = (await storeHandle.get<string[]>('history')) ?? []
+            return { history }
+          },
+          (err) => console.error(`Failed to load history (${fileName}):`, err),
+        ),
 
       clearHistory: async () => {
         set({ history: [] })

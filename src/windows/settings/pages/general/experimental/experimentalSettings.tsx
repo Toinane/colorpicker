@@ -1,7 +1,12 @@
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { SettingsSection, SettingsItem, SettingsToggle, SettingsAccordion } from '@components/settings'
+import {
+  SettingsSection,
+  SettingsItem,
+  SettingsToggle,
+  SettingsAccordion,
+} from '@components/settings'
 import { useSettingsStore } from '@stores/settingsStore'
 import { useSetting } from '@hooks/index'
 
@@ -13,7 +18,9 @@ const ExperimentalSettings = () => {
   const [isBordered, setIsBordered] = useSetting('isBordered')
   const [isFullColored, setIsFullColored] = useSetting('isFullColored')
   const [isVibrant, setIsVibrant] = useSetting('isVibrant')
-  const [eyedropperAdaptiveBorder, setEyedropperAdaptiveBorder] = useSetting('eyedropperAdaptiveBorder')
+  const [eyedropperAdaptiveBorder, setEyedropperAdaptiveBorder] = useSetting(
+    'eyedropperAdaptiveBorder',
+  )
 
   if (!unlocked) return null
 

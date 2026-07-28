@@ -1,8 +1,13 @@
 import { useEffect } from 'react'
 import classNames from 'clsx'
 import { writeText } from '@tauri-apps/plugin-clipboard-manager'
-import { isPermissionGranted, requestPermission, sendNotification } from '@tauri-apps/plugin-notification'
+import {
+  isPermissionGranted,
+  requestPermission,
+  sendNotification,
+} from '@tauri-apps/plugin-notification'
 import { useTranslation } from 'react-i18next'
+import Color from 'colorjs.io'
 
 import WindowBar from '@components/windowBar'
 import RGBSlider from '@components/colorpicker/sliders/RGBSlider/RGBSlider'
@@ -12,9 +17,11 @@ import { useColorpickerStore } from '@stores/colorpickerStore'
 import { useColorStore } from '@stores/colorStore'
 import { useSettingsStore } from '@stores/settingsStore'
 import { usePickerHistoryStore } from '@stores/pickerHistoryStore'
+import { useColorHistoryStore } from '@stores/colorHistoryStore'
+import { usePalettesStore } from '@stores/palettesStore'
 import { showToast } from '@stores/toastStore'
 import { rgbToColor, serializeColor, toHex } from '@common/color'
-import { onColorPicked } from '@common/ipc'
+import { onColorPicked, onPaletteColorApplied } from '@common/ipc'
 
 import './colorpicker.css'
 
@@ -76,6 +83,38 @@ const Colorpicker = () => {
       unlistenPromise.then((unlisten) => unlisten())
     }
   }, [setColor, CommonT])
+
+  useEffect(() => {
+    // A saved swatch clicked in the Palettes window (see B/C: cross-window
+    // event bus, same pattern as color-picked) — applied here like any other
+    // manual color selection, so it joins the manual-edit history rather
+    // than the picker's.
+    const unlistenPromise = onPaletteColorApplied((hex) => {
+      const appliedColor = new Color(hex)
+      setColor(appliedColor)
+      useColorHistoryStore.getState().commitColor(toHex(appliedColor))
+    })
+
+    return () => {
+      unlistenPromise.then((unlisten) => unlisten())
+    }
+  }, [setColor])
+
+  useEffect(() => {
+    // Ctrl/Cmd+S saves the current color into the Palettes window's active
+    // category (G13 — the legacy app advertised this shortcut but it did
+    // nothing). Works even if the Palettes window has never been opened,
+    // since palettesStore is initialized app-wide (see SettingsProvider).
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's') {
+        event.preventDefault()
+        usePalettesStore.getState().addColorToActiveCategory(toHex(color))
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [color])
 
   useEffect(() => {
     // These three appearance settings are consumed by legacy global CSS

@@ -1,0 +1,44 @@
+.navigationItem {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: left;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+}
+
+.navigationItem:focus-visible {
+  outline: 2px solid var(--palette-focus-outline);
+  outline-offset: -2px;
+}
+
+.navigationItem:hover,
+.navigationItem.active {
+  background-color: var(--palette-navigation-background);
+  cursor: pointer;
+}
+
+.navigationItem.active::after {
+  position: absolute;
+  content: '';
+  left: 0;
+  width: 3px;
+  height: 50%;
+  border-radius: 8px;
+  background-color: var(--main-color);
+}
+
+.colorSwatch {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  margin-right: 8px;
+}
+
+.label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

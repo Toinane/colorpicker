@@ -34,3 +34,16 @@
   font-size: 0.8em;
   opacity: 0.8;
 }
+
+.settingsItemControl {
+  flex-shrink: 0;
+}
+
+.settingsItemDisabled .settingsItemLabel,
+.settingsItemDisabled .settingsItemDescription {
+  opacity: 0.45;
+}
+
+.settingsItemDisabled .settingsItemControl {
+  opacity: 0.5;
+}

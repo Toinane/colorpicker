@@ -30,7 +30,7 @@
 //! - Enables picking hover-state colors (e.g., close button red)
 
 use crate::picker::color::Color;
-use super::super::common::geometry::{BorderMask, CircleMask, ShadowMask};
+use super::super::common::geometry::{BorderMask, CircleMask, ShadowMask, SquaredCorner};
 use super::super::common::primitives::*;
 use super::super::super::{PickerConfig, PickedColor};
 use std::cell::Cell;
@@ -48,7 +48,12 @@ use windows::Win32::{
 // Thread-locals for hooks to access window state
 thread_local! {
     static PICKER_HWND: Cell<HWND> = const { Cell::new(HWND(std::ptr::null_mut())) };
-    static ALLOW_HOVER_THROUGH: Cell<bool> = const { Cell::new(false) };
+    // Whether clicks must be captured via the low-level mouse hook rather
+    // than relying on the window's own WM_LBUTTONDOWN/WM_RBUTTONDOWN: true
+    // for hover-through (WS_EX_TRANSPARENT means the window itself never
+    // receives clicks) and for Cursor-aside mode (the window sits beside the
+    // cursor, not under it, so it's never the click target either).
+    static CAPTURE_CLICKS_VIA_HOOK: Cell<bool> = const { Cell::new(false) };
 }
 
 // Atomic flag to prevent message queue congestion during fast mouse movement
@@ -92,11 +97,22 @@ pub fn create_and_run(
         // Calculate window dimensions to include hex label below magnifier and
         // padding on all sides for the drop shadow around the circle. Only the
         // top/sides get shadow_margin added to height/width; the bottom edge
-        // already has room via the (negative, overlapping) HEX_MARGIN, and the
-        // hex label draws over whatever shadow ends up underneath it.
+        // normally has much less than that (via the negative, overlapping
+        // HEX_MARGIN) because the hex label draws over whatever shadow ends
+        // up underneath it, hiding the clipping.
         let hex_box_height = HEX_BOX_HEIGHT + HEX_PADDING * 2;
         let window_width = mag_size + SHADOW_MARGIN * 2;
-        let window_height = SHADOW_MARGIN + mag_size + HEX_MARGIN + hex_box_height;
+        let mut window_height = SHADOW_MARGIN + mag_size + HEX_MARGIN + hex_box_height;
+
+        // Cursor-aside mode's squared corner can put a full straight shadow-casting
+        // edge along the bottom (not just narrow enough to hide behind the hex
+        // label), so it needs the same full SHADOW_MARGIN of clearance below
+        // the magnifier that the top and sides already get — otherwise that
+        // edge's shadow gets visibly cut off in a hard line.
+        let bottom_clearance = HEX_MARGIN + hex_box_height;
+        if config.cursor_aside_mode && bottom_clearance < SHADOW_MARGIN {
+            window_height += SHADOW_MARGIN - bottom_clearance;
+        }
 
         // Conditionally add WS_EX_TRANSPARENT to allow hover events to pass through
         let ex_style = if config.allow_hover_through {
@@ -121,11 +137,18 @@ pub fn create_and_run(
         // so without exclusion capture would read the lens's own rendering back
         // (self-capture feedback loop) and the picker would pick nothing real.
         // Requires Win10 2004+; on older builds this call fails and picking breaks.
-        if let Err(e) = SetWindowDisplayAffinity(hwnd, WDA_EXCLUDEFROMCAPTURE) {
-            log::error!(
-                "SetWindowDisplayAffinity(WDA_EXCLUDEFROMCAPTURE) failed: {:?} — picker will self-capture and pick incorrect colors. Requires Windows 10 2004+.",
-                e
-            );
+        //
+        // Cursor-aside mode deliberately skips this: it renders the lens beside the
+        // cursor instead of centered on it (see render::paint), so the lens never
+        // overlaps the pixels it samples and the self-capture problem doesn't
+        // apply — leaving the lens visible to screen-recording/streaming software.
+        if !config.cursor_aside_mode {
+            if let Err(e) = SetWindowDisplayAffinity(hwnd, WDA_EXCLUDEFROMCAPTURE) {
+                log::error!(
+                    "SetWindowDisplayAffinity(WDA_EXCLUDEFROMCAPTURE) failed: {:?} — picker will self-capture and pick incorrect colors. Requires Windows 10 2004+.",
+                    e
+                );
+            }
         }
 
         // Create offscreen DC and RGBA bitmap for UpdateLayeredWindow
@@ -210,6 +233,15 @@ pub fn create_and_run(
         let border_mask = BorderMask::new_circle(mag_radius, border_width);
         let shadow_mask = ShadowMask::new(mag_radius, SHADOW_MARGIN, SHADOW_MAX_ALPHA);
 
+        // Cursor-aside mode: one squared-corner mask variant per diagonal the
+        // lens can be placed in (see render::paint), picked per-frame based
+        // on which corner ends up nearest the actual cursor. Precomputed
+        // once here rather than per-frame since they're only needed at all
+        // when cursor_aside_mode is on.
+        let cursor_aside_masks = config.cursor_aside_mode.then(|| {
+            CursorAsideMasks::new(mag_radius, border_width, SHADOW_MARGIN, SHADOW_MAX_ALPHA)
+        });
+
         // Pre-allocate pixel grid to eliminate per-frame allocations
         let max_grid_size = config.grid_size * config.grid_size;
         let pixel_grid = vec![Color::new(0, 0, 0); max_grid_size];
@@ -219,7 +251,7 @@ pub fn create_and_run(
 
         // Read config values before moving it into state
         let detect_background_changes = config.detect_background_changes;
-        let allow_hover_through = config.allow_hover_through;
+        let capture_clicks_via_hook = config.allow_hover_through || config.cursor_aside_mode;
 
         // Store state in window data
         let state = Box::new(WindowState {
@@ -242,14 +274,15 @@ pub fn create_and_run(
             circle_mask,
             border_mask,
             shadow_mask,
+            cursor_aside_masks,
             mag_radius,
             invisible_cursor,
         });
         SetWindowLongPtrW(hwnd, GWLP_USERDATA, Box::into_raw(state) as isize);
 
-        // Store window handle and hover-through flag in thread-local for hooks
+        // Store window handle and click-capture flag in thread-local for hooks
         PICKER_HWND.with(|h| h.set(hwnd));
-        ALLOW_HOVER_THROUGH.with(|f| f.set(allow_hover_through));
+        CAPTURE_CLICKS_VIA_HOOK.with(|f| f.set(capture_clicks_via_hook));
 
         // Install low-level mouse hook for instant tracking (and click detection if hover-through enabled)
         let mouse_hook = SetWindowsHookExW(
@@ -339,10 +372,52 @@ pub(super) struct WindowState {
     pub circle_mask: CircleMask,
     pub border_mask: BorderMask,
     pub shadow_mask: ShadowMask,
+    // Squared-corner mask variants for Cursor-aside mode, one per diagonal
+    // (`None` when Cursor-aside mode is off — see `CursorAsideMasks`).
+    pub cursor_aside_masks: Option<CursorAsideMasks>,
     pub mag_radius: i32,
 
     // Invisible cursor for bulletproof cursor hiding
     pub invisible_cursor: HCURSOR,
+}
+
+/// One squared-corner `(CircleMask, BorderMask, ShadowMask)` triple per
+/// diagonal the lens can be placed in, for Cursor-aside mode. `render::paint`
+/// picks the triple whose squared corner is nearest wherever the lens
+/// actually ends up relative to the cursor that frame.
+pub(super) struct CursorAsideMasks {
+    top_left: (CircleMask, BorderMask, ShadowMask),
+    top_right: (CircleMask, BorderMask, ShadowMask),
+    bottom_left: (CircleMask, BorderMask, ShadowMask),
+    bottom_right: (CircleMask, BorderMask, ShadowMask),
+}
+
+impl CursorAsideMasks {
+    fn new(radius: i32, border_width: i32, shadow_margin: i32, shadow_max_alpha: u8) -> Self {
+        let build = |corner: SquaredCorner| {
+            (
+                CircleMask::new_squared(radius, corner),
+                BorderMask::new_squared(radius, border_width, corner),
+                ShadowMask::new_squared(radius, shadow_margin, shadow_max_alpha, corner),
+            )
+        };
+        Self {
+            top_left: build(SquaredCorner::TopLeft),
+            top_right: build(SquaredCorner::TopRight),
+            bottom_left: build(SquaredCorner::BottomLeft),
+            bottom_right: build(SquaredCorner::BottomRight),
+        }
+    }
+
+    pub fn get(&self, corner: SquaredCorner) -> (&CircleMask, &BorderMask, &ShadowMask) {
+        let (circle, border, shadow) = match corner {
+            SquaredCorner::TopLeft => &self.top_left,
+            SquaredCorner::TopRight => &self.top_right,
+            SquaredCorner::BottomLeft => &self.bottom_left,
+            SquaredCorner::BottomRight => &self.bottom_right,
+        };
+        (circle, border, shadow)
+    }
 }
 
 unsafe extern "system" fn wnd_proc(hwnd: HWND, msg: u32, wparam: WPARAM, lparam: LPARAM) -> LRESULT {
@@ -532,9 +607,11 @@ unsafe extern "system" fn mouse_hook_proc(code: i32, wparam: WPARAM, lparam: LPA
                 // The next render will capture the latest position anyway
             }
             WM_LBUTTONDOWN => {
-                // Only handle clicks here if hover-through is enabled (WS_EX_TRANSPARENT)
-                // Otherwise, the window will receive the click normally
-                let handle_in_hook = ALLOW_HOVER_THROUGH.with(|f| f.get());
+                // Only handle clicks here if the window itself won't receive them
+                // directly — hover-through (WS_EX_TRANSPARENT) or Cursor-aside mode
+                // (window isn't under the cursor). Otherwise, the window will
+                // receive the click normally.
+                let handle_in_hook = CAPTURE_CLICKS_VIA_HOOK.with(|f| f.get());
                 if handle_in_hook {
                     // Pick color on left click (consume the event). The
                     // shift-modifier check for multi-pick happens once the
@@ -553,7 +630,7 @@ unsafe extern "system" fn mouse_hook_proc(code: i32, wparam: WPARAM, lparam: LPA
             WM_RBUTTONDOWN => {
                 // Right-click cancels the session — same forward+consume
                 // treatment as left click, so it works in hover-through mode too.
-                let handle_in_hook = ALLOW_HOVER_THROUGH.with(|f| f.get());
+                let handle_in_hook = CAPTURE_CLICKS_VIA_HOOK.with(|f| f.get());
                 if handle_in_hook {
                     PICKER_HWND.with(|h| {
                         let hwnd = h.get();

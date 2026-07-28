@@ -91,3 +91,7 @@
   left: -2.5px;
   border-radius: 10px;
 }
+
+.settingsToggleDisabled {
+  cursor: not-allowed;
+}

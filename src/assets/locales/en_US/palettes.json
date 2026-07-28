@@ -1,0 +1,18 @@
+{
+  "title": "Palettes",
+  "category": {
+    "namePlaceholder": "Category name",
+    "add": "Add category",
+    "empty": "No categories yet"
+  },
+  "color": {
+    "hexPlaceholder": "#RRGGBB",
+    "addCurrent": "Add current color",
+    "addHex": "Add",
+    "empty": "No colors in this category"
+  },
+  "action": {
+    "rename": "Rename",
+    "delete": "Delete"
+  }
+}

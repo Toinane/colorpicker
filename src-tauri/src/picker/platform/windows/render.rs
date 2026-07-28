@@ -20,7 +20,7 @@
 //! 7. Composite to screen with UpdateLayeredWindow
 
 use crate::picker::color::Color;
-use super::super::common::geometry::{CircleMask, ShadowMask};
+use super::super::common::geometry::{BorderMask, CircleMask, ShadowMask, SquaredCorner};
 use super::super::common::primitives::{self, *};
 use super::window::WindowState;
 use windows::Win32::{
@@ -28,6 +28,77 @@ use windows::Win32::{
     Graphics::Gdi::*,
     UI::WindowsAndMessaging::*,
 };
+
+/// Cursor-aside mode: gap between the cursor and the lens window on the axis
+/// (or axes) it's offset on.
+const CURSOR_ASIDE_GAP: i32 = 4;
+
+/// Cursor-aside mode: where to place the lens relative to the cursor, and which
+/// corner of its bounding square ends up nearest the cursor as a result.
+/// Defaults to below-right of the cursor (squared corner: top-left), flipping
+/// either axis independently when the monitor's work area doesn't have room.
+unsafe fn cursor_aside_placement(
+    cursor_x: i32,
+    cursor_y: i32,
+    window_width: i32,
+    window_height: i32,
+) -> (i32, i32, SquaredCorner) {
+    let Some(work) = monitor_work_area(cursor_x, cursor_y) else {
+        // No monitor info available — fall back to the default diagonal
+        // with no edge awareness rather than failing to place the lens.
+        return (
+            cursor_x + CURSOR_ASIDE_GAP,
+            cursor_y + CURSOR_ASIDE_GAP,
+            SquaredCorner::TopLeft,
+        );
+    };
+
+    let fits_right = cursor_x + CURSOR_ASIDE_GAP + window_width <= work.right;
+    let fits_left = cursor_x - CURSOR_ASIDE_GAP - window_width >= work.left;
+    let place_right = fits_right || !fits_left;
+
+    let fits_below = cursor_y + CURSOR_ASIDE_GAP + window_height <= work.bottom;
+    let fits_above = cursor_y - CURSOR_ASIDE_GAP - window_height >= work.top;
+    let place_below = fits_below || !fits_above;
+
+    let window_x = if place_right {
+        cursor_x + CURSOR_ASIDE_GAP
+    } else {
+        cursor_x - CURSOR_ASIDE_GAP - window_width
+    };
+    let window_y = if place_below {
+        cursor_y + CURSOR_ASIDE_GAP
+    } else {
+        cursor_y - CURSOR_ASIDE_GAP - window_height
+    };
+
+    // Final safety clamp in case the lens doesn't fully fit on its chosen
+    // side either (e.g. a monitor narrower than the lens itself).
+    let window_x = window_x.clamp(work.left, (work.right - window_width).max(work.left));
+    let window_y = window_y.clamp(work.top, (work.bottom - window_height).max(work.top));
+
+    let corner = match (place_right, place_below) {
+        (true, true) => SquaredCorner::TopLeft,
+        (true, false) => SquaredCorner::BottomLeft,
+        (false, true) => SquaredCorner::TopRight,
+        (false, false) => SquaredCorner::BottomRight,
+    };
+
+    (window_x, window_y, corner)
+}
+
+/// Work area (excludes taskbar) of the monitor nearest the given point, or
+/// `None` if the OS couldn't resolve it.
+unsafe fn monitor_work_area(x: i32, y: i32) -> Option<RECT> {
+    let mut monitor_info = MONITORINFO {
+        cbSize: std::mem::size_of::<MONITORINFO>() as u32,
+        ..Default::default()
+    };
+    let monitor = MonitorFromPoint(POINT { x, y }, MONITOR_DEFAULTTONEAREST);
+    GetMonitorInfoW(monitor, &mut monitor_info)
+        .as_bool()
+        .then_some(monitor_info.rcWork)
+}
 
 /// Render text to bitmap with proper alpha compositing
 ///
@@ -173,8 +244,26 @@ pub unsafe fn paint(hwnd: HWND, state: &mut WindowState) {
     // Offset by SHADOW_MARGIN since the window is padded on all sides to fit
     // the drop shadow around the circle — without this the *window* (not the
     // circle) would stay centered on the cursor, visibly offsetting the lens.
-    let window_x = cursor_x - mag_radius - SHADOW_MARGIN;
-    let window_y = cursor_y - mag_radius - SHADOW_MARGIN;
+    //
+    // Cursor-aside mode places the lens diagonally beside the cursor instead of
+    // centered on it (flipping either axis to stay on the current monitor),
+    // so the tiny sampled pixel region at the cursor is never covered by the
+    // lens itself — that's what lets window.rs skip WDA_EXCLUDEFROMCAPTURE
+    // (which would otherwise also hide the lens from screen-recording/
+    // streaming software) without the lens self-capturing. The corner of the
+    // lens nearest the cursor is squared off (see CursorAsideMasks) as a visual
+    // cue pointing back at it.
+    let (window_x, window_y, cursor_aside_corner) = if state.config.cursor_aside_mode {
+        let (x, y, corner) =
+            cursor_aside_placement(cursor_x, cursor_y, state.window_width, state.window_height);
+        (x, y, Some(corner))
+    } else {
+        (
+            cursor_x - mag_radius - SHADOW_MARGIN,
+            cursor_y - mag_radius - SHADOW_MARGIN,
+            None,
+        )
+    };
     let window_moved = (window_x, window_y) != state.prev_window_pos;
 
     // FRAME SKIP: Skip rendering if nothing changed (stationary cursor on same pixels)
@@ -206,6 +295,15 @@ pub unsafe fn paint(hwnd: HWND, state: &mut WindowState) {
     let magnifier_x = SHADOW_MARGIN;
     let magnifier_y = SHADOW_MARGIN;
 
+    // Squared-corner variants for Cursor-aside mode, falling back to the plain
+    // circle if masks weren't precomputed (cursor_aside_mode off) — see
+    // `CursorAsideMasks`.
+    let (circle_mask, border_mask, shadow_mask): (&CircleMask, &BorderMask, &ShadowMask) =
+        match cursor_aside_corner.zip(state.cursor_aside_masks.as_ref()) {
+            Some((corner, masks)) => masks.get(corner),
+            None => (&state.circle_mask, &state.border_mask, &state.shadow_mask),
+        };
+
     // Drop shadow, drawn first: everything inside the circle gets fully
     // overwritten by the opaque grid/border below, leaving only the soft
     // ring outside the circle visible.
@@ -215,7 +313,7 @@ pub unsafe fn paint(hwnd: HWND, state: &mut WindowState) {
         state.window_height,
         magnifier_x - SHADOW_MARGIN,
         magnifier_y - SHADOW_MARGIN,
-        &state.shadow_mask,
+        shadow_mask,
     );
 
     // Render picker
@@ -228,7 +326,7 @@ pub unsafe fn paint(hwnd: HWND, state: &mut WindowState) {
         state.mag_size,
         &state.pixel_grid,
         state.config.grid_size,
-        &state.circle_mask,
+        circle_mask,
         state.config.show_pixel_grid,
     );
 
@@ -240,7 +338,7 @@ pub unsafe fn paint(hwnd: HWND, state: &mut WindowState) {
         magnifier_x,  // picker_x in window coords
         magnifier_y,  // border_y same as picker_y
         state.mag_size,
-        &state.border_mask,
+        border_mask,
         &state.pixel_grid,
         state.config.grid_size,
         state.config.adaptive_border,

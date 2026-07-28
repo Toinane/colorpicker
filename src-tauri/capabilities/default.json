@@ -2,7 +2,7 @@
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
   "description": "Default permissions for Colorpicker",
-  "windows": ["colorpicker", "settings"],
+  "windows": ["colorpicker", "settings", "palettes"],
   "permissions": [
     "core:default",
     "core:event:allow-listen",
@@ -23,6 +23,7 @@
     "core:window:allow-close",
     "core:window:allow-toggle-maximize",
     "core:window:allow-minimize",
+    "core:window:allow-start-dragging",
     "store:default",
     "global-shortcut:default",
     "autostart:default",

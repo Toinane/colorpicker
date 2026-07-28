@@ -54,6 +54,7 @@ const WindowControls: FunctionComponent = (): JSX.Element => {
         onClick={handleMinimize}
         aria-label="Minimize"
         title="Minimize"
+        tabIndex={-1}
       >
         <svg width="12" height="12" viewBox="0 0 12 12">
           <rect width="10" height="1" x="1" y="6" fill="currentColor" />
@@ -64,6 +65,7 @@ const WindowControls: FunctionComponent = (): JSX.Element => {
         onClick={handleMaximize}
         aria-label={isMaximized ? 'Restore' : 'Maximize'}
         title={isMaximized ? 'Restore' : 'Maximize'}
+        tabIndex={-1}
       >
         {isMaximized ? (
           <svg width="12" height="12" viewBox="0 0 12 12">
@@ -102,6 +104,7 @@ const WindowControls: FunctionComponent = (): JSX.Element => {
         onClick={handleClose}
         aria-label="Close"
         title="Close"
+        tabIndex={-1}
       >
         <svg width="12" height="12" viewBox="0 0 12 12">
           <path

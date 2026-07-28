@@ -51,6 +51,16 @@ pub struct PickerConfig {
     /// this flag because the adaptive color can itself become hard to see
     /// against certain colors.
     pub adaptive_border: bool,
+
+    /// Windows only: positions the lens beside the cursor instead of
+    /// centered on it, so you keep seeing your real mouse pointer while
+    /// picking. As a side effect this also skips `WDA_EXCLUDEFROMCAPTURE`,
+    /// so screen-recording/streaming software can see the picker too. See
+    /// `platform::windows::render::paint` and
+    /// `platform::windows::window::create_and_run` for the two halves of
+    /// this (the offset is what makes skipping the capture exclusion safe —
+    /// otherwise the lens would capture its own rendering).
+    pub cursor_aside_mode: bool,
 }
 
 /// The single canonical defaults table. Grid size options are `5 | 11 | 21`
@@ -65,6 +75,7 @@ impl Default for PickerConfig {
             allow_hover_through: false,
             show_pixel_grid: false,
             adaptive_border: false,
+            cursor_aside_mode: false,
         }
     }
 }

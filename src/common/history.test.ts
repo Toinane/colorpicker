@@ -11,10 +11,7 @@ describe('pushHistoryEntry', () => {
   })
 
   it('dedupes against the head — no consecutive duplicate entries', () => {
-    expect(pushHistoryEntry(['#FF0000', '#00FF00'], '#FF0000', 50)).toEqual([
-      '#FF0000',
-      '#00FF00',
-    ])
+    expect(pushHistoryEntry(['#FF0000', '#00FF00'], '#FF0000', 50)).toEqual(['#FF0000', '#00FF00'])
   })
 
   it('still adds a color that reappears further back in history (only the head is deduped)', () => {

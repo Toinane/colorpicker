@@ -7,10 +7,12 @@ use tauri::{
 };
 use tauri_plugin_store::StoreExt;
 
-const SETTINGS_FILE: &str = "settings.json";
+fn settings_file() -> String {
+    crate::portable::resolve_filename("settings.json")
+}
 
 fn persisted_language(app: &AppHandle) -> String {
-    app.store(SETTINGS_FILE)
+    app.store(settings_file())
         .ok()
         .and_then(|store| store.get("language"))
         .and_then(|v| v.as_str().map(str::to_string))
@@ -19,7 +21,7 @@ fn persisted_language(app: &AppHandle) -> String {
 
 /// Read the persisted "close to tray" preference, defaulting to quitting normally
 pub fn should_close_to_tray(app: &AppHandle) -> bool {
-    app.store(SETTINGS_FILE)
+    app.store(settings_file())
         .ok()
         .and_then(|store| store.get("closeToTray"))
         .and_then(|v| v.as_bool())

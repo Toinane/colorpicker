@@ -145,15 +145,27 @@ fn format_level(level: log::Level, colored: bool) -> String {
     }
 }
 
-/// Create the logging plugin with custom formatting
-pub fn create_logger() -> tauri_plugin_log::Builder {
+/// Create the logging plugin with custom formatting.
+///
+/// `portable_dir` is `Some` only in a portable build (see `portable.rs`) — in
+/// that case logs go to `<portable_dir>/logs` instead of the OS's standard
+/// per-user log directory. Unused in debug builds (stdout only), hence the
+/// `allow`.
+#[allow(unused_variables)]
+pub fn create_logger(portable_dir: Option<&std::path::Path>) -> tauri_plugin_log::Builder {
     let is_debug = cfg!(debug_assertions);
 
     tauri_plugin_log::Builder::new()
         .targets([
             Target::new(TargetKind::Stdout),
             #[cfg(not(debug_assertions))]
-            Target::new(TargetKind::LogDir { file_name: None }),
+            match portable_dir {
+                Some(dir) => Target::new(TargetKind::Folder {
+                    path: dir.join("logs"),
+                    file_name: None,
+                }),
+                None => Target::new(TargetKind::LogDir { file_name: None }),
+            },
         ])
         .level(if is_debug {
             LevelFilter::Debug

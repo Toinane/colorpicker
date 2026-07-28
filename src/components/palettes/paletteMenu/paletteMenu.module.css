@@ -1,0 +1,16 @@
+:root {
+  --palette-menu-border: #00000020;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --palette-menu-border: #00000050;
+  }
+}
+
+.paletteMenu {
+  display: flex;
+  gap: 10px;
+  padding: 8px;
+  border-bottom: 1.5px solid var(--palette-menu-border);
+}

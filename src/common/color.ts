@@ -14,7 +14,8 @@ export interface RGBColor {
 export const rgbToColor = ({ r, g, b }: RGBColor): Color =>
   new Color('srgb', [r / 255, g / 255, b / 255])
 
-const clamp = (value: number, min: number, max: number): number => Math.min(max, Math.max(min, value))
+const clamp = (value: number, min: number, max: number): number =>
+  Math.min(max, Math.max(min, value))
 
 const toByte = (channel: number | null): number => Math.round(clamp(channel ?? 0, 0, 1) * 255)
 

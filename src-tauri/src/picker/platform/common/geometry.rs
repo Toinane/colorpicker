@@ -3,6 +3,114 @@
 //! This module handles all geometric computations that can be pre-calculated
 //! at initialization time, eliminating expensive per-frame calculations.
 
+/// Which corner of the magnifier's bounding square should be squared off
+/// (filled solid, sharp 90° angle) instead of rounded — used by Cursor-aside
+/// mode to visually point the lens back at the cursor it's offset from. The
+/// other three corners stay circular.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum SquaredCorner {
+    TopLeft,
+    TopRight,
+    BottomLeft,
+    BottomRight,
+}
+
+impl SquaredCorner {
+    /// Whether (dx, dy), relative to the shape's center, falls in this
+    /// corner's quadrant of the bounding square.
+    #[inline]
+    fn in_quadrant(self, dx: i32, dy: i32) -> bool {
+        match self {
+            SquaredCorner::TopLeft => dx <= 0 && dy <= 0,
+            SquaredCorner::TopRight => dx >= 0 && dy <= 0,
+            SquaredCorner::BottomLeft => dx <= 0 && dy >= 0,
+            SquaredCorner::BottomRight => dx >= 0 && dy >= 0,
+        }
+    }
+
+    /// Signed unit vector (x, y) pointing from center toward this corner's tip.
+    #[inline]
+    fn direction(self) -> (i32, i32) {
+        match self {
+            SquaredCorner::TopLeft => (-1, -1),
+            SquaredCorner::TopRight => (1, -1),
+            SquaredCorner::BottomLeft => (-1, 1),
+            SquaredCorner::BottomRight => (1, 1),
+        }
+    }
+}
+
+/// How much of the squared corner's tip gets rounded off instead of staying
+/// a sharp 90° point — a small fillet so it doesn't look like a knife edge.
+pub const SQUARED_CORNER_FILLET: i32 = 12;
+
+/// Single source of truth for the "circle with one squared, tip-filleted
+/// corner" shape, at a given `radius`, shared by `CircleMask::new_squared`
+/// and `BorderMask::new_squared` (as outer-shape-minus-inner-shape) so the
+/// two can never disagree with each other by a pixel at the seam between the
+/// straight edges and the circular arcs.
+///
+/// Outside `corner`'s quadrant: an ordinary circle. Inside it: filled solid
+/// to the bounding square's edges, except right at the tip, where a quarter
+/// circle of radius `fillet` rounds it off.
+#[inline]
+fn in_squared_shape(dx: i32, dy: i32, radius: i32, corner: SquaredCorner, fillet: i32) -> bool {
+    if !corner.in_quadrant(dx, dy) {
+        return dx * dx + dy * dy <= radius * radius;
+    }
+
+    let (sx, sy) = corner.direction();
+    // Distance from the tip along each axis: 0 right at the tip, growing to
+    // `radius` back at the center.
+    let from_tip_x = radius - sx * dx;
+    let from_tip_y = radius - sy * dy;
+
+    if from_tip_x < 0 || from_tip_y < 0 {
+        // Beyond this radius's bounding square on at least one axis. Matters
+        // when this is called with a shrunk `radius` (inner shape, for
+        // border masks) against (dx, dy) that were only ever bounded by the
+        // larger outer radius.
+        return false;
+    }
+
+    if from_tip_x < fillet && from_tip_y < fillet {
+        // Near the tip: round it off with a small quarter-circle centered
+        // `fillet` away from the tip on both axes.
+        let rx = from_tip_x - fillet;
+        let ry = from_tip_y - fillet;
+        rx * rx + ry * ry <= fillet * fillet
+    } else {
+        // Anywhere else in the quadrant: filled straight out to the edge.
+        true
+    }
+}
+
+/// Continuous counterpart to `in_squared_shape`: how far (dx, dy) sits past
+/// the shape's boundary (0 if inside or on it). Used by `ShadowMask` so the
+/// shadow's falloff follows the exact same silhouette the fill/border masks
+/// use — including the tip's fillet arc — instead of a plain flat-edge
+/// distance that leaves a shadowless notch where the corner gets rounded off.
+#[inline]
+fn squared_dist_beyond(dx: i32, dy: i32, radius: i32, corner: SquaredCorner, fillet: i32) -> f32 {
+    if !corner.in_quadrant(dx, dy) {
+        let dist = ((dx * dx + dy * dy) as f32).sqrt();
+        return (dist - radius as f32).max(0.0);
+    }
+
+    let (sx, sy) = corner.direction();
+    let from_tip_x = radius - sx * dx;
+    let from_tip_y = radius - sy * dy;
+
+    if from_tip_x < fillet && from_tip_y < fillet {
+        let rx = (from_tip_x - fillet) as f32;
+        let ry = (from_tip_y - fillet) as f32;
+        ((rx * rx + ry * ry).sqrt() - fillet as f32).max(0.0)
+    } else {
+        let max_abs = dx.abs().max(dy.abs());
+        (max_abs - radius).max(0) as f32
+    }
+}
+
 /// Pre-computed circle mask for instant pixel-in-circle testing
 ///
 /// Each boolean indicates whether a pixel at that position (x, y) falls
@@ -46,6 +154,28 @@ impl CircleMask {
     /// Create a new circle mask with default perfect circle shape
     pub fn new_circle(radius: i32) -> Self {
         Self::new(radius, 1.0)
+    }
+
+    /// Create a circle with one corner of its bounding square squared off
+    /// (tip rounded by `SQUARED_CORNER_FILLET`): that quadrant is filled
+    /// solid out to the bounding square's edges instead of clipped to the
+    /// circular radius. See `SquaredCorner`.
+    pub fn new_squared(radius: i32, corner: SquaredCorner) -> Self {
+        let diameter = radius * 2;
+        let mut mask = vec![false; (diameter * diameter) as usize];
+
+        for y in 0..diameter {
+            for x in 0..diameter {
+                let dx = x - radius;
+                let dy = y - radius;
+
+                if in_squared_shape(dx, dy, radius, corner, SQUARED_CORNER_FILLET) {
+                    mask[(y * diameter + x) as usize] = true;
+                }
+            }
+        }
+
+        Self { mask, radius }
     }
 
     /// Test if a point relative to circle center is inside the circle
@@ -117,6 +247,32 @@ impl BorderMask {
         Self::new(radius, border_width, 1.0)
     }
 
+    /// Border for a circle with one squared corner (see `CircleMask::new_squared`).
+    /// Computed as outer-shape-minus-inner-shape using the exact same shape
+    /// function `CircleMask::new_squared` fills with, so the border can never
+    /// end up a pixel off from the fill it's supposed to trace.
+    pub fn new_squared(radius: i32, border_width: i32, corner: SquaredCorner) -> Self {
+        let diameter = radius * 2;
+        let mut mask = vec![false; (diameter * diameter) as usize];
+        let inner_radius = radius - border_width;
+
+        for y in 0..diameter {
+            for x in 0..diameter {
+                let dx = x - radius;
+                let dy = y - radius;
+
+                let is_border = in_squared_shape(dx, dy, radius, corner, SQUARED_CORNER_FILLET)
+                    && !in_squared_shape(dx, dy, inner_radius, corner, SQUARED_CORNER_FILLET);
+
+                if is_border {
+                    mask[(y * diameter + x) as usize] = true;
+                }
+            }
+        }
+
+        Self { mask, radius }
+    }
+
     /// Test if a point relative to circle center is on the border
     ///
     /// # Arguments
@@ -173,6 +329,39 @@ impl ShadowMask {
                 if dist > radius_f {
                     let t = ((dist - radius_f) / margin_f).clamp(0.0, 1.0);
                      // Ease-out: fades faster near the edge, softer at the tail.
+                    let falloff = (1.0 - t) * (1.0 - t);
+                    mask[(y * size + x) as usize] = (falloff * max_alpha as f32).round() as u8;
+                }
+            }
+        }
+
+        Self { mask, half_size }
+    }
+
+    /// Same falloff as `new`, but shaped to match a squared-corner shape
+    /// (see `CircleMask::new_squared`): in `corner`'s quadrant the shadow
+    /// fades based on distance past the nearest straight edge of the
+    /// bounding square instead of radial distance from the center, so the
+    /// soft glow hugs the flat edges instead of bulging out in a circular
+    /// arc that no longer matches the lens's silhouette there.
+    pub fn new_squared(radius: i32, margin: i32, max_alpha: u8, corner: SquaredCorner) -> Self {
+        let half_size = radius + margin;
+        let size = half_size * 2;
+        let mut mask = vec![0u8; (size * size) as usize];
+
+        let margin_f = margin.max(1) as f32;
+
+        for y in 0..size {
+            for x in 0..size {
+                let dx = x - half_size;
+                let dy = y - half_size;
+
+                let dist_beyond =
+                    squared_dist_beyond(dx, dy, radius, corner, SQUARED_CORNER_FILLET);
+
+                if dist_beyond > 0.0 {
+                    let t = (dist_beyond / margin_f).clamp(0.0, 1.0);
+                    // Ease-out: fades faster near the edge, softer at the tail.
                     let falloff = (1.0 - t) * (1.0 - t);
                     mask[(y * size + x) as usize] = (falloff * max_alpha as f32).round() as u8;
                 }
@@ -269,9 +458,61 @@ mod tests {
     }
 
     #[test]
+    fn test_circle_mask_squared_corner() {
+        // Comfortably bigger than SQUARED_CORNER_FILLET so "away from the
+        // tip" test points aren't themselves inside the fillet zone.
+        let radius = SQUARED_CORNER_FILLET * 4;
+        let mask = CircleMask::new_squared(radius, SquaredCorner::TopLeft);
+
+        // Along the squared quadrant's straight (left) edge, well outside
+        // the circle's radius but away from the tip, is filled.
+        assert!(mask.contains(0, radius));
+
+        // The very tip (literal corner of the bounding square) is rounded
+        // off by the fillet, not a sharp point.
+        assert!(!mask.contains(0, 0));
+
+        // The other three corners stay clipped to the circle, same as an
+        // unmodified circle mask would be.
+        let plain = CircleMask::new_circle(radius);
+        let diameter = radius * 2;
+        assert_eq!(
+            mask.contains(diameter - 1, 0),
+            plain.contains(diameter - 1, 0)
+        ); // top-right corner
+        assert!(!mask.contains(diameter - 1, 0));
+
+        // Center is unaffected either way.
+        assert!(mask.contains(radius, radius));
+    }
+
+    #[test]
+    fn test_border_mask_squared_corner() {
+        let radius = SQUARED_CORNER_FILLET * 4;
+        let border_width = 2;
+        let mask = BorderMask::new_squared(radius, border_width, SquaredCorner::TopLeft);
+
+        // Right at the squared corner's straight edge (away from the
+        // rounded tip), within border_width of the bounding square's edge.
+        assert!(mask.contains(0, radius));
+
+        // Deep inside the squared quadrant (not near either edge) is not
+        // border — it's part of the filled interior instead.
+        assert!(!mask.contains(radius - border_width - 3, radius - border_width - 3));
+
+        // The non-squared quadrants keep an ordinary circular ring.
+        let plain = BorderMask::new_circle(radius, border_width);
+        let diameter = radius * 2;
+        assert_eq!(
+            mask.contains(diameter - 1, diameter - 1),
+            plain.contains(diameter - 1, diameter - 1)
+        ); // bottom-right corner
+    }
+
+    #[test]
     fn test_border_mask() {
         let mask = BorderMask::new_circle(10, 2);
-        
+
         // Center should NOT be on border
         assert!(!mask.contains(10, 10));
         

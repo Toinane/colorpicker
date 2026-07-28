@@ -40,16 +40,15 @@ const AboutSettings = () => {
 
   const onAuthorClick = () => {
     const now = Date.now()
-    clickCountRef.current = now - lastClickAtRef.current > CLICK_WINDOW_MS ? 1 : clickCountRef.current + 1
+    clickCountRef.current =
+      now - lastClickAtRef.current > CLICK_WINDOW_MS ? 1 : clickCountRef.current + 1
     lastClickAtRef.current = now
 
     if (clickCountRef.current >= TOGGLE_CLICK_COUNT) {
       clickCountRef.current = 0
       const nowUnlocked = !useSettingsStore.getState().experimentalFeaturesUnlocked
       useSettingsStore.getState().updateSetting('experimentalFeaturesUnlocked', nowUnlocked)
-      showToast(
-        SettingsT.t(nowUnlocked ? 'experimentalUnlockedToast' : 'experimentalLockedToast'),
-      )
+      showToast(SettingsT.t(nowUnlocked ? 'experimentalUnlockedToast' : 'experimentalLockedToast'))
     }
   }
 

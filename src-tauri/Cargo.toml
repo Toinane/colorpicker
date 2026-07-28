@@ -5,6 +5,12 @@ description = "Your powerful toolkit for mastering colors."
 authors = ["Toinane <hello@crea-that.fr>"]
 edition = "2021"
 
+[features]
+# Compiled-in, not runtime-toggleable: a portable build always stores its
+# data next to the executable (see src/portable.rs) instead of the OS's
+# standard per-user app data directories. Build with `--features portable`.
+portable = []
+
 [build-dependencies]
 tauri-build = { version = "2.6", features = [] }
 

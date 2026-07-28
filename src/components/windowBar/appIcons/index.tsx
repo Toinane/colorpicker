@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import Icon, { IconColors, IconEnum } from '../../icons'
 import { useTheme } from '@hooks/index'
-import { launchPicker, openSettings } from '@common/ipc'
+import { launchPicker, openSettings, openPalettes } from '@common/ipc'
 
 import style from './appIcons.module.css'
 
@@ -47,6 +47,15 @@ const AppIcons: FunctionComponent = (): JSX.Element => {
     }
   }
 
+  // Same create-or-focus pattern as settings (commands::open_palettes).
+  const handlePalettesClick = async () => {
+    try {
+      await openPalettes()
+    } catch (err) {
+      console.error('Failed to open palettes:', err)
+    }
+  }
+
   return (
     <section className={style.appIcons}>
       <div
@@ -59,26 +68,31 @@ const AppIcons: FunctionComponent = (): JSX.Element => {
           <Icon type={IconEnum.PICKER} colors={iconColors} />
         </div>
       </div>
-      <div className={style.iconContainer} title={t('common.swatch')}>
+      <div
+        className={style.iconContainer}
+        title={t('common.swatch')}
+        onClick={handlePalettesClick}
+        style={{ cursor: 'pointer' }}
+      >
         <div className={style.svgWrapper}>
           <Icon type={IconEnum.SWATCH} colors={iconColors} />
         </div>
       </div>
-      <div className={style.iconContainer} title={t('common.tint')}>
+      {/* <div className={style.iconContainer} title={t("common.tint")}>
         <div className={style.svgWrapper}>
           <Icon type={IconEnum.TINT} colors={iconColors} />
         </div>
       </div>
-      <div className={style.iconContainer} title={t('common.contrast')}>
+      <div className={style.iconContainer} title={t("common.contrast")}>
         <div className={style.svgWrapper}>
           <Icon type={IconEnum.CONTRAST} colors={iconColors} />
         </div>
       </div>
-      <div className={style.iconContainer} title={t('common.opacity')}>
+      <div className={style.iconContainer} title={t("common.opacity")}>
         <div className={style.svgWrapper}>
           <Icon type={IconEnum.OPACITY} colors={iconColors} />
         </div>
-      </div>
+      </div> */}
       {/* <div className={style.iconContainer} title={t('common.lock')}>
         <div className={style.svgWrapper}>
           <Icon type={IconEnum.LOCK} colors={iconColors} />

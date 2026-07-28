@@ -8,6 +8,7 @@ mod commands;
 mod i18n;
 mod logger;
 mod picker;
+mod portable;
 mod shortcuts;
 mod tray;
 
@@ -148,7 +149,7 @@ fn main() {
         .plugin(tauri_plugin_single_instance::init(|app, argv, cwd| {
             println!("{}, {argv:?}, {cwd}", app.package_info().name);
         }))
-        .plugin(logger::create_logger().build())
+        .plugin(logger::create_logger(portable::data_dir()).build())
         .plugin(tauri_plugin_store::Builder::default().build())
         .plugin(tauri_plugin_global_shortcut::Builder::new().build())
         .plugin(tauri_plugin_clipboard_manager::init())
@@ -158,21 +159,34 @@ fn main() {
             None,
         ))
         .plugin(
-            // Only the main window's geometry is persisted — "settings" is
-            // transient/on-demand and already gets its own fixed geometry
-            // from commands::open_settings. VISIBLE is excluded: visibility
-            // is fully owned by our own window-ready show flow (windows are
-            // created hidden and shown once their frontend has painted, to
-            // avoid a flash of unstyled content); letting the plugin also
-            // call `.show()` during its own early on-window-ready restore
-            // would reintroduce that flash.
-            tauri_plugin_window_state::Builder::default()
-                .with_denylist(&["settings"])
-                .with_state_flags(
-                    tauri_plugin_window_state::StateFlags::all()
-                        - tauri_plugin_window_state::StateFlags::VISIBLE,
-                )
-                .build(),
+            // "settings" is transient/on-demand and gets its own fixed
+            // geometry from commands::open_settings every time. "colorpicker"
+            // and "palettes" have their geometry persisted and restored
+            // automatically (the plugin hooks every window's on-ready event,
+            // not just ones declared in tauri.conf.json, so this works for
+            // "palettes" even though it's created on-demand rather than at
+            // startup).
+            // VISIBLE is excluded: visibility is fully owned by our own
+            // window-ready show flow (windows are created hidden and shown
+            // once their frontend has painted, to avoid a flash of unstyled
+            // content); letting the plugin also call `.show()` during its
+            // own early on-window-ready restore would reintroduce that flash.
+            {
+                let mut window_state_builder = tauri_plugin_window_state::Builder::default()
+                    .with_denylist(&["settings"])
+                    .with_state_flags(
+                        tauri_plugin_window_state::StateFlags::all()
+                            - tauri_plugin_window_state::StateFlags::VISIBLE,
+                    );
+                if let Some(dir) = portable::data_dir() {
+                    window_state_builder = window_state_builder.with_filename(
+                        dir.join(tauri_plugin_window_state::DEFAULT_FILENAME)
+                            .to_string_lossy()
+                            .into_owned(),
+                    );
+                }
+                window_state_builder.build()
+            },
         )
         .setup(|app| {
             log::info!("ColorPicker v{} starting", env!("CARGO_PKG_VERSION"));
@@ -185,7 +199,7 @@ fn main() {
                 // is persisted OS-side), so it must be re-applied on every startup;
                 // afterward it's kept in sync via the set_keep_on_top command.
                 let keep_on_top = app
-                    .store("settings.json")
+                    .store(portable::resolve_filename("settings.json"))
                     .ok()
                     .and_then(|store| store.get("keepOnTop"))
                     .and_then(|v| v.as_bool())
@@ -212,8 +226,16 @@ fn main() {
                             if let Some(s) = app_handle.get_webview_window("settings") {
                                 let _ = s.hide();
                             }
-                        } else if let Some(settings) = app_handle.get_webview_window("settings") {
-                            let _ = settings.close();
+                            if let Some(p) = app_handle.get_webview_window("palettes") {
+                                let _ = p.hide();
+                            }
+                        } else {
+                            if let Some(settings) = app_handle.get_webview_window("settings") {
+                                let _ = settings.close();
+                            }
+                            if let Some(palettes) = app_handle.get_webview_window("palettes") {
+                                let _ = palettes.close();
+                            }
                         }
                     }
                 });
@@ -249,9 +271,13 @@ fn main() {
             commands::launch_picker,
             commands::set_picker_hotkey,
             commands::open_settings,
+            commands::open_palettes,
             commands::set_keep_on_top,
             commands::set_open_at_login,
             commands::get_open_at_login,
+            commands::read_legacy_palettes,
+            commands::backup_corrupt_legacy_palettes,
+            commands::get_portable_data_dir,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

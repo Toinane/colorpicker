@@ -23,8 +23,8 @@ const SettingsToggle = ({ checked, onChange, disabled = false }: SettingsToggleP
 
   return (
     <div
-      className={style.settingsToggleWrapper}
-      tabIndex={0}
+      className={`${style.settingsToggleWrapper} ${disabled ? style.settingsToggleDisabled : ''}`}
+      tabIndex={disabled ? -1 : 0}
       onClick={handleToggle}
       onKeyDown={handleToggle}
     >

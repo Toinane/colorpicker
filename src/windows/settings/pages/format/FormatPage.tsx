@@ -31,7 +31,10 @@ const FormatPage = () => {
         label={SettingsT.t('hexPrefix.label')}
         description={SettingsT.t('hexPrefix.description')}
       >
-        <SettingsToggle checked={hexPrefix} onChange={(checked) => updateSetting('hexPrefix', checked)} />
+        <SettingsToggle
+          checked={hexPrefix}
+          onChange={(checked) => updateSetting('hexPrefix', checked)}
+        />
       </SettingsItem>
     </SettingsSection>
   )

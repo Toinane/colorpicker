@@ -28,6 +28,9 @@ export const setPickerHotkey = (hotkey: string): Promise<void> =>
 /** Open the settings window, creating it on first call or focusing it otherwise. */
 export const openSettings = (): Promise<void> => invoke('open_settings')
 
+/** Open the Palettes window, creating it on first call or focusing it otherwise. */
+export const openPalettes = (): Promise<void> => invoke('open_palettes')
+
 /** Apply "keep on top" to the main colorpicker window immediately. */
 export const setKeepOnTop = (enabled: boolean): Promise<void> =>
   invoke('set_keep_on_top', { enabled })
@@ -39,6 +42,16 @@ export const setOpenAtLogin = (enabled: boolean): Promise<void> =>
 /** Read the actual OS-level autostart registration state (may drift from the persisted setting). */
 export const getOpenAtLogin = (): Promise<boolean> => invoke('get_open_at_login')
 
+/** The portable data directory, or `null` in a normal (non-portable) build — see src-tauri/src/portable.rs. */
+export const getPortableDataDir = (): Promise<string | null> => invoke('get_portable_data_dir')
+
+/** Read the legacy v2 (Electron) storage file's raw text, or `null` if there isn't one. */
+export const readLegacyPalettes = (): Promise<string | null> => invoke('read_legacy_palettes')
+
+/** Back up the legacy v2 storage file to `<path>.bak`, without touching the original. */
+export const backupCorruptLegacyPalettes = (): Promise<void> =>
+  invoke('backup_corrupt_legacy_palettes')
+
 // ---------------------------------------------------------------------------
 // Events
 // ---------------------------------------------------------------------------
@@ -46,9 +59,8 @@ export const getOpenAtLogin = (): Promise<boolean> => invoke('get_open_at_login'
 /** Emitted from Rust (`shortcuts::trigger_global_pick`) once a pick session ends. */
 const COLOR_PICKED_EVENT = 'color-picked'
 
-export const onColorPicked = (
-  handler: (color: RGBColor | null) => void,
-): Promise<UnlistenFn> => listen<RGBColor | null>(COLOR_PICKED_EVENT, (event) => handler(event.payload))
+export const onColorPicked = (handler: (color: RGBColor | null) => void): Promise<UnlistenFn> =>
+  listen<RGBColor | null>(COLOR_PICKED_EVENT, (event) => handler(event.payload))
 
 /** Broadcast between windows on any settings change; also passively read by Rust (`tray.rs`). */
 const SETTINGS_CHANGED_EVENT = 'settings-changed'
@@ -71,3 +83,12 @@ const WINDOW_READY_EVENT = 'window-ready'
 
 export const emitWindowReady = (windowLabel: string): Promise<void> =>
   emit(WINDOW_READY_EVENT, windowLabel)
+
+/** Emitted by the Palettes window when a saved swatch is clicked, applying it to the main window. */
+const PALETTE_COLOR_APPLIED_EVENT = 'palette-color-applied'
+
+export const emitPaletteColorApplied = (hex: string): Promise<void> =>
+  emit(PALETTE_COLOR_APPLIED_EVENT, hex)
+
+export const onPaletteColorApplied = (handler: (hex: string) => void): Promise<UnlistenFn> =>
+  listen<string>(PALETTE_COLOR_APPLIED_EVENT, (event) => handler(event.payload))

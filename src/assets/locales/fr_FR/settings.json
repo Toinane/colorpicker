@@ -2,7 +2,7 @@
   "navigation": {
     "general": "Général",
     "magnifier": "Pipette",
-    "palette": "Palette",
+    "palette": "Palettes",
     "shortcuts": "Raccourcis",
     "format": "Format"
   },
@@ -123,6 +123,10 @@
       "quickPickHeadless": {
         "label": "Sélection rapide sans fenêtre",
         "description": "Sélectionne sans jamais afficher la fenêtre principale : copie la couleur et affiche une notification à la place"
+      },
+      "cursorAsideMode": {
+        "label": "Mode curseur décalé",
+        "description": "Windows uniquement. Affiche la loupe à côté du pointeur de la souris au lieu de le recouvrir, pour continuer à voir votre curseur pendant la sélection"
       }
     }
   },

@@ -50,6 +50,11 @@ export interface IAppSettings {
   eyedropperDetectBackgroundChanges: boolean
   eyedropperAllowHoverThrough: boolean
   eyedropperShowPixelGrid: boolean
+  eyedropperCursorAsideMode: boolean
+  // Not shown in the UI: the user's manual "Allow Hover Through" preference
+  // from before Cursor-aside mode forced it on, so it can be restored if
+  // Cursor-aside mode is turned off again (see behaviorSettings.tsx).
+  eyedropperAllowHoverThroughBeforeCursorAside: boolean
 
   // Shortcuts
   pickerHotkey: string

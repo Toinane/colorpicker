@@ -39,6 +39,7 @@
     "tauri:dev": "tauri dev",
     "tauri:build": "tauri build",
     "tauri:build:debug": "tauri build --debug",
+    "tauri:build:portable": "tauri build --features portable --no-bundle",
     "lint": "tsc && oxlint src",
     "format": "oxfmt --write src",
     "test": "vitest run"

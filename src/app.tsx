@@ -10,6 +10,7 @@ import { emitWindowReady } from '@common/ipc'
 
 import Colorpicker from '@windows/colorpicker/colorpicker'
 import Settings from '@windows/settings/settings'
+import Palettes from '@windows/palettes/palettes'
 import SettingsProvider from '@components/SettingsProvider'
 import ToastContainer from '@components/toast/toast'
 
@@ -38,6 +39,7 @@ const AppRouter = () => {
       <Route path="/colorpicker" component={Colorpicker} />
       <Route path="/settings" component={Settings} />
       <Route path="/settings/*" component={Settings} />
+      <Route path="/palettes" component={Palettes} />
       <Route path="/" component={Colorpicker} />
     </>
   )

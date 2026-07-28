@@ -25,6 +25,7 @@
   padding: 5px 20px 20px 20px;
   height: 100%;
   overflow-y: auto;
+  scrollbar-color: #44444468 transparent;
 }
 
 .settingsPage {
@@ -44,10 +45,6 @@
 @media (prefers-color-scheme: dark) {
   .settingsWindow {
     color: #ffffff;
-  }
-
-  .settingsContent {
-    scrollbar-color: #44444468 transparent;
   }
 
   .settingsPage {
