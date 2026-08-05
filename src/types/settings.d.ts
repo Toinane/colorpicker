@@ -1,18 +1,4 @@
-export type ColorpickerTool = 'picker' | 'swatch' | 'tint' | 'contrast'
-
-export interface IWindowSchema {
-  width: number
-  height: number
-  x?: number
-  y?: number
-}
-
-export interface ISettingsSchema extends IWindowSchema {
-  currentColor: string
-  history: Array<string>
-  sendCrashReport: boolean
-  tools: Array<ColorpickerTool>
-}
+// Convention: `interface` for object/store shapes, `type` for unions and primitives.
 
 export type ThemeOption = 'light' | 'dark' | 'system'
 export type LanguageOption = 'en_US' | 'fr_FR'

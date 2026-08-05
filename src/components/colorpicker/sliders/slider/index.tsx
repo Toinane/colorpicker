@@ -1,6 +1,8 @@
-import { FunctionComponent, JSX, useState, useEffect } from 'react'
+import { FunctionComponent, JSX } from 'react'
+import classNames from 'clsx'
 
 import { useColorStore } from '@stores/colorStore'
+import { useControlledValue } from '@hooks/index'
 
 import style from './slider.module.css'
 
@@ -19,13 +21,8 @@ const Slider: FunctionComponent<SliderProps> = ({
   value,
   onChange,
 }): JSX.Element => {
-  const [color, setColor] = useState(Number.isNaN(value) ? 0 : value)
+  const [color, setColor] = useControlledValue(Number.isNaN(value) ? 0 : value)
   const isDarkColor = useColorStore((state) => state.isDarkColor)
-
-  // Sync local state when prop changes
-  useEffect(() => {
-    setColor(Number.isNaN(value) ? 0 : value)
-  }, [value])
 
   const changeValue = (event: React.FormEvent<HTMLInputElement>) => {
     const newColor = event.target instanceof HTMLInputElement ? Number(event.target.value) : 0
@@ -44,7 +41,7 @@ const Slider: FunctionComponent<SliderProps> = ({
         onInput={changeValue}
       />
       <progress
-        className={`${style.progress} ${style[type]} ${isDarkColor ? style.dark : style.light}`}
+        className={classNames(style.progress, style[type], isDarkColor ? style.dark : style.light)}
         max={max}
         value={color}
       />

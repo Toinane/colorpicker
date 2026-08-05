@@ -27,7 +27,7 @@ const KeyCombo = ({ keys, type = 'joined', variant = 'filled' }: KeyComboProps) 
   return (
     <span className={style.keyComboGroup}>
       {keys.map((part, i) => (
-        <Fragment key={`${part}-${i}`}>
+        <Fragment key={part}>
           {type === 'separated' && i > 0 && (
             <Text color="accent" size="small">
               +

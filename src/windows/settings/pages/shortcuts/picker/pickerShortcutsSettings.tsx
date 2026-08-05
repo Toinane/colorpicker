@@ -6,6 +6,7 @@ import { useSettingsStore, DEFAULT_SETTINGS } from '@stores/settingsStore'
 import { useHotkeyConflict } from '@hooks/index'
 import { setPickerHotkey } from '@common/ipc'
 import { HotkeyInput } from '@components/ui'
+import { showToast } from '@stores/toastStore'
 
 const PickerShortcutsSettings = () => {
   const SettingsT = useTranslation('settings', { keyPrefix: 'shortcuts.picker' })
@@ -21,10 +22,10 @@ const PickerShortcutsSettings = () => {
         await updateSetting('pickerHotkey', hotkey)
       } catch (error) {
         console.error('Failed to register picker hotkey:', error)
-        // TODO: Show error notification to user
+        showToast(SettingsT.t('pickerHotkey.errorToast'))
       }
     },
-    [updateSetting],
+    [updateSetting, SettingsT],
   )
 
   return (

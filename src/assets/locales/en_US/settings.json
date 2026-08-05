@@ -11,15 +11,18 @@
       "title": "Colorpicker",
       "openAtLogin": {
         "label": "Open Colorpicker at login",
-        "description": "Launch Colorpicker automatically when you log in"
+        "description": "Launch Colorpicker automatically when you log in",
+        "errorToast": "Failed to update \"Open Colorpicker at login\""
       },
       "keepOnTop": {
         "label": "Keep Colorpicker on top",
-        "description": "Always display Colorpicker above other windows"
+        "description": "Always display Colorpicker above other windows",
+        "errorToast": "Failed to update \"Keep Colorpicker on top\""
       },
       "closeToTray": {
         "label": "Close to tray",
-        "description": "Keep Colorpicker running in the system tray instead of quitting when the window is closed"
+        "description": "Keep Colorpicker running in the system tray instead of quitting when the window is closed",
+        "errorToast": "Failed to update \"Close to tray\""
       },
       "theme": {
         "label": "Theme",
@@ -159,7 +162,8 @@
       "title": "Picker",
       "pickerHotkey": {
         "label": "Launch Picker Hotkey",
-        "description": "Global keyboard shortcut to launch the color picker from anywhere, even when Colorpicker is closed"
+        "description": "Global keyboard shortcut to launch the color picker from anywhere, even when Colorpicker is closed",
+        "errorToast": "Failed to register the picker hotkey"
       }
     }
   },

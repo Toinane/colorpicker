@@ -20,7 +20,7 @@ import { showToast } from '@stores/toastStore'
 import { rgbToColor, serializeColor, toHex } from '@common/color'
 import { onColorPicked, onPaletteColorApplied } from '@common/ipc'
 
-import './colorpicker.css'
+import style from './colorpicker.module.css'
 
 const notifyColorPicked = async (title: string, text: string): Promise<void> => {
   let granted = await isPermissionGranted()
@@ -97,9 +97,9 @@ const Colorpicker = () => {
   }, [setColor])
 
   return (
-    <section className="colorpicker">
+    <section className={style.colorpicker}>
       <WindowBar />
-      <section className="sliders">
+      <section className={style.sliders}>
         <RGBSlider />
         <HexInput />
       </section>

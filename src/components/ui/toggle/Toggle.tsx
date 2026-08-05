@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import classNames from 'clsx'
 import { Text } from '@components/ui'
 import style from './Toggle.module.css'
 
@@ -144,7 +145,7 @@ const Toggle = ({ checked, onChange, disabled = false }: ToggleProps) => {
 
   return (
     <div
-      className={`${style.toggleWrapper} ${disabled ? style.toggleDisabled : ''}`}
+      className={classNames(style.toggleWrapper, disabled && style.toggleDisabled)}
       tabIndex={disabled ? -1 : 0}
       onClick={handleClick}
       onKeyDown={handleClick}
@@ -153,7 +154,7 @@ const Toggle = ({ checked, onChange, disabled = false }: ToggleProps) => {
         {checked ? 'On' : 'Off'}
       </Text>
       <button
-        className={`${style.toggle} ${checked ? style.toggleChecked : ''} ${disabled ? style.toggleDisabled : ''}`}
+        className={classNames(style.toggle, checked && style.toggleChecked, disabled && style.toggleDisabled)}
         disabled={disabled}
         role="switch"
         tabIndex={-1}
@@ -164,7 +165,7 @@ const Toggle = ({ checked, onChange, disabled = false }: ToggleProps) => {
         onPointerCancel={handlePointerCancel}
       >
         <span
-          className={`${style.toggleSlider} ${instant ? style.toggleSliderDragging : ''}`}
+          className={classNames(style.toggleSlider, instant && style.toggleSliderDragging)}
           style={pinnedLeft !== null ? { left: `${pinnedLeft}px` } : undefined}
         ></span>
       </button>

@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import classNames from 'clsx'
 import style from './Select.module.css'
 import Icon, { IconEnum } from '@components/icons'
 import { Text } from '@components/ui'
@@ -79,7 +80,7 @@ const Select = ({ value, onChange, options, disabled = false }: SelectProps) => 
   return (
     <div className={style.selectWrapper} ref={selectRef}>
       <div
-        className={`${style.select} ${disabled ? style.selectDisabled : ''} ${isOpen ? style.selectOpen : ''}`}
+        className={classNames(style.select, disabled && style.selectDisabled, isOpen && style.selectOpen)}
         onClick={handleToggle}
         onKeyDown={handleKeyDown}
         tabIndex={disabled ? -1 : 0}
@@ -97,7 +98,7 @@ const Select = ({ value, onChange, options, disabled = false }: SelectProps) => 
           {options.map((option) => (
             <div
               key={option.value}
-              className={`${style.selectOption} ${option.value === value ? style.selectOptionSelected : ''}`}
+              className={classNames(style.selectOption, option.value === value && style.selectOptionSelected)}
               onClick={() => handleOptionClick(option.value)}
               onKeyDown={(e) => handleOptionKeyDown(e, option.value)}
               tabIndex={0}

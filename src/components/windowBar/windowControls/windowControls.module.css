@@ -54,6 +54,11 @@
   color: var(--win-icon-active);
 }
 
+.controlButton:focus-visible {
+  outline: 2px solid var(--focus-outline);
+  outline-offset: -2px;
+}
+
 .closeButton:hover {
   background-color: var(--close-bg-hover);
   color: var(--close-icon-hover);

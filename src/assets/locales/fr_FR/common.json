@@ -15,6 +15,12 @@
   "terms": {
     "website": "Site web"
   },
+  "color": {
+    "red": "Rouge",
+    "green": "Vert",
+    "blue": "Bleu",
+    "hex": "Couleur hexadécimale"
+  },
   "tray": {
     "open": "Ouvrir Colorpicker",
     "settings": "Paramètres",

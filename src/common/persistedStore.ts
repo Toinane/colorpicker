@@ -26,9 +26,7 @@ export const persistToStore = async (
   entries: Record<string, unknown>,
 ): Promise<void> => {
   if (!store) return
-  for (const [key, value] of Object.entries(entries)) {
-    await store.set(key, value)
-  }
+  await Promise.all(Object.entries(entries).map(([key, value]) => store.set(key, value)))
   await store.save()
 }
 

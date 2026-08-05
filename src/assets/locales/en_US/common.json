@@ -15,6 +15,12 @@
   "terms": {
     "website": "Website"
   },
+  "color": {
+    "red": "Red",
+    "green": "Green",
+    "blue": "Blue",
+    "hex": "Hex color"
+  },
   "tray": {
     "open": "Open Colorpicker",
     "settings": "Settings",

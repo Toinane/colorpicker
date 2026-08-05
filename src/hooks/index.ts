@@ -2,6 +2,7 @@
  * React custom hooks
  */
 export { useTheme } from './useTheme'
+export { useControlledValue } from './useControlledValue'
 export { useLogger } from './useLogger'
 export { useHotkeyConflict } from './useHotkeyConflict'
 export { useInitializeHistory } from './useHistory'

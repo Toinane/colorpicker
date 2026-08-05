@@ -1,7 +1,7 @@
-import { FunctionComponent, JSX, useCallback, useState, useEffect } from 'react'
+import { FunctionComponent, JSX, useCallback } from 'react'
 import Color from 'colorjs.io'
+import { useTranslation } from 'react-i18next'
 // import { writeText } from '@tauri-apps/plugin-clipboard-manager'
-// import { useTranslation } from 'react-i18next'
 
 // import Icon, { IconEnum } from '@components/icons'
 import { useColorStore } from '@stores/colorStore'
@@ -9,18 +9,15 @@ import { useColorStore } from '@stores/colorStore'
 import { useColorHistoryStore } from '@stores/colorHistoryStore'
 // import { showToast } from '@stores/toastStore'
 import { isValidHex /*, serializeColor*/, toHex } from '@common/color'
+import { useControlledValue } from '@hooks/index'
 
-import './hexInput.css'
+import style from './hexInput.module.css'
 
 const HexInput: FunctionComponent = (): JSX.Element => {
-  // const CommonT = useTranslation('common')
+  const CommonT = useTranslation('common')
   const { color, setColor /*, isDarkColor */ } = useColorStore((state) => state)
   // const { defaultFormat, hexPrefix } = useSettingsStore()
-  const [inputValue, setInputValue] = useState(toHex(color))
-
-  useEffect(() => {
-    setInputValue(toHex(color))
-  }, [color])
+  const [inputValue, setInputValue] = useControlledValue(toHex(color))
 
   const onInput = useCallback(
     (event: React.FormEvent<HTMLInputElement>) => {
@@ -34,7 +31,7 @@ const HexInput: FunctionComponent = (): JSX.Element => {
         useColorHistoryStore.getState().commitColor(toHex(newColor))
       }
     },
-    [setColor],
+    [setColor, setInputValue],
   )
 
   const onKeyboard = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -72,12 +69,13 @@ const HexInput: FunctionComponent = (): JSX.Element => {
   // }
 
   return (
-    <div className="hexInputGroup">
+    <div className={style.hexInputGroup}>
       <input
-        className="hexInput"
+        className={style.hexInput}
         type="text"
         maxLength={7}
         value={inputValue}
+        aria-label={CommonT.t('color.hex')}
         onInput={onInput}
         onKeyDown={onKeyboard}
         onFocus={(e) => e.target.select()}
@@ -85,7 +83,7 @@ const HexInput: FunctionComponent = (): JSX.Element => {
       />
       {/* <button
         type="button"
-        className="hexInputCopyButton"
+        className={style.hexInputCopyButton}
         onClick={onCopy}
         title={CommonT.t("action.copy")}
         aria-label={CommonT.t("action.copy")}

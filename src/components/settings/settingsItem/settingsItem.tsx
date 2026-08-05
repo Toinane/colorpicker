@@ -1,3 +1,5 @@
+import classNames from 'clsx'
+
 import { Heading, Text } from '@components/ui'
 
 import style from './settingsItem.module.css'
@@ -11,7 +13,7 @@ export interface SettingsItemProps {
 
 const SettingsItem = ({ label, description, disabled = false, children }: SettingsItemProps) => {
   return (
-    <section className={`${style.settingsItem} ${disabled ? style.settingsItemDisabled : ''}`}>
+    <section className={classNames(style.settingsItem, disabled && style.settingsItemDisabled)}>
       <div className={style.settingsItemInfo}>
         <Heading level={3} className={style.settingsItemLabel}>
           {label}

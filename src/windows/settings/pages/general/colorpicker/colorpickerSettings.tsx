@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { SettingsSection, SettingsItem } from '@components/settings'
 import { Toggle, Select } from '@components/ui'
 import { useOpenAtLogin, useKeepOnTop, useCloseToTray, useThemeSetting } from '@hooks/index'
+import { showToast } from '@stores/toastStore'
 import type { ThemeOption } from '@interfaces/settings'
 
 const ColorpickerSettings = () => {
@@ -26,10 +27,10 @@ const ColorpickerSettings = () => {
         await setOpenAtLogin(checked)
       } catch (error) {
         console.error('Failed to update open at login:', error)
-        // TODO: Show error notification to user
+        showToast(SettingsT.t('openAtLogin.errorToast'))
       }
     },
-    [setOpenAtLogin],
+    [setOpenAtLogin, SettingsT],
   )
 
   const handleKeepOnTopChange = useCallback(
@@ -38,10 +39,10 @@ const ColorpickerSettings = () => {
         await setKeepOnTop(checked)
       } catch (error) {
         console.error('Failed to update keep on top:', error)
-        // TODO: Show error notification to user
+        showToast(SettingsT.t('keepOnTop.errorToast'))
       }
     },
-    [setKeepOnTop],
+    [setKeepOnTop, SettingsT],
   )
 
   const handleCloseToTrayChange = useCallback(
@@ -50,10 +51,10 @@ const ColorpickerSettings = () => {
         await setCloseToTray(checked)
       } catch (error) {
         console.error('Failed to update close to tray:', error)
-        // TODO: Show error notification to user
+        showToast(SettingsT.t('closeToTray.errorToast'))
       }
     },
-    [setCloseToTray],
+    [setCloseToTray, SettingsT],
   )
 
   return (

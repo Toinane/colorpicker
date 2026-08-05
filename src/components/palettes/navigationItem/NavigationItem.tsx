@@ -1,3 +1,5 @@
+import classNames from 'clsx'
+
 import { Text } from '@components/ui'
 
 import style from './navigationItem.module.css'
@@ -12,7 +14,7 @@ const NavigationItem = ({
   isActive?: boolean
 }) => {
   return (
-    <button className={`${style.navigationItem} ${isActive ? style.active : ''}`}>
+    <button className={classNames(style.navigationItem, isActive && style.active)}>
       <div className={style.colorSwatch} style={{ backgroundColor: color }}></div>
       <Text color="primary" className={style.label}>
         {label}

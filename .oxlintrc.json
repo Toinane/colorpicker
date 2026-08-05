@@ -1,4 +1,13 @@
 {
+  // `suspicious`/`pedantic`/`style` were evaluated and left off: they're
+  // dominated by false positives for this codebase's conventions —
+  // react/react-in-jsx-scope (React 19's automatic JSX runtime needs no
+  // import), import/no-unassigned-import (CSS side-effect imports),
+  // import/no-named-export (named exports are this project's convention for
+  // stores/hooks), eslint/max-lines-per-function, import/max-dependencies.
+  // `perf` is enabled below since it was mostly signal; `oxc/no-map-spread`
+  // is its one false positive (it'd push stores toward in-place mutation,
+  // which breaks Zustand's shallow-equality change detection).
   "$schema": "./node_modules/oxlint/configuration_schema.json",
   "plugins": [
     "typescript",
@@ -8,9 +17,12 @@
     "import"
   ],
   "categories": {
-    "correctness": "error"
+    "correctness": "error",
+    "perf": "error"
   },
-  "rules": {},
+  "rules": {
+    "oxc/no-map-spread": "off"
+  },
   "env": {
     "builtin": true
   }

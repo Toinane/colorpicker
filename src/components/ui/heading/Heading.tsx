@@ -1,3 +1,5 @@
+import classNames from 'clsx'
+
 import style from './Heading.module.css'
 
 export type HeadingLevel = 1 | 2 | 3
@@ -31,7 +33,13 @@ const Heading = ({
   return (
     <Tag
       id={id}
-      className={`${style.heading} ${color && style[color]} ${style[size]} ${style[weight]} ${className ?? ''}`}
+      className={classNames(
+        style.heading,
+        color && style[color],
+        style[size],
+        style[weight],
+        className,
+      )}
     >
       {children}
     </Tag>

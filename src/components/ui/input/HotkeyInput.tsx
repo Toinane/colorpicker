@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import classNames from 'clsx'
 
 import { Text, KeyCombo } from '@components/ui'
 import Icon, { IconEnum } from '@components/icons'
@@ -135,7 +136,7 @@ const HotkeyInput = ({
     <div className={style.hotkeyInputWrapper}>
       <button
         type="button"
-        className={`${style.hotkeyInput} ${isRecording ? style.hotkeyInputRecording : ''}`}
+        className={classNames(style.hotkeyInput, isRecording && style.hotkeyInputRecording)}
         onClick={() => !disabled && !isRecording && setIsRecording(true)}
         onBlur={stopRecording}
         disabled={disabled}

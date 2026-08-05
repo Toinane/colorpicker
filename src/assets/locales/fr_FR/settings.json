@@ -11,15 +11,18 @@
       "title": "Colorpicker",
       "openAtLogin": {
         "label": "Ouvrir Colorpicker à la connexion",
-        "description": "Ouvre Colorpicker automatiquement au démarrage de votre session"
+        "description": "Ouvre Colorpicker automatiquement au démarrage de votre session",
+        "errorToast": "Échec de la mise à jour de « Ouvrir Colorpicker à la connexion »"
       },
       "keepOnTop": {
         "label": "Garder Colorpicker au premier plan",
-        "description": "Affiche toujours Colorpicker au-dessus des autres fenêtres"
+        "description": "Affiche toujours Colorpicker au-dessus des autres fenêtres",
+        "errorToast": "Échec de la mise à jour de « Garder Colorpicker au premier plan »"
       },
       "closeToTray": {
         "label": "Fermer dans la barre système",
-        "description": "Garde Colorpicker actif dans la barre système au lieu de quitter à la fermeture de la fenêtre"
+        "description": "Garde Colorpicker actif dans la barre système au lieu de quitter à la fermeture de la fenêtre",
+        "errorToast": "Échec de la mise à jour de « Fermer dans la barre système »"
       },
       "theme": {
         "label": "Thème",
@@ -159,7 +162,8 @@
       "title": "Pipette",
       "pickerHotkey": {
         "label": "Raccourci de lancement",
-        "description": "Raccourci clavier global pour lancer le sélecteur de couleur depuis n'importe où, même lorsque Colorpicker est fermé"
+        "description": "Raccourci clavier global pour lancer le sélecteur de couleur depuis n'importe où, même lorsque Colorpicker est fermé",
+        "errorToast": "Échec de l'enregistrement du raccourci de la pipette"
       }
     }
   },

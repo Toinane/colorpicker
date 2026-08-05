@@ -1,6 +1,8 @@
-import { FunctionComponent, JSX, useState, useEffect } from 'react'
+import { FunctionComponent, JSX } from 'react'
 
-import './numberInput.css'
+import { useControlledValue } from '@hooks/index'
+
+import style from './numberInput.module.css'
 
 type NumberInputProps = {
   min: number
@@ -9,6 +11,8 @@ type NumberInputProps = {
   step?: number
   value: number
   onChange?: (value: number) => void
+  /** Accessible name (e.g. "Red") — this input has no visible text label. */
+  label: string
 }
 
 const NumberInput: FunctionComponent<NumberInputProps> = ({
@@ -18,12 +22,9 @@ const NumberInput: FunctionComponent<NumberInputProps> = ({
   step = 1,
   value,
   onChange,
+  label,
 }): JSX.Element => {
-  const [number, setNumber] = useState(Number.isNaN(value) ? 0 : value)
-
-  useEffect(() => {
-    setNumber(Number.isNaN(value) ? 0 : value)
-  }, [value])
+  const [number, setNumber] = useControlledValue(Number.isNaN(value) ? 0 : value)
 
   const verifyNumber = (currentNumber: number): number => {
     if (currentNumber < min) return min
@@ -60,13 +61,14 @@ const NumberInput: FunctionComponent<NumberInputProps> = ({
 
   return (
     <input
-      className="numberInput"
+      className={style.numberInput}
       type="input"
       min={min}
       max={max}
       maxLength={maxLength}
       step={step}
       value={number}
+      aria-label={label}
       onFocus={(e) => e.target.select()}
       onInput={onInput}
       onKeyDown={onKeyboard}

@@ -85,18 +85,7 @@ getWindowLabel().catch(() => {
   // Ignore errors, will use default
 })
 
-/**
- * Logger interface - the single source of truth for all application logging.
- *
- * @example
- * ```ts
- * import { logger } from '@/common/logger'
- *
- * logger.debug('Starting color pick', { gridSize: 11 })
- * logger.info('Color picked successfully', { color: '#8E44AD' })
- * logger.error('Pick failed', { error: err.message })
- * ```
- */
+/** The single source of truth for all application logging. */
 export const logger = {
   /**
    * Trace - Most granular logging, typically for tracking program flow.
@@ -139,19 +128,7 @@ export const logger = {
   },
 } as const
 
-/**
- * Create a scoped logger with automatic scope tagging.
- * The scope name appears as a tag in the log output.
- *
- * @param scopeName - Name of the scope (e.g., "SettingsStore", "ColorPicker")
- *
- * @example
- * ```ts
- * const log = createScopedLogger('SettingsStore')
- * log.info('Settings saved')
- * // Output: [23:22:25] DEBUG [window:main][SettingsStore] Settings saved
- * ```
- */
+/** Logger whose messages are tagged with `scopeName`, e.g. `[SettingsStore]`. */
 export function createScopedLogger(scopeName: string) {
   return {
     trace: (message: string, context?: LogContext) => {

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import classNames from 'clsx'
 
 import { Text, Button } from '@components/ui'
 import Icon, { IconEnum } from '@components/icons'
@@ -47,7 +48,7 @@ const NavigationSection = ({
         }}
       >
         <div className={style.navigationSectionToggle}>
-          <span className={`${style.chevron} ${isOpen ? style.chevronOpen : ''}`}>
+          <span className={classNames(style.chevron, isOpen && style.chevronOpen)}>
             <Icon type={IconEnum.ARROW} />
           </span>
           <Text
@@ -68,7 +69,10 @@ const NavigationSection = ({
         >
           <Button
             variant="transparent"
-            className={`${style.navigationSectionMenuButton} ${isMenuOpen ? style.navigationSectionMenuButtonActive : ''}`}
+            className={classNames(
+              style.navigationSectionMenuButton,
+              isMenuOpen && style.navigationSectionMenuButtonActive,
+            )}
             onClick={() => setIsMenuOpen((open) => !open)}
             aria-label="Section options"
           >

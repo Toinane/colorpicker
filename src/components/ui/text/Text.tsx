@@ -1,3 +1,5 @@
+import classNames from 'clsx'
+
 import style from './Text.module.css'
 
 export type TextSize = 'small' | 'medium' | 'large'
@@ -15,7 +17,7 @@ export interface TextProps {
 const Text = ({ size = 'medium', weight = 'normal', children, className, color }: TextProps) => {
   return (
     <p
-      className={`${style.text} ${color && style[color]} ${style[size]} ${style[weight]} ${className ?? ''}`}
+      className={classNames(style.text, color && style[color], style[size], style[weight], className)}
     >
       {children}
     </p>

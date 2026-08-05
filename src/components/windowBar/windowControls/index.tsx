@@ -1,4 +1,5 @@
 import { FunctionComponent, JSX, useEffect, useState, useRef } from 'react'
+import classNames from 'clsx'
 import { getCurrentWindow } from '@tauri-apps/api/window'
 
 import style from './windowControls.module.css'
@@ -49,6 +50,8 @@ const WindowControls: FunctionComponent = (): JSX.Element => {
 
   return (
     <section className={style.windowControls}>
+      {/* tabIndex={-1} on all three: window-chrome actions (minimize/maximize/close)
+          are conventionally excluded from the app's own tab order, matching native title bars. */}
       <button
         className={style.controlButton}
         onClick={handleMinimize}
@@ -101,7 +104,7 @@ const WindowControls: FunctionComponent = (): JSX.Element => {
         )}
       </button>
       <button
-        className={`${style.controlButton} ${style.closeButton}`}
+        className={classNames(style.controlButton, style.closeButton)}
         onClick={handleClose}
         aria-label="Close"
         title="Close"
