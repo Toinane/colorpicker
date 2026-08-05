@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useState } from 'react'
+import { useEffect, useCallback } from 'react'
 import type { IAppSettings } from '@interfaces/settings'
 import { useSettingsStore } from '@stores/settingsStore'
 import {
@@ -45,38 +45,6 @@ export function useSetting<K extends keyof IAppSettings>(
   )
 
   return [value, setValue]
-}
-
-/**
- * Hook to get and update multiple settings at once
- * @param keys - Array of setting keys to watch
- * @returns Object with current values and update function
- */
-export function useSettings<K extends keyof IAppSettings>(
-  keys: K[],
-): {
-  values: Pick<IAppSettings, K>
-  updateSettings: (updates: Partial<Pick<IAppSettings, K>>) => Promise<void>
-} {
-  const store = useSettingsStore()
-  const updateSettingsFn = store.updateSettings
-
-  const values = keys.reduce(
-    (acc, key) => {
-      acc[key] = store[key]
-      return acc
-    },
-    {} as Pick<IAppSettings, K>,
-  )
-
-  const updateSettings = useCallback(
-    async (updates: Partial<Pick<IAppSettings, K>>) => {
-      await updateSettingsFn(updates)
-    },
-    [updateSettingsFn],
-  )
-
-  return { values, updateSettings }
 }
 
 /**
@@ -168,103 +136,4 @@ export function useThemeSetting(): [
   )
 
   return [theme, setTheme]
-}
-
-/**
- * Hook to watch a specific setting for changes
- * Calls the callback whenever the setting changes
- * @param key - The setting key to watch
- * @param callback - Function to call when the setting changes
- */
-export function useSettingWatcher<K extends keyof IAppSettings>(
-  key: K,
-  callback: (value: IAppSettings[K]) => void,
-): void {
-  const value = useSettingsStore((state) => state[key])
-
-  useEffect(() => {
-    callback(value)
-  }, [value, callback])
-}
-
-/**
- * Hook to debounce setting updates
- * Useful for inputs that update frequently (e.g., sliders, text inputs)
- * @param key - The setting key to update
- * @param delay - Debounce delay in milliseconds (default: 500ms)
- * @returns Current value and setter function
- */
-export function useDebouncedSetting<K extends keyof IAppSettings>(
-  key: K,
-  delay: number = 500,
-): [IAppSettings[K], (value: IAppSettings[K]) => void] {
-  const storeValue = useSettingsStore((state) => state[key])
-  const updateSetting = useSettingsStore((state) => state.updateSetting)
-  const [localValue, setLocalValue] = useState<IAppSettings[K]>(storeValue)
-  const [timeoutId, setTimeoutId] = useState<ReturnType<typeof setTimeout> | null>(null)
-
-  // Sync local value with store value
-  useEffect(() => {
-    setLocalValue(storeValue as IAppSettings[K])
-  }, [storeValue])
-
-  const setValue = useCallback(
-    (newValue: IAppSettings[K]) => {
-      setLocalValue(newValue as IAppSettings[K])
-
-      // Clear existing timeout
-      if (timeoutId) {
-        clearTimeout(timeoutId)
-      }
-
-      // Set new timeout
-      const newTimeoutId = setTimeout(() => {
-        updateSetting(key, newValue)
-      }, delay)
-
-      setTimeoutId(newTimeoutId)
-    },
-    [key, delay, updateSetting, timeoutId],
-  )
-
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId)
-      }
-    }
-  }, [timeoutId])
-
-  return [localValue, setValue]
-}
-
-/**
- * Hook to get all settings
- * @returns All settings and update functions
- */
-export function useAllSettings() {
-  const store = useSettingsStore()
-
-  return {
-    settings: {
-      openAtLogin: store.openAtLogin,
-      theme: store.theme,
-      language: store.language,
-      sendCrashReport: store.sendCrashReport,
-      keepOnTop: store.keepOnTop,
-      showHistory: store.showHistory,
-      maxHistorySize: store.maxHistorySize,
-      defaultFormat: store.defaultFormat,
-      isBordered: store.isBordered,
-      isFullColored: store.isFullColored,
-      isVibrant: store.isVibrant,
-    } as IAppSettings,
-    updateSetting: store.updateSetting,
-    updateSettings: store.updateSettings,
-    resetSettings: store.resetSettings,
-    isLoading: store.isLoading,
-    isInitialized: store.isInitialized,
-    error: store.error,
-  }
 }

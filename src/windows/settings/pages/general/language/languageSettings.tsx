@@ -9,7 +9,8 @@ import type { LanguageOption } from '@interfaces/settings'
 
 const LanguageSettings = () => {
   const SettingsT = useTranslation('settings', { keyPrefix: 'general.language' })
-  const { language, updateSetting } = useSettingsStore()
+  const language = useSettingsStore((state) => state.language)
+  const updateSetting = useSettingsStore((state) => state.updateSetting)
 
   return (
     <SettingsSection title={SettingsT.t('title')}>

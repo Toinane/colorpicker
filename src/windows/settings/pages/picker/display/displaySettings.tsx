@@ -9,13 +9,11 @@ import type { EyedropperGridSizeOption, EyedropperMagnifierSizeOption } from '@i
 const DisplaySettings = () => {
   const SettingsT = useTranslation('settings', { keyPrefix: 'magnifier.display' })
 
-  const {
-    eyedropperGridSize,
-    eyedropperMagnifierSize,
-    eyedropperShowHex,
-    eyedropperShowPixelGrid,
-    updateSetting,
-  } = useSettingsStore()
+  const eyedropperGridSize = useSettingsStore((state) => state.eyedropperGridSize)
+  const eyedropperMagnifierSize = useSettingsStore((state) => state.eyedropperMagnifierSize)
+  const eyedropperShowHex = useSettingsStore((state) => state.eyedropperShowHex)
+  const eyedropperShowPixelGrid = useSettingsStore((state) => state.eyedropperShowPixelGrid)
+  const updateSetting = useSettingsStore((state) => state.updateSetting)
 
   return (
     <SettingsSection title={SettingsT.t('title')}>

@@ -21,16 +21,25 @@ import './style.global.css'
 
 const AppRouter = () => {
   const readyEmitted = useRef(false)
-  const { isBordered, isFullColored, isVibrant } = useColorpickerStore((state) => state)
-  const { color, oppositeColor, isDarkColor } = useColorStore((state) => state)
+  const isBordered = useColorpickerStore((state) => state.isBordered)
+  const isFullColored = useColorpickerStore((state) => state.isFullColored)
+  const isVibrant = useColorpickerStore((state) => state.isVibrant)
+  const color = useColorStore((state) => state.color)
+  const oppositeColor = useColorStore((state) => state.oppositeColor)
+  const isDarkColor = useColorStore((state) => state.isDarkColor)
 
-  window.addEventListener('focus', function () {
-    document.body.classList.remove('BLUR')
-  })
+  useEffect(() => {
+    const handleFocus = () => document.body.classList.remove('BLUR')
+    const handleBlur = () => document.body.classList.add('BLUR')
 
-  window.addEventListener('blur', function () {
-    document.body.classList.add('BLUR')
-  })
+    window.addEventListener('focus', handleFocus)
+    window.addEventListener('blur', handleBlur)
+
+    return () => {
+      window.removeEventListener('focus', handleFocus)
+      window.removeEventListener('blur', handleBlur)
+    }
+  }, [])
 
   useEffect(() => {
     // Signal that the frontend is ready and window can be shown

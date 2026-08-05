@@ -15,16 +15,26 @@ let nextId = 0
 
 const DEFAULT_DURATION = 4000
 
+const dismissTimeouts = new Map<number, ReturnType<typeof setTimeout>>()
+
 export const useToastStore = create<ToastStore>((set, get) => ({
   toasts: [],
 
   addToast: (message, duration = DEFAULT_DURATION) => {
     const id = nextId++
     set({ toasts: [...get().toasts, { id, message }] })
-    setTimeout(() => get().removeToast(id), duration)
+    dismissTimeouts.set(
+      id,
+      setTimeout(() => get().removeToast(id), duration),
+    )
   },
 
   removeToast: (id) => {
+    const timeout = dismissTimeouts.get(id)
+    if (timeout) {
+      clearTimeout(timeout)
+      dismissTimeouts.delete(id)
+    }
     set({ toasts: get().toasts.filter((toast) => toast.id !== id) })
   },
 }))

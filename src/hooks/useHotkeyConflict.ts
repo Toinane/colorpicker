@@ -1,5 +1,6 @@
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useShallow } from 'zustand/react/shallow'
 
 import { useSettingsStore } from '@stores/settingsStore'
 import { HOTKEY_REGISTRY } from '@common/hotkeys'
@@ -11,7 +12,15 @@ import type { IAppSettings } from '@interfaces/settings'
  * @param selfKey - the setting being edited, excluded from the conflict check
  */
 export function useHotkeyConflict(selfKey: keyof IAppSettings) {
-  const settings = useSettingsStore()
+  // Only subscribes to the hotkey-registry keys, not the whole settings
+  // store, so this doesn't re-render on unrelated setting changes.
+  const settings = useSettingsStore(
+    useShallow((state) =>
+      Object.fromEntries(
+        HOTKEY_REGISTRY.map((entry) => [entry.settingKey, state[entry.settingKey]]),
+      ),
+    ),
+  )
   const { t } = useTranslation('settings')
 
   return useCallback(

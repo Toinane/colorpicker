@@ -9,7 +9,8 @@ import { HotkeyInput } from '@components/ui'
 
 const PickerShortcutsSettings = () => {
   const SettingsT = useTranslation('settings', { keyPrefix: 'shortcuts.picker' })
-  const { pickerHotkey, updateSetting } = useSettingsStore()
+  const pickerHotkey = useSettingsStore((state) => state.pickerHotkey)
+  const updateSetting = useSettingsStore((state) => state.updateSetting)
   const checkConflict = useHotkeyConflict('pickerHotkey')
 
   const handleHotkeyChange = useCallback(

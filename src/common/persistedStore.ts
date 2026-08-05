@@ -6,6 +6,11 @@
  * around `initialize()`, and a "set some keys then save" persist step. This
  * centralizes all three so a store only has to describe what to load/persist,
  * not how.
+ *
+ * `settingsStore.ts` is the one exception: it also needs to broadcast every
+ * change to other windows, so it layers its own `persistAndBroadcast` on top
+ * of `persistToStore` instead of using it directly. Read that file alongside
+ * this one if you need the broadcast variant.
  */
 import { load, type Store, type StoreOptions } from '@tauri-apps/plugin-store'
 

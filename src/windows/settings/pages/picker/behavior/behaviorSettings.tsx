@@ -8,17 +8,19 @@ import { useSettingsStore } from '@stores/settingsStore'
 const BehaviorSettings = () => {
   const SettingsT = useTranslation('settings', { keyPrefix: 'magnifier.behavior' })
 
-  const {
-    eyedropperHideMain,
-    eyedropperDetectBackgroundChanges,
-    eyedropperAllowHoverThrough,
-    eyedropperAllowHoverThroughBeforeCursorAside,
-    autoCopyOnPick,
-    quickPickHeadless,
-    eyedropperCursorAsideMode,
-    updateSetting,
-    updateSettings,
-  } = useSettingsStore()
+  const eyedropperHideMain = useSettingsStore((state) => state.eyedropperHideMain)
+  const eyedropperDetectBackgroundChanges = useSettingsStore(
+    (state) => state.eyedropperDetectBackgroundChanges,
+  )
+  const eyedropperAllowHoverThrough = useSettingsStore((state) => state.eyedropperAllowHoverThrough)
+  const eyedropperAllowHoverThroughBeforeCursorAside = useSettingsStore(
+    (state) => state.eyedropperAllowHoverThroughBeforeCursorAside,
+  )
+  const autoCopyOnPick = useSettingsStore((state) => state.autoCopyOnPick)
+  const quickPickHeadless = useSettingsStore((state) => state.quickPickHeadless)
+  const eyedropperCursorAsideMode = useSettingsStore((state) => state.eyedropperCursorAsideMode)
+  const updateSetting = useSettingsStore((state) => state.updateSetting)
+  const updateSettings = useSettingsStore((state) => state.updateSettings)
 
   // Cursor-aside mode moves the lens off the cursor entirely, which makes
   // "Allow Hover Through" (letting hover events reach whatever the lens

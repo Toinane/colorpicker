@@ -9,7 +9,9 @@ import type { ColorFormat } from '@interfaces/settings'
 const FormatPage = () => {
   const SettingsT = useTranslation('settings', { keyPrefix: 'format' })
 
-  const { defaultFormat, hexPrefix, updateSetting } = useSettingsStore()
+  const defaultFormat = useSettingsStore((state) => state.defaultFormat)
+  const hexPrefix = useSettingsStore((state) => state.hexPrefix)
+  const updateSetting = useSettingsStore((state) => state.updateSetting)
 
   return (
     <SettingsSection title={SettingsT.t('title')}>
