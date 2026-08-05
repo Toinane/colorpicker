@@ -60,7 +60,7 @@ const AppIcons: FunctionComponent = (): JSX.Element => {
         tabIndex={0}
       >
         <div className={style.svgWrapper}>
-          <Icon type={IconEnum.PICKER} colors={{ primary: 'var(--app-icon-primary)' }} />
+          <Icon type={IconEnum.PICKER} />
         </div>
       </div>
       <div
@@ -72,14 +72,7 @@ const AppIcons: FunctionComponent = (): JSX.Element => {
         tabIndex={0}
       >
         <div className={style.svgWrapper}>
-          <Icon
-            type={IconEnum.SWATCH}
-            colors={{
-              primary: 'var(--app-icon-primary)',
-              secondary: 'var(--app-icon-secondary)',
-              tertiary: 'var(--app-icon-tertiary)',
-            }}
-          />
+          <Icon type={IconEnum.SWATCH} />
         </div>
       </div>
       {/* <div className={style.iconContainer} title={t("common.tint")}>
@@ -111,7 +104,7 @@ const AppIcons: FunctionComponent = (): JSX.Element => {
         tabIndex={0}
       >
         <div className={style.svgWrapper}>
-          <Icon type={IconEnum.SETTINGS} colors={{ primary: 'var(--app-icon-primary)' }} />
+          <Icon type={IconEnum.SETTINGS} />
         </div>
       </div>
     </section>

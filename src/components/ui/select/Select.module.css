@@ -127,6 +127,7 @@
   transform: translateY(-2px);
   width: 12px;
   height: 12px;
+  color: var(--select-icon);
 }
 
 .select:active:hover .selectArrowWrapper,

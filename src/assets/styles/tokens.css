@@ -62,6 +62,21 @@
   --overlay-lighter: color-mix(in oklch, var(--overlay-default) 80%, white);
   --overlay-lightest: color-mix(in oklch, var(--overlay-default) 70%, white);
 
+  /* Icons ---------------------------------------------------------------
+   * Default secondary/tertiary tones for multi-tone icons (see
+   * components/icons), derived from whatever `currentColor` resolves to at
+   * the icon's own position in the tree rather than a fixed color. Mixed
+   * toward `--icon-tone-target` — white in light theme, black in dark theme
+   * below — so a multi-tone icon dropped anywhere just works without a
+   * `colors` prop. Any component can force the opposite direction (e.g. an
+   * icon sitting on a deliberately dark background in light theme) by
+   * overriding `--icon-tone-target` in its own scope, or an individual
+   * <Icon> can do the same via its `colors.tone` prop. */
+
+  --icon-tone-target: white;
+  --icon-secondary-default: color-mix(in oklch, currentColor 80%, var(--icon-tone-target));
+  --icon-tertiary-default: color-mix(in oklch, currentColor 70%, var(--icon-tone-target));
+
   /* Focus, selection and elevation ------------------------------------ */
 
   --focus-outline: var(--accent-variant-darkest);
@@ -134,6 +149,10 @@
   --overlay-light: color-mix(in oklch, var(--overlay-default) 95%, white);
   --overlay-lighter: color-mix(in oklch, var(--overlay-default) 80%, white);
   --overlay-lightest: color-mix(in oklch, var(--overlay-default) 70%, white);
+
+  /* Icons ---------------------------------------------------------------- */
+
+  --icon-tone-target: black;
 
   /* Focus, selection and elevation ------------------------------------ */
 

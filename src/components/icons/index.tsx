@@ -1,60 +1,68 @@
 import { memo, useMemo, type CSSProperties, type FC, type ReactElement } from 'react'
-import { iconMap, iconNames, getAvailableIcons } from './iconLoader'
+import {
+  iconMap,
+  ICON_NAMES,
+  getAvailableIcons,
+  type IconType,
+  type MultiToneIconType,
+} from './iconLoader'
 
-// Use the dynamically loaded icon map
-const ICON_MAP = iconMap
-
-// Export the dynamically generated icon names
-export const IconEnum = iconNames
-
-// Export type for the icon names
-export type IconType = (typeof IconEnum)[keyof typeof IconEnum]
-
-// Export helper to get available icons
+export type { IconType, MultiToneIconType }
 export { getAvailableIcons }
 
+/** `IconEnum.PICKER` etc., for call-site ergonomics — values are the names themselves. */
+export const IconEnum = Object.fromEntries(ICON_NAMES.map((name) => [name, name])) as {
+  [K in IconType]: K
+}
+
+/** `tone` forces which direction `--icon-tone-target` mixes toward, overriding whatever the ambient theme says. */
+export type IconTone = 'light' | 'dark'
+
+const TONE_TARGET: Record<IconTone, string> = { light: 'white', dark: 'black' }
+
+/**
+ * Overrides for a multi-tone icon's secondary/tertiary fills. Left unset,
+ * they default to a color-mix of `currentColor` toward `--icon-tone-target`
+ * (see tokens.css) — light theme lightens, dark theme darkens — so a
+ * multi-tone icon just works without this prop in the common case.
+ */
 export interface IconColors {
-  primary?: string
   secondary?: string
   tertiary?: string
-}
-
-interface IconProps {
-  type: IconType
-  colors?: IconColors
-}
-
-const DEFAULT_COLORS: IconColors = {
-  primary: '#000',
-  secondary: '#3e3e3e',
-  tertiary: '#7b7b7b',
+  /** Force the default mix to lighten/darken regardless of the ambient theme (e.g. an icon on a deliberately dark surface in light theme). */
+  tone?: IconTone
 }
 
 /**
- * Icon component - A pure component that renders SVG icons with customizable colors
- * Automatically discovers and supports any SVG files added to @assets/svg directory
- *
- * @param type - The type of icon to render (icon filename without extension, uppercase)
- * @param colors - Optional custom colors for the icon
+ * Single-tone icons render with `fill="currentColor"` and take no `colors`
+ * prop — set CSS `color` on an ancestor (e.g. `:hover { color: ... }`) to
+ * theme or animate them. Multi-tone icons accept `colors` to override their
+ * secondary/tertiary fills or force a tone; the type enforces this split at
+ * each call site.
+ */
+type IconProps =
+  | { type: Exclude<IconType, MultiToneIconType>; colors?: undefined }
+  | { type: MultiToneIconType; colors?: IconColors }
+
+/**
+ * Icon component - renders SVG icons discovered from @assets/icons/ui.
+ * @param type - The icon to render (see IconEnum)
+ * @param colors - Multi-tone icons only; overrides secondary/tertiary fills and/or forces a tone
  */
 const Icon: FC<IconProps> = ({ type, colors }): ReactElement => {
-  const style = useMemo<CSSProperties>(
-    () =>
-      ({
-        width: '100%',
-        height: '100%',
-        '--icon-primary': colors?.primary ?? DEFAULT_COLORS.primary,
-        '--icon-secondary': colors?.secondary ?? DEFAULT_COLORS.secondary,
-        '--icon-tertiary': colors?.tertiary ?? DEFAULT_COLORS.tertiary,
-      }) as CSSProperties,
-    [colors?.primary, colors?.secondary, colors?.tertiary],
-  )
+  const style = useMemo<CSSProperties>(() => {
+    if (!colors) return { width: '100%', height: '100%' }
+    const vars: Record<string, string> = {}
+    if (colors.secondary) vars['--icon-secondary'] = colors.secondary
+    if (colors.tertiary) vars['--icon-tertiary'] = colors.tertiary
+    if (colors.tone) vars['--icon-tone-target'] = TONE_TARGET[colors.tone]
+    return { width: '100%', height: '100%', ...vars } as CSSProperties
+  }, [colors])
 
-  // Direct lookup - no runtime transformation needed
-  const IconComponent = ICON_MAP[type]
+  const IconComponent = iconMap[type]
 
   if (!IconComponent) {
-    console.warn(`Icon: Icon "${type}" not found. Available icons:`, Object.keys(ICON_MAP))
+    console.warn(`Icon: Icon "${type}" not found. Available icons:`, getAvailableIcons())
     return null as unknown as ReactElement
   }
 

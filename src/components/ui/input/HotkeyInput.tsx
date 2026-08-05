@@ -168,7 +168,7 @@ const HotkeyInput = ({
           title={HotkeyT.t('reset')}
           aria-label={HotkeyT.t('reset')}
         >
-          <Icon type={IconEnum.RESET} colors={{ primary: 'var(--hotkey-icon)' }} />
+          <Icon type={IconEnum.RESET} />
         </div>
       )}
     </div>

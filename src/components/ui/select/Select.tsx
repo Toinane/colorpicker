@@ -89,7 +89,7 @@ const Select = ({ value, onChange, options, disabled = false }: SelectProps) => 
       >
         <Text className={style.selectValue}>{selectedOption?.label || value}</Text>
         <div className={style.selectArrowWrapper}>
-          <Icon type={IconEnum.EXPAND} colors={{ primary: 'var(--select-icon)' }} />
+          <Icon type={IconEnum.EXPAND} />
         </div>
       </div>
       {isOpen && (

@@ -1,30 +1,26 @@
 :root .appIcons {
-  --app-icon-primary: var(--overlay-default);
-  --app-icon-secondary: var(--overlay-lighter);
-  --app-icon-tertiary: var(--overlay-lightest);
+  --app-icon: var(--overlay-default);
+  --app-icon-hover: var(--overlay-darkest);
+  --app-icon-active: var(--overlay-lightest);
 
   --app-icon-bg-hover: var(--window-darker);
   --app-icon-bg-active: var(--window-dark);
 
   --app-icon-shadow-hover: inset 0 -1px var(--surface-default);
   --app-icon-shadow-active: inset 0 0 0 1px var(--surface-default);
-
-  --app-icon-active: 0.8;
 }
 
 :root[data-theme='dark'] .appIcons,
 [class~='COLORED'][class~='DARK_COLOR'] .appIcons {
-  --app-icon-primary: var(--overlay-default);
-  --app-icon-secondary: var(--overlay-dark);
-  --app-icon-tertiary: var(--overlay-darker);
+  --app-icon: var(--overlay-default);
+  --app-icon-hover: var(--overlay-lightest);
+  --app-icon-active: var(--overlay-darker);
 
   --app-icon-bg-hover: var(--surface-light);
   --app-icon-bg-active: var(--surface-default);
 
   --app-icon-shadow-hover: inset 0 1px var(--surface-lightest);
   --app-icon-shadow-active: inset 0 0 0 1px var(--surface-lightest);
-
-  --app-icon-active: 0.7;
 }
 
 .appIcons {
@@ -44,7 +40,10 @@
   align-items: center;
   border-radius: 7px;
   margin: 0 1px;
-  transition: 0.3s background;
+  color: var(--app-icon);
+  transition:
+    0.3s background,
+    0.1s color;
 }
 
 .iconContainer.selected {
@@ -54,6 +53,7 @@
 .iconContainer:hover {
   background: var(--app-icon-bg-hover);
   box-shadow: var(--app-icon-shadow-hover);
+  color: var(--app-icon-hover);
   transition: 0.1s background;
 }
 
@@ -61,6 +61,7 @@
   background: var(--app-icon-bg-active);
   box-shadow: var(--app-icon-shadow-active);
   transition: 0s background;
+  color: var(--app-icon-active);
 }
 
 .iconContainer .svgWrapper {
@@ -72,8 +73,4 @@
 
 .iconContainer svg {
   transition: 0.2s;
-}
-
-.iconContainer:active:hover svg {
-  opacity: var(--app-icon-active);
 }

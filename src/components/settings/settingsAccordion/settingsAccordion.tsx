@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import classNames from 'clsx'
 
 import style from './settingsAccordion.module.css'
-import Icons from '@components/icons'
+import Icon, { IconEnum } from '@components/icons'
 import { Heading, Text } from '@components/ui'
 
 export interface SettingsAccordionProps {
@@ -63,7 +63,7 @@ const SettingsAccordion = ({
               isOpen && style.settingsAccordionIconOpened,
             ])}
           >
-            <Icons type="EXPAND" colors={{ primary: 'var(--s-acc-icon-color)' }} />
+            <Icon type={IconEnum.EXPAND} />
           </div>
         </div>
       </section>

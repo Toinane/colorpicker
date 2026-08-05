@@ -64,6 +64,7 @@
 .chevron {
   width: 16px;
   height: 16px;
+  color: var(--n-section-icon);
   transition: transform 0.05s ease;
 }
 

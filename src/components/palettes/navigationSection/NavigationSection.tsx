@@ -48,7 +48,7 @@ const NavigationSection = ({
       >
         <div className={style.navigationSectionToggle}>
           <span className={`${style.chevron} ${isOpen ? style.chevronOpen : ''}`}>
-            <Icon type={IconEnum.ARROW} colors={{ primary: 'var(--n-section-icon)' }} />
+            <Icon type={IconEnum.ARROW} />
           </span>
           <Text
             color="primary"

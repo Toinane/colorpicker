@@ -106,6 +106,7 @@
 .settingsAccordionIcon {
   width: 16px;
   height: 16px;
+  color: var(--s-acc-icon-color);
 }
 
 .settingsAccordion:focus-visible .settingsAccordionIcon {
