@@ -1,14 +1,14 @@
 import { memo, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { SettingsSection, SettingsItem, SettingsHotkeyInput } from '@components/settings'
+import { SettingsSection, SettingsItem } from '@components/settings'
 import { useSettingsStore, DEFAULT_SETTINGS } from '@stores/settingsStore'
 import { useHotkeyConflict } from '@hooks/index'
 import { setPickerHotkey } from '@common/ipc'
+import { HotkeyInput } from '@components/ui'
 
 const PickerShortcutsSettings = () => {
   const SettingsT = useTranslation('settings', { keyPrefix: 'shortcuts.picker' })
-  const HotkeyT = useTranslation('settings', { keyPrefix: 'hotkey' })
   const { pickerHotkey, updateSetting } = useSettingsStore()
   const checkConflict = useHotkeyConflict('pickerHotkey')
 
@@ -32,15 +32,11 @@ const PickerShortcutsSettings = () => {
         label={SettingsT.t('pickerHotkey.label')}
         description={SettingsT.t('pickerHotkey.description')}
       >
-        <SettingsHotkeyInput
+        <HotkeyInput
           value={pickerHotkey}
           defaultValue={DEFAULT_SETTINGS.pickerHotkey}
           onChange={handleHotkeyChange}
           onValidate={checkConflict}
-          recordingLabel={SettingsT.t('pickerHotkey.recording')}
-          noModifierErrorLabel={HotkeyT.t('noModifier')}
-          reservedErrorLabel={HotkeyT.t('reserved')}
-          resetLabel={HotkeyT.t('reset')}
         />
       </SettingsItem>
     </SettingsSection>

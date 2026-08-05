@@ -30,6 +30,7 @@ tauri-plugin-autostart = "2.5.1"
 tauri-plugin-window-state = "2.4.1"
 tauri-plugin-clipboard-manager = "2.3.2"
 tauri-plugin-notification = "2.3.3"
+os_info = "3"
 
 [target."cfg(target_os = \"windows\")".dependencies]
 windows = { version = "0.62", features = [
@@ -41,6 +42,7 @@ windows = { version = "0.62", features = [
     "Win32_Graphics_Direct2D",
     "Win32_Graphics_Direct2D_Common",
     "Win32_System_LibraryLoader",
+    "Win32_System_Registry",
 ] }
 
 [target."cfg(target_os = \"macos\")".dependencies]

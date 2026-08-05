@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { Text, Button } from '@components/ui'
+import Icon, { IconEnum } from '@components/icons'
+
 import style from './navigationSection.module.css'
 
 const NavigationSection = ({
@@ -44,8 +47,17 @@ const NavigationSection = ({
         }}
       >
         <div className={style.navigationSectionToggle}>
-          <span className={`${style.chevron} ${isOpen ? style.chevronOpen : ''}`}>&#9654;</span>
-          <p className={style.navigationSectionLabel}>{label}</p>
+          <span className={`${style.chevron} ${isOpen ? style.chevronOpen : ''}`}>
+            <Icon type={IconEnum.ARROW} colors={{ primary: 'var(--n-section-icon)' }} />
+          </span>
+          <Text
+            color="primary"
+            size="small"
+            weight="semibold"
+            className={style.navigationSectionLabel}
+          >
+            {label}
+          </Text>
         </div>
 
         <div
@@ -54,28 +66,31 @@ const NavigationSection = ({
           onClick={(event) => event.stopPropagation()}
           onKeyDown={(event) => event.stopPropagation()}
         >
-          <button
+          <Button
+            variant="transparent"
             className={`${style.navigationSectionMenuButton} ${isMenuOpen ? style.navigationSectionMenuButtonActive : ''}`}
             onClick={() => setIsMenuOpen((open) => !open)}
             aria-label="Section options"
           >
             &#8942;
-          </button>
+          </Button>
 
           {isMenuOpen && (
             <div className={style.navigationSectionDropdown}>
-              <button
+              <Button
+                variant="transparent"
                 className={style.navigationSectionDropdownItem}
                 onClick={() => setIsMenuOpen(false)}
               >
                 {t('action.rename')}
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="transparent"
                 className={style.navigationSectionDropdownItem}
                 onClick={() => setIsMenuOpen(false)}
               >
                 {t('action.delete')}
-              </button>
+              </Button>
             </div>
           )}
         </div>

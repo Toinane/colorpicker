@@ -1,54 +1,92 @@
-:root {
-  --settings-accordion-background: #f9f9f9;
-  --settings-accordion-background-hover: #f1f1f190;
-  --settings-accordion-background-active: #f1f1f130;
-  --settings-accordion-border: #00000020;
-  --settings-accordion-border-hover: #00000020;
-  --settings-accordion-border-active: #00000020;
-  --settings-accordion-shadow: 0 1px 0px 0px #00000030;
+:root .settingsAccordion {
+  --s-acc-bg: var(--window-lightest);
+  --s-acc-bg-hover: var(--window-light);
+  --s-acc-bg-active: var(--window-light);
+
+  --s-acc-text: var(--overlay-default);
+  --s-acc-text-active: var(--overlay-lighter);
+
+  --s-acc-border: var(--surface-light);
+  --s-acc-border-hover: linear-gradient(
+    to bottom,
+    var(--surface-light) 90%,
+    var(--surface-dark) 100%
+  );
+  --s-acc-border-active: var(--surface-light);
+
+  --s-acc-icon-color: var(--overlay-lightest);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --settings-accordion-background: #ffffff10;
-    --settings-accordion-background-hover: #ffffff15;
-    --settings-accordion-background-active: #ffffff05;
-    --settings-accordion-border: #00000050;
-    --settings-accordion-border-hover: #ffffff05;
-    --settings-accordion-border-active: #ffffff15;
-    --settings-accordion-shadow: inset 0 1px 0px 0px #ffffff05;
-  }
+:root[data-theme='dark'] .settingsAccordion {
+  --s-acc-bg: var(--window-lighter);
+  --s-acc-bg-hover: var(--window-lightest);
+  --s-acc-bg-active: var(--window-light);
+
+  --s-acc-text: var(--overlay-default);
+  --s-acc-text-active: var(--overlay-dark);
+
+  --s-acc-border: var(--window-dark);
+  --s-acc-border-hover: linear-gradient(
+    to bottom,
+    var(--surface-default) 0%,
+    var(--window-lighter) 10%
+  );
+  --s-acc-border-active: var(--window-lightest);
+
+  --s-acc-icon-color: var(--overlay-lightest);
 }
 
+/* Settings Accordion ------------------------------------------- */
 .settingsAccordion {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 15px 30px;
-  border: 1px solid var(--settings-accordion-border);
-  background-color: var(--settings-accordion-background);
+  background-color: var(--s-acc-bg);
+  color: var(--s-acc-text);
   transition:
     background-color 0.15s,
-    box-shadow 0.15s,
-    border 0.15s;
+    box-shadow 0.15s;
+}
+
+.settingsAccordion::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  background: var(--s-acc-border) border-box;
+  mask:
+    linear-gradient(#fff 0 0) padding-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
 }
 
 .settingsAccordionClosed {
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
+}
+
+.settingsAccordionClosed::before {
+  border-radius: var(--radius-sm);
 }
 
 .settingsAccordion:hover {
-  cursor: pointer;
-  background-color: var(--settings-accordion-background-hover);
-  border: 1px solid var(--settings-accordion-border-hover);
-  box-shadow: var(--settings-accordion-shadow);
+  background-color: var(--s-acc-bg-hover);
 }
 
-.settingsAccordion:active {
-  background-color: var(--settings-accordion-background-active);
-  border: 1px solid var(--settings-accordion-border-active);
+.settingsAccordion:hover::before {
+  background: var(--s-acc-border-hover) border-box;
+}
+
+.settingsAccordion:active:hover:not(:has(.settingsAccordionActions :active)) {
+  background-color: var(--s-acc-bg-active);
+  color: var(--s-acc-text-active);
   box-shadow: unset;
+}
+
+.settingsAccordion:active:hover:not(:has(.settingsAccordionActions :active))::before {
+  background: var(--s-acc-border-active) border-box;
 }
 
 .settingsAccordionInfo {
@@ -56,14 +94,6 @@
   flex-direction: column;
   gap: 4px;
   max-width: 70%;
-}
-
-.settingsAccordionLabel {
-}
-
-.settingsAccordionDescription {
-  font-size: 0.8em;
-  opacity: 0.8;
 }
 
 .settingsAccordionActions {
@@ -78,8 +108,8 @@
   height: 16px;
 }
 
-.settingsAccordionIcon:focus-visible {
-  outline: 2px solid var(--settings-focus-outline);
+.settingsAccordion:focus-visible .settingsAccordionIcon {
+  outline: 2px solid var(--focus-outline);
   border-radius: 0.2px;
   outline-offset: 8px;
 }
@@ -92,11 +122,15 @@
   display: grid;
   grid-template-rows: 0fr;
   overflow: hidden;
-  transition: grid-template-rows 0.2s ease;
+  transition: grid-template-rows 0.1s ease;
 }
 
 .settingsAccordionInner {
   min-height: 0;
+}
+
+.settingsAccordionInner > *:first-child {
+  border-top: unset;
 }
 
 .settingsAccordionContentOpen {

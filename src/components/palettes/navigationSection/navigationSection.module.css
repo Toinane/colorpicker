@@ -1,11 +1,22 @@
-:root {
-  --navigation-section-color: #000000cc;
+:root .navigationSection {
+  --n-section-bg-hover: var(--window-darker);
+  --n-section-bg-active: var(--window-dark);
+
+  --n-section-text: var(--overlay-default);
+  --n-section-text-active: var(--overlay-lightest);
+
+  --n-section-icon: var(--overlay-lighter);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --navigation-section-color: #ffffffcc;
-  }
+:root[data-theme='dark'] .navigationSection {
+  --n-section-bg-hover: var(--surface-default);
+  --n-section-bg-active: var(--surface-default);
+  --n-section-bg-active-hover: var(--window-lightest);
+
+  --n-section-text: var(--overlay-default);
+  --n-section-text-active: var(--overlay-darker);
+
+  --n-section-icon: var(--overlay-darker);
 }
 
 .navigationSection {
@@ -15,21 +26,25 @@
   justify-content: space-between;
   margin-top: 4px;
   padding: 6px 8px 6px 12px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   border: 1px solid transparent;
   gap: 8px;
-  color: var(--navigation-section-color);
-  font-size: 13px;
-  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
 }
 
 .navigationSection:hover {
-  background-color: var(--palette-navigation-background);
+  background-color: var(--n-section-bg-hover);
 }
 
 .navigationSection:focus-visible {
-  outline: 2px solid var(--palette-focus-outline);
+  outline: 2px solid var(--focus-outline);
   outline-offset: -2px;
+}
+
+.navigationSection:active:hover {
+  background-color: var(--n-section-bg-active);
 }
 
 .navigationSectionToggle {
@@ -37,7 +52,7 @@
   align-items: center;
   flex: 1;
   min-width: 0;
-  gap: 8px;
+  gap: 6px;
 }
 
 .navigationSectionLabel {
@@ -47,7 +62,8 @@
 }
 
 .chevron {
-  font-size: 8px;
+  width: 16px;
+  height: 16px;
   transition: transform 0.05s ease;
 }
 
@@ -66,7 +82,7 @@
   justify-content: center;
   width: 20px;
   height: 20px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   opacity: 0;
   transition: opacity 0.1s ease;
@@ -80,11 +96,11 @@
 }
 
 .navigationSectionMenuButton:hover {
-  background-color: #ffffff20;
+  background-color: var(--n-section-bg-hover);
 }
 
 .navigationSectionMenuButton:focus-visible {
-  outline: 2px solid var(--palette-focus-outline);
+  outline: 2px solid var(--focus-outline);
   outline-offset: -2px;
 }
 
@@ -95,10 +111,10 @@
   display: flex;
   flex-direction: column;
   min-width: 120px;
-  background-color: #2d2d3a;
-  border-radius: 4px;
-  border: 1px solid #00000084;
-  box-shadow: 0 2px 8px 0px #00000030;
+  background-color: var(--surface-popover);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-popover);
+  box-shadow: var(--shadow-popover);
   overflow: hidden;
   z-index: 100;
 }
@@ -107,13 +123,13 @@
   display: block;
   padding: 6px 12px;
   text-align: left;
-  color: #ffffffcc;
+  color: var(--text-primary);
   cursor: pointer;
   white-space: nowrap;
 }
 
 .navigationSectionDropdownItem:hover {
-  background-color: #ffffff15;
+  background-color: var(--surface-1-hover);
 }
 
 .navigationSectionItems {

@@ -1,3 +1,5 @@
+import { Heading } from '@components/ui'
+
 import style from './settingsSection.module.css'
 
 export interface SettingsSectionProps {
@@ -9,9 +11,15 @@ const SettingsSection = ({ children, title }: SettingsSectionProps) => {
   return (
     <section className={style.settingsSection}>
       {title && (
-        <h1 className={style.settingsSectionTitle} id={title}>
+        <Heading
+          level={1}
+          id={title}
+          weight={'bold'}
+          color={'primary'}
+          className={style.settingsSectionTitle}
+        >
           {title}
-        </h1>
+        </Heading>
       )}
       <div className={style.settingsSectionContent}>{children}</div>
     </section>

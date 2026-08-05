@@ -1,29 +1,22 @@
-import { FunctionComponent, JSX } from 'react'
+import { FunctionComponent, JSX, KeyboardEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import Icon, { IconColors, IconEnum } from '../../icons'
-import { useTheme } from '@hooks/index'
+import Icon, { IconEnum } from '@components/icons'
 import { launchPicker, openSettings, openPalettes } from '@common/ipc'
 
 import style from './appIcons.module.css'
 
-const THEME_COLORS = {
-  light: {
-    main: '#000000',
-    secondary: '#3e3e3e',
-    tertiary: '#7b7b7b',
-  },
-  dark: {
-    main: '#ffffff',
-    secondary: '#bebdbd',
-    tertiary: '#989898',
-  },
-} as const satisfies Record<'light' | 'dark', IconColors>
+/** Space/Enter activation for a div acting as a button, matching native <button> keyboard behavior. */
+const onActivationKey =
+  (action: () => void) =>
+  (e: KeyboardEvent): void => {
+    if (e.key !== 'Enter' && e.key !== ' ') return
+    e.preventDefault()
+    action()
+  }
 
 const AppIcons: FunctionComponent = (): JSX.Element => {
   const { t } = useTranslation()
-  const theme = useTheme()
-  const iconColors = THEME_COLORS[theme]
   // Hide/show/restore and applying the result are all handled Rust-side
   // (shortcuts::trigger_global_pick) and delivered via the `color-picked`
   // event listened to in colorpicker.tsx — the single result path shared
@@ -62,20 +55,31 @@ const AppIcons: FunctionComponent = (): JSX.Element => {
         className={style.iconContainer}
         title={t('common.eyedropper')}
         onClick={handlePickerClick}
-        style={{ cursor: 'pointer' }}
+        onKeyDown={onActivationKey(handlePickerClick)}
+        role="button"
+        tabIndex={0}
       >
         <div className={style.svgWrapper}>
-          <Icon type={IconEnum.PICKER} colors={iconColors} />
+          <Icon type={IconEnum.PICKER} colors={{ primary: 'var(--app-icon-primary)' }} />
         </div>
       </div>
       <div
         className={style.iconContainer}
         title={t('common.swatch')}
         onClick={handlePalettesClick}
-        style={{ cursor: 'pointer' }}
+        onKeyDown={onActivationKey(handlePalettesClick)}
+        role="button"
+        tabIndex={0}
       >
         <div className={style.svgWrapper}>
-          <Icon type={IconEnum.SWATCH} colors={iconColors} />
+          <Icon
+            type={IconEnum.SWATCH}
+            colors={{
+              primary: 'var(--app-icon-primary)',
+              secondary: 'var(--app-icon-secondary)',
+              tertiary: 'var(--app-icon-tertiary)',
+            }}
+          />
         </div>
       </div>
       {/* <div className={style.iconContainer} title={t("common.tint")}>
@@ -102,10 +106,12 @@ const AppIcons: FunctionComponent = (): JSX.Element => {
         className={style.iconContainer}
         title={t('common.settings')}
         onClick={handleSettingsClick}
-        style={{ cursor: 'pointer' }}
+        onKeyDown={onActivationKey(handleSettingsClick)}
+        role="button"
+        tabIndex={0}
       >
         <div className={style.svgWrapper}>
-          <Icon type={IconEnum.SETTINGS} colors={iconColors} />
+          <Icon type={IconEnum.SETTINGS} colors={{ primary: 'var(--app-icon-primary)' }} />
         </div>
       </div>
     </section>

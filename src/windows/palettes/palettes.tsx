@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import WindowControls from '@components/windowBar/windowControls'
 import Navigation from '@components/palettes/navigation/Navigation'
 import NavigationItem from '@components/palettes/navigationItem/NavigationItem'
+import { Heading, Button } from '@components/ui'
 // import { usePalettesStore } from '@stores/palettesStore'
 // import { useColorStore } from '@stores/colorStore'
 // import { isValidHex, toHex } from '@common/color'
@@ -104,8 +105,10 @@ const Palettes = () => {
     <section className={style.palettesWindow}>
       <header className={style.topBar} data-tauri-drag-region>
         <div className={style.title}>
-          <h1>{t('title')}</h1>
-          <div className={style.warmGradient}></div>
+          <Heading level={1} color="primary" weight="bold" size="small">
+            {t('title')}
+          </Heading>
+          <div className={style.iconGradient}></div>
         </div>
         <WindowControls />
       </header>
@@ -124,77 +127,60 @@ const Palettes = () => {
         <section className={style.paletteContent}>
           <PaletteMenu />
           <section className={style.paletteColors}>
-            <ColorSection label="Reds">
-              <ColorItem color="#F44336" name="Red 500" />
+            <ColorSection label="Programmed Colors">
               {[
-                ['#FFEBEE', 'Red 50'],
-                ['#FFCDD2', 'Red 100'],
-                ['#EF9A9A', 'Red 200'],
-                ['#E57373', 'Red 300'],
-                ['#EF5350', 'Red 400'],
-                ['#F44336', 'Red 500'],
-                ['#E53935', 'Red 600'],
-                ['#D32F2F', 'Cornell Red'],
-                ['#C62828', 'Copper Red'],
-                ['#B71C1C', 'Red 900'],
-                ['#FF8A80', 'Red A100'],
-                ['#FF5252', 'Red A200'],
-                ['#FF1744', 'Coquelicot'],
-                ['#D50000', 'Red A700'],
-                ['#E91E63', 'Pink 500'],
-                ['#FCE4EC', 'Pink 50'],
-                ['#F8BBD0', 'Pink 100'],
-                ['#F48FB1', 'Pink 200'],
-                ['#F06292', 'Pink 300'],
-                ['#EC407A', 'Pink 400'],
-                ['#E91E63', 'Pink 500'],
-                ['#D81B60', 'Pink 600'],
-                ['#C2185B', 'Pink 700'],
-                ['#AD1457', 'Pink 800'],
-                ['#880E4F', 'Dark Copper Red'],
-                ['#FF80AB', 'Pink A100'],
-                ['#FF4081', 'Pink A200'],
-                ['#F50057', 'Pink A400'],
-                ['#C51162', 'Pink A700'],
+                ['#60A7C5', 'main-color'],
+                ['#D3415A', 'accent-default'],
               ].map(([color, name]) => (
                 <ColorItem key={color} color={color} name={name} />
               ))}
             </ColorSection>
-            <ColorSection label="Purples">
+            <ColorSection label="Accent Colors">
               {[
-                '#9C27B0',
-                '#F3E5F5',
-                '#E1BEE7',
-                '#CE93D8',
-                '#BA68C8',
-                '#AB47BC',
-                '#9C27B0',
-                '#8E24AA',
-                '#7B1FA2',
-                '#6A1B9A',
-                '#4A148C',
-                '#EA80FC',
-                '#E040FB',
-                '#D500F9',
-                '#AA00FF',
-                '#673AB7',
-                '#EDE7F6',
-                '#D1C4E9',
-                '#B39DDB',
-                '#9575CD',
-                '#7E57C2',
-                '#673AB7',
-                '#5E35B1',
-                '#512DA8',
-                '#4527A0',
-                '#311B92',
-                '#B388FF',
-                '#7C4DFF',
-                '#651FFF',
-                '#6200EA',
-                '#3F51B5',
-              ].map((color) => (
-                <ColorItem key={color} color={color} />
+                ['#C53C54', 'accent-dark'],
+                ['#B7374D', 'accent-darker'],
+                ['#9C2E41', 'accent-darkest'],
+                ['#EEDFE6', 'accent-subtle'],
+                ['#D95366', 'accent-light'],
+                ['#DB5C6D', 'accent-lighter'],
+                ['#E16C79', 'accent-lightest'],
+                ['#BE3D52', 'accent-variant-default'],
+                ['#B1394C', 'accent-variant-dark'],
+                ['#A43446', 'accent-variant-darker'],
+                ['#8C2B3B', 'accent-variant-darkest'],
+                ['#ECDEE5', 'accent-variant-subtle'],
+                ['#C54F5F', 'accent-variant-light'],
+                ['#C85865', 'accent-variant-lighter'],
+                ['#CF6873', 'accent-variant-lightest'],
+              ].map(([color, name]) => (
+                <ColorItem key={color} color={color} name={name} />
+              ))}
+            </ColorSection>
+            <ColorSection label="Neutral Colors">
+              {[
+                ['#F3F5F9', 'window-default'],
+                ['#E9ECEF', 'window-dark'],
+                ['#E0E2E6', 'window-darker'],
+                ['#D6D8DC', 'window-darkest'],
+                ['#F6F8FB', 'window-light'],
+                ['#F9FAFC', 'window-lighter'],
+                ['#FBFCFD', 'window-lightest'],
+                ['#D6D8DC', 'surface-default'],
+                ['#BABCBF', 'surface-dark'],
+                ['#9FA0A3', 'surface-darker'],
+                ['#848688', 'surface-darkest'],
+                ['#E2E4E6', 'surface-light'],
+                ['#EAECED', 'surface-lighter'],
+                ['#EFF0F2', 'surface-lightest'],
+                ['#141515', 'overlay-default'],
+                ['#121213', 'overlay-dark'],
+                ['#0C0C0D', 'overlay-darker'],
+                ['#080809', 'overlay-darkest'],
+                ['#272728', 'overlay-light'],
+                ['#3B3C3C', 'overlay-lighter'],
+                ['#515152', 'overlay-lightest'],
+              ].map(([color, name]) => (
+                <ColorItem key={color} color={color} name={name} />
               ))}
             </ColorSection>
           </section>
@@ -207,9 +193,13 @@ const Palettes = () => {
           className={style.contextMenu}
           style={{ left: contextMenu.x, top: contextMenu.y }}
         >
-          <button className={style.contextMenuItem} onClick={contextMenu.onDelete}>
+          <Button
+            variant="transparent"
+            className={style.contextMenuItem}
+            onClick={contextMenu.onDelete}
+          >
             {t('action.delete')}
-          </button>
+          </Button>
         </div>
       )}
     </section>

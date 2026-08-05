@@ -13,11 +13,24 @@ import Settings from '@windows/settings/settings'
 import Palettes from '@windows/palettes/palettes'
 import SettingsProvider from '@components/SettingsProvider'
 import ToastContainer from '@components/toast/toast'
+import ErrorBoundary from '@components/ErrorBoundary'
+import { useColorpickerStore } from '@stores/colorpickerStore'
+import { useColorStore } from '@stores/colorStore'
 
 import './style.global.css'
 
 const AppRouter = () => {
   const readyEmitted = useRef(false)
+  const { isBordered, isFullColored, isVibrant } = useColorpickerStore((state) => state)
+  const { color, oppositeColor, isDarkColor } = useColorStore((state) => state)
+
+  window.addEventListener('focus', function () {
+    document.body.classList.remove('BLUR')
+  })
+
+  window.addEventListener('blur', function () {
+    document.body.classList.add('BLUR')
+  })
 
   useEffect(() => {
     // Signal that the frontend is ready and window can be shown
@@ -34,14 +47,44 @@ const AppRouter = () => {
     })
   }, [])
 
+  useEffect(() => {
+    const rgb = color.to('srgb')
+
+    document.documentElement.style.setProperty('--main-color', `${color}`)
+    document.documentElement.style.setProperty(
+      '--main-color-r',
+      `${Math.round((rgb.r ?? 0) * 100)}%`,
+    )
+    document.documentElement.style.setProperty(
+      '--main-color-g',
+      `${Math.round((rgb.g ?? 0) * 100)}%`,
+    )
+    document.documentElement.style.setProperty(
+      '--main-color-b',
+      `${Math.round((rgb.b ?? 0) * 100)}%`,
+    )
+    document.documentElement.style.setProperty('--opposite-color', `${oppositeColor}`)
+  }, [color, oppositeColor])
+
+  useEffect(() => {
+    document.body.classList.toggle('BORDERED', isBordered)
+    document.body.classList.toggle('COLORED', isFullColored)
+    document.body.classList.toggle('NO_VIBRANCY', !isVibrant)
+    document.body.classList.toggle('DARK_COLOR', isDarkColor)
+
+    return () => {
+      document.body.classList.remove('BORDERED', 'COLORED', 'NO_VIBRANCY', 'DARK_COLOR')
+    }
+  }, [isBordered, isFullColored, isVibrant, isDarkColor])
+
   return (
-    <>
+    <ErrorBoundary>
       <Route path="/colorpicker" component={Colorpicker} />
       <Route path="/settings" component={Settings} />
       <Route path="/settings/*" component={Settings} />
       <Route path="/palettes" component={Palettes} />
       <Route path="/" component={Colorpicker} />
-    </>
+    </ErrorBoundary>
   )
 }
 

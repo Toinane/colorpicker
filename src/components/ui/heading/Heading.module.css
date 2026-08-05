@@ -1,0 +1,57 @@
+:root .heading {
+  --heading-primary: var(--overlay-default);
+  --heading-secondary: var(--overlay-light);
+  --heading-accent: var(--overlay-lightest);
+}
+
+:root[data-theme='dark'] .heading {
+  --heading-primary: var(--overlay-default);
+  --heading-secondary: var(--overlay-dark);
+  --heading-accent: var(--overlay-darkest);
+}
+
+.heading {
+  display: block;
+  font-family: inherit;
+  font-family: Ubuntu, sans-serif;
+}
+
+.heading.primary {
+  color: var(--heading-primary);
+}
+
+.heading.secondary {
+  color: var(--heading-secondary);
+}
+
+.heading.accent {
+  color: var(--heading-accent);
+}
+
+.heading.small {
+  font-size: 0.9em;
+}
+
+.heading.medium {
+  font-size: 1em;
+}
+
+.heading.large {
+  font-size: 1.2em;
+}
+
+.heading.light {
+  font-weight: 300;
+}
+
+.heading.normal {
+  font-weight: 400;
+}
+
+.heading.semibold {
+  font-weight: 500;
+}
+
+.heading.bold {
+  font-weight: 600;
+}

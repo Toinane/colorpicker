@@ -1,7 +1,8 @@
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { SettingsSection, SettingsItem, SettingsToggle, SettingsSelect } from '@components/settings'
+import { SettingsSection, SettingsItem } from '@components/settings'
+import { Toggle, Select } from '@components/ui'
 import { useSettingsStore } from '@stores/settingsStore'
 import type { EyedropperGridSizeOption, EyedropperMagnifierSizeOption } from '@interfaces/settings'
 
@@ -22,7 +23,7 @@ const DisplaySettings = () => {
         label={SettingsT.t('gridSize.label')}
         description={SettingsT.t('gridSize.description')}
       >
-        <SettingsSelect
+        <Select
           value={String(eyedropperGridSize)}
           onChange={(value) =>
             updateSetting('eyedropperGridSize', Number(value) as EyedropperGridSizeOption)
@@ -38,7 +39,7 @@ const DisplaySettings = () => {
         label={SettingsT.t('magnifierSize.label')}
         description={SettingsT.t('magnifierSize.description')}
       >
-        <SettingsSelect
+        <Select
           value={String(eyedropperMagnifierSize)}
           onChange={(value) =>
             updateSetting('eyedropperMagnifierSize', Number(value) as EyedropperMagnifierSizeOption)
@@ -54,7 +55,7 @@ const DisplaySettings = () => {
         label={SettingsT.t('showHex.label')}
         description={SettingsT.t('showHex.description')}
       >
-        <SettingsToggle
+        <Toggle
           checked={eyedropperShowHex}
           onChange={(checked) => updateSetting('eyedropperShowHex', checked)}
         />
@@ -63,7 +64,7 @@ const DisplaySettings = () => {
         label={SettingsT.t('showPixelGrid.label')}
         description={SettingsT.t('showPixelGrid.description')}
       >
-        <SettingsToggle
+        <Toggle
           checked={eyedropperShowPixelGrid}
           onChange={(checked) => updateSetting('eyedropperShowPixelGrid', checked)}
         />

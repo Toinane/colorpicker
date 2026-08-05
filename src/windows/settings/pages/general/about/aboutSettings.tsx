@@ -1,4 +1,4 @@
-import { memo, useRef } from 'react'
+import { memo, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { writeText } from '@tauri-apps/plugin-clipboard-manager'
 
@@ -7,11 +7,11 @@ import {
   SettingsItem,
   SettingsItemList,
   SettingsAccordion,
-  SettingsButton,
-  SettingsLink,
 } from '@components/settings'
+import { FeedbackButton, ExternalLink } from '@components/ui'
 import { useSettingsStore } from '@stores/settingsStore'
 import { showToast } from '@stores/toastStore'
+import { getPlatformInfo } from '@common/platform'
 
 // Consecutive clicks (within CLICK_WINDOW_MS of each other) needed to toggle
 // the Experimental section, à la Android's "tap build number" trick.
@@ -25,9 +25,17 @@ const AboutSettings = () => {
   const clickCountRef = useRef(0)
   const lastClickAtRef = useRef(0)
 
+  const [platformLabel, setPlatformLabel] = useState<string | null>(null)
+
+  useEffect(() => {
+    getPlatformInfo()
+      .then((info) => setPlatformLabel(info.label))
+      .catch((err) => console.error('Failed to read platform info:', err))
+  }, [])
+
   const versionsList: Array<Record<string, string> | string> = [
     'Stable 3.0.0 (cdf3e8b6)',
-    'Windows 11 64-bit (10.0.26100)',
+    ...(platformLabel ? [platformLabel] : []),
     '2024-10-14T12:00:00Z (2 days ago)',
   ]
 
@@ -58,8 +66,8 @@ const AboutSettings = () => {
         <SettingsAccordion
           label={SettingsT.t('versions.label')}
           description={SettingsT.t('versions.description')}
-          accordionContent={
-            <SettingsButton
+          accordionActions={
+            <FeedbackButton
               label={CommonT.t('action.copy')}
               clickedLabel={CommonT.t('action.copied')}
               onClick={onCopyVersions}
@@ -71,7 +79,7 @@ const AboutSettings = () => {
       </SettingsSection>
       <SettingsSection>
         <SettingsItem label={CommonT.t('website')}>
-          <SettingsLink href="https://colorpicker.fr" label="colorpicker.fr" />
+          <ExternalLink href="https://colorpicker.fr" label="colorpicker.fr" />
         </SettingsItem>
         <div onClick={onAuthorClick}>
           <SettingsItem

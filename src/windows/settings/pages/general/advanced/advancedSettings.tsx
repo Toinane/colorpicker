@@ -1,12 +1,8 @@
 import { memo, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import {
-  SettingsSection,
-  SettingsItem,
-  SettingsAccordion,
-  SettingsButton,
-} from '@components/settings'
+import { SettingsSection, SettingsItem, SettingsAccordion } from '@components/settings'
+import { Button, Text } from '@components/ui'
 
 const ColorpickerSettings = () => {
   const SettingsT = useTranslation('settings', { keyPrefix: 'general.advanced' })
@@ -23,7 +19,9 @@ const ColorpickerSettings = () => {
           label={SettingsT.t('resetSettings.label')}
           description={SettingsT.t('resetSettings.description')}
         >
-          <SettingsButton label={CommonT.t('action.reset')} onClick={() => onResetSettings} />
+          <Button variant="solid" onClick={() => onResetSettings()}>
+            <Text>{CommonT.t('action.reset')}</Text>
+          </Button>
         </SettingsItem>
       </SettingsAccordion>
     </SettingsSection>

@@ -90,6 +90,7 @@ const WindowControls: FunctionComponent = (): JSX.Element => {
             <rect
               width="9"
               height="9"
+              rx="1.5"
               x="1.5"
               y="1.5"
               fill="none"

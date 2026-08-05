@@ -4,7 +4,7 @@
   /* background-color: var(--palette-section-background); */
   /* border: 1px solid var(--palette-section-border); */
   gap: 2px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   width: 200px;
   overflow-y: auto;
   overflow-x: hidden;

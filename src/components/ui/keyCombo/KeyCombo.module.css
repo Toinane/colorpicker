@@ -1,0 +1,50 @@
+:root .keyComboGroup {
+  --keyCombo-text: var(--overlay-default);
+
+  --keyCombo-filled-bg: var(--surface-lighter);
+  --keyCombo-filled-border: var(--surface-light);
+
+  --keyCombo-outlined-border: var(--surface-darker);
+}
+
+:root[data-theme='dark'] .keyComboGroup {
+  --keyCombo-text: var(--overlay-default);
+
+  --keyCombo-filled-bg: var(--window-light);
+  --keyCombo-filled-border: var(--window-default);
+
+  --keyCombo-outlined-border: var(--overlay-darker);
+}
+
+.keyComboGroup {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.keyComboKey {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  color: var(--keyCombo-text);
+  line-height: 1.4;
+  font-style: normal;
+}
+
+.keyComboKeyFilled {
+  background: var(--keyCombo-filled-bg);
+  border: 1px solid var(--keyCombo-filled-border);
+}
+
+.keyComboKeyOutlined {
+  background: transparent;
+  border: 1px solid var(--keyCombo-outlined-border);
+}
+
+.keyComboKeyTransparent {
+  background: transparent;
+  border: 1px solid transparent;
+}

@@ -1,22 +1,59 @@
+﻿:root .navigationItem {
+  --n-item-bg-hover: var(--window-darker);
+  --n-item-bg-active: var(--window-darker);
+  --n-item-bg-active-hover: var(--window-dark);
+
+  --n-item-text: var(--overlay-default);
+  --n-item-text-active: var(--overlay-lightest);
+
+  --n-item-accent: var(--accent-variant-default);
+}
+
+:root[data-theme='dark'] .navigationItem {
+  --n-item-bg-hover: var(--surface-default);
+  --n-item-bg-active: var(--surface-default);
+  --n-item-bg-active-hover: var(--window-lightest);
+
+  --n-item-text: var(--overlay-default);
+  --n-item-text-active: var(--overlay-darker);
+
+  --n-item-accent: var(--accent-variant-default);
+}
+
 .navigationItem {
   display: flex;
   position: relative;
   align-items: center;
   justify-content: left;
   padding: 8px 12px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   border: 1px solid transparent;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
 }
 
 .navigationItem:focus-visible {
-  outline: 2px solid var(--palette-focus-outline);
+  outline: 2px solid var(--focus-outline);
   outline-offset: -2px;
 }
 
 .navigationItem:hover,
 .navigationItem.active {
-  background-color: var(--palette-navigation-background);
-  cursor: pointer;
+  background-color: var(--n-item-bg-hover);
+}
+
+.navigationItem:active {
+  color: var(--n-item-text-active);
+  background: var(--n-item-bg-active-hover);
+}
+
+.navigationItem.active:hover {
+  background: var(--n-item-bg-active-hover);
+}
+
+.navigationItem.active:active {
+  background: var(--n-item-bg-active);
 }
 
 .navigationItem.active::after {
@@ -25,15 +62,15 @@
   left: 0;
   width: 3px;
   height: 50%;
-  border-radius: 8px;
-  background-color: var(--main-color);
+  border-radius: var(--radius-md);
+  background-color: var(--n-item-accent);
 }
 
 .colorSwatch {
   width: 8px;
   height: 8px;
   flex-shrink: 0;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   margin-right: 8px;
 }
 

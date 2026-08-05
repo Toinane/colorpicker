@@ -14,7 +14,7 @@ export type IconType = (typeof IconEnum)[keyof typeof IconEnum]
 export { getAvailableIcons }
 
 export interface IconColors {
-  main?: string
+  primary?: string
   secondary?: string
   tertiary?: string
 }
@@ -25,7 +25,7 @@ interface IconProps {
 }
 
 const DEFAULT_COLORS: IconColors = {
-  main: '#000',
+  primary: '#000',
   secondary: '#3e3e3e',
   tertiary: '#7b7b7b',
 }
@@ -43,11 +43,11 @@ const Icon: FC<IconProps> = ({ type, colors }): ReactElement => {
       ({
         width: '100%',
         height: '100%',
-        '--app-icon-main-color': colors?.main ?? DEFAULT_COLORS.main,
-        '--app-icon-secondary-color': colors?.secondary ?? DEFAULT_COLORS.secondary,
-        '--app-icon-tertiary-color': colors?.tertiary ?? DEFAULT_COLORS.tertiary,
+        '--icon-primary': colors?.primary ?? DEFAULT_COLORS.primary,
+        '--icon-secondary': colors?.secondary ?? DEFAULT_COLORS.secondary,
+        '--icon-tertiary': colors?.tertiary ?? DEFAULT_COLORS.tertiary,
       }) as CSSProperties,
-    [colors?.main, colors?.secondary, colors?.tertiary],
+    [colors?.primary, colors?.secondary, colors?.tertiary],
   )
 
   // Direct lookup - no runtime transformation needed

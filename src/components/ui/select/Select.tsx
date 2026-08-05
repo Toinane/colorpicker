@@ -1,19 +1,21 @@
 import { useState, useRef, useEffect } from 'react'
-import style from './settingsSelect.module.css'
+import style from './Select.module.css'
+import Icon, { IconEnum } from '@components/icons'
+import { Text } from '@components/ui'
 
-export interface SettingsSelectOption {
+export interface SelectOption {
   value: string
   label: string
 }
 
-export interface SettingsSelectProps {
+export interface SelectProps {
   value: string
   onChange: (value: string) => void
-  options: SettingsSelectOption[]
+  options: SelectOption[]
   disabled?: boolean
 }
 
-const SettingsSelect = ({ value, onChange, options, disabled = false }: SettingsSelectProps) => {
+const Select = ({ value, onChange, options, disabled = false }: SelectProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const selectRef = useRef<HTMLDivElement>(null)
 
@@ -75,9 +77,9 @@ const SettingsSelect = ({ value, onChange, options, disabled = false }: Settings
   }, [isOpen])
 
   return (
-    <div className={style.settingsSelectWrapper} ref={selectRef}>
+    <div className={style.selectWrapper} ref={selectRef}>
       <div
-        className={`${style.settingsSelect} ${disabled ? style.settingsSelectDisabled : ''} ${isOpen ? style.settingsSelectOpen : ''}`}
+        className={`${style.select} ${disabled ? style.selectDisabled : ''} ${isOpen ? style.selectOpen : ''}`}
         onClick={handleToggle}
         onKeyDown={handleKeyDown}
         tabIndex={disabled ? -1 : 0}
@@ -85,37 +87,24 @@ const SettingsSelect = ({ value, onChange, options, disabled = false }: Settings
         aria-expanded={isOpen}
         aria-haspopup="listbox"
       >
-        <span className={style.settingsSelectValue}>{selectedOption?.label || value}</span>
-        <svg
-          className={style.settingsSelectArrow}
-          width="12"
-          height="12"
-          viewBox="0 0 12 12"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M2.5 4.5L6 8L9.5 4.5"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        <Text className={style.selectValue}>{selectedOption?.label || value}</Text>
+        <div className={style.selectArrowWrapper}>
+          <Icon type={IconEnum.EXPAND} colors={{ primary: 'var(--select-icon)' }} />
+        </div>
       </div>
       {isOpen && (
-        <div className={style.settingsSelectDropdown} role="listbox">
+        <div className={style.selectDropdown} role="listbox">
           {options.map((option) => (
             <div
               key={option.value}
-              className={`${style.settingsSelectOption} ${option.value === value ? style.settingsSelectOptionSelected : ''}`}
+              className={`${style.selectOption} ${option.value === value ? style.selectOptionSelected : ''}`}
               onClick={() => handleOptionClick(option.value)}
               onKeyDown={(e) => handleOptionKeyDown(e, option.value)}
               tabIndex={0}
               role="option"
               aria-selected={option.value === value}
             >
-              {option.label}
+              <Text>{option.label}</Text>
             </div>
           ))}
         </div>
@@ -124,4 +113,4 @@ const SettingsSelect = ({ value, onChange, options, disabled = false }: Settings
   )
 }
 
-export default SettingsSelect
+export default Select

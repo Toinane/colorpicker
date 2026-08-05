@@ -1,23 +1,30 @@
-:root {
-  --app-icon-main-color: black;
-  --app-icon-second-color: #3e3e3e;
-  --app-icon-third-color: #7b7b7b;
-  --app-icon-opacity: 0.7;
-  --app-icon-selected: rgba(0, 0, 0, 0.1);
-  --app-icon-hover: rgba(0, 0, 0, 0.15);
-  --app-icon-active: rgba(0, 0, 0, 0.25);
+:root .appIcons {
+  --app-icon-primary: var(--overlay-default);
+  --app-icon-secondary: var(--overlay-lighter);
+  --app-icon-tertiary: var(--overlay-lightest);
+
+  --app-icon-bg-hover: var(--window-darker);
+  --app-icon-bg-active: var(--window-dark);
+
+  --app-icon-shadow-hover: inset 0 -1px var(--surface-default);
+  --app-icon-shadow-active: inset 0 0 0 1px var(--surface-default);
+
+  --app-icon-active: 0.8;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --app-icon-main-color: white;
-    --app-icon-second-color: #bebdbd;
-    --app-icon-third-color: #989898;
-    --app-icon-opacity: 0.8;
-    --app-icon-selected: rgba(255, 255, 255, 0.1);
-    --app-icon-hover: rgba(255, 255, 255, 0.15);
-    --app-icon-active: rgba(255, 255, 255, 0.25);
-  }
+:root[data-theme='dark'] .appIcons,
+[class~='COLORED'][class~='DARK_COLOR'] .appIcons {
+  --app-icon-primary: var(--overlay-default);
+  --app-icon-secondary: var(--overlay-dark);
+  --app-icon-tertiary: var(--overlay-darker);
+
+  --app-icon-bg-hover: var(--surface-light);
+  --app-icon-bg-active: var(--surface-default);
+
+  --app-icon-shadow-hover: inset 0 1px var(--surface-lightest);
+  --app-icon-shadow-active: inset 0 0 0 1px var(--surface-lightest);
+
+  --app-icon-active: 0.7;
 }
 
 .appIcons {
@@ -45,12 +52,14 @@
 }
 
 .iconContainer:hover {
-  background: var(--app-icon-hover);
+  background: var(--app-icon-bg-hover);
+  box-shadow: var(--app-icon-shadow-hover);
   transition: 0.1s background;
 }
 
 .iconContainer:active:hover {
-  background: var(--app-icon-active);
+  background: var(--app-icon-bg-active);
+  box-shadow: var(--app-icon-shadow-active);
   transition: 0s background;
 }
 
@@ -62,10 +71,9 @@
 }
 
 .iconContainer svg {
-  opacity: var(--app-icon-opacity);
   transition: 0.2s;
 }
 
-.section:hover svg {
-  opacity: 1;
+.iconContainer:active:hover svg {
+  opacity: var(--app-icon-active);
 }

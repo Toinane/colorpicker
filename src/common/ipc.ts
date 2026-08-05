@@ -52,6 +52,26 @@ export const readLegacyPalettes = (): Promise<string | null> => invoke('read_leg
 export const backupCorruptLegacyPalettes = (): Promise<void> =>
   invoke('backup_corrupt_legacy_palettes')
 
+/**
+ * The OS accent color as `#rrggbb`, or `null` on Linux (no standard concept
+ * of one) or if the platform API failed. Read once at startup — see
+ * `--accent-default` in tokens.css — not live-synced while the app runs.
+ */
+export const getOsAccentColor = (): Promise<string | null> => invoke('get_os_accent_color')
+
+/** Detailed OS info (type, version, edition, bitness, architecture) — see `platform_info.rs`. */
+export interface PlatformInfo {
+  osType: string
+  family: 'windows' | 'macos' | 'linux' | 'other'
+  version: string
+  edition: string | null
+  bitness: string
+  architecture: string | null
+  label: string
+}
+
+export const getPlatformInfo = (): Promise<PlatformInfo> => invoke('get_platform_info')
+
 // ---------------------------------------------------------------------------
 // Events
 // ---------------------------------------------------------------------------

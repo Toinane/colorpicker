@@ -1,11 +1,9 @@
-:root {
-  --window-shadow: inset 0px -1px 7px 0px rgb(50 50 50 / 6%), inset 0px -1px 0 rgb(250 250 250);
+:root .windowBar {
+  --window-bar-shadow: inset 0px -1px 7px 0px rgb(50 50 50 / 6%), inset 0px -1px 0 rgb(250 250 250);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --window-shadow: inset 0px -2px 7px 0px rgb(16 16 16 / 22%), inset 0px -1px 0 rgb(44 44 44);
-  }
+:root[data-theme='dark'] .windowBar {
+  --window-bar-shadow: inset 0px -2px 7px 0px rgb(16 16 16 / 22%), inset 0px -1px 0 rgb(44 44 44);
 }
 
 .windowBar {
@@ -14,20 +12,18 @@
   align-items: center;
   height: 34px;
   width: 100%;
-  box-shadow: var(--window-shadow);
+  box-shadow: var(--window-bar-shadow);
   -webkit-app-region: drag;
 }
 
-[class~='no-vibrancy'] .windowBar {
-  background: var(--colorpicker-background-color);
-}
-
-[class~='bordered'] .windowBar {
-  border-radius: 4px;
-}
-
-[class~='colored'] .windowBar {
+[class~='COLORED'] .windowBar {
   background: var(--main-color);
+  box-shadow: unset;
+  border-bottom: 1px solid #00000030;
+}
+
+[class~='COLORED'][class~='DARK_COLOR'] .windowBar {
+  border-bottom: 1px solid #ffffff30;
 }
 
 .spacer {

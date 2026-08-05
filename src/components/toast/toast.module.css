@@ -1,15 +1,13 @@
-:root {
-  --toast-background: #ffffffe6;
-  --toast-color: #000000;
-  --toast-border: #00000020;
+:root .toast {
+  --toast-bg: var(--window-lightest);
+  --toast-border: var(--window-dark);
+  --toast-shadow: 0 1px 4px var(--surface-darker);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --toast-background: #2d2d3ae6;
-    --toast-color: #ffffff;
-    --toast-border: #00000084;
-  }
+:root[data-theme='dark'] .toast {
+  --toast-bg: var(--window-lightest);
+  --toast-border: var(--window-darker);
+  --toast-shadow: 0 1px 4px var(--surface-darker);
 }
 
 .toastContainer {
@@ -27,17 +25,15 @@
 }
 
 .toast {
-  font-family: Ubuntu, sans-serif;
-  background: var(--toast-background);
-  color: var(--toast-color);
+  background: var(--toast-bg);
   border: 1px solid var(--toast-border);
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   padding: 8px 14px;
-  font-size: 0.9em;
   text-align: center;
   white-space: normal;
   overflow-wrap: break-word;
   animation: toastIn 150ms ease-out;
+  box-shadow: var(--toast-shadow);
 }
 
 @keyframes toastIn {

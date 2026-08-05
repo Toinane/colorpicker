@@ -1,11 +1,23 @@
-:root {
-  --settingsTopBar-background: #00000010;
+﻿:root .settingsTopBar {
+  --tbar-bg-hover: var(--window-darker);
+  --tbar-bg-active: var(--window-darker);
+  --tbar-bg-active-hover: var(--window-dark);
+
+  --tbar-text: var(--overlay-default);
+  --tbar-text-active: var(--overlay-lightest);
+
+  --tbar-accent: var(--accent-variant-default);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --settingsTopBar-background: #ffffff10;
-  }
+:root[data-theme='dark'] .settingsTopBar {
+  --tbar-bg-hover: var(--surface-default);
+  --tbar-bg-active: var(--surface-default);
+  --tbar-bg-active-hover: var(--window-lightest);
+
+  --tbar-text: var(--overlay-default);
+  --tbar-text-active: var(--overlay-darker);
+
+  --tbar-accent: var(--accent-variant-default);
 }
 
 .settingsTopBar {
@@ -17,6 +29,7 @@
   padding: 6px 0 20px 6px;
   flex-shrink: 0;
   gap: 4px;
+  color: var(--tbar-text);
 }
 
 .windowControlsWrapper {
@@ -31,12 +44,12 @@
   position: relative;
   max-width: 76px;
   height: 92px;
-  cursor: pointer;
+  cursor: default;
   display: flex;
   align-items: center;
   flex-direction: column;
   padding: 2px 6px 10px 6px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   transition:
     background-color 0.2s,
     color 0.2s;
@@ -47,14 +60,27 @@
 }
 
 .navItem:focus-visible {
-  outline: 2px solid var(--settings-focus-outline);
+  outline: 2px solid var(--focus-outline);
   outline-offset: 0px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
 }
 
 .navItem:hover,
 .navItem.active {
-  background-color: var(--settingsTopBar-background);
+  background: var(--tbar-bg-hover);
+}
+
+.navItem:active {
+  color: var(--tbar-text-active);
+  background: var(--tbar-bg-active-hover);
+}
+
+.navItem.active:hover {
+  background: var(--tbar-bg-active-hover);
+}
+
+.navItem.active:active {
+  background: var(--tbar-bg-active);
 }
 
 .navItem.active::after {
@@ -63,15 +89,13 @@
   bottom: 0;
   width: 40%;
   height: 4px;
-  border-radius: 8px;
-  background-color: var(--main-color);
+  border-radius: var(--radius-md);
+  background: var(--tbar-accent);
 }
 
 .navTitle {
   width: fit-content;
   margin: 0;
-  font-size: 0.9em;
-  font-weight: 500;
 }
 
 .navIcon {

@@ -1,0 +1,225 @@
+:root .selectWrapper {
+  --select-bg: var(--window-lightest);
+  --select-bg-hover: var(--window-light);
+  --select-bg-active: var(--window-light);
+  --select-bg-disabled: var(--window-lighter);
+
+  --select-text: var(--overlay-default);
+  --select-text-active: var(--overlay-lighter);
+  --select-text-disabled: var(--overlay-lightest);
+
+  --select-border: linear-gradient(to bottom, var(--surface-light) 90%, var(--surface-dark) 100%);
+  --select-border-active: var(--surface-light);
+
+  --select-icon: var(--overlay-lightest);
+
+  --dropdown-bg: var(--window-lighter);
+  --dropdown-border: var(--surface-light);
+
+  --option-bg-hover: var(--surface-lighter);
+  --option-bg-active: var(--surface-lightest);
+  --option-bg-selected: var(--surface-lighter);
+  --option-bg-selected-hover: var(--surface-lightest);
+  --option-bg-selected-active: var(--surface-lighter);
+}
+
+:root[data-theme='dark'] .selectWrapper {
+  --select-bg: var(--surface-default);
+  --select-bg-hover: var(--surface-light);
+  --select-bg-active: var(--window-lightest);
+  --select-bg-disabled: var(--window-lighter);
+
+  --select-text-active: var(--overlay-dark);
+  --select-text-disabled: var(--overlay-darker);
+
+  --select-border: linear-gradient(to bottom, var(--surface-lightest) 0%, var(--surface-light) 10%);
+  --select-border-active: var(--surface-light);
+
+  --select-icon: var(--overlay-dark);
+
+  --dropdown-bg: var(--window-lightest);
+  --dropdown-border: var(--window-dark);
+
+  --option-bg-hover: var(--surface-light);
+  --option-bg-active: var(--surface-default);
+  --option-bg-selected: var(--surface-light);
+  --option-bg-selected-hover: var(--surface-default);
+  --option-bg-selected-active: var(--surface-light);
+}
+
+/* Select Wrapper ---------------------------------------- */
+.selectWrapper {
+  position: relative;
+  min-width: 200px;
+}
+
+/* Select ------------------------------------------------ */
+.select {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 16px;
+  background: var(--select-bg);
+  color: var(--select-text);
+  border-radius: var(--radius-sm);
+  user-select: none;
+  transition: background-color 0.1s;
+}
+
+.select::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid transparent;
+  background: var(--select-border) border-box;
+  mask:
+    linear-gradient(#fff 0 0) padding-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+}
+
+.select:hover {
+  background: var(--select-bg-hover);
+}
+
+.select:focus-visible {
+  outline: 2px solid var(--focus-outline);
+  outline-offset: 0px;
+}
+
+.select:active:hover {
+  color: var(--select-text-active);
+  background: var(--select-bg-active);
+}
+
+.select:active:hover::before {
+  background: var(--select-border-active) border-box;
+}
+
+/* Select States ---------------------------------------- */
+.selectOpen {
+  border-color: var(--main-color);
+}
+
+.selectDisabled {
+  cursor: not-allowed;
+  background: var(--select-bg-disabled);
+  color: var(--select-text-disabled);
+}
+
+.selectDisabled:hover {
+}
+
+/* Select Value ---------------------------------------- */
+.selectValue {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Select Arrow ---------------------------------------- */
+.selectArrowWrapper {
+  flex-shrink: 0;
+  transition: transform 0.2s cubic-bezier(0.1, 1.44, 0.6, 1.64);
+  transform: translateY(-2px);
+  width: 12px;
+  height: 12px;
+}
+
+.select:active:hover .selectArrowWrapper,
+.selectOpen .selectArrowWrapper {
+  transform: translateY(0px);
+  transition: transform 0.1s ease;
+}
+
+.selectOpen .selectArrowWrapper {
+}
+
+/* Dropdown Menu ---------------------------------------- */
+.selectDropdown {
+  position: absolute;
+  top: -4px;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px;
+  background: var(--dropdown-bg);
+  border: 1.5px solid var(--dropdown-border);
+  border-radius: var(--radius-lg);
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1000;
+  animation: slideDown 0.1s ease;
+  scrollbar-width: thin;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: scaleY(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+/* Select Option ---------------------------------------- */
+.selectOption {
+  color: var(--select-text);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.15s ease;
+  position: relative;
+}
+
+.selectOption:hover {
+  background: var(--option-bg-hover);
+}
+
+.selectOption:active:hover {
+  color: var(--select-text-active);
+  background: var(--option-bg-active);
+}
+
+.selectOption:focus-visible {
+  outline: 2px solid var(--focus-outline);
+  outline-offset: -2px;
+}
+
+.selectOptionSelected {
+  background: var(--option-bg-selected);
+}
+
+.selectOptionSelected::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 25%;
+  width: 3px;
+  height: 50%;
+  border-radius: var(--radius-sm);
+  background: var(--accent-variant-default);
+  transition: unset;
+}
+
+.selectOptionSelected:active:hover::after {
+  top: 35%;
+  height: 30%;
+  transition:
+    top 0.1s ease,
+    height 0.1s ease;
+}
+
+.selectOptionSelected:hover {
+  background: var(--option-bg-selected-hover);
+}
+
+.selectOptionSelected:active:hover {
+  background: var(--option-bg-selected-active);
+}

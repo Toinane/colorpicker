@@ -1,3 +1,5 @@
+import { Text } from '@components/ui'
+
 import style from './navigationItem.module.css'
 
 const NavigationItem = ({
@@ -12,7 +14,9 @@ const NavigationItem = ({
   return (
     <button className={`${style.navigationItem} ${isActive ? style.active : ''}`}>
       <div className={style.colorSwatch} style={{ backgroundColor: color }}></div>
-      <p className={style.label}>{label}</p>
+      <Text color="primary" className={style.label}>
+        {label}
+      </Text>
     </button>
   )
 }

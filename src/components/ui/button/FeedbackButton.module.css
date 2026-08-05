@@ -1,0 +1,75 @@
+.feedbackButtonText {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.feedbackButtonTextClicked {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) scale(0.5);
+  opacity: 0;
+  white-space: nowrap;
+}
+
+.feedbackButtonTextHidden {
+  animation: fadeOut 0.1s ease-out forwards;
+}
+
+.feedbackButtonTextVisible {
+  animation: bounceIn 0.2s ease-out 0.1s forwards;
+}
+
+.feedbackButtonTextFadeOut {
+  animation: simpleFadeOut 0.2s ease-out forwards;
+}
+
+.feedbackButtonTextFadeIn {
+  animation: simpleFadeIn 0.3s ease-out forwards;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.1);
+  }
+  70% {
+    transform: translateX(-50%) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+@keyframes simpleFadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes simpleFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

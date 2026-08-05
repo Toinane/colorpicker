@@ -1,0 +1,149 @@
+/**
+ * Design tokens.
+ */
+
+:root {
+  /* Primitives --------------------------------------------------------- */
+
+  --neutral-hue: 260;
+  --neutral-chroma: 0.012;
+
+  /* Set by SettingsProvider from Windows/macOS when available. */
+  --accent-default: oklch(52% 0.14 250);
+  --main-color: #00aeef;
+  --opposite-color: #cc7f33;
+
+  /* Accent ------------------------------------------------------------- */
+
+  --accent-dark: color-mix(in oklch, var(--accent-default) 95%, black);
+  --accent-darker: color-mix(in oklch, var(--accent-default) 90%, black);
+  --accent-darkest: color-mix(in oklch, var(--accent-default) 80%, black);
+  --accent-subtle: color-mix(in oklch, var(--accent-default) 12%, transparent);
+  --accent-light: color-mix(in oklch, var(--accent-default) 92%, white);
+  --accent-lighter: color-mix(in oklch, var(--accent-default) 88%, white);
+  --accent-lightest: color-mix(in oklch, var(--accent-default) 80%, white);
+
+  --accent-variant-default: oklch(
+    from var(--accent-default) calc(l + (1 - l) * -0.1) calc(c * 0.9) h
+  );
+
+  --accent-variant-dark: color-mix(in oklch, var(--accent-variant-default) 95%, black);
+  --accent-variant-darker: color-mix(in oklch, var(--accent-variant-default) 90%, black);
+  --accent-variant-darkest: color-mix(in oklch, var(--accent-variant-default) 80%, black);
+  --accent-variant-subtle: color-mix(in oklch, var(--accent-variant-default) 12%, transparent);
+  --accent-variant-light: color-mix(in oklch, var(--accent-variant-default) 92%, white);
+  --accent-variant-lighter: color-mix(in oklch, var(--accent-variant-default) 88%, white);
+  --accent-variant-lightest: color-mix(in oklch, var(--accent-variant-default) 80%, white);
+
+  /* Window and surfaces ------------------------------------------------ */
+
+  --window-default: oklch(97% calc(var(--neutral-chroma) * 0.5) var(--neutral-hue));
+
+  --window-dark: color-mix(in oklch, var(--window-default) 97%, black);
+  --window-darker: color-mix(in oklch, var(--window-default) 94%, black);
+  --window-darkest: color-mix(in oklch, var(--window-default) 91%, black);
+  --window-light: color-mix(in oklch, var(--window-default) 70%, white);
+  --window-lighter: color-mix(in oklch, var(--window-default) 50%, white);
+  --window-lightest: color-mix(in oklch, var(--window-default) 35%, white);
+
+  --surface-default: color-mix(in oklch, var(--window-default) 91%, black);
+  --surface-dark: color-mix(in oklch, var(--surface-default) 90%, black);
+  --surface-darker: color-mix(in oklch, var(--surface-default) 80%, black);
+  --surface-darkest: color-mix(in oklch, var(--surface-default) 70%, black);
+  --surface-light: color-mix(in oklch, var(--surface-default) 70%, white);
+  --surface-lighter: color-mix(in oklch, var(--surface-default) 50%, white);
+  --surface-lightest: color-mix(in oklch, var(--surface-default) 38%, white);
+
+  --overlay-default: color-mix(in oklch, var(--window-default) 20%, black);
+  --overlay-dark: color-mix(in oklch, var(--overlay-default) 95%, black);
+  --overlay-darker: color-mix(in oklch, var(--overlay-default) 80%, black);
+  --overlay-darkest: color-mix(in oklch, var(--overlay-default) 70%, black);
+  --overlay-light: color-mix(in oklch, var(--overlay-default) 90%, white);
+  --overlay-lighter: color-mix(in oklch, var(--overlay-default) 80%, white);
+  --overlay-lightest: color-mix(in oklch, var(--overlay-default) 70%, white);
+
+  /* Focus, selection and elevation ------------------------------------ */
+
+  --focus-outline: var(--accent-variant-darkest);
+  --selection-bg: var(--accent-variant-darker);
+  --selection-text: var(--window-lightest);
+
+  --shadow-flat: inset 0 1px rgb(255 255 255 / 60%);
+  --shadow-xs: 0 0.5px 0 rgb(0 0 0 / 30%);
+  --shadow-sm: 0 1px 1px rgb(0 0 0 / 30%);
+  --shadow-md: 0 8px 24px rgb(0 0 0 / 18%);
+  --shadow-popover: var(--shadow-md), 0 0 0 1px rgb(0 0 0 / 5%);
+
+  /* Shape and motion --------------------------------------------------- */
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-full: 999px;
+
+  --duration-fast: 120ms;
+  --duration-normal: 180ms;
+  --duration-slow: 260ms;
+  --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+:root[data-theme='dark'] {
+  /* Primitives --------------------------------------------------------- */
+
+  --neutral-hue: 275;
+  --neutral-chroma: 0.018;
+
+  /* Accent ------------------------------------------------------------- */
+
+  --accent-variant-default: oklch(
+    from var(--accent-default) calc(l + (1 - l) * 0.55) calc(c * 0.6) h
+  );
+
+  --accent-light: color-mix(in oklch, var(--accent-default) 88%, white);
+  --accent-lighter: color-mix(in oklch, var(--accent-default) 76%, white);
+  --accent-lightest: color-mix(in oklch, var(--accent-default) 60%, white);
+  --accent-subtle: color-mix(in oklch, var(--accent-default) 20%, transparent);
+  --accent-dark: color-mix(in oklch, var(--accent-default) 88%, black);
+  --accent-darker: color-mix(in oklch, var(--accent-default) 80%, black);
+  --accent-darkest: color-mix(in oklch, var(--accent-default) 70%, black);
+
+  /* Window and surfaces ------------------------------------------------ */
+
+  --window-default: oklch(25% calc(var(--neutral-chroma) * 0.2) var(--neutral-hue));
+
+  --window-dark: color-mix(in oklch, var(--window-default) 90%, black);
+  --window-darker: color-mix(in oklch, var(--window-default) 85%, black);
+  --window-darkest: color-mix(in oklch, var(--window-default) 80%, black);
+  --window-light: color-mix(in oklch, var(--window-default) 97%, white);
+  --window-lighter: color-mix(in oklch, var(--window-default) 94%, white);
+  --window-lightest: color-mix(in oklch, var(--window-default) 91%, white);
+
+  --surface-default: color-mix(in oklch, var(--window-default) 88%, white);
+  --surface-dark: color-mix(in oklch, var(--surface-default) 70%, black);
+  --surface-darker: color-mix(in oklch, var(--surface-default) 50%, black);
+  --surface-darkest: color-mix(in oklch, var(--surface-default) 30%, black);
+  --surface-light: color-mix(in oklch, var(--surface-default) 97%, white);
+  --surface-lighter: color-mix(in oklch, var(--surface-default) 94%, white);
+  --surface-lightest: color-mix(in oklch, var(--surface-default) 91%, white);
+
+  --overlay-default: color-mix(in oklch, var(--window-default) 5%, white);
+  --overlay-dark: color-mix(in oklch, var(--overlay-default) 90%, black);
+  --overlay-darker: color-mix(in oklch, var(--overlay-default) 80%, black);
+  --overlay-darkest: color-mix(in oklch, var(--overlay-default) 70%, black);
+  --overlay-light: color-mix(in oklch, var(--overlay-default) 95%, white);
+  --overlay-lighter: color-mix(in oklch, var(--overlay-default) 80%, white);
+  --overlay-lightest: color-mix(in oklch, var(--overlay-default) 70%, white);
+
+  /* Focus, selection and elevation ------------------------------------ */
+
+  --focus-outline: var(--accent-variant-lightest);
+  --selection-bg: var(--accent-variant-darkest);
+  --selection-text: var(--overlay-lightest);
+
+  --shadow-flat: inset 0 1px rgb(255 255 255 / 7%);
+  --shadow-xs: 0 1px 2px rgb(0 0 0 / 22%);
+  --shadow-sm: 0 2px 8px rgb(0 0 0 / 30%);
+  --shadow-md: 0 8px 24px rgb(0 0 0 / 42%);
+  --shadow-popover: var(--shadow-md), 0 0 0 1px rgb(255 255 255 / 5%);
+}

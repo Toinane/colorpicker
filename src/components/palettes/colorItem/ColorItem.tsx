@@ -1,6 +1,7 @@
 import Color from 'colorjs.io'
 
 import { toHex } from '@common/color'
+import { Text } from '@components/ui'
 
 import style from './colorItem.module.css'
 
@@ -35,10 +36,22 @@ const ColorItem = ({
     <section className={style.colorItemContainer}>
       <div
         className={style.colorItem}
-        style={{ backgroundColor: color, borderColor: getBorderColor(color) }}
+        style={{ backgroundColor: color, borderColor: color ? getBorderColor(color) : undefined }}
         onClick={onClick}
+        onKeyDown={(e) => {
+          if (onClick && (e.key === 'Enter' || e.key === ' ')) {
+            e.preventDefault()
+            onClick()
+          }
+        }}
+        role={onClick ? 'button' : undefined}
+        tabIndex={onClick ? 0 : undefined}
       ></div>
-      {name && <p className={style.colorName}>{name}</p>}
+      {name && (
+        <Text color="primary" size="small" className={style.colorName}>
+          {name}
+        </Text>
+      )}
     </section>
   )
 }

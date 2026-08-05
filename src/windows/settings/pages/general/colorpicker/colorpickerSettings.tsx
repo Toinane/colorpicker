@@ -1,8 +1,10 @@
 import { memo, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { SettingsSection, SettingsItem, SettingsToggle } from '@components/settings'
-import { useOpenAtLogin, useKeepOnTop, useCloseToTray } from '@hooks/index'
+import { SettingsSection, SettingsItem } from '@components/settings'
+import { Toggle, Select } from '@components/ui'
+import { useOpenAtLogin, useKeepOnTop, useCloseToTray, useThemeSetting } from '@hooks/index'
+import type { ThemeOption } from '@interfaces/settings'
 
 const ColorpickerSettings = () => {
   const SettingsT = useTranslation('settings', { keyPrefix: 'general.colorpicker' })
@@ -10,6 +12,13 @@ const ColorpickerSettings = () => {
   const [openAtLogin, setOpenAtLogin] = useOpenAtLogin()
   const [keepOnTop, setKeepOnTop] = useKeepOnTop()
   const [closeToTray, setCloseToTray] = useCloseToTray()
+  const [theme, setTheme] = useThemeSetting()
+
+  const themeOptions: Array<{ value: ThemeOption; label: string }> = [
+    { value: 'system', label: SettingsT.t('theme.system') },
+    { value: 'light', label: SettingsT.t('theme.light') },
+    { value: 'dark', label: SettingsT.t('theme.dark') },
+  ]
 
   const handleOpenAtLoginChange = useCallback(
     async (checked: boolean) => {
@@ -50,22 +59,32 @@ const ColorpickerSettings = () => {
   return (
     <SettingsSection title={SettingsT.t('title')}>
       <SettingsItem
+        label={SettingsT.t('theme.label')}
+        description={SettingsT.t('theme.description')}
+      >
+        <Select
+          value={theme}
+          onChange={(value) => setTheme(value as ThemeOption)}
+          options={themeOptions}
+        />
+      </SettingsItem>
+      <SettingsItem
         label={SettingsT.t('openAtLogin.label')}
         description={SettingsT.t('openAtLogin.description')}
       >
-        <SettingsToggle checked={openAtLogin} onChange={handleOpenAtLoginChange} />
+        <Toggle checked={openAtLogin} onChange={handleOpenAtLoginChange} />
       </SettingsItem>
       <SettingsItem
         label={SettingsT.t('keepOnTop.label')}
         description={SettingsT.t('keepOnTop.description')}
       >
-        <SettingsToggle checked={keepOnTop} onChange={handleKeepOnTopChange} />
+        <Toggle checked={keepOnTop} onChange={handleKeepOnTopChange} />
       </SettingsItem>
       <SettingsItem
         label={SettingsT.t('closeToTray.label')}
         description={SettingsT.t('closeToTray.description')}
       >
-        <SettingsToggle checked={closeToTray} onChange={handleCloseToTrayChange} />
+        <Toggle checked={closeToTray} onChange={handleCloseToTrayChange} />
       </SettingsItem>
     </SettingsSection>
   )

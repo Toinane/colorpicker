@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import classNames from 'clsx'
 import { writeText } from '@tauri-apps/plugin-clipboard-manager'
 import {
   isPermissionGranted,
@@ -13,12 +12,10 @@ import WindowBar from '@components/windowBar'
 import RGBSlider from '@components/colorpicker/sliders/RGBSlider/RGBSlider'
 import HexInput from '@components/colorpicker/inputs/hexInput'
 
-import { useColorpickerStore } from '@stores/colorpickerStore'
 import { useColorStore } from '@stores/colorStore'
 import { useSettingsStore } from '@stores/settingsStore'
 import { usePickerHistoryStore } from '@stores/pickerHistoryStore'
 import { useColorHistoryStore } from '@stores/colorHistoryStore'
-import { usePalettesStore } from '@stores/palettesStore'
 import { showToast } from '@stores/toastStore'
 import { rgbToColor, serializeColor, toHex } from '@common/color'
 import { onColorPicked, onPaletteColorApplied } from '@common/ipc'
@@ -37,8 +34,7 @@ const notifyColorPicked = async (title: string, text: string): Promise<void> => 
 
 const Colorpicker = () => {
   const CommonT = useTranslation('common')
-  const { color, oppositeColor, isDarkColor, setColor } = useColorStore((state) => state)
-  const { isBordered, isFullColored, isVibrant } = useColorpickerStore((state) => state)
+  const { setColor } = useColorStore((state) => state)
 
   useEffect(() => {
     // Color picked via any of the three trigger paths (toolbar/tray/hotkey)
@@ -100,61 +96,8 @@ const Colorpicker = () => {
     }
   }, [setColor])
 
-  useEffect(() => {
-    // Ctrl/Cmd+S saves the current color into the Palettes window's active
-    // category (G13 — the legacy app advertised this shortcut but it did
-    // nothing). Works even if the Palettes window has never been opened,
-    // since palettesStore is initialized app-wide (see SettingsProvider).
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's') {
-        event.preventDefault()
-        usePalettesStore.getState().addColorToActiveCategory(toHex(color))
-      }
-    }
-
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [color])
-
-  useEffect(() => {
-    // These three appearance settings are consumed by legacy global CSS
-    // (style.global.css's `body.bordered`, windowBar.module.css's
-    // `colored`/`no-vibrancy`) that expects the classes on <body>, not on
-    // this component's own root element.
-    document.body.classList.toggle('bordered', isBordered)
-    document.body.classList.toggle('colored', isFullColored)
-    document.body.classList.toggle('no-vibrancy', !isVibrant)
-
-    return () => {
-      document.body.classList.remove('bordered', 'colored', 'no-vibrancy')
-    }
-  }, [isBordered, isFullColored, isVibrant])
-
-  useEffect(() => {
-    const rgb = color.to('srgb')
-
-    document.documentElement.style.setProperty('--main-color', `${color}`)
-    document.documentElement.style.setProperty(
-      '--main-color-r',
-      `${Math.round((rgb.r ?? 0) * 100)}%`,
-    )
-    document.documentElement.style.setProperty(
-      '--main-color-g',
-      `${Math.round((rgb.g ?? 0) * 100)}%`,
-    )
-    document.documentElement.style.setProperty(
-      '--main-color-b',
-      `${Math.round((rgb.b ?? 0) * 100)}%`,
-    )
-    document.documentElement.style.setProperty('--opposite-color', `${oppositeColor}`)
-  }, [color, oppositeColor])
-
-  const colorpickerClass = classNames('colorpicker', {
-    DARK: isDarkColor,
-  })
-
   return (
-    <section className={colorpickerClass}>
+    <section className="colorpicker">
       <WindowBar />
       <section className="sliders">
         <RGBSlider />

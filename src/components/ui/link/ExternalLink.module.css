@@ -1,0 +1,43 @@
+:root .externalLink {
+  --s-link-bg-hover: var(--surface-lighter);
+  --s-link-bg-active: var(--surface-lightest);
+
+  --s-link-color: var(--accent-variant-darker);
+  --s-link-color-hover: var(--accent-variant-darkest);
+  --s-link-color-active: var(--accent-variant-lighter);
+}
+
+:root[data-theme='dark'] .externalLink {
+  --s-link-bg-hover: var(--surface-light);
+  --s-link-bg-active: var(--surface-default);
+
+  --s-link-color: var(--accent-variant-lightest);
+  --s-link-color-hover: var(--accent-variant-lightest);
+  --s-link-color-active: var(--accent-variant-dark);
+}
+
+.externalLink {
+  display: inline-block;
+  background: transparent;
+  color: var(--s-link-color);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.externalLink:focus-visible {
+  outline: 2px solid var(--focus-outline);
+  border-radius: var(--radius-sm);
+  outline-offset: 0px;
+}
+
+.externalLink:hover {
+  background: var(--s-link-bg-hover);
+}
+
+.externalLink:active:hover {
+  background: var(--s-link-bg-active);
+  color: var(--s-link-color-active);
+}

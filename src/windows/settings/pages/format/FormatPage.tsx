@@ -1,7 +1,8 @@
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { SettingsSection, SettingsItem, SettingsSelect, SettingsToggle } from '@components/settings'
+import { SettingsSection, SettingsItem } from '@components/settings'
+import { Select, Toggle } from '@components/ui'
 import { useSettingsStore } from '@stores/settingsStore'
 import type { ColorFormat } from '@interfaces/settings'
 
@@ -16,7 +17,7 @@ const FormatPage = () => {
         label={SettingsT.t('defaultFormat.label')}
         description={SettingsT.t('defaultFormat.description')}
       >
-        <SettingsSelect
+        <Select
           value={defaultFormat}
           onChange={(value) => updateSetting('defaultFormat', value as ColorFormat)}
           options={[
@@ -31,10 +32,7 @@ const FormatPage = () => {
         label={SettingsT.t('hexPrefix.label')}
         description={SettingsT.t('hexPrefix.description')}
       >
-        <SettingsToggle
-          checked={hexPrefix}
-          onChange={(checked) => updateSetting('hexPrefix', checked)}
-        />
+        <Toggle checked={hexPrefix} onChange={(checked) => updateSetting('hexPrefix', checked)} />
       </SettingsItem>
     </SettingsSection>
   )

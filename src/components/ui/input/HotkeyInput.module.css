@@ -1,0 +1,145 @@
+:root .hotkeyInputWrapper {
+  --hotkey-bg: var(--window-lightest);
+  --hotkey-bg-hover: var(--window-light);
+  --hotkey-bg-active: var(--window-light);
+  --hotkey-bg-disabled: var(--window-lighter);
+
+  --hotkey-border: linear-gradient(to bottom, var(--surface-light) 90%, var(--surface-dark) 100%);
+  --hotkey-border-active: var(--surface-light);
+
+  --hotkey-cursor: var(--accent-default);
+
+  --hotkey-icon: var(--overlay-default);
+  --hotkey-icon-active: var(--overlay-default);
+}
+
+:root[data-theme='dark'] .hotkeyInputWrapper {
+  --hotkey-bg: var(--surface-default);
+  --hotkey-bg-hover: var(--surface-light);
+  --hotkey-bg-active: var(--window-lightest);
+  --hotkey-bg-disabled: var(--window-lighter);
+
+  --hotkey-border: linear-gradient(to bottom, var(--surface-lightest) 0%, var(--surface-light) 10%);
+  --hotkey-border-active: var(--surface-light);
+
+  --hotkey-icon: var(--overlay-default);
+  --hotkey-icon-active: var(--overlay-default);
+}
+
+.hotkeyInputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.hotkeyInput {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 8px 16px;
+  background: var(--hotkey-bg);
+  border-radius: var(--radius-sm);
+  user-select: none;
+  position: relative;
+  min-width: 80px;
+  min-height: 38px;
+  transition: background-color 0.1s;
+}
+
+.hotkeyInput::before,
+.hotkeyReset::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid transparent;
+  background: var(--hotkey-border) border-box;
+  mask:
+    linear-gradient(#fff 0 0) padding-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+}
+
+.hotkeyInput:hover:not(:has(.hotkeyReset:hover)) {
+  background: var(--hotkey-bg-hover);
+}
+
+.hotkeyInput:active:hover:not(:has(.hotkeyReset:hover)) {
+  background: var(--hotkey-bg-active);
+}
+
+.hotkeyInput:active:hover::before {
+  background: var(--hotkey-border-active) border-box;
+}
+
+.hotkeyInput:focus-visible,
+.hotkeyReset:focus-visible {
+  outline: 2px solid var(--focus-outline);
+  outline-offset: 0px;
+}
+
+.hotkeyInput:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.hotkeyInputRecording {
+  border-color: var(--main-color);
+  background: var(--hotkey-bg-active);
+  cursor: default;
+}
+
+.hotkeyKeys {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.hotkeyError {
+  font-size: 12px;
+  color: var(--color-danger);
+}
+
+.hotkeyCursor {
+  width: 1px;
+  height: 14px;
+  background: var(--hotkey-cursor);
+  animation: hotkeyCursorBlink 1s step-start infinite;
+}
+
+@keyframes hotkeyCursorBlink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.hotkeyReset {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 4px;
+  background: var(--hotkey-bg);
+  border-radius: var(--radius-sm);
+  color: var(--hotkey-icon);
+  z-index: 1;
+  transform: translateX(8px);
+  transition: background-color 0.1s;
+}
+
+.hotkeyReset:hover {
+  background: var(--hotkey-bg-hover);
+}
+
+.hotkeyReset:active:hover {
+  color: var(--hotkey-icon-active);
+  background: var(--hotkey-bg-active);
+}
+
+.hotkeyReset:active:hover::before {
+  background: var(--hotkey-border-active) border-box;
+}

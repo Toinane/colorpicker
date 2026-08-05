@@ -4,12 +4,15 @@
 use tauri::{Listener, Manager};
 use tauri_plugin_store::StoreExt;
 
+mod accent_color;
 mod commands;
 mod i18n;
 mod logger;
 mod picker;
+mod platform_info;
 mod portable;
 mod shortcuts;
+mod theme;
 mod tray;
 
 /// Apply platform-specific window effects
@@ -193,7 +196,10 @@ fn main() {
 
             // Apply platform-specific window effects
             if let Some(window) = app.get_webview_window("colorpicker") {
-                apply_window_effects(&window);
+                theme::apply_theme_to_window(
+                    &window,
+                    &theme::persisted_theme_setting(app.handle()),
+                );
 
                 // keepOnTop is a runtime window attribute (unlike openAtLogin, which
                 // is persisted OS-side), so it must be re-applied on every startup;
@@ -241,6 +247,10 @@ fn main() {
                 });
             }
 
+            // Keep every open window's native theme (and Mica/vibrancy tint)
+            // in sync with the theme setting whenever it changes.
+            theme::listen_theme_changes(app.handle());
+
             // Build the system tray icon and menu
             tray::create_tray(app.handle())?;
 
@@ -268,6 +278,8 @@ fn main() {
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
+            accent_color::get_os_accent_color,
+            platform_info::get_platform_info,
             commands::launch_picker,
             commands::set_picker_hotkey,
             commands::open_settings,

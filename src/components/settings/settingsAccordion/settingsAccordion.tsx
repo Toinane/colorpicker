@@ -3,13 +3,13 @@ import classNames from 'clsx'
 
 import style from './settingsAccordion.module.css'
 import Icons from '@components/icons'
-import { useTheme } from '@hooks/index'
+import { Heading, Text } from '@components/ui'
 
 export interface SettingsAccordionProps {
   label: string
   opened?: boolean
   description?: string
-  accordionContent?: React.ReactNode
+  accordionActions?: React.ReactNode
   children?: React.ReactNode
 }
 
@@ -18,14 +18,9 @@ const SettingsAccordion = ({
   label,
   description,
   children,
-  accordionContent,
+  accordionActions,
 }: SettingsAccordionProps) => {
   const [isOpen, setIsOpen] = useState(opened)
-  const theme = useTheme()
-
-  const iconColors = {
-    main: theme === 'dark' ? '#ffffff' : '#555',
-  }
 
   const toggleAccordion = (e: React.MouseEvent | React.KeyboardEvent) => {
     if (
@@ -37,6 +32,11 @@ const SettingsAccordion = ({
     }
 
     setIsOpen(!isOpen)
+    e.preventDefault()
+  }
+
+  const stopActionsPropagation = (e: React.MouseEvent | React.KeyboardEvent) => {
+    e.stopPropagation()
   }
 
   return (
@@ -45,21 +45,25 @@ const SettingsAccordion = ({
         className={classNames([style.settingsAccordion, !isOpen && style.settingsAccordionClosed])}
         onClick={toggleAccordion}
         onKeyDown={toggleAccordion}
+        role="button"
+        tabIndex={0}
+        aria-expanded={isOpen}
       >
         <div className={style.settingsAccordionInfo}>
-          <h3 className={style.settingsAccordionLabel}>{label}</h3>
-          {description && <div className={style.settingsAccordionDescription}>{description}</div>}
+          <Heading level={3}>{label}</Heading>
+          {description && <Text size="small">{description}</Text>}
         </div>
         <div className={style.settingsAccordionActions}>
-          <div onClick={(e) => e.stopPropagation()}>{accordionContent}</div>
+          <div onClick={stopActionsPropagation} onKeyDown={stopActionsPropagation}>
+            {accordionActions}
+          </div>
           <div
             className={classNames([
               style.settingsAccordionIcon,
               isOpen && style.settingsAccordionIconOpened,
             ])}
-            tabIndex={0}
           >
-            <Icons type="EXPAND" colors={iconColors} />
+            <Icons type="EXPAND" colors={{ primary: 'var(--s-acc-icon-color)' }} />
           </div>
         </div>
       </section>

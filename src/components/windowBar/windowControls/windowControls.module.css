@@ -1,19 +1,24 @@
-:root {
-  --control-button-color: black;
-  --control-button-hover: rgba(0, 0, 0, 0.1);
-  --control-button-active: rgba(0, 0, 0, 0.2);
-  --close-button-hover: #e81123;
-  --close-button-active: #f1707a;
+:root .windowControls {
+  --close-bg-hover: #d01929;
+  --close-bg-active: #f44049;
+  --close-icon-hover: white;
+  --close-icon-active: rgb(255 255 255 / 70%);
+
+  --win-icon: var(--overlay-darkest);
+  --win-icon-active: var(--overlay-lighter);
+  --win-icon-blur: var(--surface-darkest);
+  --win-bg-hover: var(--window-darker);
+  --win-bg-active: var(--window-dark);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --control-button-color: white;
-    --control-button-hover: rgba(255, 255, 255, 0.1);
-    --control-button-active: rgba(255, 255, 255, 0.2);
-    --close-button-hover: #e81123;
-    --close-button-active: #f1707a;
-  }
+:root[data-theme='dark'] .windowControls {
+  --close-bg-active: #b8141e;
+
+  --win-icon: var(--overlay-lightest);
+  --win-icon-active: var(--overlay-darker);
+  --win-icon-blur: var(--overlay-darkest);
+  --win-bg-hover: var(--window-lightest);
+  --win-bg-active: var(--window-lighter);
 }
 
 .windowControls {
@@ -26,9 +31,7 @@
   width: 46px;
   height: 100%;
   border: none;
-  background: transparent;
-  color: var(--control-button-color);
-  cursor: pointer;
+  color: var(--win-icon);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,21 +40,28 @@
   position: relative;
 }
 
-.controlButton:hover {
-  background-color: var(--control-button-hover);
+[class~='BLUR'] .controlButton {
+  color: var(--win-icon-blur);
 }
 
-.controlButton:active {
-  background-color: var(--control-button-active);
+.controlButton:hover {
+  background-color: var(--win-bg-hover);
+  color: var(--win-icon);
+}
+
+.controlButton:active:hover {
+  background-color: var(--win-bg-active);
+  color: var(--win-icon-active);
 }
 
 .closeButton:hover {
-  background-color: var(--close-button-hover);
-  color: white;
+  background-color: var(--close-bg-hover);
+  color: var(--close-icon-hover);
 }
 
-.closeButton:active {
-  background-color: var(--close-button-active);
+.closeButton:active:hover {
+  background-color: var(--close-bg-active);
+  color: var(--close-icon-active);
 }
 
 .controlButton svg {

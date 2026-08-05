@@ -1,12 +1,8 @@
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import {
-  SettingsSection,
-  SettingsItem,
-  SettingsToggle,
-  SettingsAccordion,
-} from '@components/settings'
+import { SettingsSection, SettingsItem, SettingsAccordion } from '@components/settings'
+import { Toggle } from '@components/ui'
 import { useSettingsStore } from '@stores/settingsStore'
 import { useSetting } from '@hooks/index'
 
@@ -34,28 +30,25 @@ const ExperimentalSettings = () => {
           label={SettingsT.t('isBordered.label')}
           description={SettingsT.t('isBordered.description')}
         >
-          <SettingsToggle checked={isBordered} onChange={setIsBordered} />
+          <Toggle checked={isBordered} onChange={setIsBordered} />
         </SettingsItem>
         <SettingsItem
           label={SettingsT.t('isFullColored.label')}
           description={SettingsT.t('isFullColored.description')}
         >
-          <SettingsToggle checked={isFullColored} onChange={setIsFullColored} />
+          <Toggle checked={isFullColored} onChange={setIsFullColored} />
         </SettingsItem>
         <SettingsItem
           label={SettingsT.t('isVibrant.label')}
           description={SettingsT.t('isVibrant.description')}
         >
-          <SettingsToggle checked={isVibrant} onChange={setIsVibrant} />
+          <Toggle checked={isVibrant} onChange={setIsVibrant} />
         </SettingsItem>
         <SettingsItem
           label={SettingsT.t('eyedropperAdaptiveBorder.label')}
           description={SettingsT.t('eyedropperAdaptiveBorder.description')}
         >
-          <SettingsToggle
-            checked={eyedropperAdaptiveBorder}
-            onChange={setEyedropperAdaptiveBorder}
-          />
+          <Toggle checked={eyedropperAdaptiveBorder} onChange={setEyedropperAdaptiveBorder} />
         </SettingsItem>
       </SettingsAccordion>
     </SettingsSection>

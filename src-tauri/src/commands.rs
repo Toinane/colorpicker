@@ -115,7 +115,7 @@ fn open_or_focus_settings_window(app: &tauri::AppHandle) -> Result<(), String> {
         .build()
         .map_err(|e| format!("Failed to create settings window: {}", e))?;
 
-    crate::apply_window_effects(&window);
+    crate::theme::apply_theme_to_window(&window, &crate::theme::persisted_theme_setting(app));
 
     Ok(())
 }
@@ -224,7 +224,7 @@ fn open_or_focus_palettes_window(app: &tauri::AppHandle) -> Result<(), String> {
         .build()
         .map_err(|e| format!("Failed to create palettes window: {}", e))?;
 
-    crate::apply_window_effects(&window);
+    crate::theme::apply_theme_to_window(&window, &crate::theme::persisted_theme_setting(app));
 
     Ok(())
 }

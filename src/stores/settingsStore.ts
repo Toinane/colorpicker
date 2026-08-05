@@ -179,7 +179,6 @@ export const useSettingsStore = create<SettingsStore>()(
 
 export const useOpenAtLogin = () => useSettingsStore((state) => state.openAtLogin)
 export const useKeepOnTop = () => useSettingsStore((state) => state.keepOnTop)
-export const useTheme = () => useSettingsStore((state) => state.theme)
 export const useLanguage = () => useSettingsStore((state) => state.language)
 export const useDefaultFormat = () => useSettingsStore((state) => state.defaultFormat)
 

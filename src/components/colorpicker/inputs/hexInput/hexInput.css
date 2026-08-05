@@ -25,7 +25,7 @@
   background: rgba(0, 0, 0, 0.15);
 }
 
-.DARK .hexInputCopyButton:hover {
+[class~='DARK_COLOR'] .hexInputCopyButton:hover {
   background: rgba(255, 255, 255, 0.2);
 }
 
@@ -34,7 +34,7 @@
   color: black;
   width: 82px;
   height: 24px;
-  font-family: var(--colorpicker-font), sans-serif;
+  font-family: FiraCode, sans-serif;
   font-variant-numeric: tabular-nums;
   font-weight: 700;
   font-size: 1em;
@@ -51,7 +51,7 @@
   background: var(--user-selection);
 }
 
-.DARK .hexInput {
+[class~='DARK_COLOR'] .hexInput {
   background: linear-gradient(-10deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.25) 40%);
   color: white;
 }
@@ -60,6 +60,6 @@
   color: rgba(0, 0, 0, 0.3);
 }
 
-.DARK .hexInput::placeholder {
+[class~='DARK_COLOR'] .hexInput::placeholder {
   color: rgba(255, 255, 255, 0.3);
 }

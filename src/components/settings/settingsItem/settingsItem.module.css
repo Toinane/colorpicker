@@ -1,14 +1,18 @@
-:root {
-  --settings-item-background: #f9f9f9;
-  --settings-item-border: #00000020;
+:root .settingsItem {
+  --s-item-bg: var(--window-lightest);
+  --s-item-border: var(--window-darker);
+  --s-item-label: var(--overlay-default);
+  --s-item-description: var(--overlay-lighter);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --settings-item-background: #ffffff10;
-    --settings-item-border: #00000050;
-  }
+:root[data-theme='dark'] .settingsItem {
+  --s-item-bg: var(--window-lighter);
+  --s-item-border: var(--window-dark);
+  --s-item-label: var(--overlay-default);
+  --s-item-description: var(--overlay-dark);
 }
+
+/* Settings Item ------------------------------------------- */
 
 .settingsItem {
   display: flex;
@@ -16,8 +20,13 @@
   justify-content: space-between;
   gap: 20px;
   padding: 15px 30px;
-  border: 1px solid var(--settings-item-border);
-  background-color: var(--settings-item-background);
+  border: 1.5px solid var(--s-item-border);
+  background-color: var(--s-item-bg);
+}
+
+/* Remove the top border for all settings items except the first one */
+.settingsItem + .settingsItem {
+  border-top: none;
 }
 
 .settingsItemInfo {
@@ -27,14 +36,16 @@
   max-width: 70%;
 }
 
+/* Settings Item Text ------------------------------------- */
 .settingsItemLabel {
+  color: var(--s-item-label);
 }
 
 .settingsItemDescription {
-  font-size: 0.8em;
-  opacity: 0.8;
+  color: var(--s-item-description);
 }
 
+/* Settings Item Control ---------------------------------- */
 .settingsItemControl {
   flex-shrink: 0;
 }

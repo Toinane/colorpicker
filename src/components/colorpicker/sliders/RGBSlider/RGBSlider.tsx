@@ -1,5 +1,4 @@
 import { FunctionComponent, JSX, useMemo, useCallback } from 'react'
-import classNames from 'clsx'
 import Color from 'colorjs.io'
 
 import { useColorStore } from '@stores/colorStore'
@@ -35,9 +34,7 @@ const RGBSlider: FunctionComponent = (): JSX.Element => {
   )
 
   return (
-    <section
-      className={classNames('RGBSlider', { DARK: useColorStore((state) => state.isDarkColor) })}
-    >
+    <section className={'RGBSlider'}>
       <section className="slider">
         <Slider
           type="redGradient"

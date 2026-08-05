@@ -1,3 +1,5 @@
+@import './assets/styles/tokens.css';
+
 /* Reset CSS */
 
 *:where(:not(iframe, canvas, img, svg, video):not(svg *, symbol *)) {
@@ -26,6 +28,17 @@ img {
   max-width: 100%;
 }
 
+svg {
+  width: unset;
+  height: unset;
+}
+
+html,
+body,
+#root {
+  height: 100vh;
+}
+
 /* Global Style */
 @font-face {
   font-family: Ubuntu;
@@ -46,34 +59,24 @@ img {
 }
 
 :root {
-  --main-color: #3380cc;
-  --opposite-color: #cc7f33;
-  --colorpicker-background-color: white;
-  --user-selection: var(--opposite-color);
-  --colorpicker-font: FiraCode;
+  --scrollbar-color: var(--surface-darker);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --colorpicker-background-color: #2d2d3a;
-  }
-}
-
-svg {
-  width: unset;
-  height: unset;
-}
-
-html,
-body,
-#root {
-  height: 100vh;
+:root[data-theme='dark'] {
+  --scrollbar-color: var(--surface-lighter);
 }
 
 body {
   user-select: none;
+  font-size: 0.9em;
+  text-rendering: optimizeLegibility;
+  scrollbar-color: var(--scrollbar-color) transparent;
 }
 
-body.bordered {
+body.NO_VIBRANCY {
+  background-color: var(--window-default);
+}
+
+body.BORDERED {
   border: 6px solid var(--main-color);
 }

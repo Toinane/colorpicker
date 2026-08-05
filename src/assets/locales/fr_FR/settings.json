@@ -20,6 +20,13 @@
       "closeToTray": {
         "label": "Fermer dans la barre système",
         "description": "Garde Colorpicker actif dans la barre système au lieu de quitter à la fermeture de la fenêtre"
+      },
+      "theme": {
+        "label": "Thème",
+        "description": "Choisissez le thème de couleur de l'application",
+        "light": "Clair",
+        "dark": "Sombre",
+        "system": "Système"
       }
     },
     "language": {
@@ -152,12 +159,12 @@
       "title": "Pipette",
       "pickerHotkey": {
         "label": "Raccourci de lancement",
-        "description": "Raccourci clavier global pour lancer le sélecteur de couleur depuis n'importe où, même lorsque Colorpicker est fermé",
-        "recording": "Appuyez sur une combinaison de touches…"
+        "description": "Raccourci clavier global pour lancer le sélecteur de couleur depuis n'importe où, même lorsque Colorpicker est fermé"
       }
     }
   },
   "hotkey": {
+    "recording": "En attente…",
     "noModifier": "Incluez au moins une touche de modification",
     "reserved": "Ce raccourci est réservé par le système",
     "reset": "Réinitialiser par défaut",

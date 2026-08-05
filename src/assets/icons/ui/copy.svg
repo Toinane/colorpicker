@@ -6,13 +6,13 @@
     height="128"
     rx="16"
     fill="none"
-    stroke="var(--app-icon-main-color)"
+    stroke="var(--icon-primary)"
     stroke-width="16"
   />
   <path
     d="M168 88V64C168 55.1634 160.837 48 152 48H56C47.1634 48 40 55.1634 40 64V160C40 168.837 47.1634 176 56 176H80"
     fill="none"
-    stroke="var(--app-icon-main-color)"
+    stroke="var(--icon-primary)"
     stroke-width="16"
     stroke-linecap="round"
     stroke-linejoin="round"

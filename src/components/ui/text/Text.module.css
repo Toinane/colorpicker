@@ -1,0 +1,86 @@
+:root .text {
+  --text-primary: var(--overlay-default);
+  --text-secondary: var(--overlay-light);
+  --text-accent: var(--overlay-lightest);
+  --text-success: var(--color-success);
+  --text-warning: var(--color-warning);
+  --text-danger: var(--color-danger);
+}
+
+:root[data-theme='dark'] .text {
+  --text-primary: var(--overlay-default);
+  --text-secondary: var(--overlay-dark);
+  --text-accent: var(--overlay-dark);
+  --text-success: var(--color-success);
+  --text-warning: var(--color-warning);
+  --text-danger: var(--color-danger);
+}
+
+.text {
+  display: block;
+  font-family: Ubuntu, sans-serif;
+  font-size: 0.9em;
+}
+
+.text::selection {
+  background: var(--selection-bg);
+  color: var(--selection-text);
+}
+
+/* Colors variants --------------------------------- */
+
+.text.primary {
+  color: var(--text-primary);
+}
+
+.text.secondary {
+  color: var(--text-secondary);
+}
+
+.text.accent {
+  color: var(--text-accent);
+}
+
+.text.success {
+  color: var(--text-success);
+}
+
+.text.warning {
+  color: var(--text-warning);
+}
+
+.text.danger {
+  color: var(--text-danger);
+}
+
+/* Sizes variants --------------------------------- */
+
+.text.small {
+  font-size: 0.8em;
+}
+
+.text.medium {
+  font-size: 1em;
+}
+
+.text.large {
+  font-size: 1.2em;
+}
+
+/* Weight variants --------------------------------- */
+
+.text.normal {
+  font-weight: 400;
+}
+
+.text.light {
+  font-weight: 300;
+}
+
+.text.semibold {
+  font-weight: 500;
+}
+
+.text.bold {
+  font-weight: 700;
+}

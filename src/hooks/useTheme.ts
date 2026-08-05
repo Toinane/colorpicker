@@ -1,34 +1,31 @@
-import { useEffect, useState } from 'react'
+import { useSyncExternalStore } from 'react'
+
+import { useSettingsStore } from '@stores/settingsStore'
 
 export type Theme = 'light' | 'dark'
 
+const darkMediaQuery =
+  typeof window !== 'undefined' ? window.matchMedia('(prefers-color-scheme: dark)') : null
+
+const subscribeToSystemTheme = (callback: () => void): (() => void) => {
+  darkMediaQuery?.addEventListener('change', callback)
+  return () => darkMediaQuery?.removeEventListener('change', callback)
+}
+
+const getSystemTheme = (): Theme => (darkMediaQuery?.matches ? 'dark' : 'light')
+
+/** OS-level color scheme preference, independent of the user's theme setting. */
+const useSystemTheme = (): Theme =>
+  useSyncExternalStore(subscribeToSystemTheme, getSystemTheme, () => 'light')
+
 /**
- * Custom hook to detect and track OS theme preference
- * @returns 'light' or 'dark' based on system preference
+ * Resolved theme ('light' | 'dark'), accounting for the user's theme setting:
+ * follows the OS when set to 'system' (the default), otherwise the explicit choice.
+ * `SettingsProvider` mirrors this onto `<html data-theme>`, which is what CSS
+ * actually keys dark-mode overrides off (see tokens.css).
  */
 export const useTheme = (): Theme => {
-  const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof window !== 'undefined' && window.matchMedia) {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-    }
-    return 'light'
-  })
-
-  useEffect(() => {
-    if (typeof window === 'undefined' || !window.matchMedia) {
-      return
-    }
-
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-    const handleThemeChange = (e: MediaQueryListEvent | MediaQueryList) => {
-      setTheme(e.matches ? 'dark' : 'light')
-    }
-
-    handleThemeChange(mediaQuery)
-
-    mediaQuery.addEventListener('change', handleThemeChange)
-    return () => mediaQuery.removeEventListener('change', handleThemeChange)
-  }, [])
-
-  return theme
+  const themeSetting = useSettingsStore((state) => state.theme)
+  const systemTheme = useSystemTheme()
+  return themeSetting === 'system' ? systemTheme : themeSetting
 }

@@ -1,7 +1,8 @@
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { SettingsSection, SettingsItem, SettingsToggle } from '@components/settings'
+import { SettingsSection, SettingsItem } from '@components/settings'
+import { Toggle } from '@components/ui'
 import { useSettingsStore } from '@stores/settingsStore'
 
 const BehaviorSettings = () => {
@@ -47,7 +48,7 @@ const BehaviorSettings = () => {
         label={SettingsT.t('hideMain.label')}
         description={SettingsT.t('hideMain.description')}
       >
-        <SettingsToggle
+        <Toggle
           checked={eyedropperHideMain}
           onChange={(checked) => updateSetting('eyedropperHideMain', checked)}
         />
@@ -56,7 +57,7 @@ const BehaviorSettings = () => {
         label={SettingsT.t('detectBackgroundChanges.label')}
         description={SettingsT.t('detectBackgroundChanges.description')}
       >
-        <SettingsToggle
+        <Toggle
           checked={eyedropperDetectBackgroundChanges}
           onChange={(checked) => updateSetting('eyedropperDetectBackgroundChanges', checked)}
         />
@@ -66,7 +67,7 @@ const BehaviorSettings = () => {
         description={SettingsT.t('allowHoverThrough.description')}
         disabled={eyedropperCursorAsideMode}
       >
-        <SettingsToggle
+        <Toggle
           checked={eyedropperAllowHoverThrough}
           onChange={(checked) => updateSetting('eyedropperAllowHoverThrough', checked)}
         />
@@ -75,7 +76,7 @@ const BehaviorSettings = () => {
         label={SettingsT.t('autoCopyOnPick.label')}
         description={SettingsT.t('autoCopyOnPick.description')}
       >
-        <SettingsToggle
+        <Toggle
           checked={autoCopyOnPick}
           onChange={(checked) => updateSetting('autoCopyOnPick', checked)}
         />
@@ -84,7 +85,7 @@ const BehaviorSettings = () => {
         label={SettingsT.t('quickPickHeadless.label')}
         description={SettingsT.t('quickPickHeadless.description')}
       >
-        <SettingsToggle
+        <Toggle
           checked={quickPickHeadless}
           onChange={(checked) => updateSetting('quickPickHeadless', checked)}
         />
@@ -93,10 +94,7 @@ const BehaviorSettings = () => {
         label={SettingsT.t('cursorAsideMode.label')}
         description={SettingsT.t('cursorAsideMode.description')}
       >
-        <SettingsToggle
-          checked={eyedropperCursorAsideMode}
-          onChange={handleCursorAsideModeChange}
-        />
+        <Toggle checked={eyedropperCursorAsideMode} onChange={handleCursorAsideModeChange} />
       </SettingsItem>
     </SettingsSection>
   )

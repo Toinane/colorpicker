@@ -9,6 +9,7 @@ import ShortcutsIcon from '@assets/icons/settings/shortcuts-icon.svg?react'
 import FormatIcon from '@assets/icons/settings/format-icon.svg?react'
 import PaletteIcon from '@assets/icons/settings/palette-icon.svg?react'
 import WindowControls from '@components/windowBar/windowControls'
+import { Heading } from '@components/ui'
 
 import style from './settingsTopBar.module.css'
 
@@ -23,7 +24,9 @@ const NavItem = memo<NavItemProps>(({ to, icon: Icon, label, isActive }) => {
   return (
     <Link href={to} className={classNames(style.navItem, { [style.active]: isActive })}>
       <Icon className={style.navIcon} />
-      <h1 className={style.navTitle}>{label}</h1>
+      <Heading level={1} size="small" weight="bold" className={style.navTitle}>
+        {label}
+      </Heading>
     </Link>
   )
 })

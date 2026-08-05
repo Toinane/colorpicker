@@ -1,0 +1,160 @@
+:root .toggleWrapper {
+  --toggle-bg: var(--window-default);
+  --toggle-bg-hover: var(--window-dark);
+  --toggle-bg-active: var(--window-darker);
+
+  --toggle-bg-checked: var(--accent-variant-default);
+  --toggle-bg-checked-hover: var(--accent-variant-light);
+  --toggle-bg-checked-active: var(--accent-variant-lighter);
+
+  --toggle-border: var(--surface-darkest);
+  --toggle-border-checked: var(--accent-variant-default);
+  --toggle-border-checked-hover: var(--accent-variant-light);
+  --toggle-border-checked-active: var(--accent-variant-light);
+
+  --toggle-slider: var(--overlay-lightest);
+  --toggle-slider-checked: var(--window-lightest);
+}
+
+:root[data-theme='dark'] .toggleWrapper {
+  --toggle-bg: var(--window-lighter);
+  --toggle-bg-hover: var(--surface-default);
+  --toggle-bg-active: var(--surface-light);
+
+  --toggle-bg-checked: var(--accent-variant-default);
+  --toggle-bg-checked-hover: var(--accent-variant-dark);
+  --toggle-bg-checked-active: var(--accent-variant-darker);
+
+  --toggle-border: var(--overlay-darkest);
+  --toggle-border-checked: var(--accent-variant-default);
+  --toggle-border-checked-hover: var(--accent-variant-dark);
+  --toggle-border-checked-active: var(--accent-variant-dark);
+
+  --toggle-slider: var(--overlay-lightest);
+  --toggle-slider-checked: var(--surface-darkest);
+}
+
+.toggleWrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+}
+
+.toggleWrapper:focus-visible {
+  outline: 2px solid var(--focus-outline);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.toggleLabel {
+  min-width: 28px;
+  user-select: none;
+}
+
+/* Track */
+
+.toggle {
+  position: relative;
+  width: 40px;
+  height: 20px;
+  background: var(--toggle-bg);
+  border: 1.5px solid var(--toggle-border);
+  border-radius: 24px;
+  transition: background-color 0.1s ease;
+  padding: 0;
+  flex-shrink: 0;
+  touch-action: none;
+  user-select: none;
+}
+
+.toggleWrapper:hover .toggle {
+  background: var(--toggle-bg-hover);
+}
+
+.toggleWrapper:active .toggle {
+  background: var(--toggle-bg-active);
+}
+
+.toggleChecked {
+  background: var(--toggle-bg-checked);
+  border: 1.5px solid var(--toggle-border-checked);
+}
+
+.toggleWrapper:hover .toggleChecked {
+  background: var(--toggle-bg-checked-hover);
+  border: 1.5px solid var(--toggle-border-checked-hover);
+}
+
+.toggleWrapper:active .toggleChecked {
+  background: var(--toggle-bg-checked-active);
+  border: 1.5px solid var(--toggle-border-checked-active);
+}
+
+/*
+ * Slider dot
+ *
+ * Horizontal position is expressed as a single `left` value in every state
+ * (never `transform: translateX`) so it animates as one property and so
+ * Toggle.tsx — which drives `left` directly while dragging — always agrees
+ * with CSS on the same coordinate system. `top: 50%` + `translateY(-50%)`
+ * centers it vertically regardless of how tall the dot currently is.
+ */
+
+.toggleSlider {
+  position: absolute;
+  top: 50%;
+  left: 2.5px; /* off, resting */
+  width: 12px;
+  height: 12px;
+  background: var(--toggle-slider);
+  border-radius: 50%;
+  transform: translateY(-50%);
+  transition:
+    transform 0.3s ease,
+    width 0.1s ease,
+    height 0.1s ease,
+    top 0.1s ease,
+    left 0.1s ease;
+}
+
+.toggleChecked .toggleSlider {
+  left: 24.5px; /* on, resting */
+  background: var(--toggle-slider-checked);
+}
+
+.toggleWrapper:hover .toggleSlider,
+.toggleWrapper:active .toggleSlider {
+  left: 1.5px; /* off, hovered */
+  width: 14px;
+  height: 14px;
+}
+
+.toggleWrapper:hover .toggleChecked .toggleSlider {
+  left: 23.5px; /* on, hovered */
+}
+
+/* Pressed: the dot stretches into a 17px pill anchored to whichever edge it's on. */
+
+.toggleWrapper:active .toggleSlider {
+  left: 2px; /* off, pressed */
+  width: 17px;
+  border-radius: 10px;
+}
+
+.toggleWrapper:active .toggleChecked .toggleSlider {
+  left: 19.5px; /* on, pressed */
+  width: 17px;
+  border-radius: 10px;
+}
+
+/* Disables the transitions above while Toggle.tsx is manually driving `left`
+   (dragging, or handing back to CSS), so it tracks the pointer 1:1 and the
+   handoff is an instant snap rather than an animated jump. */
+.toggleSlider.toggleSliderDragging {
+  transition: none;
+}
+
+.toggleDisabled {
+  cursor: not-allowed;
+}

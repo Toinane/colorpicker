@@ -20,6 +20,13 @@
       "closeToTray": {
         "label": "Close to tray",
         "description": "Keep Colorpicker running in the system tray instead of quitting when the window is closed"
+      },
+      "theme": {
+        "label": "Theme",
+        "description": "Choose the app's color theme",
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System"
       }
     },
     "language": {
@@ -152,12 +159,12 @@
       "title": "Picker",
       "pickerHotkey": {
         "label": "Launch Picker Hotkey",
-        "description": "Global keyboard shortcut to launch the color picker from anywhere, even when Colorpicker is closed",
-        "recording": "Press a key combination…"
+        "description": "Global keyboard shortcut to launch the color picker from anywhere, even when Colorpicker is closed"
       }
     }
   },
   "hotkey": {
+    "recording": "Please input…",
     "noModifier": "Include at least one modifier key",
     "reserved": "This shortcut is reserved by the system",
     "reset": "Reset to default",
