@@ -14,5 +14,17 @@
   "action": {
     "rename": "Rename",
     "delete": "Delete"
+  },
+  "palette": {
+    "namePlaceholder": "Palette name",
+    "add": "New palette"
+  },
+  "section": {
+    "namePlaceholder": "Section name",
+    "add": "New section"
+  },
+  "navigation": {
+    "collapse": "Collapse sidebar",
+    "expand": "Expand sidebar"
   }
 }

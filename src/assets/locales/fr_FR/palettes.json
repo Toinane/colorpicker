@@ -14,5 +14,17 @@
   "action": {
     "rename": "Renommer",
     "delete": "Supprimer"
+  },
+  "palette": {
+    "namePlaceholder": "Nom de la palette",
+    "add": "Nouvelle palette"
+  },
+  "section": {
+    "namePlaceholder": "Nom de la section",
+    "add": "Nouvelle section"
+  },
+  "navigation": {
+    "collapse": "Réduire la barre latérale",
+    "expand": "Agrandir la barre latérale"
   }
 }

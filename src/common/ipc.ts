@@ -42,6 +42,12 @@ export const setOpenAtLogin = (enabled: boolean): Promise<void> =>
 /** Read the actual OS-level autostart registration state (may drift from the persisted setting). */
 export const getOpenAtLogin = (): Promise<boolean> => invoke('get_open_at_login')
 
+/** Reveal the persisted settings file in the operating system's file manager. */
+export const revealSettingsFile = (): Promise<void> => invoke('reveal_settings_file')
+
+/** Reveal the running application executable in the operating system's file manager. */
+export const revealApplicationFile = (): Promise<void> => invoke('reveal_application_file')
+
 /** The portable data directory, or `null` in a normal (non-portable) build — see src-tauri/src/portable.rs. */
 export const getPortableDataDir = (): Promise<string | null> => invoke('get_portable_data_dir')
 

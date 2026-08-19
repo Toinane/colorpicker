@@ -48,6 +48,16 @@
       "resetSettings": {
         "label": "Reset settings to default",
         "description": "Restore all settings to their original default values"
+      },
+      "openSettingsFile": {
+        "label": "Settings file",
+        "description": "Open the folder containing the saved settings file",
+        "action": "Open"
+      },
+      "openApplicationFile": {
+        "label": "Application location",
+        "description": "Open the folder containing the Colorpicker application",
+        "action": "Open"
       }
     },
     "about": {

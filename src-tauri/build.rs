@@ -1,3 +1,5 @@
+use std::fs;
+use std::path::Path;
 use std::process::Command;
 use std::time::{SystemTime, UNIX_EPOCH};
 
@@ -18,7 +20,17 @@ fn main() {
 
     println!("cargo:rustc-env=GIT_COMMIT={git_commit}");
     println!("cargo:rustc-env=COMPILED_AT={compiled_at}");
-    println!("cargo:rerun-if-changed=.git/HEAD");
+    let repo_root = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .parent()
+        .expect("src-tauri must have a repository root");
+    let git_dir = repo_root.join(".git");
+    let git_head = git_dir.join("HEAD");
+    println!("cargo:rerun-if-changed={}", git_head.display());
+    if let Ok(reference) = fs::read_to_string(&git_head) {
+        if let Some(reference) = reference.trim().strip_prefix("ref: ") {
+            println!("cargo:rerun-if-changed={}", git_dir.join(reference).display());
+        }
+    }
 
     tauri_build::build()
 }

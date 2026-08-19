@@ -288,6 +288,8 @@ fn main() {
             commands::set_keep_on_top,
             commands::set_open_at_login,
             commands::get_open_at_login,
+            commands::reveal_settings_file,
+            commands::reveal_application_file,
             commands::read_legacy_palettes,
             commands::backup_corrupt_legacy_palettes,
             commands::get_portable_data_dir,

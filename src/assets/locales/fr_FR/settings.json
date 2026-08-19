@@ -48,6 +48,16 @@
       "resetSettings": {
         "label": "Réinitialiser les paramètres par défaut",
         "description": "Restaure tous les paramètres à leurs valeurs d'origine"
+      },
+      "openSettingsFile": {
+        "label": "Fichier de paramètres",
+        "description": "Ouvre le dossier contenant le fichier de paramètres enregistré",
+        "action": "Ouvrir"
+      },
+      "openApplicationFile": {
+        "label": "Emplacement de l'application",
+        "description": "Ouvre le dossier contenant l'application Colorpicker",
+        "action": "Ouvrir"
       }
     },
     "about": {

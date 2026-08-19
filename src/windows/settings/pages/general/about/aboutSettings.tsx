@@ -11,7 +11,7 @@ import {
 import { FeedbackButton, ExternalLink } from '@components/ui'
 import { useSettingsStore } from '@stores/settingsStore'
 import { showToast } from '@stores/toastStore'
-import { getPlatformInfo } from '@common/platform'
+import { getBuildInfo, getPlatformInfo, type BuildInfo } from '@common/platform'
 
 // Consecutive clicks (within CLICK_WINDOW_MS of each other) needed to toggle
 // the Experimental section, à la Android's "tap build number" trick.
@@ -26,17 +26,22 @@ const AboutSettings = () => {
   const lastClickAtRef = useRef(0)
 
   const [platformLabel, setPlatformLabel] = useState<string | null>(null)
+  const [buildInfo, setBuildInfo] = useState<BuildInfo | null>(null)
 
   useEffect(() => {
     getPlatformInfo()
       .then((info) => setPlatformLabel(info.label))
       .catch((err) => console.error('Failed to read platform info:', err))
+
+    getBuildInfo()
+      .then(setBuildInfo)
+      .catch((err) => console.error('Failed to read build info:', err))
   }, [])
 
   const versionsList: Array<Record<string, string> | string> = [
-    'Stable 3.0.0 (cdf3e8b6)',
+    ...(buildInfo ? [`${buildInfo.version} (${buildInfo.commit})`] : []),
     ...(platformLabel ? [platformLabel] : []),
-    '2024-10-14T12:00:00Z (2 days ago)',
+    ...(buildInfo ? [new Date(buildInfo.compiledAt).toISOString()] : []),
   ]
 
   const onCopyVersions = () => {

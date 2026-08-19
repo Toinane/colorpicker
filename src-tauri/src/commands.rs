@@ -2,8 +2,62 @@
 //! `src/common/ipc.ts` — keep both in sync (see that file for why it's not
 //! generated via tauri-specta yet).
 
+use std::path::Path;
+use std::process::Command;
+
 use tauri::Manager;
 use tauri_plugin_autostart::ManagerExt;
+
+fn reveal_path(path: &Path) -> Result<(), String> {
+    #[cfg(target_os = "windows")]
+    let mut command = {
+        let mut command = Command::new("explorer");
+        command.arg(format!("/select,{}", path.display()));
+        command
+    };
+
+    #[cfg(target_os = "macos")]
+    let mut command = {
+        let mut command = Command::new("open");
+        command.arg("-R").arg(path);
+        command
+    };
+
+    #[cfg(target_os = "linux")]
+    let mut command = {
+        let mut command = Command::new("xdg-open");
+        command.arg(path.parent().unwrap_or(path));
+        command
+    };
+
+    command
+        .spawn()
+        .map(|_| ())
+        .map_err(|err| format!("Failed to reveal {}: {err}", path.display()))
+}
+
+/// Reveal the persisted settings file in the operating system's file manager.
+#[tauri::command]
+pub fn reveal_settings_file(app: tauri::AppHandle) -> Result<(), String> {
+    let settings_file = match crate::portable::data_dir() {
+        Some(dir) => dir.join("settings.json"),
+        None => app
+            .path()
+            .app_data_dir()
+            .map_err(|err| format!("Failed to resolve the application data directory: {err}"))?
+            .join("settings.json"),
+    };
+
+    reveal_path(&settings_file)
+}
+
+/// Reveal the running application executable in the operating system's file manager.
+#[tauri::command]
+pub fn reveal_application_file() -> Result<(), String> {
+    let executable = std::env::current_exe()
+        .map_err(|err| format!("Failed to resolve the application executable: {err}"))?;
+    reveal_path(&executable)
+}
 
 /// Launch the native color picker using the current persisted settings.
 ///
