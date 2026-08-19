@@ -10,6 +10,14 @@ use serde::Serialize;
 
 #[derive(Serialize, Clone)]
 #[serde(rename_all = "camelCase")]
+pub struct BuildInfo {
+    version: &'static str,
+    commit: &'static str,
+    compiled_at: u128,
+}
+
+#[derive(Serialize, Clone)]
+#[serde(rename_all = "camelCase")]
 pub struct PlatformInfo {
     /// Broad OS family, e.g. "Windows", "Mac OS", "Ubuntu".
     os_type: String,
@@ -57,6 +65,17 @@ fn classify_family(os_type: Type) -> &'static str {
         | Type::Emscripten
         | Type::Unknown => "other",
         _ => "linux",
+    }
+}
+
+#[tauri::command]
+pub fn get_build_info() -> BuildInfo {
+    BuildInfo {
+        version: env!("CARGO_PKG_VERSION"),
+        commit: env!("GIT_COMMIT"),
+        compiled_at: env!("COMPILED_AT")
+            .parse()
+            .expect("COMPILED_AT must be a Unix timestamp in milliseconds"),
     }
 }
 

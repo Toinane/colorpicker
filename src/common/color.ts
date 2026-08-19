@@ -1,9 +1,19 @@
 import Color from 'colorjs.io'
 import type { ColorFormat } from '@interfaces/settings'
+import type { IPalettesColorValue } from '@interfaces/palettes'
 
 export const isValidHex = (hex: string): boolean => {
   return /^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$/.test(hex)
 }
+
+/** Parse a hex string into a persistable, space-explicit color value. */
+export const hexToColorValue = (hex: string): IPalettesColorValue => {
+  const color = new Color(hex).to('srgb')
+  return { space: 'srgb', coords: color.coords as [number, number, number], alpha: color.alpha }
+}
+
+export const colorValueToColor = (value: IPalettesColorValue): Color =>
+  new Color(value.space, value.coords, value.alpha)
 
 export interface RGBColor {
   r: number

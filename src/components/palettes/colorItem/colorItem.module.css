@@ -1,28 +1,133 @@
-﻿.colorItemContainer {
+.colorItemContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: self-start;
-  gap: 8px;
-  width: 96px;
   padding-bottom: 5px;
+}
+
+.colorItemContainer[data-variant='swatch'] {
+  width: auto;
 }
 
 .colorItem {
   flex-shrink: 0;
   cursor: pointer;
-  border-radius: var(--radius-md);
   border: 1px solid;
-  width: 96px;
-  height: 96px;
   transition: all 0.1s ease-in-out;
 }
 
+/* Size scale: swatch dimensions, label gap/font-size, and --item-radius
+   (used by both variants below) all scale together so smaller sizes stay
+   proportional instead of carrying the same fixed radius as a 144px swatch. */
+.colorItemContainer[data-size='xs'] {
+  --item-radius: var(--radius-sm);
+  gap: 4px;
+  width: 32px;
+}
+.colorItemContainer[data-size='xs'] .colorItem {
+  width: 32px;
+  height: 32px;
+}
+.colorItemContainer[data-size='xs'] .colorName {
+  font-size: 8px;
+}
+
+.colorItemContainer[data-size='sm'] {
+  --item-radius: var(--radius-sm);
+  gap: 6px;
+  width: 56px;
+}
+.colorItemContainer[data-size='sm'] .colorItem {
+  width: 56px;
+  height: 56px;
+}
+.colorItemContainer[data-size='sm'] .colorName {
+  font-size: 9px;
+}
+
+.colorItemContainer[data-size='md'] {
+  --item-radius: var(--radius-md);
+  gap: 8px;
+  width: 96px;
+}
+.colorItemContainer[data-size='md'] .colorItem {
+  width: 96px;
+  height: 96px;
+}
+
+.colorItemContainer[data-size='lg'] {
+  --item-radius: var(--radius-lg);
+  gap: 10px;
+  width: 144px;
+}
+.colorItemContainer[data-size='lg'] .colorItem {
+  width: 144px;
+  height: 144px;
+}
+.colorItemContainer[data-size='lg'] .colorName {
+  font-size: 12px;
+}
+
+.colorItemContainer[data-variant='single'] .colorItem {
+  border-radius: var(--item-radius);
+}
+
+/* Swatch items are glued flush (no gap), only the outer edge of each row
+   gets rounded — see useSwatchRowEdges for how row-start/row-end are set. */
+.colorItemContainer[data-variant='swatch'] .colorItem {
+  border-radius: 0;
+}
+
+.colorItemContainer[data-variant='swatch'][data-row-start] .colorItem {
+  border-top-left-radius: var(--item-radius);
+  border-bottom-left-radius: var(--item-radius);
+}
+.colorItemContainer[data-variant='swatch'][data-row-end] .colorItem {
+  border-top-right-radius: var(--item-radius);
+  border-bottom-right-radius: var(--item-radius);
+}
+
+/* Lift + shadow on hover, popping the item above its neighbors via
+   z-index. Swatch items need this instead of a rotate — flush neighbors
+   would otherwise get overlapped — and it reads just as well on single. */
 .colorItem:hover {
-  rotate: 5deg;
-  scale: 1.1;
+  scale: 1.08;
+  z-index: 1;
+  position: relative;
+  border-radius: var(--item-radius);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 25%);
 }
 
 .colorName {
   font-size: 10px;
+}
+
+/* Swatch containers are glued with zero horizontal gap so the squares stay
+   flush, but that leaves the names directly touching too — inset the text
+   instead of the container, and clip overflow so a long name can't spill
+   into the neighboring column. */
+.colorItemContainer[data-variant='swatch'] .colorName {
+  width: 100%;
+  box-sizing: border-box;
+  padding-inline: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.colorItemContainer[data-variant='swatch'][data-size='xs'] .colorName,
+.colorItemContainer[data-variant='swatch'][data-size='sm'] .colorName {
+  padding-inline: 2px;
+}
+
+/* Opt-in alternative to the truncated single-line name above: shows the
+   full name, wrapping onto multiple lines instead of clipping with an
+   ellipsis. Source order matters here — this must stay after the swatch
+   rule above so it wins when both apply. */
+.colorItemContainer[data-full-name='true'] .colorName {
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+  word-break: break-word;
 }

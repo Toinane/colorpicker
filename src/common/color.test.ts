@@ -1,6 +1,15 @@
 import { describe, it, expect } from 'vitest'
 import Color from 'colorjs.io'
-import { toHex, toRgb, toHsl, toHsv, serializeColor, isValidHex } from './color'
+import {
+  toHex,
+  toRgb,
+  toHsl,
+  toHsv,
+  serializeColor,
+  isValidHex,
+  hexToColorValue,
+  colorValueToColor,
+} from './color'
 
 const red = new Color('#FF0000')
 const white = new Color('#FFFFFF')
@@ -74,6 +83,24 @@ describe('isValidHex', () => {
     expect(isValidHex('#FF00')).toBe(false)
     expect(isValidHex('#FF00000')).toBe(false)
     expect(isValidHex('#GGGGGG')).toBe(false)
+  })
+})
+
+describe('hexToColorValue / colorValueToColor', () => {
+  it('parses an opaque hex color into a structured srgb value', () => {
+    expect(hexToColorValue('#FF0000')).toEqual({ space: 'srgb', coords: [1, 0, 0], alpha: 1 })
+  })
+
+  it('preserves alpha from an 8-digit hex color', () => {
+    expect(hexToColorValue('#FF000080')).toEqual({
+      space: 'srgb',
+      coords: [1, 0, 0],
+      alpha: 128 / 255,
+    })
+  })
+
+  it('round-trips hex -> value -> hex', () => {
+    expect(toHex(colorValueToColor(hexToColorValue('#ABCDEF')))).toBe('#ABCDEF')
   })
 })
 

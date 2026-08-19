@@ -59,6 +59,15 @@ export const backupCorruptLegacyPalettes = (): Promise<void> =>
  */
 export const getOsAccentColor = (): Promise<string | null> => invoke('get_os_accent_color')
 
+/** Version control revision and timestamp embedded when the current artifact was compiled. */
+export interface BuildInfo {
+  version: string
+  commit: string
+  compiledAt: number
+}
+
+export const getBuildInfo = (): Promise<BuildInfo> => invoke('get_build_info')
+
 /** Detailed OS info (type, version, edition, bitness, architecture) — see `platform_info.rs`. */
 export interface PlatformInfo {
   osType: string

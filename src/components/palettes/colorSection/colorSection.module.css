@@ -7,5 +7,12 @@
 .colors {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+}
+
+.colors[data-variant='single'] {
+  gap: 12px;
+}
+
+.colors[data-variant='swatch'] {
+  gap: 0;
 }

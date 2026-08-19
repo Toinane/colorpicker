@@ -135,7 +135,13 @@ const Palettes = () => {
                 <ColorItem key={color} color={color} name={name} />
               ))}
             </ColorSection>
-            <ColorSection label="Accent Colors">
+            <ColorSection
+              size="sm"
+              variant="swatch"
+              showNames={false}
+              fullNames={false}
+              label="Accent Colors"
+            >
               {[
                 ['#C53C54', 'accent-dark'],
                 ['#B7374D', 'accent-darker'],

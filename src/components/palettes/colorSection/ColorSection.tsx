@@ -1,8 +1,33 @@
+import { Children, cloneElement, isValidElement, useRef } from 'react'
+
 import { Heading } from '@components/ui'
+import type {
+  ColorItemProps,
+  ColorItemSize,
+  ColorItemVariant,
+} from '@components/palettes/colorItem/ColorItem'
 
 import style from './colorSection.module.css'
+import { useSwatchRowEdges } from './useSwatchRowEdges'
 
-const ColorSection = ({ children, label }: { children: React.ReactNode; label?: string }) => {
+const ColorSection = ({
+  children,
+  label,
+  variant = 'single',
+  size = 'md',
+  showNames = true,
+  fullNames = false,
+}: {
+  children: React.ReactNode
+  label?: string
+  variant?: ColorItemVariant
+  size?: ColorItemSize
+  showNames?: boolean
+  fullNames?: boolean
+}) => {
+  const containerRef = useRef<HTMLElement>(null)
+  useSwatchRowEdges(containerRef, variant === 'swatch')
+
   return (
     <section className={style.colorSection}>
       {label && (
@@ -10,7 +35,13 @@ const ColorSection = ({ children, label }: { children: React.ReactNode; label?: 
           {label}
         </Heading>
       )}
-      <section className={style.colors}>{children}</section>
+      <section ref={containerRef} className={style.colors} data-variant={variant}>
+        {Children.map(children, (child) =>
+          isValidElement<ColorItemProps>(child)
+            ? cloneElement(child, { variant, size, showName: showNames, fullName: fullNames })
+            : child,
+        )}
+      </section>
     </section>
   )
 }

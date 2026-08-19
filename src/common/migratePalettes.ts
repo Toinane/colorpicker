@@ -5,7 +5,7 @@
  * launch after upgrading (or on a fresh install).
  */
 import { readLegacyPalettes, backupCorruptLegacyPalettes } from './ipc'
-import type { IPalettesCategory, IPalettesSchema } from '@interfaces/palettes'
+import type { IPalettesCategoryV1, IPalettesSchemaV1 } from '@interfaces/palettes'
 
 interface LegacyStorageShape {
   colorsbook?: {
@@ -51,7 +51,7 @@ const DEFAULT_PACKS: Record<string, string[]> = {
  * removing the key (see #175/#176, guard G12), so a naive migration would
  * resurrect deleted categories.
  */
-const buildCategoriesFromPacks = (packs: Record<string, unknown>): IPalettesCategory[] =>
+const buildCategoriesFromPacks = (packs: Record<string, unknown>): IPalettesCategoryV1[] =>
   Object.entries(packs)
     .filter((entry): entry is [string, string[]] => Array.isArray(entry[1]))
     .map(([name, colors]) => ({
@@ -62,12 +62,12 @@ const buildCategoriesFromPacks = (packs: Record<string, unknown>): IPalettesCate
         .map((value) => ({ id: crypto.randomUUID(), value })),
     }))
 
-const defaultSchema = (): IPalettesSchema => ({
+const defaultSchema = (): IPalettesSchemaV1 => ({
   version: 1,
   categories: buildCategoriesFromPacks(DEFAULT_PACKS),
 })
 
-export const migratePalettes = async (): Promise<IPalettesSchema> => {
+export const migratePalettes = async (): Promise<IPalettesSchemaV1> => {
   let raw: string | null
   try {
     raw = await readLegacyPalettes()

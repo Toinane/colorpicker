@@ -23,17 +23,35 @@ const getBorderColor = (hex: string): string => {
   return toHex(bordered)
 }
 
+export type ColorItemVariant = 'single' | 'swatch'
+export type ColorItemSize = 'xs' | 'sm' | 'md' | 'lg'
+
+export interface ColorItemProps {
+  color: string
+  name?: string
+  showName?: boolean
+  fullName?: boolean
+  variant?: ColorItemVariant
+  size?: ColorItemSize
+  onClick?: () => void
+}
+
 const ColorItem = ({
   color,
   name,
+  showName = true,
+  fullName = false,
+  variant = 'single',
+  size = 'md',
   onClick,
-}: {
-  color: string
-  name?: string
-  onClick?: () => void
-}) => {
+}: ColorItemProps) => {
   return (
-    <section className={style.colorItemContainer}>
+    <section
+      className={style.colorItemContainer}
+      data-variant={variant}
+      data-size={size}
+      data-full-name={fullName ? 'true' : undefined}
+    >
       <div
         className={style.colorItem}
         style={{ backgroundColor: color, borderColor: color ? getBorderColor(color) : undefined }}
@@ -46,8 +64,9 @@ const ColorItem = ({
         }}
         role={onClick ? 'button' : undefined}
         tabIndex={onClick ? 0 : undefined}
+        title={name}
       ></div>
-      {name && (
+      {name && showName && (
         <Text color="primary" size="small" className={style.colorName}>
           {name}
         </Text>

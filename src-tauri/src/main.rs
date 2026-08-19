@@ -279,6 +279,7 @@ fn main() {
         })
         .invoke_handler(tauri::generate_handler![
             accent_color::get_os_accent_color,
+            platform_info::get_build_info,
             platform_info::get_platform_info,
             commands::launch_picker,
             commands::set_picker_hotkey,

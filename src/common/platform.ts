@@ -1,6 +1,11 @@
-import { getPlatformInfo as fetchPlatformInfo, type PlatformInfo } from './ipc'
+import {
+  getBuildInfo as fetchBuildInfo,
+  getPlatformInfo as fetchPlatformInfo,
+  type BuildInfo,
+  type PlatformInfo,
+} from './ipc'
 
-export type { PlatformInfo }
+export type { BuildInfo, PlatformInfo }
 
 /** Best-effort family guess from the user agent, used for the `*Sync` helpers
  * until the accurate Rust-derived family (see `platform_info.rs`) resolves. */
@@ -14,6 +19,10 @@ const uaFamilyGuess = (): PlatformInfo['family'] => {
 
 let resolvedFamily: PlatformInfo['family'] = uaFamilyGuess()
 let cached: Promise<PlatformInfo> | null = null
+let buildInfoCached: Promise<BuildInfo> | null = null
+
+/** Build metadata embedded in the current executable, bundle, or portable binary. */
+export const getBuildInfo = (): Promise<BuildInfo> => (buildInfoCached ??= fetchBuildInfo())
 
 /**
  * Detailed OS info from Rust (type, version, edition, bitness, architecture)
